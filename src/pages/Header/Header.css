@@ -1,6 +1,6 @@
 header {
     width: 100%;
-    height: 120px;
+    height: 80px;
     background-color: var(--theme-top-nav-bg);
     border-bottom: 1px solid #353d50;
     position: fixed;
@@ -13,35 +13,35 @@ header {
 }
 
 .main-header {
-    width: 95%;
+    height: 80px;
     display: grid;
-    grid-template-rows: 1fr 1fr;
-    /* justify-content: center; */
-    margin: auto;
+    align-items: center;
+    justify-content: center;
 }
 
 .header-top {
-    width: 100%;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    align-items: center;
-}
-
-.header-bottom ul {
+    width: 100vw;
     display: flex;
     justify-content: center;
-    gap: 40px;
-    margin: auto;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+
+
+.header-bottom ul {
+    width: 100%;
+    display: flex;
+    gap: 20px;
     height: 50px;
     line-height: 50px;
 }
 
 .header-bottom ul li a {
     color: white;
-    font-weight: 500;
-    font-size: 16px;
-    display: flex;
-    gap: 20px;
+    font-weight: 700;
+    font-size: 18px;
 }
 
 .icon-header {
@@ -52,17 +52,13 @@ header {
     color: greenyellow;
 }
 
-.header-left {
-    width: 60%;
-    margin: auto;
-}
 
 .header-left-ios {
     max-width: 30%;
 }
 
 .logo {
-    width: 40%;
+    width: 20%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -70,8 +66,8 @@ header {
 }
 
 .logo img {
-    width: 70px;
-    height: 70px;
+    height: 32px;
+    width: 120px;
     object-fit: contain;
     /* position: absolute; */
 }
@@ -79,7 +75,7 @@ header {
 
 
 .header-right {
-    width: 40%;
+    width: 30%;
 }
 
 .header-right-ios {
@@ -114,37 +110,59 @@ header {
 
 .header-right .header-right-menu .login {
     width: 120px;
-    height: 30px;
-    background: #ebb039;
-    color: black;
-    border-radius: 5px;
+    height: 40px;
+    background-image: url(/images/button/bg-btn.png), conic-gradient(from 0deg at 50% 50%, #085cff 0deg, #2692e0 89.73deg, #263be0 180.18deg, #085cff 1turn);
+    color: white;
+    border-radius: 20px;
     border: none;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.header-right .header-right-menu .login:hover {
+    background-image: linear-gradient(#008aff, #0760ae);
+}
+
+.header-noti {
+    background: none;
+    border: none;
+}
+
+.header-noti img {
+    /* width: 25px; */
+    font-size: 25px;
 }
 
 .header-right .header-right-menu .register {
     width: 120px;
-    height: 30px;
-    border-radius: 5px;
-    background: #009c3b;
-    color: black;
+    height: 40px;
+    border-radius: 20px;
+    background-image: url(/images/button/bg-btn.png), conic-gradient(from 0deg at 50% 50%, #d61f57 0deg, #ff0250 89.73deg, #af0036 180.18deg, #d61f57 1turn);
+    color: white;
     border: none;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.header-right .header-right-menu .register:hover {
+    background: linear-gradient(#eb4170, #b70b3c);
 }
 
 .header-right-ios .header-right-menu .login {
     width: 120px;
     height: 30px;
-    background: #ebb039;
-    color: black;
-    border-radius: 5px;
+    background-image: url(/images/button/bg-btn.png), conic-gradient(from 0deg at 50% 50%, #085cff 0deg, #2692e0 89.73deg, #263be0 180.18deg, #085cff 1turn);
+    color: white;
+    border-radius: 20px;
     border: none;
 }
 
 .header-right-ios .header-right-menu .register {
     width: 120px;
     height: 30px;
-    border-radius: 5px;
-    background: #009c3b;
-    color: black;
+    border-radius: 20px;
+    background-image: url(/images/button/bg-btn.png), conic-gradient(from 0deg at 50% 50%, #d61f57 0deg, #ff0250 89.73deg, #af0036 180.18deg, #d61f57 1turn);
+    color: white;
     border: none;
 }
 

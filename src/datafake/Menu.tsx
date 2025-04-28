@@ -51,26 +51,26 @@ export const MenuWebsite = [
     link: "/slots",
     title: "Slots",
   },
-  {
-    id: "6",
-    link: "/fish",
-    title: "Fish",
-  },
-  {
-    id: "7",
-    link: "/chicken",
-    title: "Chicken Fight",
-  },
-  {
-    id: "8",
-    link: "/lotto",
-    title: "Lotto",
-  },
-  {
-    id: "9",
-    link: "/event",
-    title: "Event",
-  },
+  // {
+  //   id: "6",
+  //   link: "/fish",
+  //   title: "Fish",
+  // },
+  // {
+  //   id: "7",
+  //   link: "/chicken",
+  //   title: "Chicken Fight",
+  // },
+  // {
+  //   id: "8",
+  //   link: "/lotto",
+  //   title: "Lotto",
+  // },
+  // {
+  //   id: "9",
+  //   link: "/event",
+  //   title: "Event",
+  // },
 ];
 
 export const MenuMobile = [

@@ -20,7 +20,23 @@
     height: 100%;
     width: 100%;
     object-fit: contain;
+    position: relative;
+}
 
+.slide-count {
+    position: absolute;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+    bottom: 75px;
+    background: linear-gradient(179.72deg, #fffe80 24.52%, #ffff47 38.07%, #d67b12 61.6%, #fed629 90.48%);
+    -webkit-background-clip: text;
+    color: transparent;
+    font-family: "UTM HelvetIns";
+    font-size: 3.8vw;
+    font-variant-numeric: tabular-nums;
+    font-weight: 900;
 }
 
 .indicator-btn {

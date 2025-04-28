@@ -4,43 +4,19 @@ import React, { useCallback, useEffect, useState } from "react";
 import "./Header.css";
 import dayjs from "dayjs";
 import DialogLogin from "@/components/login/loginForm";
-import {
-  AboutIcon,
-  AccountIcon,
-  AgentIcon,
-  ArrowDown,
-  CasinoCardsIcon,
-  CasinoIcon,
-  ChickenIcon,
-  ClaimIcon,
-  EmailIcon,
-  EmailloginIcon,
-  EmailmenuIcon,
-  EventIcon,
-  FindIcon,
-  FishIcon,
-  GameIcon,
-  HistoryIcon,
-  LogoutIcon,
-  LottoIcon,
-  MissionIcon,
-  MoneybagIcon,
-  MonyExchangeIcon,
-  ReportIcon,
-  SlotsIcon,
-  SpeakerIcon,
-  SpinsIcon,
-  SportIcon,
-  SupportIcon,
-  TabletGameIcon,
-  UserIcon,
-} from "@/shared/Svgs/Svg.component";
 import Link from "next/link";
 import { IUser } from "@/shared/interfaces";
 import { useRouter } from "next/navigation";
 import swal from "sweetalert";
 import { getMe, getMessage } from "@/services/User.service";
-import { Avatar, Button, Skeleton, Typography } from "@mui/material";
+import {
+  Avatar,
+  Button,
+  IconButton,
+  Skeleton,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import TranslateContextComponent from "../../components/GgTranstale/TranslateContext.component";
 import { userResponse } from "@/interface/user.interface";
 import MenuProfile from "@/components/subMenu/MenuProfile";
@@ -51,6 +27,7 @@ import LoadingComponent from "@/components/Loading";
 import SimpleBackdrop from "@/components/Loading/LoaddingPage";
 import { MenuMobile, MenuWebsite } from "@/datafake/Menu";
 import { GameConfig } from "@/configs/GameConfig";
+import { NoticationIconMobile } from "@/shared/Svgs/Svg.component";
 
 interface propUser {
   user: userResponse;
@@ -62,11 +39,16 @@ export default function HeaderPage(props: propUser) {
   const [user, setUser] = useState<any>(props.user);
   const [message, setMessage] = React.useState<any>(null);
   const handleClose = () => setShow(false);
+  const [anchorEl1, setAnchorEl1] = React.useState<null | HTMLElement>(null);
+
+  const open = Boolean(anchorEl1);
   const handleSetActiveTab = useCallback((tabIndex: number) => {
     setActiveTab(tabIndex);
     setShow(true);
   }, []);
-
+  const handleClick1 = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl1(event.currentTarget);
+  };
   const [device, setDevice] = useState("");
   useEffect(() => {
     const initialize = async () => {
@@ -118,64 +100,35 @@ export default function HeaderPage(props: propUser) {
                   fontStyle: "italic",
                 }}
               >
-                {/* <Image
-                  src="/images/openart-1bd95ea5-a202-4491-b723-436d1d59311f.png"
-                  width={80}
-                  height={80}
-                  alt=""
-                /> */}
-                <h2>Reddy232</h2>
+                <Image src="/images/logo.svg" width={80} height={80} alt="" />
               </Link>
             </div>
           </div>
-
+          <nav className="header-bottom">
+            <ul>
+              {MenuWebsite.map((item) => (
+                <li key={item.id}>
+                  <Link href={item.link}>{item.title}</Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
           <div className="header-right">
             {user ? (
               <div className="header-right-menu">
-                {/* <Link href="#">
-                  <Image
-                    src="/images/ic-giftcode.webp"
-                    alt=""
-                    width="200"
-                    height="32"
-                  />
-                </Link> */}
-                <Link href="/event">
-                  <Image
-                    src="/images/ic-event.webp"
-                    alt=""
-                    width="200"
-                    height="32"
-                  />
-                </Link>
                 <span></span>
                 <MenuProfile user={user} message={message} />
               </div>
             ) : (
               <div className="header-right-menu">
-                {/* <Link href="#">
-                  <Image
-                    src="/images/ic-giftcode.webp"
-                    alt=""
-                    width="200"
-                    height="32"
-                  />
-                </Link> */}
-                <Link href="/event">
-                  <Image
-                    src="/images/ic-event.webp"
-                    alt=""
-                    width="200"
-                    height="32"
-                  />
-                </Link>
-                <span></span>
-
+                <button className="header-noti" type="button">
+                  <NoticationIconMobile width="24px" height="24px" />
+                </button>
                 <button
                   className="login"
                   onClick={() => handleSetActiveTab(0)} // Use memoized function
                 >
-                  Login
+                  Đăng Nhập
                 </button>
 
                 <button
@@ -183,7 +136,7 @@ export default function HeaderPage(props: propUser) {
                   style={{ cursor: "pointer" }}
                   onClick={() => handleSetActiveTab(1)} // Use memoized function
                 >
-                  Register
+                  Đăng ký
                 </button>
                 <DialogLogin
                   activeTab={activeTab}
@@ -194,30 +147,6 @@ export default function HeaderPage(props: propUser) {
             )}
           </div>
         </div>
-        {loading ? (
-          <>
-            <SimpleBackdrop />
-            <nav className="header-bottom">
-              <ul>
-                {MenuWebsite.map((item) => (
-                  <li key={item.id}>
-                    <Link href={item.link}>{item.title}</Link>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          </>
-        ) : (
-          <nav className="header-bottom">
-            <ul>
-              {MenuWebsite.map((item) => (
-                <li key={item.id}>
-                  <Link href={item.link}>{item.title}</Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        )}
       </div>
 
       <div className="main-header-mobile">
@@ -248,29 +177,13 @@ export default function HeaderPage(props: propUser) {
               </div>
             ) : (
               <div className="header-right-menu">
-                {/* <Link href="#">
-                  <Image
-                    src="/images/ic-giftcode.webp"
-                    alt=""
-                    width="200"
-                    height="32"
-                  />
-                </Link> */}
-                <Link href="/event">
-                  <Image
-                    src="/images/ic-event.webp"
-                    alt=""
-                    width="200"
-                    height="32"
-                  />
-                </Link>
                 <span></span>
 
                 <button
                   className="login"
                   onClick={() => handleSetActiveTab(0)} // Use memoized function
                 >
-                  Login
+                  Đăng nhập
                 </button>
 
                 <button
@@ -278,7 +191,7 @@ export default function HeaderPage(props: propUser) {
                   style={{ cursor: "pointer" }}
                   onClick={() => handleSetActiveTab(1)} // Use memoized function
                 >
-                  Register
+                  Đăng ký
                 </button>
                 <DialogLogin
                   activeTab={activeTab}

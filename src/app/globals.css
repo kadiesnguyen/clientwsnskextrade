@@ -83,7 +83,7 @@
   --theme-user-card-bg-color: #E0BE6D;
   --theme-user-card-bottom-bg-color: #C39949;
   --theme-vip-progress-bg-color: #D1AE52;
-  --theme-top-nav-bg: #020d24;
+  --theme-top-nav-bg: #0F1429;
   --theme-side-menu-bg-color: #1A1A1A;
   --theme-side-menu-btn-color: #0A0A0A;
   --theme-side-menu-btn-color-hex: 10, 10, 10;
@@ -134,6 +134,7 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  font-family: "Lexend", sans-serif;
 }
 
 body {

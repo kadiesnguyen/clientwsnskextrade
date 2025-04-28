@@ -30,6 +30,7 @@ import HotPage from "./Hot/Hot.page";
 import BannerListgamePage from "./BannerListgame/BannerListgame.page";
 import ListCasioPage from "./ListCasio/ListCasio.page";
 import Carousel from "react-multi-carousel";
+import NumberCount from "@/components/NumberCount/NumberCount";
 
 const responsiveSettings = [
   {
@@ -107,6 +108,7 @@ export default function HomePage() {
           renderArrowsWhenDisabled={false}
           renderButtonGroupOutside={false}
           renderDotsOutside={false}
+          autoPlay
           responsive={{
             desktop: {
               breakpoint: {
@@ -149,6 +151,13 @@ export default function HomePage() {
                   loading="lazy"
                   alt=""
                 />
+                {item.number && (
+                  <NumberCount
+                    classname="slide-count"
+                    numStart={1000}
+                    numEnd={item?.number}
+                  />
+                )}
               </div>
             );
           })}
