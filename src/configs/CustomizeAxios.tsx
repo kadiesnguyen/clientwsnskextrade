@@ -2,9 +2,13 @@ import axios from "axios";
 import { getToken } from "./client-store";
 import swal from "sweetalert";
 
+// Lấy baseURL từ environment
+const AUTH_API_URL = process.env.NEXT_PUBLIC_AUTH_API_URL as string;
+const CONTENT_API_URL = process.env.NEXT_PUBLIC_CONTENT_API_URL as string;
+
 // API instance for login and register
 const authInstance = axios.create({
-  baseURL: "https://www.68bet.win",
+  baseURL: AUTH_API_URL,
   timeout: 10000,
 });
 
@@ -37,7 +41,7 @@ authInstance.interceptors.response.use(
 
 // API instance for content
 const contentInstance = axios.create({
-  baseURL: "https://api1.68bet.win",
+  baseURL: CONTENT_API_URL,
   timeout: 10000,
 });
 
