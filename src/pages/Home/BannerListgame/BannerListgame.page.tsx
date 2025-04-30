@@ -14,7 +14,7 @@ export default function BannerListgamePage() {
   const { loading, playGame } = usePlayGame();
   const commonImgStyles = {
     height: {
-      xs: "190px",
+      xs: "110px",
       sm: "300px",
     },
     position: "absolute",
