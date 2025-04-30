@@ -1,344 +1,131 @@
 import React, { useState } from "react";
-import "./ListCasio.css";
-import Carousel from "react-multi-carousel";
-import { getPlayGameById } from "@/services/GameApi.service";
-
-import NavigationGameComponent from "@/hook/NavigationGame";
 import Image from "next/image";
-import NumberCount from "@/components/NumberCount/NumberCount";
-import swal from "sweetalert";
 import usePlayGame from "@/hook/usePlayGame";
-import LoadingComponent from "@/components/Loading";
-import SimpleBackdrop from "@/components/Loading/LoaddingPage";
+import { ListGamesHot } from "@/datafake/ListGame";
+import Link from "next/link";
+import { Box, Button } from "@mui/material";
 
 export default function ListCasioPage() {
   const { loading, playGame } = usePlayGame();
+  const commonImgStyles = {
+    height: {
+      xs: "190px",
+      sm: "240px",
+    },
+    position: "absolute",
+    transition: "0.2s ease-in-out",
+    zIndex: 1,
+    top: 0,
+    left: 0,
+    width: "100%",
+    "&:hover": {
+      filter: "blur(3px)",
+    },
+  };
+  const commonTextBoxStyles = {
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+    top: 0,
+    left: 0,
+    zIndex: 2,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    pointerEvents: "none",
+  };
+
+  const commonCardStyles = {
+    width: {
+      xs: "130px",
+      sm: "237px",
+    },
+    height: {
+      xs: "190px",
+      sm: "240px",
+    },
+    borderRadius: "20px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    // justifyContent: "center",
+    color: "white",
+    transition: "0.2s ease-in-out",
+    position: "relative",
+    overflow: "hidden",
+    "&:hover .MuiButton-root": {
+      opacity: 1,
+    },
+    "&:hover": {
+      transform: "scale(1.04) rotate(-1deg)",
+    },
+  };
+
+  const buttonStyles = {
+    backgroundImage:
+      "url(https://staticda88.com/images/button/bg-btn.png), conic-gradient(from 0deg at 50% 50%, #085cff 0deg, #2692e0 89.73deg, #263be0 180.18deg, #085cff 1turn)",
+    color: "white",
+    padding: "10px 20px",
+    border: "none",
+    borderRadius: "5px",
+    cursor: "pointer",
+    zIndex: 3,
+    pointerEvents: "auto",
+    opacity: 0,
+    transition: "opacity 0.2s ease-in-out",
+    "&:hover": {
+      backgroundImage:
+        "url(https://staticda88.com/images/button/bg-btn.png), conic-gradient(from 0deg at 50% 50%, #085cff 0deg, #2692e0 89.73deg, #263be0 180.18deg, #085cff 1turn)",
+      opacity: 1,
+      filter: "none",
+    },
+  };
   return (
     <div className="list-casio">
-      {loading ? (
-        <>
-          <SimpleBackdrop />
-          <div className="casio-menu">
-            <div className="list-casio-left">
-              <h2>The time has come, go all out</h2>
-              <Carousel
-                additionalTransfrom={0}
-                autoPlaySpeed={3000}
-                centerMode={false}
-                className="list-casio-left-item"
-                containerClass="container-with-dots"
-                dotListClass=""
-                customLeftArrow={
-                  <Image
-                    src={"/image/icon-pre.png"}
-                    width={30}
-                    height={30}
-                    alt=""
-                  />
-                }
-                customRightArrow={
-                  <Image
-                    src={"/image/icon-next.png"}
-                    width={30}
-                    height={30}
-                    alt=""
-                  />
-                }
-                draggable
-                autoPlay
-                focusOnSelect={false}
-                infinite
-                itemClass=""
-                keyBoardControl
-                minimumTouchDrag={80}
-                pauseOnHover
-                renderArrowsWhenDisabled={false}
-                renderButtonGroupOutside={false}
-                renderDotsOutside={false}
-                responsive={{
-                  desktop: {
-                    breakpoint: {
-                      max: 3000,
-                      min: 1024,
-                    },
-                    items: 2,
-                    partialVisibilityGutter: 40,
-                  },
-                  mobile: {
-                    breakpoint: {
-                      max: 464,
-                      min: 0,
-                    },
-                    items: 2,
-                    partialVisibilityGutter: 10,
-                  },
-                  tablet: {
-                    breakpoint: {
-                      max: 1024,
-                      min: 464,
-                    },
-                    items: 3,
-                    partialVisibilityGutter: 30,
-                  },
-                }}
-                rewind={false}
-                rewindWithAnimation={false}
-                rtl={false}
-                shouldResetAutoplay
-                showDots={false}
-                sliderClass=""
-                slidesToSlide={1}
-                swipeable
-              >
-                <div className="card">
-                  <Image
-                    src={"/images/custom_INR (12).avif"}
-                    className="img"
-                    width={180}
-                    height={260}
-                    alt=""
-                  />
-                  <div className="textBox-container">
-                    <div className="textBox">
-                      <button
-                        className="textBox-btn"
-                        onClick={() => playGame("A00070", "AG")}
-                      >
-                        Play
-                      </button>
-                    </div>
-                  </div>
-                </div>
-                <div className="card">
-                  <Image
-                    src={"/images/custom_INR (13).avif"}
-                    className="img"
-                    width={180}
-                    height={260}
-                    alt=""
-                  />
-                  <div className="textBox-container">
-                    <div className="textBox">
-                      <button
-                        className="textBox-btn"
-                        onClick={() => playGame("SA0001", "SA")}
-                      >
-                        Play
-                      </button>
-                    </div>
-                  </div>
-                </div>
-                <div className="card">
-                  <Image
-                    src={"/images/custom_INR (14).avif"}
-                    className="img"
-                    width={180}
-                    height={260}
-                    alt=""
-                  />
-                  <div className="textBox-container">
-                    <div className="textBox">
-                      <button
-                        className="textBox-btn"
-                        onClick={() => playGame("DG0013", "DG")}
-                      >
-                        Play
-                      </button>
-                    </div>
-                  </div>
-                </div>
-                <div className="card">
-                  <Image
-                    src={"/images/custom_INR (15).avif"}
-                    className="img"
-                    width={180}
-                    height={260}
-                    alt=""
-                  />
-                  <div className="textBox-container">
-                    <div className="textBox">
-                      <button
-                        className="textBox-btn"
-                        onClick={() => playGame("DG0013", "DG")}
-                      >
-                        Play
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </Carousel>
-            </div>
-            <div className="list-casio-right">
-              <Image
-                src={"/images/model.png"}
-                width={1000}
-                height={1000}
-                alt=""
-              />
-            </div>
-          </div>
-        </>
-      ) : (
-        <div className="casio-menu">
-          <div className="list-casio-left">
-            <h2>The time has come, go all out</h2>
-            <Carousel
-              additionalTransfrom={0}
-              autoPlaySpeed={3000}
-              centerMode={false}
-              className="list-casio-left-item"
-              containerClass="container-with-dots"
-              dotListClass=""
-              customLeftArrow={
-                <Image
-                  src={"/image/icon-pre.png"}
-                  width={30}
-                  height={30}
-                  alt=""
-                />
-              }
-              customRightArrow={
-                <Image
-                  src={"/image/icon-next.png"}
-                  width={30}
-                  height={30}
-                  alt=""
-                />
-              }
-              draggable
-              autoPlay
-              focusOnSelect={false}
-              infinite
-              itemClass=""
-              keyBoardControl
-              minimumTouchDrag={80}
-              pauseOnHover
-              renderArrowsWhenDisabled={false}
-              renderButtonGroupOutside={false}
-              renderDotsOutside={false}
-              responsive={{
-                desktop: {
-                  breakpoint: {
-                    max: 3000,
-                    min: 1024,
-                  },
-                  items: 2,
-                  partialVisibilityGutter: 40,
-                },
-                mobile: {
-                  breakpoint: {
-                    max: 464,
-                    min: 0,
-                  },
-                  items: 2,
-                  partialVisibilityGutter: 10,
-                },
-                tablet: {
-                  breakpoint: {
-                    max: 1024,
-                    min: 464,
-                  },
-                  items: 3,
-                  partialVisibilityGutter: 30,
-                },
-              }}
-              rewind={false}
-              rewindWithAnimation={false}
-              rtl={false}
-              shouldResetAutoplay
-              showDots={false}
-              sliderClass=""
-              slidesToSlide={1}
-              swipeable
-            >
-              <div className="card">
-                <Image
-                  src={"/images/custom_INR (12).avif"}
-                  className="img"
-                  width={180}
-                  height={260}
-                  alt=""
-                />
-                <div className="textBox-container">
-                  <div className="textBox">
-                    <button
-                      className="textBox-btn"
-                      onClick={() => playGame("JL0120", "JL")}
-                    >
-                      Play
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <div className="card">
-                <Image
-                  src={"/images/custom_INR (13).avif"}
-                  className="img"
-                  width={180}
-                  height={260}
-                  alt=""
-                />
-                <div className="textBox-container">
-                  <div className="textBox">
-                    <button
-                      className="textBox-btn"
-                      onClick={() => playGame("JL0079", "JL")}
-                    >
-                      Play
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <div className="card">
-                <Image
-                  src={"/images/custom_INR (14).avif"}
-                  className="img"
-                  width={180}
-                  height={260}
-                  alt=""
-                />
-                <div className="textBox-container">
-                  <div className="textBox">
-                    <button
-                      className="textBox-btn"
-                      onClick={() => playGame("JL0091", "JL")}
-                    >
-                      Play
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <div className="card">
-                <Image
-                  src={"/images/custom_INR (15).avif"}
-                  className="img"
-                  width={180}
-                  height={260}
-                  alt=""
-                />
-                <div className="textBox-container">
-                  <div className="textBox">
-                    <button
-                      className="textBox-btn"
-                      onClick={() => playGame("JL0075", "JL")}
-                    >
-                      Play
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </Carousel>
-          </div>
-          <div className="list-casio-right">
-            <Image
-              src={"/images/model.png"}
-              width={1000}
-              height={1000}
-              alt=""
-            />
-          </div>
+      <>
+        <div className="casino">
+          <h2 style={{ color: "white" }}>Nhiều Người Chơi</h2>
         </div>
-      )}
+
+        <Box
+          sx={{
+            width: "90%",
+            margin: "0 auto",
+            display: "flex",
+            gap: "8px",
+            flexWrap: "wrap",
+            justifyContent: "center",
+          }}
+        >
+          {ListGamesHot.map((item) => (
+            <Box key={item.id} sx={commonCardStyles}>
+              <Box sx={commonImgStyles}>
+                <Image
+                  src={item.images}
+                  alt=""
+                  width={1800}
+                  height={2400}
+                  style={{
+                    height: "100%",
+                    width: "100%",
+                    objectFit: "cover",
+                  }}
+                />
+              </Box>
+
+              <Box sx={commonTextBoxStyles}>
+                <Button
+                  sx={buttonStyles}
+                  onClick={() => playGame(item.codeGame, item.gameId)}
+                >
+                  Chơi Game
+                </Button>
+              </Box>
+            </Box>
+          ))}
+        </Box>
+      </>
     </div>
   );
 }

@@ -101,6 +101,7 @@ export default function BannerListgamePage() {
           gap: "8px",
           flexWrap: "wrap",
           justifyContent: "center",
+          marginBottom: "20px",
         }}
       >
         {ListGameLiveCasino.map((item) => (

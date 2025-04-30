@@ -71,6 +71,93 @@ export const ListGameHome = [
   },
 ];
 
+export const ListGamesHot = [
+  {
+    id: "1",
+    images: "/images/Table game - Techplay - baccarat lucky88_1727965343.webp",
+    gameId: "WM",
+    codeGame: "WM0001",
+  },
+  {
+    id: "2",
+    images: "/images/Table game - Rik - Xóc đĩa_1727964913.webp",
+    gameId: "CMD",
+    codeGame: "CMD001",
+  },
+  {
+    id: "3",
+    images: "/images/game bài-Hitclub_Phỏm@3x_1731136114.webp",
+    gameId: "DG",
+    codeGame: "DG0013",
+  },
+  {
+    id: "4",
+    images: "/images/Table game - Techplay - Super6 Baccarat_1727965038.webp",
+    gameId: "JL",
+    codeGame: "JL0091",
+  },
+  {
+    id: "5",
+    images: "/images/custom_INR (18).avif",
+    gameId: "JL",
+    codeGame: "JL0066",
+  },
+  {
+    id: "6",
+    images: "/images/Table game - Techplay - Xèng hoa quả (1)_1727965131.webp",
+    gameId: "JL",
+    codeGame: "JL0074",
+  },
+  {
+    id: "7",
+    images: "/images/custom_INR (17).avif",
+    gameId: "JL",
+    codeGame: "JL0118",
+  },
+  {
+    id: "8",
+    images: "/images/custom_INR (11).avif",
+    gameId: "JL",
+    codeGame: "JL0122",
+  },
+  {
+    id: "9",
+    images: "/images/custom_INR (28).avif",
+    gameId: "WS168",
+    codeGame: "WS1681",
+  },
+  {
+    id: "10",
+    images: "/images/custom_INR (25).avif",
+    gameId: "JL",
+    codeGame: "JL0007",
+  },
+  {
+    id: "11",
+    images: "/images/Techplay - Lộc Đỉnh Ký_1735200546.webp",
+    gameId: "PG",
+    codeGame: "PG0123",
+  },
+  {
+    id: "12",
+    images: "/images/Table game - B52 - Tài Xỉu_1730900936.webp",
+    gameId: "WS168",
+    codeGame: "WS1681",
+  },
+  {
+    id: "13",
+    images: "/images/techplay - Mỏ vàng của gã điên_1737455593.webp",
+    gameId: "PG",
+    codeGame: "PG0118",
+  },
+  {
+    id: "14",
+    images: "/images/B52 - xóc đĩa_1736672134.webp",
+    gameId: "PG",
+    codeGame: "PG0130",
+  },
+];
+
 export const ListGameSport = [
   {
     id: "1",

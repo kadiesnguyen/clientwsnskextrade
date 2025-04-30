@@ -12,42 +12,45 @@ import { PaymentMenuFooter } from "@/datafake/Menu";
 export default function FooterPage() {
   return (
     <footer>
-      <div className="list-menu">
-        <div className="menu-1">
-          <Link
-            href={"/"}
-            prefetch={false}
-            style={{
-              textDecoration: "none",
-              color: "#fff",
-              fontFamily: "sans-serif",
-              fontStyle: "italic",
-            }}
-          >
-            {/* <Image
-              src="/images/openart-1bd95ea5-a202-4491-b723-436d1d59311f.png"
-              width={100}
-              height={40}
-              alt=""
-            /> */}
-            <h2>Reddy232</h2>
-          </Link>
+      <div className="info-footer">
+        <Image src="/images/logo.svg" width={130} height={100} alt="" />
+        <div className="info-title">
+          <h2>
+            DA88 - Nhà cái thể thao trực tuyến, Siêu chợ games đổi thưởng đỉnh
+            cao
+          </h2>
           <p>
-            Reddy232 is the leading reputable bookmaker in the Americas. Game
-            Vault offers online entertainment services with a wide range of
-            products: Sports predictions, Virtual Sports, Number Game, Keno,
-            Online Casino,...
-          </p>
-          <br />
-          <p>
-            Reddy232 is committed to the utmost confidentiality of your
-            information. No secretion disclose and provide information to any
-            third party. Protection policy This information applies to all
-            participating members at Reddy232.
+            DA88 là trang cá cược thể thao hấp dẫn, cung cấp đa dạng về sản phẩm
+            trò chơi như Thể Thao, Trò Chơi, Casino Trực Tuyến và thưởng hoàn
+            trả cao nhất trên thị trường.
           </p>
         </div>
+      </div>
+      <div className="list-menu">
+        <div className="menu-1">
+          <h3>Thể thao</h3>
+          <ul>
+            <li>
+              <Link href={"#"}>Lịch thi đấu</Link>
+            </li>
+            <li>
+              <Link href={"#"}> Cược thể thao</Link>
+            </li>
+          </ul>
+        </div>
+        <div className="menu-1">
+          <h3>Trò chơi</h3>
+          <ul>
+            <li>
+              <Link href={"#"}>Lịch thi đấu</Link>
+            </li>
+            <li>
+              <Link href={"#"}> Cược thể thao</Link>
+            </li>
+          </ul>
+        </div>
         <div className="menu-2">
-          <h3>Contact</h3>
+          <h3>Trò chơi</h3>
           <ul>
             <li>
               <Link href={"#"}>
