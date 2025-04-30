@@ -13,7 +13,7 @@
 }
 
 .slide {
-    margin-top: 120px;
+    margin-top: 80px;
 }
 
 .slide .img-slide {
@@ -153,9 +153,7 @@
 }
 
 @media(max-width: 900px) {
-    .slide .img-slide {
-        margin-top: 50px;
-    }
+    .slide .img-slide {}
 
     .home {
         height: 1080px;
@@ -193,7 +191,7 @@
 
 
     .slide .img-slide {
-        margin-top: 50px;
+        object-fit: cover;
     }
 
 

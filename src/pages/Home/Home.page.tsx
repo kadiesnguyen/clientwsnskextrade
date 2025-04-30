@@ -99,12 +99,6 @@ export default function HomePage() {
           keyBoardControl
           minimumTouchDrag={80}
           pauseOnHover
-          customLeftArrow={
-            <Image src={"/image/icon-pre.png"} width={30} height={30} alt="" />
-          }
-          customRightArrow={
-            <Image src={"/image/icon-next.png"} width={30} height={30} alt="" />
-          }
           renderArrowsWhenDisabled={false}
           renderButtonGroupOutside={false}
           renderDotsOutside={false}
@@ -119,8 +113,8 @@ export default function HomePage() {
             },
             mobile: {
               breakpoint: {
-                max: 464,
-                min: 0,
+                max: 412,
+                min: 153,
               },
               items: 1,
             },
@@ -146,7 +140,7 @@ export default function HomePage() {
                 <Image
                   className="img-slide"
                   src={item.img}
-                  width={1000}
+                  width={153}
                   height={200}
                   loading="lazy"
                   alt=""
@@ -165,7 +159,6 @@ export default function HomePage() {
       </div>
       <HotPage />
       <BannerListgamePage />
-      <ListCasioPage />
     </div>
   );
 }

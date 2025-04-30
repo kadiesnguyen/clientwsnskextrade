@@ -41,7 +41,7 @@ export default function SidebarPage() {
               <li key={item.id}>
                 <Link href={item.link}>
                   <Tooltip title={item.title} placement="right" color="white">
-                    <IconButton>{item.icon}</IconButton>
+                    <Image src={item.icon} width={35} height={35} alt="" />
                   </Tooltip>
                 </Link>
               </li>

@@ -8,194 +8,128 @@ import Image from "next/image";
 import NumberCount from "@/components/NumberCount/NumberCount";
 import swal from "sweetalert";
 import usePlayGame from "@/hook/usePlayGame";
+import { Box, Button } from "@mui/material";
+import { ListGameLiveCasino } from "@/datafake/ListGame";
 export default function BannerListgamePage() {
   const { loading, playGame } = usePlayGame();
+  const commonImgStyles = {
+    height: {
+      xs: "190px",
+      sm: "300px",
+    },
+    position: "absolute",
+    transition: "0.2s ease-in-out",
+    zIndex: 1,
+    top: 0,
+    left: 0,
+    width: "100%",
+    "&:hover": {
+      filter: "blur(3px)",
+    },
+  };
+  const commonTextBoxStyles = {
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+    top: 0,
+    left: 0,
+    zIndex: 2,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    pointerEvents: "none",
+  };
+
+  const commonCardStyles = {
+    width: {
+      xs: "130px",
+      sm: "240px",
+    },
+    height: {
+      xs: "190px",
+      sm: "300px",
+    },
+    borderRadius: "20px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    color: "white",
+    transition: "0.2s ease-in-out",
+    position: "relative",
+    overflow: "hidden",
+    "&:hover .MuiButton-root": {
+      opacity: 1,
+    },
+    "&:hover": {
+      transform: "scale(1.04) rotate(-1deg)",
+    },
+  };
+
+  const buttonStyles = {
+    backgroundImage:
+      "url(https://staticda88.com/images/button/bg-btn.png), conic-gradient(from 0deg at 50% 50%, #085cff 0deg, #2692e0 89.73deg, #263be0 180.18deg, #085cff 1turn)",
+    color: "white",
+    padding: "10px 20px",
+    border: "none",
+    borderRadius: "5px",
+    cursor: "pointer",
+    zIndex: 3,
+    pointerEvents: "auto",
+    opacity: 0,
+    transition: "opacity 0.2s ease-in-out",
+    "&:hover": {
+      backgroundImage:
+        "url(https://staticda88.com/images/button/bg-btn.png), conic-gradient(from 0deg at 50% 50%, #085cff 0deg, #2692e0 89.73deg, #263be0 180.18deg, #085cff 1turn)",
+      opacity: 1,
+      filter: "none",
+    },
+  };
+
   return (
-    <div className="banner-list">
-      <div className="img-jackpost">
-        <h2>Huge Prize Pool</h2>
-        <div className="jackpost-num">
-          <Image
-            src={"/images/jackpot.png"}
-            width={500}
-            height={500}
-            className=""
-            alt=""
-          />
-          <NumberCount
-            classname="jackpost-count"
-            numStart={1000}
-            numEnd={8509560269}
-          />
+    <>
+      <div className="casino">
+        <div className="title-casino">
+          <Image src={"/images/casino.webp"} width={20} height={20} alt="" />
+          <p>Casino</p>
         </div>
       </div>
-      <Carousel
-        additionalTransfrom={0}
-        autoPlaySpeed={3000}
-        centerMode={false}
-        className="list-game"
-        containerClass="container-with-dots"
-        dotListClass=""
-        draggable
-        autoPlay
-        focusOnSelect={false}
-        infinite
-        itemClass=""
-        keyBoardControl
-        minimumTouchDrag={80}
-        pauseOnHover
-        renderArrowsWhenDisabled={false}
-        renderButtonGroupOutside={false}
-        responsive={{
-          desktop: {
-            breakpoint: {
-              max: 3000,
-              min: 1024,
-            },
-            items: 4,
-            partialVisibilityGutter: 40,
-          },
-          mobile: {
-            breakpoint: {
-              max: 464,
-              min: 0,
-            },
-            items: 4,
-            partialVisibilityGutter: 10,
-          },
-          tablet: {
-            breakpoint: {
-              max: 1024,
-              min: 464,
-            },
-            items: 2,
-            partialVisibilityGutter: 30,
-          },
+      <Box
+        sx={{
+          display: "flex",
+          gap: "8px",
+          flexWrap: "wrap",
+          justifyContent: "center",
         }}
-        rewind={false}
-        rewindWithAnimation={false}
-        rtl={false}
-        shouldResetAutoplay
-        showDots={false}
-        sliderClass=""
-        slidesToSlide={1}
-        swipeable
       >
-        <div className="card">
-          <Image
-            src={"/images/custom_INR (9).avif"}
-            className="img"
-            width={180}
-            height={260}
-            alt=""
-          />
-          <div className="textBox-container">
-            <div className="textBox">
-              <button
-                className="textBox-btn"
-                onClick={() => playGame("PG0110", "PG")}
+        {ListGameLiveCasino.map((item) => (
+          <Box key={item.id} sx={commonCardStyles}>
+            <Box sx={commonImgStyles}>
+              <Image
+                src={item.images}
+                alt=""
+                width={1800}
+                height={2400}
+                style={{
+                  height: "100%",
+                  width: "100%",
+                  objectFit: "cover",
+                }}
+              />
+            </Box>
+
+            <Box sx={commonTextBoxStyles}>
+              <Button
+                sx={buttonStyles}
+                onClick={() => playGame(item.codeGame, item.gameId)}
               >
-                Play
-              </button>
-            </div>
-          </div>
-        </div>
-        <div className="card">
-          <Image
-            src={"/images/custom_INR (8).avif"}
-            className="img"
-            width={180}
-            height={260}
-            alt=""
-          />
-          <div className="textBox-container">
-            <div className="textBox">
-              <button
-                className="textBox-btn"
-                onClick={() => playGame("PG0103", "PG")}
-              >
-                Play
-              </button>
-            </div>
-          </div>
-        </div>
-        <div className="card">
-          <Image
-            src={"/images/custom_INR (9).avif"}
-            className="img"
-            width={180}
-            height={260}
-            alt=""
-          />
-          <div className="textBox-container">
-            <div className="textBox">
-              <button
-                className="textBox-btn"
-                onClick={() => playGame("PG0095", "PG")}
-              >
-                Play
-              </button>
-            </div>
-          </div>
-        </div>
-        <div className="card">
-          <Image
-            src={"/images/custom_INR (10).avif"}
-            className="img"
-            width={180}
-            height={260}
-            alt=""
-          />
-          <div className="textBox-container">
-            <div className="textBox">
-              <button
-                className="textBox-btn"
-                onClick={() => playGame("PG0086", "PG")}
-              >
-                Play
-              </button>
-            </div>
-          </div>
-        </div>
-        <div className="card">
-          <Image
-            src={"/images/custom_INR (18).avif"}
-            className="img"
-            width={180}
-            height={260}
-            alt=""
-          />
-          <div className="textBox-container">
-            <div className="textBox">
-              <button
-                className="textBox-btn"
-                onClick={() => playGame("PG0083", "PG")}
-              >
-                Play
-              </button>
-            </div>
-          </div>
-        </div>
-        <div className="card">
-          <Image
-            src={"/images/custom_INR (19).avif"}
-            className="img"
-            width={180}
-            height={260}
-            alt=""
-          />
-          <div className="textBox-container">
-            <div className="textBox">
-              <button
-                className="textBox-btn"
-                onClick={() => playGame("PG0107", "PG")}
-              >
-                Play
-              </button>
-            </div>
-          </div>
-        </div>
-      </Carousel>
-    </div>
+                Chơi Game
+              </Button>
+            </Box>
+          </Box>
+        ))}
+      </Box>
+    </>
   );
 }

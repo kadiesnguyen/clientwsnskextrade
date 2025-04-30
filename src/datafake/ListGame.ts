@@ -1,3 +1,76 @@
+export const ListGameHome = [
+  {
+    id: "1",
+    images: "type-bet-live-casino.webp",
+    link: "",
+    numberC: 0,
+    nameGame: "Live Casino",
+  },
+  {
+    id: "2",
+    images: "type-bet-sport.webp",
+    link: "",
+    numberC: 0,
+    nameGame: "Thể thao",
+  },
+  {
+    id: "3",
+    images: "type-bet-table-games.webp",
+    link: "",
+    numberC: 1002200220,
+    nameGame: "Table Games",
+  },
+  {
+    id: "4",
+    images: "type-bet-lo-de.webp",
+    link: "",
+    numberC: 0,
+    nameGame: "Lô đề",
+  },
+  {
+    id: "5",
+    images: "type-bet-no-hu.webp",
+    link: "",
+    numberC: 354025522,
+    nameGame: "Nổ hủ",
+  },
+  {
+    id: "6",
+    images: "type-bet-game-bai.webp",
+    link: "",
+    numberC: 0,
+    nameGame: "Game bài",
+  },
+  {
+    id: "7",
+    images: "type-bet-slots.webp",
+    link: "",
+    numberC: 0,
+    nameGame: "Slots",
+  },
+  {
+    id: "8",
+    images: "type-bet-fish.webp",
+    link: "",
+    numberC: 5132552222,
+    nameGame: "Bắn cá",
+  },
+  {
+    id: "9",
+    images: "type-bet-game-nhanh.webp",
+    link: "",
+    numberC: 0,
+    nameGame: "Game nhanh",
+  },
+  {
+    id: "10",
+    images: "type-bet-quay-so.webp",
+    link: "",
+    numberC: 0,
+    nameGame: "Quay số",
+  },
+];
+
 export const ListGameSport = [
   {
     id: "1",
