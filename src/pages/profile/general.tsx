@@ -144,7 +144,7 @@ export default function General() {
                     className="textBox-btn"
                     onClick={() => playGame("PG0110", "PG")}
                   >
-                    Play
+                    Chơi ngay
                   </button>
                 </div>
               </div>
@@ -163,7 +163,7 @@ export default function General() {
                     className="textBox-btn"
                     onClick={() => playGame("PG0103", "PG")}
                   >
-                    Play
+                    Chơi ngay
                   </button>
                 </div>
               </div>
@@ -182,7 +182,7 @@ export default function General() {
                     className="textBox-btn"
                     onClick={() => playGame("PG0095", "PG")}
                   >
-                    Play
+                    Chơi ngay
                   </button>
                 </div>
               </div>
@@ -201,7 +201,7 @@ export default function General() {
                     className="textBox-btn"
                     onClick={() => playGame("PG0086", "PG")}
                   >
-                    Play
+                    Chơi ngay
                   </button>
                 </div>
               </div>
@@ -220,7 +220,7 @@ export default function General() {
                     className="textBox-btn"
                     onClick={() => playGame("PG0083", "PG")}
                   >
-                    Play
+                    Chơi ngay
                   </button>
                 </div>
               </div>
@@ -239,7 +239,7 @@ export default function General() {
                     className="textBox-btn"
                     onClick={() => playGame("PG0107", "PG")}
                   >
-                    Play
+                    Chơi ngay
                   </button>
                 </div>
               </div>

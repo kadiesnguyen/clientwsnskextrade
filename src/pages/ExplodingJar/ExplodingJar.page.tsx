@@ -60,7 +60,9 @@ const commonCardStyles = {
   },
 };
 const buttonStyles = {
-  background: "green",
+  backgroundImage:
+    "url(/images/button/bg-btn.png), conic-gradient(from 0deg at 50% 50%, #085cff 0deg, #2692e0 89.73deg, #263be0 180.18deg, #085cff 1turn)",
+
   color: "white",
   padding: "10px 20px",
   border: "none",
@@ -71,7 +73,9 @@ const buttonStyles = {
   opacity: 0,
   transition: "opacity 0.2s ease-in-out",
   "&:hover": {
-    background: "green",
+    backgroundImage:
+      "url(/images/button/bg-btn.png), conic-gradient(from 0deg at 50% 50%, #085cff 0deg, #2692e0 89.73deg, #263be0 180.18deg, #085cff 1turn)",
+
     opacity: 1,
     filter: "none",
   },
@@ -195,7 +199,7 @@ export default function ExplodingJarPage() {
                     sx={buttonStyles}
                     onClick={() => playGame(item.tcgGameCode, item.productCode)}
                   >
-                    Play
+                    Chơi ngay
                   </Button>
                 </Box>
               </Box>
@@ -213,10 +217,10 @@ export default function ExplodingJarPage() {
                 color: "white", // Mặc định chữ màu trắng
               },
               "& .Mui-selected": {
-                backgroundColor: "greenyellow", // Nền màu xanh vàng khi active
+                backgroundColor: "#0366FE", // Nền màu xanh vàng khi active
                 color: "white", // Chữ màu trắng
                 "&:hover": {
-                  backgroundColor: "greenyellow", // Duy trì màu khi hover
+                  backgroundColor: "#0366FE", // Duy trì màu khi hover
                 },
               },
             }}

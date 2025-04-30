@@ -65,7 +65,7 @@ export default function ListCasioPage() {
 
   const buttonStyles = {
     backgroundImage:
-      "url(https://staticda88.com/images/button/bg-btn.png), conic-gradient(from 0deg at 50% 50%, #085cff 0deg, #2692e0 89.73deg, #263be0 180.18deg, #085cff 1turn)",
+      "url(/images/button/bg-btn.png), conic-gradient(from 0deg at 50% 50%, #085cff 0deg, #2692e0 89.73deg, #263be0 180.18deg, #085cff 1turn)",
     color: "white",
     padding: {
       xs: "3px 5px",

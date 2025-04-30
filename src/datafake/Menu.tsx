@@ -29,12 +29,12 @@ export const MenuWebsite = [
   {
     id: "1",
     link: "/",
-    title: "Home",
+    title: "Trang chủ",
   },
   {
     id: "2",
     link: "/sport",
-    title: "Sport",
+    title: "Thể thao",
   },
   {
     id: "3",
@@ -56,11 +56,11 @@ export const MenuWebsite = [
   //   link: "/fish",
   //   title: "Fish",
   // },
-  // {
-  //   id: "7",
-  //   link: "/chicken",
-  //   title: "Chicken Fight",
-  // },
+  {
+    id: "7",
+    link: "/chicken",
+    title: "Đá gà",
+  },
   // {
   //   id: "8",
   //   link: "/lotto",
