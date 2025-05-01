@@ -84,7 +84,7 @@ export default function ListCasioPage() {
     transition: "opacity 0.2s ease-in-out",
     "&:hover": {
       backgroundImage:
-        "url(https://staticda88.com/images/button/bg-btn.png), conic-gradient(from 0deg at 50% 50%, #085cff 0deg, #2692e0 89.73deg, #263be0 180.18deg, #085cff 1turn)",
+        "url(/images/button/bg-btn.png), conic-gradient(from 0deg at 50% 50%, #085cff 0deg, #2692e0 89.73deg, #263be0 180.18deg, #085cff 1turn)",
       opacity: 1,
       filter: "none",
     },

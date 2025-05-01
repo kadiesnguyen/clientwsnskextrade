@@ -28,9 +28,13 @@ header {
     gap: 50px;
 }
 
+.header-left {
+    width: 10%;
+    margin-left: -10%;
+}
 
 .header-bottom {
-    width: 50%;
+    max-width: 40%;
 }
 
 .header-bottom ul {

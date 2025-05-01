@@ -8,11 +8,11 @@ import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
-import PersonAdd from "@mui/icons-material/PersonAdd";
-import Settings from "@mui/icons-material/Settings";
-import Logout from "@mui/icons-material/Logout";
-import { userResponse } from "@/interface/user.interface";
-import { Button } from "@mui/material";
+import Drawer from "@mui/material/Drawer";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemText from "@mui/material/ListItemText";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
@@ -21,371 +21,334 @@ import AccountBalanceOutlinedIcon from "@mui/icons-material/AccountBalanceOutlin
 import LoyaltyOutlinedIcon from "@mui/icons-material/LoyaltyOutlined";
 import HistoryEduOutlinedIcon from "@mui/icons-material/HistoryEduOutlined";
 import PaymentsOutlinedIcon from "@mui/icons-material/PaymentsOutlined";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
-import Image from "next/image";
-import {
-  AddIconMobile,
-  NoticationIconMobile,
-} from "@/shared/Svgs/Svg.component";
+import Logout from "@mui/icons-material/Logout";
+import FolderIcon from "@mui/icons-material/Folder";
+import CloseIcon from "@mui/icons-material/Close";
+import { userResponse } from "@/interface/user.interface";
+import { Button } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { formatCurrency } from "@/utils/formatMoney";
-import FolderIcon from "@mui/icons-material/Folder";
+import Image from "next/image";
+import {
+  BankMenuIcon,
+  GiftMenuIcon,
+  HistoryBetMenuIcon,
+  HistoryMenuIcon,
+  LiveChatMenuIcon,
+  LogoutMenuIcon,
+  NapMenuIcon,
+  P2PMenuIcon,
+  ProfileIcon,
+  RutMenuIcon,
+} from "@/shared/Svgs/Svg.component";
+
 export interface userProps {
   user: userResponse;
   message: any[];
 }
 
 export default function MenuProfileMobile(data: userProps) {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [anchorEl1, setAnchorEl1] = React.useState<null | HTMLElement>(null);
+  const [drawerOpen, setDrawerOpen] = React.useState(false);
 
-  const open = Boolean(anchorEl);
   const open1 = Boolean(anchorEl1);
   const route = useRouter();
+
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
+    setDrawerOpen(true);
   };
-  const handleClose = () => {
-    setAnchorEl(null);
+
+  const handleDrawerClose = () => {
+    setDrawerOpen(false);
   };
+
   const handleClick1 = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl1(event.currentTarget);
   };
+
   const handleClose1 = () => {
     setAnchorEl1(null);
   };
+
+  const handleMenuItemClick = (onClick: () => void) => {
+    onClick();
+    handleDrawerClose();
+  };
+
+  const menuItems = [
+    {
+      text: "Quản lý tài khoản",
+      icon: <ProfileIcon />,
+      onClick: () => route.push("/profile/personal-detail"),
+    },
+    {
+      text: "Giao dịch P2P",
+      icon: <P2PMenuIcon />,
+      onClick: () =>
+        window.open("https://t.me/HitJuwa", "_blank", "noopener,noreferrer"),
+    },
+    {
+      text: "Quản lý ngân hàng",
+      icon: <BankMenuIcon />,
+      onClick: () => route.push("/profile/bank-account"),
+    },
+    {
+      text: "Tiền thưởng",
+      icon: <GiftMenuIcon />,
+      onClick: () => route.push("/profile/account-promotion"),
+    },
+    {
+      text: "Lịch sử giao dịch",
+      icon: <HistoryMenuIcon />,
+      onClick: () => route.push("/profile/transaction-history"),
+    },
+    {
+      text: "Lịch sử cược cục",
+      icon: <HistoryBetMenuIcon />,
+      onClick: () => route.push("/profile/betting-history"),
+    },
+    {
+      text: "Live chat 24/7",
+      icon: <LiveChatMenuIcon />,
+      onClick: () => route.push("/profile/live-chat"),
+    },
+  ];
+
+  const drawerList = () => (
+    <Box
+      sx={{
+        width: 350,
+        background: "#232b4f",
+        color: "white",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+      }}
+      role="presentation"
+    >
+      {/* Header Section */}
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: "16px",
+          borderBottom: "1px solid #2f3b56",
+        }}
+      >
+        <Box sx={{ display: "flex", alignItems: "center", gap: "12px" }}>
+          <Avatar src="/images/quyphai17.jpg" sx={{ width: 40, height: 40 }} />
+          <Box>
+            <Typography sx={{ fontSize: "16px", fontWeight: "bold" }}>
+              {data.user?.username || "huyn19e6bffa5"}
+            </Typography>
+            <Typography sx={{ fontSize: "12px", color: "#fbc16c" }}>
+              Ví của tui {formatCurrency(data.user?.coin ?? 0)}
+            </Typography>
+          </Box>
+        </Box>
+        <IconButton onClick={handleDrawerClose}>
+          <CloseIcon sx={{ color: "white" }} />
+        </IconButton>
+      </Box>
+
+      {/* Action Buttons */}
+      <Box
+        sx={{
+          display: "flex",
+          gap: "12px",
+          padding: "16px",
+          borderBottom: "1px solid #2f3b56",
+        }}
+      >
+        <Button
+          onClick={() =>
+            handleMenuItemClick(() => route.push("/profile/account-withdraw"))
+          }
+          sx={{
+            flex: 1,
+            backgroundImage:
+              "url(/images/button/bg-btn.png), conic-gradient(from 0deg at 50% 50%, #085cff 0deg, #2692e0 89.73deg, #263be0 180.18deg, #085cff 1turn)",
+            color: "white",
+            borderRadius: "20px",
+            textTransform: "none",
+            fontSize: "14px",
+            "&:hover": {
+              backgroundImage:
+                "url(/images/button/bg-btn.png), conic-gradient(from 0deg at 50% 50%, #085cff 0deg, #2692e0 89.73deg, #263be0 180.18deg, #085cff 1turn)",
+            },
+          }}
+        >
+          <RutMenuIcon />
+          RÚT
+        </Button>
+        <Button
+          onClick={() =>
+            handleMenuItemClick(() =>
+              window.open(
+                "https://t.me/HitJuwa",
+                "_blank",
+                "noopener,noreferrer"
+              )
+            )
+          }
+          sx={{
+            flex: 1,
+            backgroundImage:
+              "url(/images/button/bg-btn.png), conic-gradient(from 0deg at 50% 50%, #d61f57 0deg, #ff0250 89.73deg, #af0036 180.18deg, #d61f57 1turn)",
+
+            color: "white",
+            borderRadius: "20px",
+            textTransform: "none",
+            fontSize: "14px",
+            "&:hover": {
+              background: "#e03500",
+            },
+          }}
+        >
+          <NapMenuIcon />
+          NẠP
+        </Button>
+      </Box>
+
+      {/* Menu Items */}
+      <List sx={{ flex: 1 }}>
+        {menuItems.map((item) => (
+          <ListItem
+            key={item.text}
+            disablePadding
+            sx={{
+              padding: "0 4.2666666667vw 4.2666666667vw",
+            }}
+          >
+            <ListItemButton
+              onClick={() => handleMenuItemClick(item.onClick)}
+              sx={{
+                padding: "2.6666666667vw 0",
+                height: "12.8vw",
+                "&:hover": {
+                  background: "#2f3b56",
+                },
+              }}
+            >
+              <ListItemIcon sx={{ minWidth: "40px" }}>{item.icon}</ListItemIcon>
+              <ListItemText
+                primary={item.text}
+                primaryTypographyProps={{
+                  fontSize: "3.7333333333vw !important",
+                  lineHeight: "5.3333333333vw !important",
+                  fontFamily: "Lexend, sans-serif !important",
+                  fontWeight: "400 !important",
+                }}
+              />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+
+      {/* Sign Out Button */}
+      <Box sx={{ padding: "16px", borderTop: "1px solid #2f3b56" }}>
+        <Button
+          onClick={() =>
+            handleMenuItemClick(() => {
+              window.localStorage.removeItem("tokenreddy232");
+              window.location.href = "/";
+            })
+          }
+          sx={{
+            width: "100%",
+            background: "transparent",
+            color: "white",
+            border: "1px solid #2f3b56",
+            borderRadius: "8px",
+            textTransform: "none",
+            fontSize: "14px",
+            padding: "8px 0",
+            "&:hover": {
+              background: "#2f3b56",
+            },
+          }}
+        >
+          <LogoutMenuIcon />
+          ĐĂNG XUẤT
+        </Button>
+      </Box>
+    </Box>
+  );
+
   return (
     <React.Fragment>
       <Box
         sx={{
           display: "flex",
-          alignItems: "center",
-          gap: 1,
-          textAlign: "right",
-          marginLeft: "4%",
+          gap: "8px",
+          justifyContent: "flex-end",
+          background: "#1a263f",
+          borderRadius: "20px",
         }}
       >
-        <Typography
+        <Button
           sx={{
-            borderRadius: 8,
-            fontSize: 13,
-            textAlign: "right",
-            color: "#ebb039",
-            position: "fixed",
-            right: { xs: "38%", sm: "20%" },
+            background: "#1a263f",
+            color: "#fbc16c",
+            borderRadius: "16px",
+            padding: "4px 12px",
+            fontSize: "14px",
+            textTransform: "none",
+            "&:hover": {
+              background: "#2f3b56",
+            },
           }}
         >
-          {formatCurrency(data.user?.coin ?? 0)} USD
-        </Typography>
-        <IconButton
-          size="small"
-          sx={{ marginLeft: 5 }}
-          onClick={() => route.replace("https://t.me/HitJuwa")}
+          {formatCurrency(data.user?.coin ?? 0)}
+        </Button>
+        <Button
+          onClick={() => route.push("https://t.me/HitJuwa")}
+          sx={{
+            backgroundImage:
+              "url(/images/button/bg-btn.png), conic-gradient(from 0deg at 50% 50%, #d61f57 0deg, #ff0250 89.73deg, #af0036 180.18deg, #d61f57 1turn)",
+            color: "white",
+            borderRadius: "16px",
+            padding: "4px 12px",
+            fontSize: "14px",
+            textTransform: "none",
+            "&:hover": {
+              background: "#e03500",
+            },
+          }}
         >
-          <AddIconMobile />
-        </IconButton>
-        <Tooltip title="Account settings">
-          <IconButton
-            onClick={handleClick1}
-            size="small"
-            sx={{ background: "#283145", borderRadius: 8 }}
-            aria-controls={open ? "account-menu" : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? "true" : undefined}
-          >
-            <NoticationIconMobile width="24px" height="24px" />
-          </IconButton>
-        </Tooltip>
+          NẠP
+        </Button>
         <Tooltip title="Account settings">
           <IconButton
             onClick={handleClick}
             size="small"
-            aria-controls={open ? "account-menu" : undefined}
+            aria-controls={drawerOpen ? "account-menu" : undefined}
             aria-haspopup="true"
-            aria-expanded={open ? "true" : undefined}
+            aria-expanded={drawerOpen ? "true" : undefined}
           >
             <Avatar
-              src="/images/quyphai17.jpg"
+              src="/images/avatar-4.webp"
               sx={{ width: 32, height: 32 }}
             ></Avatar>
           </IconButton>
         </Tooltip>
       </Box>
-      <Menu
-        anchorEl={anchorEl}
-        id="account-menu"
-        open={open}
-        onClose={handleClose}
-        onClick={handleClose}
+      <Drawer
+        anchor="right"
+        open={drawerOpen}
+        onClose={handleDrawerClose}
         sx={{
           zIndex: 9999999,
-        }}
-        slotProps={{
-          paper: {
-            elevation: 0,
-            sx: {
-              overflow: "visible",
-              filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-              border: "1px solid #353d50",
-              background: "#0f192f",
-              borderRadius: 6,
-              mt: 1.5,
-              color: "white",
-              "& .MuiAvatar-root": {
-                width: 32,
-                height: 32,
-                ml: -0.5,
-                mr: 1,
-                color: "#353d50",
-              },
-              "&::before": {
-                content: '""',
-                display: "block",
-                position: "absolute",
-                top: 0,
-                right: 14,
-                width: 10,
-                height: 10,
-                bgcolor: "#0f192f",
-                borderTop: "1px solid #353d50",
-                transform: "translateY(-50%) rotate(45deg)",
-                zIndex: 0,
-              },
-            },
+          "& .MuiDrawer-paper": {
+            background: "#1a263f",
+            border: "none",
+            borderRadius: "0",
           },
         }}
-        transformOrigin={{ horizontal: "right", vertical: "top" }}
-        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem
-          onClick={() => route.replace("/profile")}
-          sx={{
-            minWidth: "250px",
-            "&:hover": {
-              color: "#009c3b",
-              background:
-                "linear-gradient(90.08deg,rgba(0,156,59,.1) 3.8%,rgba(0,156,59,0) 97.33%)",
-              "& .MuiSvgIcon-root": {
-                color: "#353d50", // Change the icon color on hover
-              },
-            },
-          }}
-        >
-          <ListItemIcon>
-            <BarChartIcon
-              fontSize="medium"
-              sx={{
-                color: "#353d50",
-                "&:hover": {
-                  color: "#353d50", // Icon color remains #353d50 on hover
-                },
-              }}
-            />
-          </ListItemIcon>
-          Overview
-        </MenuItem>
-        <MenuItem
-          onClick={() => route.replace("/profile/personal-detail")}
-          sx={{
-            minWidth: "250px",
-            "&:hover": {
-              color: "#009c3b",
-              background:
-                "linear-gradient(90.08deg,rgba(0,156,59,.1) 3.8%,rgba(0,156,59,0) 97.33%)",
-              "& .MuiSvgIcon-root": {
-                color: "#353d50",
-              },
-            },
-          }}
-        >
-          <ListItemIcon>
-            <AccountCircleOutlinedIcon
-              fontSize="medium"
-              sx={{
-                color: "#353d50",
-              }}
-            />
-          </ListItemIcon>
-          Personal Details
-        </MenuItem>
-        <MenuItem
-          onClick={() => {
-            window.open(
-              "https://t.me/HitJuwa",
-              "_blank",
-              "noopener,noreferrer"
-            );
-          }}
-          sx={{
-            minWidth: "250px",
-            "&:hover": {
-              color: "#009c3b",
-              background:
-                "linear-gradient(90.08deg,rgba(0,156,59,.1) 3.8%,rgba(0,156,59,0) 97.33%)",
-              "& .MuiSvgIcon-root": {
-                color: "#353d50",
-              },
-            },
-          }}
-        >
-          <ListItemIcon>
-            <SavingsOutlinedIcon
-              fontSize="medium"
-              sx={{
-                color: "#353d50",
-              }}
-            />
-          </ListItemIcon>
-          Deposit Money
-        </MenuItem>
-        <MenuItem
-          onClick={() => route.replace("/profile/account-withdraw")}
-          sx={{
-            minWidth: "250px",
-            "&:hover": {
-              color: "#009c3b",
-              background:
-                "linear-gradient(90.08deg,rgba(0,156,59,.1) 3.8%,rgba(0,156,59,0) 97.33%)",
-              "& .MuiSvgIcon-root": {
-                color: "#353d50",
-              },
-            },
-          }}
-        >
-          <ListItemIcon>
-            <AccountBalanceWalletOutlinedIcon
-              fontSize="medium"
-              sx={{
-                color: "#353d50",
-              }}
-            />
-          </ListItemIcon>
-          Withdraw money
-        </MenuItem>
-        <MenuItem
-          onClick={() => route.replace("/profile/bank-account")}
-          sx={{
-            minWidth: "250px",
-            "&:hover": {
-              color: "#009c3b",
-              background:
-                "linear-gradient(90.08deg,rgba(0,156,59,.1) 3.8%,rgba(0,156,59,0) 97.33%)",
-              "& .MuiSvgIcon-root": {
-                color: "#353d50",
-              },
-            },
-          }}
-        >
-          <ListItemIcon>
-            <AccountBalanceOutlinedIcon
-              fontSize="medium"
-              sx={{
-                color: "#353d50",
-              }}
-            />
-          </ListItemIcon>
-          Bank account
-        </MenuItem>
-        <MenuItem
-          onClick={() => route.replace("/profile/account-promotion")}
-          sx={{
-            minWidth: "250px",
-            "&:hover": {
-              color: "#009c3b",
-              background:
-                "linear-gradient(90.08deg,rgba(0,156,59,.1) 3.8%,rgba(0,156,59,0) 97.33%)",
-              "& .MuiSvgIcon-root": {
-                color: "#353d50",
-              },
-            },
-          }}
-        >
-          <ListItemIcon>
-            <LoyaltyOutlinedIcon
-              fontSize="medium"
-              sx={{
-                color: "#353d50",
-              }}
-            />
-          </ListItemIcon>
-          Promotion
-        </MenuItem>
-        <MenuItem
-          onClick={() => route.replace("/profile/betting-history")}
-          sx={{
-            minWidth: "250px",
-            "&:hover": {
-              color: "#009c3b",
-              background:
-                "linear-gradient(90.08deg,rgba(0,156,59,.1) 3.8%,rgba(0,156,59,0) 97.33%)",
-              "& .MuiSvgIcon-root": {
-                color: "#353d50",
-              },
-            },
-          }}
-        >
-          <ListItemIcon>
-            <HistoryEduOutlinedIcon
-              fontSize="medium"
-              sx={{
-                color: "#353d50",
-              }}
-            />
-          </ListItemIcon>
-          Betting history
-        </MenuItem>
-        <MenuItem
-          onClick={() => route.replace("/profile/transaction-history")}
-          sx={{
-            minWidth: "250px",
-            "&:hover": {
-              color: "#009c3b",
-              background:
-                "linear-gradient(90.08deg,rgba(0,156,59,.1) 3.8%,rgba(0,156,59,0) 97.33%)",
-              "& .MuiSvgIcon-root": {
-                color: "#353d50",
-              },
-            },
-          }}
-        >
-          <ListItemIcon>
-            <PaymentsOutlinedIcon
-              fontSize="medium"
-              sx={{
-                color: "#353d50",
-              }}
-            />
-          </ListItemIcon>
-          Transaction history
-        </MenuItem>
-        <MenuItem
-          onClick={() => {
-            window.localStorage.removeItem("tokenreddy232");
-            window.location.href = "/";
-          }}
-          sx={{
-            minWidth: "250px",
-            "&:hover": {
-              color: "#009c3b",
-              background:
-                "linear-gradient(90.08deg,rgba(0,156,59,.1) 3.8%,rgba(0,156,59,0) 97.33%)",
-              "& .MuiSvgIcon-root": {
-                color: "#353d50",
-              },
-            },
-          }}
-        >
-          <ListItemIcon>
-            <Logout
-              fontSize="medium"
-              sx={{
-                color: "#353d50",
-              }}
-            />
-          </ListItemIcon>
-          Logout
-        </MenuItem>
-      </Menu>
+        {drawerList()}
+      </Drawer>
       <Menu
         anchorEl={anchorEl1}
         id="account-menu"
@@ -457,7 +420,6 @@ export default function MenuProfileMobile(data: userProps) {
                       fontSize: "50px",
                       color: "#353D50",
                     }}
-                    // className="icon-menu"
                   />
                   <Typography>{`You haven't announced yet!`}</Typography>
                 </Box>
@@ -481,7 +443,6 @@ export default function MenuProfileMobile(data: userProps) {
                       fontSize: "50px",
                       color: "#353D50",
                     }}
-                    // className="icon-menu"
                   />
                   <Typography>{`You haven't announced yet!`}</Typography>
                 </Box>

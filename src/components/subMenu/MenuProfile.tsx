@@ -1,510 +1,262 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import Avatar from "@mui/material/Avatar";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
-import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
-import PersonAdd from "@mui/icons-material/PersonAdd";
-import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
-import { userResponse } from "@/interface/user.interface";
-import { Button } from "@mui/material";
-import BarChartIcon from "@mui/icons-material/BarChart";
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import PersonIcon from "@mui/icons-material/Person";
 import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
 import SavingsOutlinedIcon from "@mui/icons-material/SavingsOutlined";
-import AccountBalanceOutlinedIcon from "@mui/icons-material/AccountBalanceOutlined";
-import LoyaltyOutlinedIcon from "@mui/icons-material/LoyaltyOutlined";
-import HistoryEduOutlinedIcon from "@mui/icons-material/HistoryEduOutlined";
-import PaymentsOutlinedIcon from "@mui/icons-material/PaymentsOutlined";
-import FolderIcon from "@mui/icons-material/Folder";
-import {
-  NoticationIconMobile,
-  ProfileEmptyIcon,
-  WalletIconMobile,
-} from "@/shared/Svgs/Svg.component";
+import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
+import HistoryIcon from "@mui/icons-material/History";
+import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
+import { Avatar, Button } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { formatCurrency } from "@/utils/formatMoney";
 import {
-  FolderCopyTwoTone,
-  FolderOpen,
-  FolderOpenRounded,
-} from "@mui/icons-material";
-import { getMessage } from "@/services/User.service";
+  GiftMenuIcon,
+  HistoryMenuIcon,
+  LiveChatMenuIcon,
+  LogoutMenuIcon,
+  NapIcon,
+  NapMenuIcon,
+  ProfileIcon,
+  RutIcon,
+  RutMenuIcon,
+} from "@/shared/Svgs/Svg.component";
+import Image from "next/image";
 
-export interface userProps {
-  user: userResponse;
-  message: any[];
+export interface UserProps {
+  user: {
+    coin: number;
+    username: string;
+  };
 }
 
-export default function MenuProfile(data: userProps) {
+export default function MenuProfile({ user }: UserProps) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [anchorEl1, setAnchorEl1] = React.useState<null | HTMLElement>(null);
-
   const open = Boolean(anchorEl);
-  const open1 = Boolean(anchorEl1);
-  const route = useRouter();
+  const router = useRouter();
+
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const handleClick1 = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl1(event.currentTarget);
+
+  const menuItemStyles = {
+    minWidth: "200px",
+    color: "white",
+    "&:hover": {
+      background:
+        "linear-gradient(90deg, rgba(0, 104, 230, 0.1) 0%, rgba(12, 0, 230, 0) 100%)",
+      "& .MuiSvgIcon-root": {
+        color: "white",
+      },
+    },
   };
-  const handleClose1 = () => {
-    setAnchorEl1(null);
-  };
+  const menuItems = [
+    {
+      text: "Quản lý tài khoản",
+      icon: <ProfileIcon />,
+      onClick: () => router.push("/profile/personal-detail"),
+    },
+    {
+      text: "Nạp Tiền",
+      icon: <NapIcon />,
+      onClick: () =>
+        window.open("https://t.me/HitJuwa", "_blank", "noopener,noreferrer"),
+    },
+    {
+      text: "Rút Tiền",
+      icon: <RutIcon />,
+      onClick: () => router.push("/profile/bank-account"),
+    },
+    {
+      text: "Tiền thưởng",
+      icon: <GiftMenuIcon />,
+      onClick: () => router.push("/profile/account-promotion"),
+    },
+    {
+      text: "Lịch sử giao dịch",
+      icon: <HistoryMenuIcon />,
+      onClick: () => router.push("/profile/transaction-history"),
+    },
+
+    {
+      text: "Live chat 24/7",
+      icon: <LiveChatMenuIcon />,
+      onClick: () => router.push("/profile/live-chat"),
+    },
+    {
+      text: "Đăng xuất",
+      icon: <LogoutMenuIcon />,
+      onClick: () => router.push("/profile/betting-history"),
+    },
+  ];
   return (
     <React.Fragment>
       <Box
         sx={{
           display: "flex",
           alignItems: "center",
+          justifyContent: "space-between",
           gap: 1,
           textAlign: "center",
+          borderRadius: "8px",
         }}
       >
-        <Typography
-          sx={{
-            minWidth: 96,
-            padding: "4px 8px 4px 10px",
-            background: "#283145",
-            borderRadius: 8,
-            fontSize: 14,
-            textAlign: "right",
-            color: "#ebb039",
-          }}
-        >
-          {formatCurrency(data.user?.coin ?? 0)} USD
-        </Typography>
-        <a
-          style={{
-            width: 100,
-            padding: "5px 10px",
-            background: "green",
-            color: "white",
-            borderRadius: "5px",
-            border: "none",
-          }}
-          href="https://t.me/HitJuwa"
-          target="_blank"
-        >
-          Deposit
-        </a>
-        <Tooltip title="Account settings">
-          <IconButton
-            onClick={handleClick1}
-            size="small"
-            sx={{ ml: 2, background: "#283145", borderRadius: 8 }}
-            aria-controls={open ? "account-menu" : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? "true" : undefined}
-          >
-            <NoticationIconMobile width="24px" height="24px" />
-          </IconButton>
-        </Tooltip>
+        {/* Username và Số dư */}
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+          <Typography sx={{ color: "white", fontSize: 14 }}>
+            {user?.username ?? "huyn196Ebfa5"}
+          </Typography>
+          <Typography sx={{ color: "#fbc16c", fontSize: 14 }}>
+            {formatCurrency(user?.coin ?? 0)}
+          </Typography>
+        </Box>
 
-        <Tooltip title="Account settings">
-          <IconButton
-            onClick={handleClick}
-            size="small"
-            sx={{ ml: 2 }}
-            aria-controls={open ? "account-menu" : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? "true" : undefined}
+        {/* Nút Rút, Nạp và Icon Menu */}
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+          {/* Nút Rút */}
+          {/* Icon mở menu */}
+          <Tooltip title="">
+            <button
+              onClick={handleClick}
+              style={{
+                border: "none",
+                borderRadius: "0",
+                background: "none",
+                cursor: "pointer",
+              }}
+              aria-controls={open ? "account-menu" : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? "true" : undefined}
+            >
+              <Avatar
+                src="/images/avatar-4.webp"
+                sx={{ width: 32, height: 32 }}
+              ></Avatar>
+            </button>
+          </Tooltip>
+          <button
+            onClick={() => router.push("/profile/account-withdraw")}
+            style={{
+              display: "flex",
+              backgroundImage:
+                "url(/images/button/bg-btn.png), conic-gradient(from 0deg at 50% 50%, #085cff 0deg, #2692e0 89.73deg, #263be0 180.18deg, #085cff 1turn)",
+              color: "white",
+              borderRadius: "20px",
+              textTransform: "none",
+              fontSize: "14px",
+              width: "122px",
+              height: "38px",
+              border: "none",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
           >
-            <Avatar
-              src="/images/quyphai17.jpg"
-              sx={{ width: 32, height: 32 }}
-            ></Avatar>
-          </IconButton>
-        </Tooltip>
-      </Box>
-      <Menu
-        anchorEl={anchorEl}
-        id="account-menu"
-        open={open}
-        onClose={handleClose}
-        onClick={handleClose}
-        sx={{
-          zIndex: 9999999,
-        }}
-        slotProps={{
-          paper: {
-            elevation: 0,
-            sx: {
-              overflow: "visible",
-              filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-              border: "1px solid #353d50",
-              background: "#0f192f",
-              borderRadius: 6,
-              mt: 1.5,
+            <RutMenuIcon />
+            RÚT
+          </button>
+
+          {/* Nút Nạp */}
+          <button
+            onClick={() =>
+              window.open(
+                "https://t.me/HitJuwa",
+                "_blank",
+                "noopener,noreferrer"
+              )
+            }
+            style={{
+              display: "flex",
+              backgroundImage:
+                "url(/images/button/bg-btn.png), conic-gradient(from 0deg at 50% 50%, #d61f57 0deg, #ff0250 89.73deg, #af0036 180.18deg, #d61f57 1turn)",
+
               color: "white",
-              "& .MuiAvatar-root": {
-                width: 32,
-                height: 32,
-                ml: -0.5,
-                mr: 1,
-                color: "#353d50",
-              },
-              "&::before": {
-                content: '""',
-                display: "block",
-                position: "absolute",
-                top: 0,
-                right: 14,
-                width: 10,
-                height: 10,
-                bgcolor: "#0f192f",
-                borderTop: "1px solid #353d50",
-                transform: "translateY(-50%) rotate(45deg)",
-                zIndex: 0,
-              },
-            },
-          },
-        }}
-        transformOrigin={{ horizontal: "right", vertical: "top" }}
-        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-      >
-        <MenuItem
-          onClick={() => route.replace("/profile")}
+              borderRadius: "20px",
+              border: "none",
+              fontSize: "14px",
+              width: "122px",
+              height: "38px",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <NapMenuIcon />
+            NẠP
+          </button>
+        </Box>
+
+        {/* Menu thả xuống */}
+        <Menu
+          anchorEl={anchorEl}
+          id="account-menu"
+          open={open}
+          onClose={handleClose}
+          onClick={handleClose}
           sx={{
-            minWidth: "250px",
-            "&:hover": {
-              color: "#009c3b",
-              background:
-                "linear-gradient(90.08deg,rgba(0,156,59,.1) 3.8%,rgba(0,156,59,0) 97.33%)",
-              "& .MuiSvgIcon-root": {
-                color: "#353d50", // Change the icon color on hover
-              },
-            },
+            zIndex: 9999999,
           }}
-        >
-          <ListItemIcon>
-            <BarChartIcon
-              fontSize="medium"
-              sx={{
-                color: "#353d50",
-                "&:hover": {
-                  color: "#353d50", // Icon color remains #353d50 on hover
+          slotProps={{
+            paper: {
+              elevation: 0,
+              sx: {
+                overflow: "visible",
+                filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+                border: "1px solid #353d50",
+                background: "#1e3c72",
+                borderRadius: 6,
+                mt: 1.5,
+                color: "white",
+                "& .MuiAvatar-root": {
+                  width: 32,
+                  height: 32,
+                  ml: -0.5,
+                  mr: 1,
                 },
-              }}
-            />
-          </ListItemIcon>
-          Overview
-        </MenuItem>
-        <MenuItem
-          onClick={() => route.replace("/profile/personal-detail")}
-          sx={{
-            minWidth: "250px",
-            "&:hover": {
-              color: "#009c3b",
-              background:
-                "linear-gradient(90.08deg,rgba(0,156,59,.1) 3.8%,rgba(0,156,59,0) 97.33%)",
-              "& .MuiSvgIcon-root": {
-                color: "#353d50",
+                "&::before": {
+                  content: '""',
+                  display: "block",
+                  position: "absolute",
+                  top: 0,
+                  right: 14,
+                  width: 10,
+                  height: 10,
+                  bgcolor: "#1e3c72",
+                  borderTop: "1px solid #353d50",
+                  borderLeft: "1px solid #353d50",
+                  transform: "translateY(-50%) rotate(45deg)",
+                  zIndex: 0,
+                },
               },
             },
           }}
+          transformOrigin={{ horizontal: "right", vertical: "top" }}
+          anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
         >
-          <ListItemIcon>
-            <AccountCircleOutlinedIcon
-              fontSize="medium"
-              sx={{
-                color: "#353d50",
-              }}
-            />
-          </ListItemIcon>
-          Personal Details
-        </MenuItem>
-        <MenuItem
-          onClick={() => {
-            window.open(
-              "https://t.me/HitJuwa",
-              "_blank",
-              "noopener,noreferrer"
+          {menuItems.map((item, index) => {
+            return (
+              <MenuItem
+                onClick={() => {
+                  item.onClick;
+                }}
+                sx={menuItemStyles}
+                key={index}
+              >
+                <ListItemIcon>{item.icon}</ListItemIcon>
+                {item.text}
+              </MenuItem>
             );
-          }}
-          sx={{
-            minWidth: "250px",
-            "&:hover": {
-              color: "#009c3b",
-              background:
-                "linear-gradient(90.08deg,rgba(0,156,59,.1) 3.8%,rgba(0,156,59,0) 97.33%)",
-              "& .MuiSvgIcon-root": {
-                color: "#353d50",
-              },
-            },
-          }}
-        >
-          <ListItemIcon>
-            <SavingsOutlinedIcon
-              fontSize="medium"
-              sx={{
-                color: "#353d50",
-              }}
-            />
-          </ListItemIcon>
-          Deposit Money
-        </MenuItem>
-        <MenuItem
-          onClick={() => route.replace("/profile/account-withdraw")}
-          sx={{
-            minWidth: "250px",
-            "&:hover": {
-              color: "#009c3b",
-              background:
-                "linear-gradient(90.08deg,rgba(0,156,59,.1) 3.8%,rgba(0,156,59,0) 97.33%)",
-              "& .MuiSvgIcon-root": {
-                color: "#353d50",
-              },
-            },
-          }}
-        >
-          <ListItemIcon>
-            <AccountBalanceWalletOutlinedIcon
-              fontSize="medium"
-              sx={{
-                color: "#353d50",
-              }}
-            />
-          </ListItemIcon>
-          Withdraw money
-        </MenuItem>
-        <MenuItem
-          onClick={() => route.replace("/profile/bank-account")}
-          sx={{
-            minWidth: "250px",
-            "&:hover": {
-              color: "#009c3b",
-              background:
-                "linear-gradient(90.08deg,rgba(0,156,59,.1) 3.8%,rgba(0,156,59,0) 97.33%)",
-              "& .MuiSvgIcon-root": {
-                color: "#353d50",
-              },
-            },
-          }}
-        >
-          <ListItemIcon>
-            <AccountBalanceOutlinedIcon
-              fontSize="medium"
-              sx={{
-                color: "#353d50",
-              }}
-            />
-          </ListItemIcon>
-          Bank account
-        </MenuItem>
-        <MenuItem
-          onClick={() => route.replace("/profile/account-promotion")}
-          sx={{
-            minWidth: "250px",
-            "&:hover": {
-              color: "#009c3b",
-              background:
-                "linear-gradient(90.08deg,rgba(0,156,59,.1) 3.8%,rgba(0,156,59,0) 97.33%)",
-              "& .MuiSvgIcon-root": {
-                color: "#353d50",
-              },
-            },
-          }}
-        >
-          <ListItemIcon>
-            <LoyaltyOutlinedIcon
-              fontSize="medium"
-              sx={{
-                color: "#353d50",
-              }}
-            />
-          </ListItemIcon>
-          Promotion
-        </MenuItem>
-        <MenuItem
-          onClick={() => route.replace("/profile/betting-history")}
-          sx={{
-            minWidth: "250px",
-            "&:hover": {
-              color: "#009c3b",
-              background:
-                "linear-gradient(90.08deg,rgba(0,156,59,.1) 3.8%,rgba(0,156,59,0) 97.33%)",
-              "& .MuiSvgIcon-root": {
-                color: "#353d50",
-              },
-            },
-          }}
-        >
-          <ListItemIcon>
-            <HistoryEduOutlinedIcon
-              fontSize="medium"
-              sx={{
-                color: "#353d50",
-              }}
-            />
-          </ListItemIcon>
-          Betting history
-        </MenuItem>
-        <MenuItem
-          onClick={() => route.replace("/profile/transaction-history")}
-          sx={{
-            minWidth: "250px",
-            "&:hover": {
-              color: "#009c3b",
-              background:
-                "linear-gradient(90.08deg,rgba(0,156,59,.1) 3.8%,rgba(0,156,59,0) 97.33%)",
-              "& .MuiSvgIcon-root": {
-                color: "#353d50",
-              },
-            },
-          }}
-        >
-          <ListItemIcon>
-            <PaymentsOutlinedIcon
-              fontSize="medium"
-              sx={{
-                color: "#353d50",
-              }}
-            />
-          </ListItemIcon>
-          Transaction history
-        </MenuItem>
-        <MenuItem
-          onClick={() => {
-            window.localStorage.removeItem("tokenreddy232");
-            window.location.href = "/";
-          }}
-          sx={{
-            minWidth: "250px",
-            "&:hover": {
-              color: "#009c3b",
-              background:
-                "linear-gradient(90.08deg,rgba(0,156,59,.1) 3.8%,rgba(0,156,59,0) 97.33%)",
-              "& .MuiSvgIcon-root": {
-                color: "#353d50",
-              },
-            },
-          }}
-        >
-          <ListItemIcon>
-            <Logout
-              fontSize="medium"
-              sx={{
-                color: "#353d50",
-              }}
-            />
-          </ListItemIcon>
-          Logout
-        </MenuItem>
-      </Menu>
-      <Menu
-        anchorEl={anchorEl1}
-        id="account-menu"
-        open={open1}
-        onClose={handleClose1}
-        onClick={handleClose1}
-        sx={{
-          zIndex: 9999999,
-        }}
-        slotProps={{
-          paper: {
-            elevation: 0,
-            sx: {
-              overflow: "visible",
-              filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-              border: "1px solid #353d50",
-              background: "#0f192f",
-              borderRadius: 6,
-              mt: 1.5,
-              color: "white",
-              "& .MuiAvatar-root": {
-                width: 32,
-                height: 32,
-                ml: -0.5,
-                mr: 1,
-                color: "#353d50",
-              },
-              "&::before": {
-                content: '""',
-                display: "block",
-                position: "absolute",
-                top: 0,
-                right: 14,
-                width: 10,
-                height: 10,
-                bgcolor: "#0f192f",
-                borderTop: "1px solid #353d50",
-                transform: "translateY(-50%) rotate(45deg)",
-                zIndex: 0,
-              },
-            },
-          },
-        }}
-        transformOrigin={{ horizontal: "right", vertical: "top" }}
-        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-      >
-        <MenuItem
-          sx={{
-            minWidth: "250px",
-          }}
-        >
-          <Box>
-            {data?.message?.length > 0 ? (
-              <Box>
-                <Typography variant="h6" sx={{ color: "white" }}>
-                  Notification
-                </Typography>
-                <Box
-                  sx={{
-                    width: "100%",
-                    height: "100px",
-                    textAlign: "center",
-                  }}
-                >
-                  <FolderIcon
-                    sx={{
-                      margin: "auto",
-                      marginTop: "10px",
-                      fontSize: "50px",
-                      color: "#353D50",
-                    }}
-                    // className="icon-menu"
-                  />
-                  <Typography>{`You haven't announced yet!`}</Typography>
-                </Box>
-              </Box>
-            ) : (
-              <Box>
-                <Typography variant="h6" sx={{ color: "white" }}>
-                  Notification
-                </Typography>
-                <Box
-                  sx={{
-                    width: "100%",
-                    height: "100px",
-                    textAlign: "center",
-                  }}
-                >
-                  <FolderIcon
-                    sx={{
-                      margin: "auto",
-                      marginTop: "10px",
-                      fontSize: "50px",
-                      color: "#353D50",
-                    }}
-                    // className="icon-menu"
-                  />
-                  <Typography>{`You haven't announced yet!`}</Typography>
-                </Box>
-              </Box>
-            )}
-          </Box>
-        </MenuItem>
-      </Menu>
+          })}
+        </Menu>
+      </Box>
     </React.Fragment>
   );
 }

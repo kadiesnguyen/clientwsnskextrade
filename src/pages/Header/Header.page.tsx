@@ -117,7 +117,7 @@ export default function HeaderPage(props: propUser) {
             {user ? (
               <div className="header-right-menu">
                 <span></span>
-                <MenuProfile user={user} message={message} />
+                <MenuProfile user={user} />
               </div>
             ) : (
               <div className="header-right-menu">
