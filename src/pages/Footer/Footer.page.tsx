@@ -14,14 +14,14 @@ export default function FooterPage() {
     <>
       <footer>
         <div className="info-footer">
-          <Image src="/images/logo.svg" width={130} height={100} alt="" />
+          <Image src="/images/logo_login.png" width={130} height={100} alt="" />
           <div className="info-title">
             <h2>
-              DA88 - Nhà cái thể thao trực tuyến, Siêu chợ games đổi thưởng đỉnh
+              KU99 - Nhà cái thể thao trực tuyến, Siêu chợ games đổi thưởng đỉnh
               cao
             </h2>
             <p>
-              DA88 là trang cá cược thể thao hấp dẫn, cung cấp đa dạng về sản
+              KU99 là trang cá cược thể thao hấp dẫn, cung cấp đa dạng về sản
               phẩm trò chơi như Thể Thao, Trò Chơi, Casino Trực Tuyến và thưởng
               hoàn trả cao nhất trên thị trường.
             </p>
@@ -106,7 +106,7 @@ export default function FooterPage() {
           </div>
         </div>
         <div className="title-2">
-          <p>Copyright © 2024 Powered By DA88 All Rights Reserved.</p>
+          <p>Copyright © 2024 Powered By KU99 All Rights Reserved.</p>
           <div className="title-img2">
             <Image
               src={"/images/copyright-logo.png"}
@@ -139,17 +139,17 @@ export default function FooterPage() {
           <h3>Liên hệ</h3>
           <div className="footer-links">
             <button>💬 Live chat 24/7</button>
-            <button>📲 Telegram DA88</button>
+            <button>📲 Telegram KU99</button>
             <button>👥 Cộng đồng</button>
             <button>📞 Hotline</button>
-            <button>📘 Fanpage DA88</button>
+            <button>📘 Fanpage KU99</button>
           </div>
         </div>
         <h2>
-          DA88 - Nhà cái thể thao trực tuyến, Siêu chợ games đổi thưởng đỉnh cao
+          KU99 - Nhà cái thể thao trực tuyến, Siêu chợ games đổi thưởng đỉnh cao
         </h2>
         <p className="footer-note">
-          DA88 là trang cá cược thể thao hấp dẫn, cung cấp đa dạng về sản phẩm
+          KU99 là trang cá cược thể thao hấp dẫn, cung cấp đa dạng về sản phẩm
           trò chơi như Thể Thao, Trò Chơi, Casino Trực Tuyến và thưởng hoàn trả
           cao nhất trên thị trường.
         </p>
