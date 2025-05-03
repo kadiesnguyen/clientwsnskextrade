@@ -44,7 +44,7 @@ export default function PrimaryLayoutComponent({
 }: {
   children: React.ReactNode;
 }) {
-  const [menu, setMenu] = useState(1);
+  const [menu, setMenu] = useState(2);
   const router = useRouter();
   const [showLoginPopup, setShowLoginPopup] = useState(false);
   const path = usePathname();
