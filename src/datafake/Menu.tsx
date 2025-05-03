@@ -3,15 +3,22 @@ import {
   CasinoIcon,
   ChickenIcon,
   FishIcon,
+  FishMenuIcon,
+  GameCasinoMenuIcon,
+  GameFastMenuIcon,
   GameIcon,
   HomeMobileIcon,
+  LoDeMenuIcon,
   LottoIcon,
   MasterCardIcon,
   MoneybagIcon,
   MonyExchangeIcon,
+  QuaySoMenuIcon,
+  SlotMenuIcon,
   SlotsIcon,
   SpinsIcon,
   SportIcon,
+  TableGameMenuIcon,
   TabletGameIcon,
   USDTIcon,
   VisaIcon,
@@ -27,11 +34,6 @@ import Image from "next/image";
 
 export const MenuWebsite = [
   {
-    id: "1",
-    link: "/",
-    title: "Trang chủ",
-  },
-  {
     id: "2",
     link: "/sport",
     title: "Thể thao",
@@ -43,13 +45,8 @@ export const MenuWebsite = [
   },
   {
     id: "4",
-    link: "/gamecasio",
-    title: "Card Games",
-  },
-  {
-    id: "5",
-    link: "/slots",
-    title: "Slots",
+    link: "/tablegame",
+    title: "Cổng Games",
   },
   // {
   //   id: "6",
@@ -188,11 +185,57 @@ export const PaymentMenuFooter = [
   },
 ];
 
+export const ListMenu = [
+  {
+    id: "1",
+    icon: <TableGameMenuIcon />,
+    title: "Table Games ",
+  },
+  {
+    id: "2",
+    icon: <SlotMenuIcon />,
+    title: "Slots ",
+  },
+  {
+    id: "13",
+    icon: <GameCasinoMenuIcon />,
+    title: "Game Bài ",
+  },
+  {
+    id: "4",
+    icon: <FishMenuIcon />,
+    title: "Bắn Cá ",
+  },
+  {
+    id: "5",
+    icon: <GameFastMenuIcon />,
+    title: "Game Nhanh ",
+  },
+  {
+    id: "6",
+    icon: <LoDeMenuIcon />,
+    title: "Lô Đề ",
+  },
+  {
+    id: "7",
+    icon: <QuaySoMenuIcon />,
+    title: "Quay Số ",
+  },
+];
+
 export const GameSlotsMenu = [
   {
     id: "1",
-    icon: <Image src={"/images/jili.png"} width={40} height={40} alt="" />,
-    title: "JILI ",
+    icon: (
+      <Image
+        src={"/images/icon-all-mb.webp"}
+        width={40}
+        height={40}
+        alt=""
+        style={{ width: "25px" }}
+      />
+    ),
+    title: "Tất cả ",
     productType: "JL",
     gameType: "RNG",
   },
@@ -204,7 +247,7 @@ export const GameSlotsMenu = [
     gameType: "RNG",
   },
   {
-    id: "13",
+    id: "3",
     icon: <Image src={"/images/pg.png"} width={40} height={40} alt="" />,
     title: "PG ",
     productType: "PG",
@@ -226,16 +269,16 @@ export const GameSlotsMenu = [
   },
   {
     id: "6",
-    icon: <Image src={"/images/r88.png"} width={40} height={40} alt="" />,
-    title: "R88 ",
-    productType: "R88",
+    icon: <Image src={"/images/jili.png"} width={40} height={40} alt="" />,
+    title: "JILI ",
+    productType: "JL",
     gameType: "RNG",
   },
-  // {
-  //   id: "7",
-  //   icon: <Image src={"/images/jdb.png"} width={40} height={40} alt="" />,
-  //   title: "JDB ",
-  //   productType: "JDB",
-  //   gameType: "RNG",
-  // },
+  {
+    id: "7",
+    icon: <Image src={"/images/jdb.png"} width={40} height={40} alt="" />,
+    title: "JDB ",
+    productType: "JDB",
+    gameType: "RNG",
+  },
 ];

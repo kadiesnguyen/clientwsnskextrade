@@ -5,6 +5,8 @@ import usePlayGame from "@/hook/usePlayGame";
 import SimpleBackdrop from "@/components/Loading/LoaddingPage";
 import { Box, Typography, Button, Pagination } from "@mui/material";
 import { getListGame } from "@/services/GameApi.service";
+import SlotsGameItemPage from "../Slots/SlotsGameItem.page";
+import { GameSlotsMenu, ListMenu } from "@/datafake/Menu";
 
 const commonImgStyles = {
   height: {
@@ -61,7 +63,7 @@ const commonCardStyles = {
 };
 const buttonStyles = {
   backgroundImage:
-    "url(/images/button/bg-btn.png), conic-gradient(from 0deg at 50% 50%, #085cff 0deg, #2692e0 89.73deg, #263be0 180.18deg, #085cff 1turn)",
+    "url(/images/bg-btn.png), conic-gradient(from 0deg at 50% 50%, #085cff 0deg, #2692e0 89.73deg, #263be0 180.18deg, #085cff 1turn)",
 
   color: "white",
   padding: "5px 15px",
@@ -75,7 +77,7 @@ const buttonStyles = {
   transition: "opacity 0.2s ease-in-out",
   "&:hover": {
     backgroundImage:
-      "url(/images/button/bg-btn.png), conic-gradient(from 0deg at 50% 50%, #085cff 0deg, #2692e0 89.73deg, #263be0 180.18deg, #085cff 1turn)",
+      "url(/images/bg-btn.png), conic-gradient(from 0deg at 50% 50%, #085cff 0deg, #2692e0 89.73deg, #263be0 180.18deg, #085cff 1turn)",
 
     opacity: 1,
     filter: "none",
@@ -88,6 +90,8 @@ export default function TableGamesPage() {
   const [isPageLoading, setIsPageLoading] = useState<boolean>(false);
   const [gameTable, setGameTable] = useState<any[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [GameType, setGameType] = useState<string>("RNG");
+  const [ProductType, setProductType] = useState<string>("CQ9");
   const itemsPerPage = 30;
 
   useEffect(() => {
@@ -140,92 +144,140 @@ export default function TableGamesPage() {
       ) : (
         <Box
           sx={{
-            width: "80%",
+            width: {
+              xs: "98%",
+              sm: "100%",
+            },
             margin: "auto",
-            marginTop: 10,
             paddingTop: 10,
             paddingBottom: {
-              xs: 10,
-              sm: 5,
+              xs: 0,
+              sm: 2,
             },
           }}
         >
-          <Typography
-            variant="h2"
-            sx={{
-              color: "white",
-              fontWeight: 600,
-              fontSize: "30px",
-              height: 50,
-            }}
-          >
-            Classic Games
-          </Typography>
-
+          <Image
+            src={"/images/tables.webp"}
+            width={1000}
+            height={150}
+            alt=""
+            style={{ width: "100%" }}
+          />
           <Box
             sx={{
-              display: "flex",
-              gap: "15px",
-              flexWrap: "wrap",
-              justifyContent: "center",
-              marginBottom: "20px",
+              width: {
+                xs: "98%",
+                sm: "80%",
+              },
+              margin: "auto",
+              paddingBottom: {
+                xs: 0,
+                sm: 2,
+              },
             }}
           >
-            {displayedGames.map((item: any) => (
-              <Box key={item.id} sx={commonCardStyles}>
-                <Box sx={commonImgStyles}>
-                  <Image
-                    src={item.icon}
-                    alt=""
-                    style={{
-                      height: "100%",
-                      width: "100%",
-                      objectFit: "contain",
-                    }}
-                    width={100}
-                    height={100}
-                    layout="responsive"
-                    placeholder="blur"
-                    blurDataURL="/images/gallery-icon-picture-landscape-vector-sign-symbol_660702-224.avif"
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement;
-                      target.src =
-                        "/images/gallery-icon-picture-landscape-vector-sign-symbol_660702-224.avif"; // Đường dẫn fallback
-                    }}
-                  />
-                </Box>
-
-                <Box sx={commonTextBoxStyles}>
-                  <Button
-                    sx={buttonStyles}
-                    onClick={() => playGame(item.tcgGameCode, item.productCode)}
-                  >
-                    Chơi ngay
-                  </Button>
-                </Box>
-              </Box>
-            ))}
-          </Box>
-          <Pagination
-            count={totalPages}
-            page={currentPage}
-            onChange={handlePageChange}
-            color="primary"
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              "& .MuiPaginationItem-root": {
-                color: "white", // Mặc định chữ màu trắng
-              },
-              "& .Mui-selected": {
-                backgroundColor: "#0366FE", // Nền màu xanh vàng khi active
-                color: "white", // Chữ màu trắng
-                "&:hover": {
-                  backgroundColor: "#0366FE", // Duy trì màu khi hover
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                textAlign: "center",
+                flexWrap: "nowrap",
+                overflowX: "auto",
+                gap: "15px",
+                paddingBottom: "20px",
+                marginTop: "-40px",
+                justifyContent: { xs: "flex-start", sm: "left" },
+                WebkitOverflowScrolling: "touch",
+                "&::-webkit-scrollbar": {
+                  display: "none",
                 },
-              },
-            }}
-          />
+                "-ms-overflow-style": "none",
+                "scrollbar-width": "none",
+              }}
+            >
+              {ListMenu.map((item) => (
+                <Button
+                  onClick={() => {}}
+                  sx={{
+                    minWidth: "160px",
+                    maxWidth: "200px",
+                    flexShrink: 0,
+                    background:
+                      "linear-gradient(180deg, #293259, rgba(35, 43, 79, .7));",
+                    border: "1px solid #384375",
+                    color: "white",
+                    gap: "5px",
+                    fontSize: { xs: "12px", sm: "14px" },
+                    textOverflow: "ellipsis",
+                    overflow: "hidden",
+                    whiteSpace: "nowrap",
+                    display: "grid",
+                    gridTemplateRows: "1fr 1fr",
+                    justifyItems: "center",
+                    "&:hover": {
+                      background:
+                        "linear-gradient(180deg,rgb(51, 61, 109), rgba(52, 63, 113, 0.7));",
+                    },
+                  }}
+                  key={item.id}
+                >
+                  {item.icon}
+                  {item.title}
+                </Button>
+              ))}
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                textAlign: "center",
+                flexWrap: "nowrap",
+                overflowX: "auto",
+                gap: "10px",
+                paddingBottom: "20px",
+                justifyContent: { xs: "flex-start", sm: "left" },
+                WebkitOverflowScrolling: "touch",
+                "&::-webkit-scrollbar": {
+                  display: "none",
+                },
+                "-ms-overflow-style": "none",
+                "scrollbar-width": "none",
+              }}
+            >
+              {GameSlotsMenu.map((item) => (
+                <Button
+                  onClick={() => {
+                    setGameType(item.gameType);
+                    setProductType(item.productType);
+                  }}
+                  sx={{
+                    display: "flex",
+                    minWidth: "164px",
+                    maxWidth: "200px",
+                    flexShrink: 0,
+                    background:
+                      "linear-gradient(180deg, #293259, rgba(35, 43, 79, .7));",
+                    border: "1px solid #384375",
+                    color: "white",
+                    gap: "5px",
+                    fontSize: { xs: "12px", sm: "14px" },
+                    textOverflow: "ellipsis",
+                    overflow: "hidden",
+                    whiteSpace: "nowrap",
+                    "&:hover": {
+                      background:
+                        "linear-gradient(180deg,rgb(51, 61, 109), rgba(52, 63, 113, 0.7));",
+                    },
+                  }}
+                  key={item.id}
+                >
+                  {item.icon}
+                  {item.title}
+                </Button>
+              ))}
+            </Box>
+            <SlotsGameItemPage GameType={GameType} ProductType={ProductType} />
+          </Box>
         </Box>
       )}
     </>

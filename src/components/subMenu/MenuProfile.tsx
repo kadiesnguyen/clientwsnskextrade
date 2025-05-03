@@ -64,7 +64,7 @@ export default function MenuProfile({ user }: UserProps) {
     {
       text: "Quản lý tài khoản",
       icon: <ProfileIcon />,
-      onClick: () => router.push("/profile/personal-detail"),
+      onClick: () => router.push("/profile"),
     },
     {
       text: "Nạp Tiền",
@@ -149,7 +149,7 @@ export default function MenuProfile({ user }: UserProps) {
             style={{
               display: "flex",
               backgroundImage:
-                "url(/images/button/bg-btn.png), conic-gradient(from 0deg at 50% 50%, #085cff 0deg, #2692e0 89.73deg, #263be0 180.18deg, #085cff 1turn)",
+                "url(/images/bg-btn.png), conic-gradient(from 0deg at 50% 50%, #085cff 0deg, #2692e0 89.73deg, #263be0 180.18deg, #085cff 1turn)",
               color: "white",
               borderRadius: "20px",
               textTransform: "none",
@@ -177,7 +177,7 @@ export default function MenuProfile({ user }: UserProps) {
             style={{
               display: "flex",
               backgroundImage:
-                "url(/images/button/bg-btn.png), conic-gradient(from 0deg at 50% 50%, #d61f57 0deg, #ff0250 89.73deg, #af0036 180.18deg, #d61f57 1turn)",
+                "url(/images/bg-btn.png), conic-gradient(from 0deg at 50% 50%, #d61f57 0deg, #ff0250 89.73deg, #af0036 180.18deg, #d61f57 1turn)",
 
               color: "white",
               borderRadius: "20px",
@@ -243,13 +243,7 @@ export default function MenuProfile({ user }: UserProps) {
         >
           {menuItems.map((item, index) => {
             return (
-              <MenuItem
-                onClick={() => {
-                  item.onClick;
-                }}
-                sx={menuItemStyles}
-                key={index}
-              >
+              <MenuItem onClick={item.onClick} sx={menuItemStyles} key={index}>
                 <ListItemIcon>{item.icon}</ListItemIcon>
                 {item.text}
               </MenuItem>

@@ -12,7 +12,7 @@ import {
   IconButton,
 } from "@mui/material";
 import { getListGame } from "@/services/GameApi.service";
-import { GameSlotsMenu } from "@/datafake/Menu";
+import { GameSlotsMenu, ListMenu } from "@/datafake/Menu";
 import SlotsGameItemPage from "./SlotsGameItem.page";
 
 export default function SlotsPage() {
@@ -33,81 +33,138 @@ export default function SlotsPage() {
           sx={{
             width: {
               xs: "98%",
-              sm: "80%",
+              sm: "100%",
             },
             margin: "auto",
-            marginTop: 10,
             paddingTop: 10,
             paddingBottom: {
-              xs: 80,
+              xs: 0,
               sm: 2,
             },
           }}
         >
-          <Typography
-            variant="h2"
-            sx={{
-              color: "white",
-              fontWeight: 600,
-              fontSize: "30px",
-              height: 50,
-              textAlign: {
-                xs: "center",
-                sm: "left",
-              },
-            }}
-          >
-            Slot Game
-          </Typography>
+          <Image
+            src={"/images/tables.webp"}
+            width={1000}
+            height={150}
+            alt=""
+            style={{ width: "100%" }}
+          />
           <Box
             sx={{
-              display: "flex",
-              alignItems: "center",
-              textAlign: "center",
-              flexWrap: "nowrap",
-              overflowX: "auto",
-              padding: "30px",
-              gap: "10px",
-              justifyContent: { xs: "flex-start", sm: "center" },
-              WebkitOverflowScrolling: "touch", // Giữ trải nghiệm cuộn mượt mà trên iOS
-              "&::-webkit-scrollbar": {
-                display: "none", // Ẩn scrollbar trên Webkit (bao gồm iOS)
+              width: {
+                xs: "98%",
+                sm: "80%",
               },
-              "-ms-overflow-style": "none", // Ẩn scrollbar trên IE và Edge
-              "scrollbar-width": "none", // Ẩn scrollbar trên Firefox
+              margin: "auto",
+              paddingBottom: {
+                xs: 0,
+                sm: 2,
+              },
             }}
           >
-            {GameSlotsMenu.map((item) => (
-              <Button
-                onClick={() => {
-                  setGameType(item.gameType);
-                  setProductType(item.productType);
-                }}
-                sx={{
-                  display: "flex",
-                  minWidth: "100px",
-                  maxWidth: "200px",
-                  flexShrink: 0,
-                  background: "#353D50",
-                  color: "white",
-                  gap: "5px",
-                  fontSize: { xs: "12px", sm: "14px" },
-                  textOverflow: "ellipsis",
-                  overflow: "hidden",
-                  whiteSpace: "nowrap",
-                  "&:hover": {
-                    background: "#353D50",
-                  },
-                }}
-                key={item.id}
-              >
-                {item.icon}
-                {item.title}
-              </Button>
-            ))}
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                textAlign: "center",
+                flexWrap: "nowrap",
+                overflowX: "auto",
+                gap: "15px",
+                paddingBottom: "20px",
+                marginTop: "-40px",
+                justifyContent: { xs: "flex-start", sm: "left" },
+                WebkitOverflowScrolling: "touch",
+                "&::-webkit-scrollbar": {
+                  display: "none",
+                },
+                "-ms-overflow-style": "none",
+                "scrollbar-width": "none",
+              }}
+            >
+              {ListMenu.map((item) => (
+                <Button
+                  onClick={() => {}}
+                  sx={{
+                    minWidth: "160px",
+                    maxWidth: "200px",
+                    flexShrink: 0,
+                    background:
+                      "linear-gradient(180deg, #293259, rgba(35, 43, 79, .7));",
+                    border: "1px solid #384375",
+                    color: "white",
+                    gap: "5px",
+                    fontSize: { xs: "12px", sm: "14px" },
+                    textOverflow: "ellipsis",
+                    overflow: "hidden",
+                    whiteSpace: "nowrap",
+                    display: "grid",
+                    gridTemplateRows: "1fr 1fr",
+                    justifyItems: "center",
+                    "&:hover": {
+                      background:
+                        "linear-gradient(180deg,rgb(51, 61, 109), rgba(52, 63, 113, 0.7));",
+                    },
+                  }}
+                  key={item.id}
+                >
+                  {item.icon}
+                  {item.title}
+                </Button>
+              ))}
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                textAlign: "center",
+                flexWrap: "nowrap",
+                overflowX: "auto",
+                gap: "10px",
+                paddingBottom: "20px",
+                justifyContent: { xs: "flex-start", sm: "left" },
+                WebkitOverflowScrolling: "touch",
+                "&::-webkit-scrollbar": {
+                  display: "none",
+                },
+                "-ms-overflow-style": "none",
+                "scrollbar-width": "none",
+              }}
+            >
+              {GameSlotsMenu.map((item) => (
+                <Button
+                  onClick={() => {
+                    setGameType(item.gameType);
+                    setProductType(item.productType);
+                  }}
+                  sx={{
+                    display: "flex",
+                    minWidth: "164px",
+                    maxWidth: "200px",
+                    flexShrink: 0,
+                    background:
+                      "linear-gradient(180deg, #293259, rgba(35, 43, 79, .7));",
+                    border: "1px solid #384375",
+                    color: "white",
+                    gap: "5px",
+                    fontSize: { xs: "12px", sm: "14px" },
+                    textOverflow: "ellipsis",
+                    overflow: "hidden",
+                    whiteSpace: "nowrap",
+                    "&:hover": {
+                      background:
+                        "linear-gradient(180deg,rgb(51, 61, 109), rgba(52, 63, 113, 0.7));",
+                    },
+                  }}
+                  key={item.id}
+                >
+                  {item.icon}
+                  {item.title}
+                </Button>
+              ))}
+            </Box>
+            <SlotsGameItemPage GameType={GameType} ProductType={ProductType} />
           </Box>
-
-          <SlotsGameItemPage GameType={GameType} ProductType={ProductType} />
         </Box>
       )}
     </>

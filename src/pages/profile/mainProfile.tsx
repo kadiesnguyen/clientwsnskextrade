@@ -1,220 +1,525 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
-import React, { useEffect, useState } from "react";
-// import ProfileMenu from "./menu";
-import { Box, Card, Divider, Grid, Step } from "@mui/material";
+import React, { useState, useEffect } from "react";
 import {
-  ProfileGeneral,
-  ProfileUserInfo,
-  ProfileDeposit,
-  ProfileWithdraw,
-  ProfileWBankAccount,
-  ProfileDiscount,
-  ProfileBettingHistory,
-  ProfileTransHistory,
-} from "@/shared/Svgs/Svg.component";
-import { useRouter } from "next/navigation";
-import Stepper from "@mui/material/Stepper";
-import "./profile.css";
-import MuiStep, { StepProps } from "@mui/material/Step";
-import CardContent, { CardContentProps } from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
-import Avatar from "@mui/material/Avatar";
-import "./profile.css";
+  Box,
+  Button,
+  Grid,
+  Typography,
+  TextField,
+  Avatar,
+  IconButton,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+} from "@mui/material";
+import LockIcon from "@mui/icons-material/Lock";
+import EmailIcon from "@mui/icons-material/Email";
+import PhoneIcon from "@mui/icons-material/Phone";
+import PersonIcon from "@mui/icons-material/Person";
 import useAuth from "@/hook/useAuth";
-import General from "./general";
-import SimpleBackdrop from "@/components/Loading/LoaddingPage";
-import NavigationGame from "@/hook/NavigationGame";
+import Image from "next/image";
+
+import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
+import {
+  AccountProfileIcon,
+  ProfileBankIcon,
+  ProfileEmptyIcon,
+  WalletIcon,
+} from "@/shared/Svgs/Svg.component";
 import { formatCurrency } from "@/utils/formatMoney";
-
-function MainProfile() {
+import { getListAllBank, getListUserBank } from "@/services/Bank.service";
+type bank = {
+  name: string;
+  code: string;
+};
+export default function MainProfile() {
   const { user, loading } = useAuth();
-  const router = useRouter();
-  // handle steps
-  const steps = [
-    {
-      icon: <ProfileGeneral fill="green" height="24px" width="24px" />, // Replace with actual icon components
-      title: "General",
-      link: "/profile/",
-    },
-    {
-      icon: <ProfileUserInfo height="24px" width="24px" />,
-      title: "Personal Details",
-      link: "/profile/personal-detail",
-    },
-    {
-      icon: <ProfileDeposit height="24px" width="24px" />,
-      title: "Deposit Money",
-      link: "https://t.me/HitJuwa",
-    },
-    {
-      icon: <ProfileWithdraw height="24px" width="24px" />,
-      title: "Withdraw Money",
-      link: "/profile/account-withdraw",
-    },
-    {
-      icon: <ProfileWBankAccount height="24px" width="24px" />,
-      title: "Bank Account",
-      link: "/profile/bank-account",
-    },
-    {
-      icon: <ProfileDiscount height="24px" width="24px" />,
-      title: "Promotion",
-      link: "/profile/account-promotion",
-    },
-    {
-      icon: <ProfileBettingHistory height="24px" width="24px" />,
-      title: "Betting History",
-      link: "/profile/betting-history",
-    },
-    {
-      icon: <ProfileTransHistory height="24px" width="24px" />,
-      title: "Transaction History",
-      link: "/profile/transaction-history",
-    },
-  ];
+  const [activeTab, setActiveTab] = useState("account"); // Quản lý tab: "account" hoặc "bank"
+  const [bankUser, setBankUser] = useState<any>();
+  // State cho tab Quản lý tài khoản
+  const [username, setUsername] = useState("");
+  const [displayName, setDisplayName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("********");
 
-  const [activeStep, setActiveStep] = useState<number>(0);
+  const [availableBankList, setAvailableBankList] = useState<bank[]>([]);
+
+  // Cập nhật state khi user thay đổi
+  useEffect(() => {
+    if (user) {
+      setUsername(user.username || "");
+      setDisplayName(user.name || "");
+      setPhone(user.phone || "");
+      setEmail(user.email || "");
+    }
+  }, [user]);
+  const fetchBankList = async () => {
+    try {
+      const response = await getListAllBank();
+      const availableBanks = response.data;
+      console.log("availableBankList", availableBanks);
+      setAvailableBankList(availableBanks); // Update state with fetched data
+    } catch (error) {
+      console.error("availableBankList is error", error);
+    }
+  };
+
+  const fetchBankListByUser = async () => {
+    try {
+      const response = await getListUserBank();
+      const availableBanks = response.data;
+      setBankUser(null);
+    } catch (error) {
+      console.error("availableBankList is error", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchBankList();
+    fetchBankListByUser();
+  }, []);
+  const handleSaveAccount = async () => {
+    try {
+      const updatedData = {
+        username,
+        name: displayName,
+        phone,
+        email,
+      };
+
+      const response = await fetch(`/update-info-user/${user.id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedData),
+      });
+
+      if (response.ok) {
+        alert("Thông tin người dùng đã được cập nhật thành công!");
+      } else {
+        alert("Cập nhật thông tin thất bại.");
+      }
+    } catch (error) {
+      console.error("Lỗi khi cập nhật thông tin:", error);
+      alert("Đã xảy ra lỗi khi cập nhật thông tin.");
+    }
+  };
+
+  const handleAddBank = () => {
+    alert("Thêm ngân hàng mới!");
+  };
+
+  if (loading) {
+    return <Typography>Đang tải...</Typography>;
+  }
 
   return (
-    <>
-      <Box className="profile-m">
-        <Grid
-          className="profile-main"
+    <Box
+      sx={{
+        paddingTop: "100px",
+        paddingBottom: "100px",
+      }}
+    >
+      <Box
+        sx={{
+          color: "white",
+          padding: 2,
+          borderRadius: 2,
+          height: "500px",
+          width: "93%",
+          margin: "auto",
+        }}
+      >
+        {/* Header */}
+        <Box
           sx={{
-            backgroundColor: "#0F192F",
-            borderRadius: 3,
-            width: "30%",
-            maxWidth: 272,
-            textAlign: "center",
+            alignItems: "center",
+            backgroundImage:
+              "url(https://staticda88.com/images/account/layout/account-info.webp)",
+            backgroundSize: "100% 100%",
+            borderRadius: "8px",
+            display: "flex",
+            gap: "10px",
+            height: "66px",
+            minWidth: "400px",
+            padding: "8px 34px",
+            marginBottom: "20px",
           }}
         >
-          <Grid sx={{ borderBottom: "1px solid #020d24" }}>
-            <Box
-              sx={{
-                position: "relative",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                marginTop: -10,
-              }}
-            >
-              <Avatar
-                alt="Remy Sharp"
-                src="/images/quyphai17.jpg"
-                sx={{
-                  width: 132,
-                  height: 132,
-                }}
+          <Avatar
+            alt="User Avatar"
+            src="/images/avatar-4.webp"
+            sx={{ width: 40, height: 40 }}
+          />
+          <Box sx={{ display: "grid", gridTemplateRows: "1fr 1fr" }}>
+            <Typography sx={{ color: "white", fontWeight: "600" }}>
+              {user?.username || "N/A"}
+            </Typography>
+            <Box sx={{ display: "flex", alignItems: "center", gap: "5px" }}>
+              <Image
+                src={"/images/vip-1.webp"}
+                width={15}
+                height={16}
+                alt=""
+                style={{ objectFit: "contain" }}
               />
+              <Typography sx={{ color: "white", fontWeight: "600" }}>
+                VIP 1
+              </Typography>
             </Box>
-            <Typography
-              variant="h6"
-              gutterBottom
-              sx={{
-                textAlign: "center",
-                backgroundColor: "transparent",
-                color: "white",
-              }}
-            >
-              {" "}
-              {user?.name}
-            </Typography>
-            <Typography
-              variant="body2"
-              gutterBottom
-              sx={{ color: "yellow", textAlign: "center" }}
-            >
-              {" "}
-              {formatCurrency(user?.coin ?? 0)} USD
-            </Typography>
-          </Grid>
-
-          <Stepper
-            connector={<></>}
-            orientation="vertical"
-            activeStep={activeStep}
+          </Box>
+          <Box
             sx={{
-              backgroundColor: "#0F192F",
-              borderRadius: 3,
-              width: "100%",
-              maxWidth: "360px",
-              maxHeight: "384px",
-              height: "384px",
-              textAlign: "center",
-              position: "relative",
-              flexDirection: "column",
-              justifyContent: "space-between",
-              marginTop: 2,
+              width: "2px",
+              height: "100%",
+              background: "#3887fe",
+              marginLeft: "20px",
+              marginRight: "20px",
+            }}
+          ></Box>
+          <Box sx={{ display: "flex", gap: "10px" }}>
+            <WalletIcon />
+            <Typography sx={{ color: "white", fontWeight: "600" }}>
+              Ví của tôi
+            </Typography>
+            <Typography sx={{ color: "#fbc16c", fontWeight: "600" }}>
+              {formatCurrency(user?.coin ?? 0)}
+            </Typography>
+          </Box>
+        </Box>
+        <Box
+          sx={{
+            backgroundColor: "#232b4f",
+            color: "white",
+            padding: 2,
+            borderRadius: 2,
+            height: "500px",
+            width: "100%",
+            margin: "auto",
+          }}
+        >
+          {/* Navigation Buttons */}
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              paddingBottom: "20px",
             }}
           >
-            {steps.map((step, index) => (
-              <Step key={index} onClick={() => setActiveStep(index)}>
-                <div
-                  className={
-                    activeStep === index ? "step-label-active" : "step-label"
-                  }
-                  style={{ height: "48px", cursor: "pointer" }}
-                  onClick={() => {
-                    if (
-                      step.title === "Deposit Money" &&
-                      activeStep === index
-                    ) {
-                      NavigationGame("https://t.me/HitJuwa");
-                    } else {
-                      router.replace(step.link);
-                    }
+            <Button
+              variant="contained"
+              sx={{
+                mr: 1,
+                backgroundColor:
+                  activeTab === "account" ? "#3B82F6" : "#384375",
+                "&:hover": {
+                  backgroundColor:
+                    activeTab === "account" ? "#2563EB" : "#4A5894",
+                },
+              }}
+              onClick={() => setActiveTab("account")}
+            >
+              <AccountProfileIcon /> Quản lý tài khoản
+            </Button>
+            <Button
+              variant="contained"
+              sx={{
+                backgroundColor: activeTab === "bank" ? "#3B82F6" : "#384375",
+                "&:hover": {
+                  backgroundColor: activeTab === "bank" ? "#2563EB" : "#4A5894",
+                },
+              }}
+              onClick={() => setActiveTab("bank")}
+            >
+              <ProfileBankIcon /> Quản lý ngân hàng
+            </Button>
+          </Box>
+
+          {/* Tab Content */}
+          {activeTab === "account" ? (
+            // Tab Quản lý tài khoản
+            <Grid container spacing={2}>
+              <Grid item xs={6}>
+                <Typography variant="body1" sx={{ mb: 1, color: "white" }}>
+                  Tên đăng nhập
+                </Typography>
+                <TextField
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  fullWidth
+                  variant="outlined"
+                  InputProps={{
+                    readOnly: true,
+                    startAdornment: (
+                      <PersonIcon sx={{ color: "#4ADE80", mr: 1 }} />
+                    ),
+                    sx: {
+                      backgroundColor: "#2A4066",
+                      color: "white",
+                      borderRadius: 1,
+                      "& .MuiInputBase-input.Mui-disabled": {
+                        color: "white",
+                      },
+                    },
+                  }}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <Typography variant="body1" sx={{ mb: 1, color: "white" }}>
+                  Email
+                </Typography>
+                <TextField
+                  value={email || "Nhập email của bạn"}
+                  onChange={(e) => setEmail(e.target.value)}
+                  fullWidth
+                  variant="outlined"
+                  InputProps={{
+                    readOnly: true,
+                    startAdornment: (
+                      <EmailIcon sx={{ color: "#4ADE80", mr: 1 }} />
+                    ),
+                    sx: {
+                      backgroundColor: "#2A4066",
+                      color: "white",
+                      borderRadius: 1,
+                    },
+                  }}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <Typography variant="body1" sx={{ mb: 1, color: "white" }}>
+                  Tên hiển thị
+                </Typography>
+                <TextField
+                  value={displayName}
+                  onChange={(e) => setDisplayName(e.target.value)}
+                  fullWidth
+                  variant="outlined"
+                  InputProps={{
+                    startAdornment: (
+                      <PersonIcon sx={{ color: "#4ADE80", mr: 1 }} />
+                    ),
+                    sx: {
+                      backgroundColor: "#2A4066",
+                      color: "white",
+                      borderRadius: 1,
+                    },
+                  }}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <Typography variant="body1" sx={{ mb: 1, color: "white" }}>
+                  Mật khẩu
+                </Typography>
+                <TextField
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  fullWidth
+                  variant="outlined"
+                  InputProps={{
+                    readOnly: true,
+                    startAdornment: (
+                      <LockIcon sx={{ color: "#4ADE80", mr: 1 }} />
+                    ),
+                    sx: {
+                      backgroundColor: "#2A4066",
+                      color: "white",
+                      borderRadius: 1,
+                    },
+                  }}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <Typography variant="body1" sx={{ mb: 1, color: "white" }}>
+                  Số điện thoại
+                </Typography>
+                <TextField
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  fullWidth
+                  variant="outlined"
+                  InputProps={{
+                    readOnly: true,
+                    startAdornment: (
+                      <PhoneIcon sx={{ color: "#4ADE80", mr: 1 }} />
+                    ),
+                    sx: {
+                      backgroundColor: "#2A4066",
+                      color: "white",
+                      borderRadius: 1,
+                    },
+                  }}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <Button
+                  variant="contained"
+                  sx={{
+                    backgroundImage:
+                      "url(https://staticda88.com/images/bg-btn.png), conic-gradient(from 0deg at 50% 50%, #085cff 0deg, #2692e0 89.73deg, #263be0 180.18deg, #085cff 1turn)",
+                    mt: 4,
+                    width: "100%",
+                    height: "44px",
+                    borderRadius: "20px",
+                    color: "white",
                   }}
                 >
-                  <div
-                    style={{
+                  Lưu thay đổi
+                </Button>
+              </Grid>
+            </Grid>
+          ) : (
+            <Grid container spacing={2}>
+              {bankUser ? (
+                <>
+                  <ListItem
+                    sx={{
                       alignItems: "center",
+                      alignSelf: "stretch",
+                      background:
+                        "linear-gradient(90deg, rgba(39, 47, 82, .5), rgba(78, 87, 126, .5))",
+                      backgroundImage: "url(/images/bg-bank.webp)",
+                      backgroundPosition: "50%",
+                      backgroundRepeat: "no-repeat",
+                      backgroundSize: "cover",
+                      borderRadius: "8px",
                       display: "flex",
-                      fontSize: "16px",
-                      gap: "10px",
-                      fontWeight: 600,
-                      lineHeight: "24px",
-                      padding: "12px 24px",
+                      height: "68px",
+                      justifyContent: "space-between",
+                      padding: "12px",
+                      width: "30%",
+                      margin: "auto",
+                      marginTop: "20px",
                     }}
                   >
-                    {step.icon} {/* Render the icon */}
-                    <Typography
-                      className={
-                        activeStep === index
-                          ? "step-title-active"
-                          : "step-title"
+                    <ListItemAvatar>
+                      <Avatar>
+                        <AccountBalanceIcon />
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText
+                      color="white"
+                      primary={bankUser.bankName}
+                      secondary={
+                        <React.Fragment>
+                          <Typography
+                            component="span"
+                            variant="body2"
+                            sx={{ color: "white", display: "inline" }}
+                          >
+                            {bankUser.bankNumber}
+                          </Typography>
+                        </React.Fragment>
                       }
-                    >
-                      {step.title}
+                    />
+                  </ListItem>
+                </>
+              ) : (
+                <>
+                  <Box
+                    sx={{
+                      width: "60%",
+                      margin: "auto",
+                      mt: 4,
+                      p: 3,
+                      backgroundColor: "#2A4066",
+                      borderRadius: 2,
+                    }}
+                  >
+                    <Typography variant="h6" sx={{ color: "white", mb: 2 }}>
+                      Thêm tài khoản ngân hàng
                     </Typography>
-                  </div>
-                </div>
-              </Step>
-            ))}
-          </Stepper>
-        </Grid>
-
-        <CardContent
-          sx={{
-            width: {
-              xs: "100%",
-              sm: "65%",
-            },
-            borderRadius: 10,
-            pt: (theme) => `${theme.spacing(6)} !important`,
-          }}
-        >
-          {loading ? (
-            <>
-              <SimpleBackdrop />
-              <General />
-            </>
-          ) : (
-            <General />
+                    <Grid container spacing={2}>
+                      <Grid item xs={6}>
+                        <Typography
+                          variant="body1"
+                          sx={{ mb: 1, color: "white" }}
+                        >
+                          Tên ngân hàng
+                        </Typography>
+                        <TextField
+                          fullWidth
+                          variant="outlined"
+                          placeholder="Nhập tên ngân hàng"
+                          InputProps={{
+                            sx: {
+                              backgroundColor: "#3B4D7A",
+                              color: "white",
+                              borderRadius: 1,
+                            },
+                          }}
+                          // Add onChange handler and state for bank name
+                        />
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Typography
+                          variant="body1"
+                          sx={{ mb: 1, color: "white" }}
+                        >
+                          Số tài khoản
+                        </Typography>
+                        <TextField
+                          fullWidth
+                          variant="outlined"
+                          placeholder="Nhập số tài khoản"
+                          InputProps={{
+                            sx: {
+                              backgroundColor: "#3B4D7A",
+                              color: "white",
+                              borderRadius: 1,
+                            },
+                          }}
+                          // Add onChange handler and state for bank number
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Typography
+                          variant="body1"
+                          sx={{ mb: 1, color: "white" }}
+                        >
+                          Tên chủ tài khoản
+                        </Typography>
+                        <TextField
+                          fullWidth
+                          variant="outlined"
+                          placeholder="Nhập tên chủ tài khoản"
+                          InputProps={{
+                            sx: {
+                              backgroundColor: "#3B4D7A",
+                              color: "white",
+                              borderRadius: 1,
+                            },
+                          }}
+                          // Add onChange handler and state for account holder name
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Button
+                          variant="contained"
+                          onClick={handleAddBank}
+                          sx={{
+                            mt: 2,
+                            width: "100%",
+                            backgroundImage:
+                              "url(https://staticda88.com/images/bg-btn.png), conic-gradient(from 0deg at 50% 50%, #085cff 0deg, #2692e0 89.73deg, #263be0 180.18deg, #085cff 1turn)",
+                            borderRadius: "20px",
+                            color: "white",
+                          }}
+                        >
+                          Thêm ngân hàng
+                        </Button>
+                      </Grid>
+                    </Grid>
+                  </Box>
+                </>
+              )}
+            </Grid>
           )}
-        </CardContent>
+        </Box>
       </Box>
-    </>
+    </Box>
   );
 }
-
-export default MainProfile;

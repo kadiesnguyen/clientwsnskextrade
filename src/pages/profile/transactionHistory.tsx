@@ -186,7 +186,7 @@ export default function TransactionHistory() {
             >
               <Avatar
                 alt="Remy Sharp"
-                src="/images/quyphai17.jpg"
+                src="/images/avatar-4.webp"
                 sx={{
                   width: 132,
                   height: 132,

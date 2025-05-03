@@ -62,20 +62,16 @@ export default function PrimaryLayoutComponent({
 
     switch (menu) {
       case 1:
-        window.open("https://t.me/HitJuwa", "_blank", "noopener,noreferrer");
+        router.replace("/sport");
         break;
       case 2:
         router.replace("#");
         break;
       case 3:
-        if (user) {
-          router.replace("/profile/betting-history/");
-        } else {
-          swal("Login", "You are not logged in! please log in", "warning");
-        }
+        router.replace("/livecasino");
         break;
       case 4:
-        setOpenSupport(true);
+        router.replace("/tablegame");
         break;
       case 5:
         setOpen(true);

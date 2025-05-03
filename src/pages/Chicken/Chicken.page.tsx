@@ -12,8 +12,8 @@ export default function ChickenPage() {
   const { loading, playGame } = usePlayGame();
   const commonImgStyles = {
     height: {
-      xs: "110px",
-      sm: "240px",
+      xs: "310px",
+      sm: "340px",
     },
     position: "absolute",
     transition: "0.2s ease-in-out",
@@ -41,12 +41,12 @@ export default function ChickenPage() {
 
   const commonCardStyles = {
     width: {
-      xs: "130px",
-      sm: "180px",
+      xs: "230px",
+      sm: "280px",
     },
     height: {
-      xs: "110px",
-      sm: "240px",
+      xs: "310px",
+      sm: "340px",
     },
     borderRadius: "20px",
     display: "flex",
@@ -67,7 +67,7 @@ export default function ChickenPage() {
 
   const buttonStyles = {
     backgroundImage:
-      "url(/images/button/bg-btn.png), conic-gradient(from 0deg at 50% 50%, #085cff 0deg, #2692e0 89.73deg, #263be0 180.18deg, #085cff 1turn)",
+      "url(/images/bg-btn.png), conic-gradient(from 0deg at 50% 50%, #085cff 0deg, #2692e0 89.73deg, #263be0 180.18deg, #085cff 1turn)",
 
     color: "white",
     padding: "10px 20px",
@@ -80,7 +80,7 @@ export default function ChickenPage() {
     transition: "opacity 0.2s ease-in-out",
     "&:hover": {
       backgroundImage:
-        "url(/images/button/bg-btn.png), conic-gradient(from 0deg at 50% 50%, #085cff 0deg, #2692e0 89.73deg, #263be0 180.18deg, #085cff 1turn)",
+        "url(/images/bg-btn.png), conic-gradient(from 0deg at 50% 50%, #085cff 0deg, #2692e0 89.73deg, #263be0 180.18deg, #085cff 1turn)",
 
       opacity: 1,
       filter: "none",
@@ -120,66 +120,69 @@ export default function ChickenPage() {
       ) : (
         <Box
           sx={{
-            width: "80%",
-            margin: "auto",
-            marginTop: 10,
-            paddingTop: 10,
-            paddingBottom: {
-              xs: 80,
-              sm: 2,
+            width: "100%",
+            height: {
+              xs: "430px",
+              sm: "580px",
             },
+            aspectRatio: " 1440 / 600",
+            background: "url(/images/bg-daga.webp) no-repeat 50%",
+            backgroundSize: "cover",
           }}
         >
-          <Typography
-            variant="h2"
+          <Box
             sx={{
-              color: "white",
-              fontWeight: 600,
-              fontSize: "30px",
-              height: 50,
-              textAlign: {
-                xs: "center",
-                sm: "left",
+              width: "80%",
+              height: "100%",
+              margin: "auto",
+              paddingTop: {
+                xs: 30,
+                sm: 20,
+              },
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              paddingBottom: {
+                xs: 80,
+                sm: 2,
               },
             }}
           >
-            Chicken Fight
-          </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                gap: "15px",
+                flexWrap: "wrap",
+                justifyContent: "center",
+              }}
+            >
+              {GameChicken.map((item) => (
+                <Box key={item.id} sx={commonCardStyles}>
+                  <Box sx={commonImgStyles}>
+                    <Image
+                      src={item.images}
+                      alt=""
+                      width={1800}
+                      height={2400}
+                      style={{
+                        height: "100%",
+                        width: "100%",
+                        objectFit: "cover",
+                      }}
+                    />
+                  </Box>
 
-          <Box
-            sx={{
-              display: "flex",
-              gap: "15px",
-              flexWrap: "wrap",
-              justifyContent: "center",
-            }}
-          >
-            {GameChicken.map((item) => (
-              <Box key={item.id} sx={commonCardStyles}>
-                <Box sx={commonImgStyles}>
-                  <Image
-                    src={item.images}
-                    alt=""
-                    width={1800}
-                    height={2400}
-                    style={{
-                      height: "100%",
-                      width: "100%",
-                      objectFit: "cover",
-                    }}
-                  />
+                  <Box sx={commonTextBoxStyles}>
+                    <Button
+                      sx={buttonStyles}
+                      onClick={() => playGame(item.codeGame, item.gameId)}
+                    >
+                      Chơi ngay
+                    </Button>
+                  </Box>
                 </Box>
-
-                <Box sx={commonTextBoxStyles}>
-                  <Button
-                    sx={buttonStyles}
-                    onClick={() => playGame(item.codeGame, item.gameId)}
-                  >
-                    Chơi ngay
-                  </Button>
-                </Box>
-              </Box>
-            ))}
+              ))}
+            </Box>
           </Box>
         </Box>
       )}
