@@ -126,9 +126,9 @@ export default function HeaderPage(props: propUser) {
               </div>
             ) : (
               <div className="header-right-menu">
-                <button className="header-noti" type="button">
+                {/* <button className="header-noti" type="button">
                   <NoticationIconMobile width="24px" height="24px" />
-                </button>
+                </button> */}
                 <button
                   className="login"
                   onClick={() => handleSetActiveTab(0)} // Use memoized function
