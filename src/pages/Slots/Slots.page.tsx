@@ -49,6 +49,7 @@ export default function SlotsPage() {
             height={150}
             alt=""
             style={{ width: "100%" }}
+            className="banner-games"
           />
           <Box
             sx={{

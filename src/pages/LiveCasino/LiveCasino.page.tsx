@@ -12,7 +12,7 @@ export default function LiveCasinoPage() {
   const { loading, playGame } = usePlayGame();
   const commonImgStyles = {
     height: {
-      xs: "110px",
+      xs: "210px",
       sm: "240px",
     },
     position: "absolute",
@@ -45,7 +45,7 @@ export default function LiveCasinoPage() {
       sm: "180px",
     },
     height: {
-      xs: "110px",
+      xs: "210px",
       sm: "240px",
     },
     borderRadius: "20px",
@@ -158,9 +158,12 @@ export default function LiveCasinoPage() {
           sx={{
             width: "100%",
             margin: "auto",
-            paddingTop: 10,
+            paddingTop: {
+              xs: 4,
+              sm: 10,
+            },
             paddingBottom: {
-              xs: 60,
+              xs: 0,
               sm: 2,
             },
           }}
@@ -170,14 +173,15 @@ export default function LiveCasinoPage() {
             width={1000}
             height={150}
             alt=""
-            style={{ width: "100%" }}
+            style={{ width: "100%", objectFit: "contain" }}
+            className="banner-games"
           />
           <Box
             sx={{
               width: "80%",
               margin: "auto",
               paddingBottom: {
-                xs: 60,
+                xs: 0,
                 sm: 5,
               },
             }}

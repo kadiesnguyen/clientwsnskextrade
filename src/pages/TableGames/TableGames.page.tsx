@@ -162,6 +162,7 @@ export default function TableGamesPage() {
             height={150}
             alt=""
             style={{ width: "100%" }}
+            className="banner-games"
           />
           <Box
             sx={{
@@ -184,8 +185,14 @@ export default function TableGamesPage() {
                 flexWrap: "nowrap",
                 overflowX: "auto",
                 gap: "15px",
-                paddingBottom: "20px",
-                marginTop: "-40px",
+                paddingBottom: {
+                  xs: "5px",
+                  sm: "20px",
+                },
+                marginTop: {
+                  xs: 0,
+                  sm: "-40px",
+                },
                 justifyContent: { xs: "flex-start", sm: "left" },
                 WebkitOverflowScrolling: "touch",
                 "&::-webkit-scrollbar": {

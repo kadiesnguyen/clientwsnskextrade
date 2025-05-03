@@ -57,7 +57,6 @@ export default function PrimaryLayoutComponent({
 
   const hanldMenu = (menu: number) => {
     setMenu(menu);
-    setOpen(false);
     setOpenSupport(false);
 
     switch (menu) {
@@ -74,7 +73,7 @@ export default function PrimaryLayoutComponent({
         router.replace("/tablegame");
         break;
       case 5:
-        setOpen(true);
+        router.replace("/event");
         break;
     }
   };
@@ -191,11 +190,11 @@ export default function PrimaryLayoutComponent({
             </ul>
           </nav>
 
-          <MenuPopupComponent
+          {/* <MenuPopupComponent
             open={open}
             onClose={handleClose}
             title="Category"
-          />
+          /> */}
 
           <SupportPopupComponent
             open={openSupport}
