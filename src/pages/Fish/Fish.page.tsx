@@ -1,10 +1,13 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { cloneElement, useEffect, useState } from "react";
 import Image from "next/image";
 import usePlayGame from "@/hook/usePlayGame";
 import SimpleBackdrop from "@/components/Loading/LoaddingPage";
 import { Box, Typography, Button, Pagination } from "@mui/material";
 import { getListGame, getListGameFish } from "@/services/GameApi.service";
+import { GameSlotsMenu, ListMenu } from "@/datafake/Menu";
+import SlotsGameItemPage from "../Slots/SlotsGameItem.page";
+import FishGameItemPage from "./FishGameItem.page";
 
 const commonImgStyles = {
   height: {
@@ -82,166 +85,152 @@ const buttonStyles = {
 };
 
 export default function FishPage() {
-  const { loading, playGame } = usePlayGame();
-  const [load, setLoad] = useState<boolean>(false);
-  const [isPageLoading, setIsPageLoading] = useState<boolean>(false);
-  const [gameTable, setGameTable] = useState<any[]>([]);
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const itemsPerPage = 18;
-
-  useEffect(() => {
-    setLoad(true);
-    getListGameFish().then((res) => {
-      if (res.data) {
-        const arrayData = Object.keys(res.data).map((key) => ({
-          id: key, // Lấy key làm id
-          ...res.data[key], // Sao chép dữ liệu bên trong object
-        }));
-        setGameTable(arrayData);
-        setLoad(false);
-      }
-    });
-  }, []);
-  console.log(gameTable);
-
-  // Tính toán item hiển thị
-  const totalPages = Math.ceil(gameTable.length / itemsPerPage);
-  const displayedGames = gameTable.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
-
-  const handlePageChange = (
-    event: React.ChangeEvent<unknown>,
-    page: number
-  ) => {
-    setIsPageLoading(true);
-    setTimeout(() => {
-      setCurrentPage(page);
-      setIsPageLoading(false);
-    }, 1000);
-  };
+  const [acctiveMenu, setAcctiveMenu] = useState<string>("1");
 
   return (
-    <>
-      {loading || load || isPageLoading ? (
-        <>
-          <SimpleBackdrop />
-          <Box
-            sx={{
-              width: {
-                xs: "98%",
-                sm: "80%",
-              },
-              margin: "auto",
-              height: "1000px",
-              marginTop: 10,
-              paddingTop: 10,
-              paddingBottom: {
-                xs: 80,
-                sm: 20,
-              },
-            }}
-          ></Box>
-        </>
-      ) : (
+    <Box
+      sx={{
+        width: {
+          xs: "98%",
+          sm: "100%",
+        },
+        margin: "auto",
+        paddingTop: 10,
+        paddingBottom: {
+          xs: 0,
+          sm: 2,
+        },
+      }}
+    >
+      <Image
+        src={"/images/fishing.png"}
+        width={1000}
+        height={150}
+        alt=""
+        style={{ width: "100%" }}
+        className="banner-games"
+      />
+      <Box
+        sx={{
+          width: {
+            xs: "98%",
+            sm: "80%",
+          },
+          margin: "auto",
+          paddingBottom: {
+            xs: 0,
+            sm: 2,
+          },
+        }}
+      >
         <Box
           sx={{
-            width: {
-              xs: "98%",
-              sm: "80%",
+            display: "flex",
+            alignItems: "center",
+            textAlign: "center",
+            flexWrap: "nowrap",
+            overflowX: "auto",
+            gap: "15px",
+            paddingBottom: "20px",
+            marginTop: "-40px",
+            justifyContent: { xs: "flex-start", sm: "left" },
+            WebkitOverflowScrolling: "touch",
+            "&::-webkit-scrollbar": {
+              display: "none",
             },
-            margin: "auto",
-            marginTop: 10,
-            paddingTop: 10,
-            paddingBottom: {
-              xs: 10,
-              sm: 2,
-            },
+            "-ms-overflow-style": "none",
+            "scrollbar-width": "none",
           }}
         >
-          <Typography
-            variant="h2"
-            sx={{
-              color: "white",
-              fontWeight: 600,
-              fontSize: "30px",
-              height: 50,
-              textAlign: {
-                xs: "center",
-                sm: "left",
-              },
-            }}
-          >
-            Fish Games
-          </Typography>
-
-          <Box
-            sx={{
-              display: "flex",
-              gap: "15px",
-              flexWrap: "wrap",
-              justifyContent: "center",
-              marginBottom: "20px",
-            }}
-          >
-            {displayedGames.map((item: any) => (
-              <Box key={item.id} sx={commonCardStyles}>
-                <Box sx={commonImgStyles}>
-                  <Image
-                    src={item.icon}
-                    alt=""
-                    width={200}
-                    height={200}
-                    layout="responsive"
-                    placeholder="blur"
-                    blurDataURL="/images/gallery-icon-picture-landscape-vector-sign-symbol_660702-224.avif"
-                    style={{
-                      height: "100%",
-                      width: "100%",
-                      objectFit: "contain",
-                    }}
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement;
-                      target.src =
-                        "/images/gallery-icon-picture-landscape-vector-sign-symbol_660702-224.avif"; // Đường dẫn fallback
-                    }}
-                  />
-                </Box>
-
-                <Box sx={commonTextBoxStyles}>
-                  <Button
-                    sx={buttonStyles}
-                    onClick={() => playGame(item.id, item.product)}
-                  >
-                    Chơi ngay
-                  </Button>
-                </Box>
-              </Box>
-            ))}
-          </Box>
-          <Pagination
-            count={totalPages}
-            page={currentPage}
-            onChange={handlePageChange}
-            color="primary"
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              "& .MuiPaginationItem-root": {
-                color: "white", // Mặc định chữ màu trắng
-              },
-              "& .Mui-selected": {
-                backgroundColor: "#0366FE", // Nền màu xanh vàng khi active
-                color: "white", // Chữ màu trắng
+          {ListMenu.map((item) => (
+            <Button
+              onClick={() => {}}
+              sx={{
+                minWidth: "160px",
+                maxWidth: "200px",
+                flexShrink: 0,
+                background:
+                  item?.id == "4"
+                    ? "#0063ff"
+                    : "linear-gradient(180deg, #293259, rgba(35, 43, 79, .7));",
+                border: "1px solid #384375",
+                color: "white",
+                gap: "5px",
+                fontSize: { xs: "12px", sm: "14px" },
+                textOverflow: "ellipsis",
+                overflow: "hidden",
+                whiteSpace: "nowrap",
+                display: "grid",
+                gridTemplateRows: "1fr 1fr",
+                justifyItems: "center",
                 "&:hover": {
-                  backgroundColor: "#0366FE", // Duy trì màu khi hover
+                  background: "#0063ff",
                 },
-              },
-            }}
-          />
+              }}
+              key={item.id}
+              href={item.link}
+            >
+              {cloneElement(
+                item.icon,
+                item?.id == "4"
+                  ? {
+                      fill: "#FFFFFF",
+                    }
+                  : {}
+              )}
+              {item.title}
+            </Button>
+          ))}
         </Box>
-      )}
-    </>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            textAlign: "center",
+            flexWrap: "nowrap",
+            overflowX: "auto",
+            gap: "10px",
+            paddingBottom: "20px",
+            justifyContent: { xs: "flex-start", sm: "left" },
+            WebkitOverflowScrolling: "touch",
+            "&::-webkit-scrollbar": {
+              display: "none",
+            },
+            "-ms-overflow-style": "none",
+            "scrollbar-width": "none",
+          }}
+        >
+          {GameSlotsMenu.map((item) => (
+            <Button
+              sx={{
+                display: "flex",
+                minWidth: "164px",
+                maxWidth: "200px",
+                flexShrink: 0,
+                background:
+                  item?.id === acctiveMenu
+                    ? "#0063ff"
+                    : "linear-gradient(180deg, #293259, rgba(35, 43, 79, .7));",
+                border: "1px solid #384375",
+                color: "white",
+                gap: "5px",
+                fontSize: { xs: "12px", sm: "14px" },
+                textOverflow: "ellipsis",
+                overflow: "hidden",
+                whiteSpace: "nowrap",
+                "&:hover": {
+                  background: "#0063ff",
+                },
+              }}
+              key={item.id}
+            >
+              {item.icon}
+              {item.title}
+            </Button>
+          ))}
+        </Box>
+        <FishGameItemPage />
+      </Box>
+    </Box>
   );
 }

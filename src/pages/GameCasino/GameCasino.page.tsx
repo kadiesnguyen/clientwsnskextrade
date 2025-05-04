@@ -1,10 +1,12 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { cloneElement, useEffect, useState } from "react";
 import Image from "next/image";
 import usePlayGame from "@/hook/usePlayGame";
 import SimpleBackdrop from "@/components/Loading/LoaddingPage";
 import { Box, Typography, Button, Pagination } from "@mui/material";
 import { getListGame } from "@/services/GameApi.service";
+import SlotsGameItemPage from "../Slots/SlotsGameItem.page";
+import { GameSlotsMenu, ListMenu } from "@/datafake/Menu";
 
 const commonImgStyles = {
   height: {
@@ -82,162 +84,165 @@ const buttonStyles = {
 };
 
 export default function GameCasinoPage() {
-  const { loading, playGame } = usePlayGame();
-  const [load, setLoad] = useState<boolean>(false);
-  const [isPageLoading, setIsPageLoading] = useState<boolean>(false);
-  const [gameTable, setGameTable] = useState<any[]>([]);
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const itemsPerPage = 18;
-
-  useEffect(() => {
-    setLoad(true);
-
-    getListGame("JL", "CHESS").then((res) => {
-      if (res.data) {
-        setGameTable(res.data.games);
-        setLoad(false);
-      }
-    });
-  }, []);
-  const handleImageError = (index: number) => {
-    setGameTable((prev) => prev.filter((_, i) => i !== index));
-  };
-
-  // Tính toán item hiển thị
-  const totalPages = Math.ceil(gameTable.length / itemsPerPage);
-  const displayedGames = gameTable.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
-
-  const handlePageChange = (
-    event: React.ChangeEvent<unknown>,
-    page: number
-  ) => {
-    setIsPageLoading(true);
-    setTimeout(() => {
-      setCurrentPage(page);
-      setIsPageLoading(false);
-    }, 1000);
-  };
-  // Hàm xử lý lỗi hình ảnh
+  const [acctiveMenu, setAcctiveMenu] = useState<string>("1");
+  const [GameType, setGameType] = useState<string>("CHESS");
+  const [ProductType, setProductType] = useState<string>("JL");
 
   return (
-    <>
-      {loading || load || isPageLoading ? (
-        <>
-          <SimpleBackdrop />
-          <Box
-            sx={{
-              width: {
-                xs: "100%",
-                sm: "80%",
-              },
-              margin: "auto",
-              height: "1000px",
-              marginTop: 10,
-              paddingTop: 10,
-              paddingBottom: {
-                xs: 80,
-                sm: 2,
-              },
-            }}
-          ></Box>
-        </>
-      ) : (
+    <Box
+      sx={{
+        width: {
+          xs: "98%",
+          sm: "100%",
+        },
+        margin: "auto",
+        paddingTop: 10,
+        paddingBottom: {
+          xs: 0,
+          sm: 2,
+        },
+      }}
+    >
+      <Image
+        src={"/images/game_bai.png"}
+        width={1000}
+        height={150}
+        alt=""
+        style={{ width: "100%" }}
+        className="banner-games"
+      />
+      <Box
+        sx={{
+          width: {
+            xs: "98%",
+            sm: "80%",
+          },
+          margin: "auto",
+          paddingBottom: {
+            xs: 0,
+            sm: 2,
+          },
+        }}
+      >
         <Box
           sx={{
-            width: {
-              xs: "98%",
-              sm: "80%",
-            },
-            margin: "auto",
-            marginTop: 10,
-            paddingTop: 10,
+            display: "flex",
+            alignItems: "center",
+            textAlign: "center",
+            flexWrap: "nowrap",
+            overflowX: "auto",
+            gap: "15px",
             paddingBottom: {
-              xs: 10,
-              sm: 2,
+              xs: "5px",
+              sm: "20px",
             },
+            marginTop: {
+              xs: 0,
+              sm: "-40px",
+            },
+            justifyContent: { xs: "flex-start", sm: "left" },
+            WebkitOverflowScrolling: "touch",
+            "&::-webkit-scrollbar": {
+              display: "none",
+            },
+            "-ms-overflow-style": "none",
+            "scrollbar-width": "none",
           }}
         >
-          <Typography
-            variant="h2"
-            sx={{
-              color: "white",
-              fontWeight: 600,
-              fontSize: "30px",
-              height: 50,
-              textAlign: {
-                xs: "center",
-                sm: "left",
-              },
-            }}
-          >
-            Card Games
-          </Typography>
-
-          <Box
-            sx={{
-              display: "flex",
-              gap: "15px",
-              flexWrap: "wrap",
-              justifyContent: "center",
-              marginBottom: "20px",
-            }}
-          >
-            {displayedGames.map((item: any, index) => (
-              <Box key={item.id} sx={commonCardStyles}>
-                <Box sx={commonImgStyles}>
-                  <Image
-                    src={item.icon}
-                    alt=""
-                    width={200}
-                    height={200}
-                    layout="responsive"
-                    placeholder="blur"
-                    blurDataURL="/images/gallery-icon-picture-landscape-vector-sign-symbol_660702-224.avif"
-                    style={{
-                      height: "100%",
-                      width: "100%",
-                      objectFit: "contain",
-                    }}
-                    onError={() => handleImageError(index)} // Gọi hàm khi lỗi
-                  />
-                </Box>
-
-                <Box sx={commonTextBoxStyles}>
-                  <Button
-                    sx={buttonStyles}
-                    onClick={() => playGame(item.tcgGameCode, item.productCode)}
-                  >
-                    Chơi ngay
-                  </Button>
-                </Box>
-              </Box>
-            ))}
-          </Box>
-          <Pagination
-            count={totalPages}
-            page={currentPage}
-            onChange={handlePageChange}
-            color="primary"
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              "& .MuiPaginationItem-root": {
-                color: "white", // Mặc định chữ màu trắng
-              },
-              "& .Mui-selected": {
-                backgroundColor: "#0366FE", // Nền màu xanh vàng khi active
-                color: "white", // Chữ màu trắng
+          {ListMenu.map((item) => (
+            <Button
+              onClick={() => {}}
+              sx={{
+                minWidth: "160px",
+                maxWidth: "200px",
+                flexShrink: 0,
+                background:
+                  item?.id == "3"
+                    ? "#0063ff"
+                    : "linear-gradient(180deg, #293259, rgba(35, 43, 79, .7));",
+                border: "1px solid #384375",
+                color: "white",
+                gap: "5px",
+                fontSize: { xs: "12px", sm: "14px" },
+                textOverflow: "ellipsis",
+                overflow: "hidden",
+                whiteSpace: "nowrap",
+                display: "grid",
+                gridTemplateRows: "1fr 1fr",
+                justifyItems: "center",
                 "&:hover": {
-                  backgroundColor: "#0366FE", // Duy trì màu khi hover
+                  background: "#0063ff",
                 },
-              },
-            }}
-          />
+              }}
+              key={item.id}
+              href={item.link}
+            >
+              {cloneElement(
+                item.icon,
+                item?.id == "3"
+                  ? {
+                      fill: "#FFFFFF",
+                    }
+                  : {}
+              )}
+              {item.title}
+            </Button>
+          ))}
         </Box>
-      )}
-    </>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            textAlign: "center",
+            flexWrap: "nowrap",
+            overflowX: "auto",
+            gap: "10px",
+            paddingBottom: "20px",
+            justifyContent: { xs: "flex-start", sm: "left" },
+            WebkitOverflowScrolling: "touch",
+            "&::-webkit-scrollbar": {
+              display: "none",
+            },
+            "-ms-overflow-style": "none",
+            "scrollbar-width": "none",
+          }}
+        >
+          {GameSlotsMenu.map((item) => (
+            <Button
+              onClick={() => {
+                setGameType(item.gameType);
+                setProductType(item.productType);
+                setAcctiveMenu(item.id);
+              }}
+              sx={{
+                display: "flex",
+                minWidth: "164px",
+                maxWidth: "200px",
+                flexShrink: 0,
+                background:
+                  item?.id === acctiveMenu
+                    ? "#0063ff"
+                    : "linear-gradient(180deg, #293259, rgba(35, 43, 79, .7));",
+                border: "1px solid #384375",
+                color: "white",
+                gap: "5px",
+                fontSize: { xs: "12px", sm: "14px" },
+                textOverflow: "ellipsis",
+                overflow: "hidden",
+                whiteSpace: "nowrap",
+                "&:hover": {
+                  background: "#0063ff",
+                },
+              }}
+              key={item.id}
+            >
+              {item.icon}
+              {item.title}
+            </Button>
+          ))}
+        </Box>
+        <SlotsGameItemPage GameType={GameType} ProductType={ProductType} />
+      </Box>
+    </Box>
   );
 }

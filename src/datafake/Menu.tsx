@@ -190,36 +190,43 @@ export const ListMenu = [
     id: "1",
     icon: <TableGameMenuIcon />,
     title: "Table Games ",
+    link: "/tablegame",
   },
   {
     id: "2",
     icon: <SlotMenuIcon />,
     title: "Slots ",
+    link: "/slots",
   },
   {
-    id: "13",
+    id: "3",
     icon: <GameCasinoMenuIcon />,
     title: "Game Bài ",
+    link: "/gamecasio",
   },
   {
     id: "4",
     icon: <FishMenuIcon />,
     title: "Bắn Cá ",
+    link: "/fish",
   },
   {
     id: "5",
     icon: <GameFastMenuIcon />,
     title: "Game Nhanh ",
+    link: "/gamesfast",
   },
   {
     id: "6",
     icon: <LoDeMenuIcon />,
     title: "Lô Đề ",
+    link: "/lotto",
   },
   {
     id: "7",
     icon: <QuaySoMenuIcon />,
     title: "Quay Số ",
+    link: "/spins",
   },
 ];
 

@@ -106,10 +106,16 @@ export default function SlotsGameItemPage({
   useEffect(() => {
     setLoad(true);
     getListGame(ProductType, GameType).then((res) => {
-      if (res.data) {
+      if (res.data.games.length > 30) {
         const gamesFromPosition20 = res.data.games.slice(29);
+        console.log("res.data", res.data.games);
         setGameTable(gamesFromPosition20);
         setLoad(false);
+        setCurrentPage(1);
+      } else {
+        setGameTable(res.data.games);
+        setLoad(false);
+        setCurrentPage(1);
       }
     });
   }, [ProductType, GameType]);
@@ -135,10 +141,12 @@ export default function SlotsGameItemPage({
   const handleImageError = (index: number) => {
     setGameTable((prev) => prev.filter((_, i) => i !== index));
   };
+
+  console.log(gameTable);
   return (
     <>
       {loading || load || isPageLoading ? (
-        <SimpleBackdrop />
+        <></>
       ) : (
         <>
           <Box

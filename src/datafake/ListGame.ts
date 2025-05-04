@@ -389,13 +389,13 @@ export const GameFish = [
 export const GameLotto = [
   {
     id: "1",
-    images: "/images/techplay_numbersgame_tp_portrait.webp",
+    images: "/images/Quay số - techplay - Lô đề 3 miền_1727969202.webp",
     gameId: "TCG_VNLOTT",
     codeGame: "TCG_VNLOTT_01",
   },
   {
     id: "2",
-    images: "/images/techplay_keno_portrait.webp",
+    images: "/images/ve-so-online-vuong_1742357161.webp",
     gameId: "TCG_VNLOTT",
     codeGame: "TCG_VNLOTT_01s",
   },

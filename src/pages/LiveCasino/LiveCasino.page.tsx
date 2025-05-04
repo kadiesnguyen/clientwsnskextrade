@@ -169,7 +169,7 @@ export default function LiveCasinoPage() {
           }}
         >
           <Image
-            src={"/images/icon-bg-casino.webp"}
+            src={"/images/icon-bg-casino.png"}
             width={1000}
             height={150}
             alt=""

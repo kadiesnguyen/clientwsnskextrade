@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { cloneElement, useEffect, useState } from "react";
 import Image from "next/image";
 import usePlayGame from "@/hook/usePlayGame";
 import SimpleBackdrop from "@/components/Loading/LoaddingPage";
@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import { getListGame } from "@/services/GameApi.service";
 import { GameLotto } from "@/datafake/ListGame";
+import { GameSlotsMenu, ListMenu } from "@/datafake/Menu";
 
 const commonImgStyles = {
   height: {
@@ -45,11 +46,11 @@ const commonTextBoxStyles = {
 const commonCardStyles = {
   width: {
     xs: "130px",
-    sm: "180px",
+    sm: "200px",
   },
   height: {
     xs: "160px",
-    sm: "220px",
+    sm: "200px",
   },
   borderRadius: "20px",
   display: "flex",
@@ -93,7 +94,8 @@ export default function LottoPage() {
   const { loading, playGame } = usePlayGame();
   const [load, setLoad] = useState<boolean>(false);
   const [isPageLoading, setIsPageLoading] = useState<boolean>(false);
-  const [gameTable, setGameTable] = useState<any[]>([]);
+
+  const [acctiveMenu, setAcctiveMenu] = useState<string>("1");
   const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 18;
 
@@ -130,75 +132,197 @@ export default function LottoPage() {
       ) : (
         <Box
           sx={{
-            width: "80%",
+            width: {
+              xs: "98%",
+              sm: "100%",
+            },
             margin: "auto",
-            marginTop: 10,
             paddingTop: 10,
             paddingBottom: {
-              xs: 70,
+              xs: 0,
               sm: 2,
             },
           }}
         >
-          <Typography
-            variant="h2"
+          <Image
+            src={"/images/lo_de.png"}
+            width={1000}
+            height={150}
+            alt=""
+            style={{ width: "100%" }}
+            className="banner-games"
+          />
+          <Box
             sx={{
-              color: "white",
-              fontWeight: 600,
-              fontSize: "30px",
-              height: 50,
-              textAlign: {
-                xs: "center",
-                sm: "left",
+              width: {
+                xs: "98%",
+                sm: "80%",
+              },
+              margin: "auto",
+              paddingBottom: {
+                xs: 0,
+                sm: 2,
               },
             }}
           >
-            Lotto Games
-          </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                textAlign: "center",
+                flexWrap: "nowrap",
+                overflowX: "auto",
+                gap: "15px",
+                paddingBottom: {
+                  xs: "5px",
+                  sm: "20px",
+                },
+                marginTop: {
+                  xs: 0,
+                  sm: "-40px",
+                },
+                justifyContent: { xs: "flex-start", sm: "left" },
+                WebkitOverflowScrolling: "touch",
+                "&::-webkit-scrollbar": {
+                  display: "none",
+                },
+                "-ms-overflow-style": "none",
+                "scrollbar-width": "none",
+              }}
+            >
+              {ListMenu.map((item) => (
+                <Button
+                  onClick={() => {}}
+                  sx={{
+                    minWidth: "160px",
+                    maxWidth: "200px",
+                    flexShrink: 0,
+                    background:
+                      item?.id == "6"
+                        ? "#0063ff"
+                        : "linear-gradient(180deg, #293259, rgba(35, 43, 79, .7));",
+                    border: "1px solid #384375",
+                    color: "white",
+                    gap: "5px",
+                    fontSize: { xs: "12px", sm: "14px" },
+                    textOverflow: "ellipsis",
+                    overflow: "hidden",
+                    whiteSpace: "nowrap",
+                    display: "grid",
+                    gridTemplateRows: "1fr 1fr",
+                    justifyItems: "center",
+                    "&:hover": {
+                      background: "#0063ff",
+                    },
+                  }}
+                  key={item.id}
+                  href={item.link}
+                >
+                  {cloneElement(
+                    item.icon,
+                    item?.id == "6"
+                      ? {
+                          fill: "#FFFFFF",
+                        }
+                      : {}
+                  )}
+                  {item.title}
+                </Button>
+              ))}
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                textAlign: "center",
+                flexWrap: "nowrap",
+                overflowX: "auto",
+                gap: "10px",
+                paddingBottom: "20px",
+                justifyContent: { xs: "flex-start", sm: "left" },
+                WebkitOverflowScrolling: "touch",
+                "&::-webkit-scrollbar": {
+                  display: "none",
+                },
+                "-ms-overflow-style": "none",
+                "scrollbar-width": "none",
+              }}
+            >
+              {GameSlotsMenu.map((item) => (
+                <Button
+                  sx={{
+                    display: "flex",
+                    minWidth: "164px",
+                    maxWidth: "200px",
+                    flexShrink: 0,
+                    background:
+                      item?.id === acctiveMenu
+                        ? "#0063ff"
+                        : "linear-gradient(180deg, #293259, rgba(35, 43, 79, .7));",
+                    border: "1px solid #384375",
+                    color: "white",
+                    gap: "5px",
+                    fontSize: { xs: "12px", sm: "14px" },
+                    textOverflow: "ellipsis",
+                    overflow: "hidden",
+                    whiteSpace: "nowrap",
+                    "&:hover": {
+                      background: "#0063ff",
+                    },
+                  }}
+                  key={item.id}
+                >
+                  {item.icon}
+                  {item.title}
+                </Button>
+              ))}
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                gap: "15px",
+                flexWrap: "wrap",
+                justifyContent: "center",
+                marginBottom: "20px",
+              }}
+            >
+              {GameLotto.map((item: any) => (
+                <Box key={item.id} sx={commonCardStyles}>
+                  <Box sx={commonImgStyles}>
+                    <Image
+                      src={item.images}
+                      alt=""
+                      width={200}
+                      height={200}
+                      layout="responsive"
+                      placeholder="blur"
+                      blurDataURL="/images/Quay số - techplay - Lô đề 3 miền_1727969202.webp"
+                      style={{
+                        height: "100%",
+                        width: "100%",
+                        objectFit: "cover",
+                      }}
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.src =
+                          "/images/Quay số - techplay - Lô đề 3 miền_1727969202.webp"; // Đường dẫn fallback
+                      }}
+                    />
+                  </Box>
 
-          <Box
-            sx={{
-              display: "flex",
-              gap: "15px",
-              flexWrap: "wrap",
-              justifyContent: "center",
-              marginBottom: "20px",
-            }}
-          >
-            {GameLotto.map((item: any) => (
-              <Box key={item.id} sx={commonCardStyles}>
-                <Box sx={commonImgStyles}>
-                  <Image
-                    src={item.images}
-                    alt=""
-                    width={200}
-                    height={200}
-                    layout="responsive"
-                    placeholder="blur"
-                    blurDataURL="/images/gallery-icon-picture-landscape-vector-sign-symbol_660702-224.avif"
-                    style={{
-                      height: "100%",
-                      width: "100%",
-                      objectFit: "contain",
-                    }}
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement;
-                      target.src =
-                        "/images/gallery-icon-picture-landscape-vector-sign-symbol_660702-224.avif"; // Đường dẫn fallback
-                    }}
-                  />
+                  <Box sx={commonTextBoxStyles}>
+                    <Button
+                      sx={buttonStyles}
+                      onClick={() =>
+                        playGame(item.tcgGameCode, item.productCode)
+                      }
+                    >
+                      Chơi ngay
+                    </Button>
+                  </Box>
                 </Box>
-
-                <Box sx={commonTextBoxStyles}>
-                  <Button
-                    sx={buttonStyles}
-                    onClick={() => playGame(item.tcgGameCode, item.productCode)}
-                  >
-                    Chơi ngay
-                  </Button>
-                </Box>
-              </Box>
-            ))}
+              ))}
+            </Box>
           </Box>
         </Box>
       )}

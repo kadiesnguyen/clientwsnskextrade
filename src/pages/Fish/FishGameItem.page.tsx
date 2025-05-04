@@ -3,13 +3,21 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import usePlayGame from "@/hook/usePlayGame";
 import SimpleBackdrop from "@/components/Loading/LoaddingPage";
-import { Box, Typography, Button, Pagination } from "@mui/material";
-import { getListGame } from "@/services/GameApi.service";
+import {
+  Box,
+  Typography,
+  Button,
+  Pagination,
+  Tooltip,
+  IconButton,
+} from "@mui/material";
+import { getListGame, getListGameFish } from "@/services/GameApi.service";
+import { GameSlotsMenu } from "@/datafake/Menu";
 
 const commonImgStyles = {
   height: {
-    xs: "160px",
-    sm: "200px",
+    xs: "113px",
+    sm: "223px",
   },
   position: "absolute",
   transition: "0.2s ease-in-out",
@@ -36,12 +44,12 @@ const commonTextBoxStyles = {
 };
 const commonCardStyles = {
   width: {
-    xs: "130px",
-    sm: "180px",
+    xs: "113px",
+    sm: "223px",
   },
   height: {
-    xs: "160px",
-    sm: "200px",
+    xs: "113px",
+    sm: "223px",
   },
   borderRadius: "20px",
   display: "flex",
@@ -64,7 +72,7 @@ const buttonStyles = {
     "url(/images/bg-btn.png), conic-gradient(from 0deg at 50% 50%, #085cff 0deg, #2692e0 89.73deg, #263be0 180.18deg, #085cff 1turn)",
 
   color: "white",
-  padding: "10px 20px",
+  padding: "4px 10px",
   border: "none",
   borderRadius: "5px",
   cursor: "pointer",
@@ -80,20 +88,23 @@ const buttonStyles = {
     filter: "none",
   },
 };
-
-export default function P2PTradingPage() {
+export default function FishGameItemPage() {
   const { loading, playGame } = usePlayGame();
   const [load, setLoad] = useState<boolean>(false);
   const [isPageLoading, setIsPageLoading] = useState<boolean>(false);
   const [gameTable, setGameTable] = useState<any[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const itemsPerPage = 18;
+  const itemsPerPage = 30;
 
   useEffect(() => {
     setLoad(true);
-    getListGame("KA", "RNG").then((res) => {
+    getListGameFish().then((res) => {
       if (res.data) {
-        setGameTable(res.data.games);
+        const arrayData = Object.keys(res.data).map((key) => ({
+          id: key, // Lấy key làm id
+          ...res.data[key], // Sao chép dữ liệu bên trong object
+        }));
+        setGameTable(arrayData);
         setLoad(false);
       }
     });
@@ -117,50 +128,17 @@ export default function P2PTradingPage() {
     }, 1000);
   };
 
+  const handleImageError = (index: number) => {
+    setGameTable((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  console.log(gameTable);
   return (
     <>
       {loading || load || isPageLoading ? (
-        <>
-          <SimpleBackdrop />
-          <Box
-            sx={{
-              width: "80%",
-              margin: "auto",
-              height: "800px",
-              marginTop: 10,
-              paddingTop: 10,
-              paddingBottom: {
-                xs: 80,
-                sm: 20,
-              },
-            }}
-          ></Box>
-        </>
+        <></>
       ) : (
-        <Box
-          sx={{
-            width: "80%",
-            margin: "auto",
-            marginTop: 10,
-            paddingTop: 10,
-            paddingBottom: {
-              xs: 10,
-              sm: 20,
-            },
-          }}
-        >
-          <Typography
-            variant="h2"
-            sx={{
-              color: "white",
-              fontWeight: 600,
-              fontSize: "30px",
-              height: 50,
-            }}
-          >
-            Quick Games
-          </Typography>
-
+        <>
           <Box
             sx={{
               display: "flex",
@@ -170,7 +148,7 @@ export default function P2PTradingPage() {
               marginBottom: "20px",
             }}
           >
-            {displayedGames.map((item: any) => (
+            {displayedGames.map((item: any, index) => (
               <Box key={item.id} sx={commonCardStyles}>
                 <Box sx={commonImgStyles}>
                   <Image
@@ -184,13 +162,9 @@ export default function P2PTradingPage() {
                     style={{
                       height: "100%",
                       width: "100%",
-                      objectFit: "contain",
+                      objectFit: "cover",
                     }}
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement;
-                      target.src =
-                        "/images/gallery-icon-picture-landscape-vector-sign-symbol_660702-224.avif"; // Đường dẫn fallback
-                    }}
+                    onError={() => handleImageError(index)} // Gọi hàm khi lỗi
                   />
                 </Box>
 
@@ -225,7 +199,7 @@ export default function P2PTradingPage() {
               },
             }}
           />
-        </Box>
+        </>
       )}
     </>
   );
