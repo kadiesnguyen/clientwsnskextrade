@@ -175,6 +175,7 @@ export default function SportPage() {
             alt=""
             style={{ width: "100%" }}
             className="banner-games"
+            loading="lazy"
           />
           <Box
             sx={{

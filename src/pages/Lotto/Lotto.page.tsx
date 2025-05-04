@@ -151,6 +151,7 @@ export default function LottoPage() {
             alt=""
             style={{ width: "100%" }}
             className="banner-games"
+            loading="lazy"
           />
           <Box
             sx={{
@@ -302,6 +303,7 @@ export default function LottoPage() {
                         width: "100%",
                         objectFit: "cover",
                       }}
+                      loading="lazy"
                       onError={(e) => {
                         const target = e.target as HTMLImageElement;
                         target.src =

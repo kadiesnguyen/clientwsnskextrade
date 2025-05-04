@@ -110,6 +110,7 @@ export default function SpinsPage() {
         alt=""
         style={{ width: "100%" }}
         className="banner-games"
+        loading="lazy"
       />
       <Box
         sx={{

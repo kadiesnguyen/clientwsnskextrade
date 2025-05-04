@@ -168,6 +168,7 @@ export default function SlotsGameItemPage({
                     height={200}
                     layout="responsive"
                     placeholder="blur"
+                    loading="lazy"
                     blurDataURL="/images/gallery-icon-picture-landscape-vector-sign-symbol_660702-224.avif"
                     style={{
                       height: "100%",

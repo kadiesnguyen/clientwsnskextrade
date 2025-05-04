@@ -175,6 +175,7 @@ export default function LiveCasinoPage() {
             alt=""
             style={{ width: "100%", objectFit: "contain" }}
             className="banner-games"
+            loading="lazy"
           />
           <Box
             sx={{
