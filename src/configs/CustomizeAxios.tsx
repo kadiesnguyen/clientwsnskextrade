@@ -66,7 +66,7 @@ contentInstance.interceptors.response.use(
     console.log(error.response);
 
     if (error.response && error.response.status === 401) {
-      window.localStorage.removeItem("tokenreddy232");
+      window.localStorage.removeItem("tokenku99");
     }
 
     if (error.response && error.response.data) {

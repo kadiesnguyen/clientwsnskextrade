@@ -97,7 +97,10 @@ export default function MenuProfile({ user }: UserProps) {
     {
       text: "Đăng xuất",
       icon: <LogoutMenuIcon />,
-      onClick: () => router.push("/profile/betting-history"),
+      onClick: () => {
+        window.localStorage.removeItem("tokenku99");
+        window.location.href = "/";
+      },
     },
   ];
   return (

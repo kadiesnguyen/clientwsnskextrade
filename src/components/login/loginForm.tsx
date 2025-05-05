@@ -57,7 +57,7 @@ const DialogLogin = (props: propPopup) => {
       await loginUser(userName, password)
         .then((res: any) => {
           if (res?.msg === "Success") {
-            window.localStorage.setItem("tokenreddy232", res.access_token);
+            window.localStorage.setItem("tokenku99", res.access_token);
             window.location.href = "/";
           } else {
             toast.error(res?.msg);
@@ -171,11 +171,31 @@ const DialogLogin = (props: propPopup) => {
                   </div>
 
                   <div className="forgot">Quên mật khẩu?</div>
-                  <button
+                  {/* <button
                     className={`submit-btn ${
                       userName && password ? "active" : ""
                     }`}
                     onClick={login}
+                  >
+                    Đăng nhập
+                  </button> */}
+                  <button
+                    onClick={login}
+                    style={{
+                      display: "flex",
+                      backgroundImage:
+                        "url(/images/bg-btn.png), conic-gradient(from 0deg at 50% 50%, #085cff 0deg, #2692e0 89.73deg, #263be0 180.18deg, #085cff 1turn)",
+                      color: "white",
+                      borderRadius: "20px",
+                      textTransform: "none",
+                      fontSize: "14px",
+                      width: "100%",
+                      height: "38px",
+                      border: "none",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      cursor: "pointer",
+                    }}
                   >
                     Đăng nhập
                   </button>
@@ -236,10 +256,22 @@ const DialogLogin = (props: propPopup) => {
                   </div>
 
                   <button
-                    className={`submit-btn ${
-                      userName && password && email && phone ? "active" : ""
-                    }`}
                     onClick={signup}
+                    style={{
+                      display: "flex",
+                      backgroundImage:
+                        "url(/images/bg-btn.png), conic-gradient(from 0deg at 50% 50%, #085cff 0deg, #2692e0 89.73deg, #263be0 180.18deg, #085cff 1turn)",
+                      color: "white",
+                      borderRadius: "20px",
+                      textTransform: "none",
+                      fontSize: "14px",
+                      width: "100%",
+                      height: "38px",
+                      border: "none",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      cursor: "pointer",
+                    }}
                   >
                     Đăng ký
                   </button>

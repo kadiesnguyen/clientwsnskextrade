@@ -243,7 +243,7 @@ export default function MenuProfileMobile(data: userProps) {
         <Button
           onClick={() =>
             handleMenuItemClick(() => {
-              window.localStorage.removeItem("tokenreddy232");
+              window.localStorage.removeItem("tokenku99");
               window.location.href = "/";
             })
           }

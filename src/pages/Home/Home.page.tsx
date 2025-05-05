@@ -53,20 +53,6 @@ export default function HomePage() {
   const [isFixed, setIsFixed] = useState(false);
   const route = useRouter();
 
-  const logout = () => {
-    swal({
-      title: "Đăng xuất",
-      text: "Bạn có muốn đăng xuất hay không",
-      icon: "warning",
-      dangerMode: true,
-    }).then((willDelete) => {
-      if (willDelete) {
-        localStorage.removeItem("tokenreddy232");
-        route.refresh();
-      }
-    });
-  };
-
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
