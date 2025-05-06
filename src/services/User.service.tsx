@@ -12,7 +12,6 @@ const loginUser = (username: string, password: string) => {
 // Đăng ký
 const signupUser = (
   name: string,
-  email: string,
   username: string,
   password: string,
   phone: string
@@ -20,7 +19,6 @@ const signupUser = (
   return authInstance.post("/auth/register", {
     name,
     username,
-    email,
     phone,
     password,
   });

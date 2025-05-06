@@ -109,9 +109,7 @@ const DialogLogin = (props: propPopup) => {
         .finally(() => {
           setLoadding(false);
         });
-    } else {
-      swal("Đăng ký", "Phải điền đầy đủ hết các trường", "error");
-    }
+    
   };
 
   return (
