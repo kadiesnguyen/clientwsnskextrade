@@ -97,7 +97,7 @@ const DialogLogin = (props: propPopup) => {
       const autoEmail =
         email !== "" ? email : generateEmailFromUsername(userName);
       setLoadding(true);
-      await signupUser(name, autoEmail, userName, password, phone)
+      await signupUser(name, userName, autoEmail, password, phone)
         .then((res: any) => {
           if (res?.msg === "Success") {
             toast.success("Tạo tài khoản thành công");
