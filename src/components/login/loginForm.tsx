@@ -77,7 +77,7 @@ const DialogLogin = (props: propPopup) => {
 
   // Signup handler
   const signup = async () => {
-    if (userName !== "" && password !== "" && phone !== "") {
+    
       setLoadding(true);
       await signupUser(name, userName, password, phone)
         .then((res: any) => {
@@ -91,9 +91,7 @@ const DialogLogin = (props: propPopup) => {
         .finally(() => {
           setLoadding(false);
         });
-    } else {
-      swal("Đăng ký", "Phải điền đầy đủ hết các trường", "error");
-    }
+    
   };
 
   return (
