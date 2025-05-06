@@ -122,7 +122,7 @@ export default function MainProfile() {
       addBankUser(bank.code, bank.code, bankNumber, bank.name).then(
         (res: any) => {
           console.log(res.data.length);
-          if (res.data.length > 0) {
+          if (res?.status === true) {
             setLoad(false);
             swal("Thêm ngân hàng", "Thêm ngân hàng mới thành công", "Success");
           } else {

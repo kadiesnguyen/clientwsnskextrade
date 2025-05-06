@@ -69,7 +69,7 @@ const DialogLogin = (props: propPopup) => {
       setLoadding(true);
       await loginUser(userName, password)
         .then((res: any) => {
-          if (res?.msg === "Success") {
+          if (res?.status === true) {
             window.localStorage.setItem("tokenku99", res.access_token);
             window.location.href = "/";
           } else {
@@ -97,9 +97,9 @@ const DialogLogin = (props: propPopup) => {
       const autoEmail =
         email !== "" ? email : generateEmailFromUsername(userName);
       setLoadding(true);
-      await signupUser(name, userName, autoEmail, password, phone)
+      await signupUser(name, userName, password, autoEmail, phone)
         .then((res: any) => {
-          if (res?.msg === "Success") {
+          if (res?.status === true) {
             toast.success("Tạo tài khoản thành công");
             setActiveTab(0);
           } else {

@@ -20,8 +20,8 @@ const signupUser = (
   return authInstance.post("/auth/register", {
     name,
     username,
-    email,
     phone,
+    email,
     password,
   });
 };
