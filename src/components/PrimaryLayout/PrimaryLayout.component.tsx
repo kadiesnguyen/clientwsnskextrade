@@ -149,6 +149,72 @@ export default function PrimaryLayoutComponent({
           </div>
           <main>{children}</main>
           <FooterPage />
+          <nav className="menu-mobile">
+            <ul>
+              <li>
+                <button type="button" onClick={() => hanldMenu(5)}>
+                  <Image
+                    src={"/images/khuyenmai.webp"}
+                    width={25}
+                    height={25}
+                    style={
+                      menu === 5 ? { color: "#d7ca63" } : { color: "white" }
+                    }
+                    alt=""
+                    className="moblie-icon"
+                  />
+
+                  <p className={menu === 5 ? "mobile-active" : "mobile-p"}>
+                    Khuyến mãi
+                  </p>
+                </button>
+              </li>
+
+              <li>
+                <button type="button" onClick={() => hanldMenu(1)}>
+                  <SportsIcon className="moblie-icon" />
+                  <p className={menu === 1 ? "mobile-active" : "mobile-p"}>
+                    Thể thao
+                  </p>
+                </button>
+              </li>
+              <li>
+                <button type="button" onClick={() => hanldMenu(2)}>
+                  {/* <SearchIcon
+                    width="25px"
+                    height="25px"
+                    className="moblie-icon"
+                  /> */}
+                  <Image
+                    src={"/images/home.png"}
+                    width={34}
+                    height={34}
+                    alt=""
+                    style={{ objectFit: "cover" }}
+                  />
+                  <p className={menu === 2 ? "mobile-active" : "mobile-p"}>
+                    Trang chủ
+                  </p>
+                </button>
+              </li>
+              <li>
+                <button type="button" onClick={() => hanldMenu(3)}>
+                  <CasioIcon className="moblie-icon" />
+                  <p className={menu === 3 ? "mobile-active" : "mobile-p"}>
+                    Live casino
+                  </p>
+                </button>
+              </li>
+              <li>
+                <button type="button" onClick={() => hanldMenu(4)}>
+                  <DPGameIcon className="moblie-icon" />
+                  <p className={menu === 4 ? "mobile-active" : "mobile-p"}>
+                    Games
+                  </p>
+                </button>
+              </li>
+            </ul>
+          </nav>
 
           {/* <MenuPopupComponent
             open={open}
@@ -166,7 +232,10 @@ export default function PrimaryLayoutComponent({
             sx={{
               position: "fixed",
               right: "0",
-              top: "80px", // 150px from bottom
+              top: {
+                xs: "80%",
+                sm: "80px",
+              }, // 150px from bottom
               zIndex: "3",
               display: "flex",
               flexDirection: "column",
