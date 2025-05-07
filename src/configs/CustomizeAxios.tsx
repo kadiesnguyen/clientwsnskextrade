@@ -3,7 +3,7 @@ import { getToken } from "./client-store";
 import swal from "sweetalert";
 
 // Lấy baseURL từ environment
-const AUTH_API_URL = "https://www.ku99.win";
+const AUTH_API_URL = "https://www.akhcnehalke.com";
 
 const CONTENT_API_URL = "https://api1.akhcnehalke.com";
 
