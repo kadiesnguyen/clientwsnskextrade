@@ -32,12 +32,6 @@ import {
   SportsIcon,
 } from "@/shared/Svgs/Svg.component";
 import { Button } from "@mui/material";
-import MiniGameComponent from "../popup/MiniGameComponent";
-import MiniGameIframeComponent from "../popup/MiniGameIframeComponent";
-// Lazy load các component ít ưu tiên
-const SidebarPage = dynamic(() => import("../../pages/Sidebar/Sidebar.page"), {
-  ssr: false,
-});
 const FooterPage = dynamic(() => import("@/pages/Footer/Footer.page"), {
   ssr: false,
 });
@@ -144,9 +138,7 @@ export default function PrimaryLayoutComponent({
       ) : (
         <div className="container">
           <HeaderPage user={user} />
-          <div className="menu-sidebar-left">
-            <SidebarPage />
-          </div>
+
           <main>{children}</main>
           <FooterPage />
           <nav className="menu-mobile">
@@ -255,15 +247,6 @@ export default function PrimaryLayoutComponent({
               style={{ width: "50px", height: "50px", objectFit: "cover" }}
             />
           </Button> */}
-          <MiniGameComponent
-            open={isMiniGameOpen}
-            onClose={handleCloseMiniGame}
-            onFirstItemClick={handleOpenIframe}
-          />
-          <MiniGameIframeComponent
-            open={isIframeOpen}
-            onClose={handleCloseIframe}
-          />
         </div>
       )}
     </>

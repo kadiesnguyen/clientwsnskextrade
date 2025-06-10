@@ -35,6 +35,11 @@ import ArchiveIcon from "@mui/icons-material/Archive";
 import FileCopyIcon from "@mui/icons-material/FileCopy";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import {
+  InternetIcon,
+  NotiIcon,
+  QuestionIcon,
+} from "@/shared/Svgs/Svg.component";
 
 interface propUser {
   user: userResponse;
@@ -228,8 +233,7 @@ export default function HeaderPage(props: propUser) {
                           key={index}
                           onClick={handleMouseLeave}
                           sx={{
-                            width: 250,
-                            wordBreak: "break-word",
+                            width: 330,
                           }} // Đặt độ rộng tối thiểu và xuống dòng
                         >
                           <Link
@@ -255,6 +259,7 @@ export default function HeaderPage(props: propUser) {
                                   width: "100%",
                                   wordBreak: "break-word",
                                   overflowWrap: "break-word",
+                                  fontWeight: "600",
                                 }}
                               >
                                 {subItem.title}
@@ -289,22 +294,56 @@ export default function HeaderPage(props: propUser) {
                 <MenuProfile user={user} />
               </div>
             ) : (
-              <div className="header-right-menu">
-                <button className="login" onClick={() => handleSetActiveTab(0)}>
-                  Đăng Nhập
-                </button>
-                <button
-                  className="register"
-                  style={{ cursor: "pointer" }}
-                  onClick={() => handleSetActiveTab(1)}
-                >
-                  Đăng ký
-                </button>
-                <DialogLogin
-                  activeTab={activeTab}
-                  onClose={handleMouseLeave}
-                  open={show}
-                />
+              <div className="header-right">
+                <div className="header-right-menu">
+                  <input
+                    type="text"
+                    placeholder="Tìm kiếm tiền mã hoá"
+                    className="search-bar"
+                  />
+                  <button
+                    style={{
+                      background: "none",
+                      fontSize: "14px",
+                      border: "none",
+                      padding: 0,
+                      color: "#fff",
+                    }}
+                  >
+                    Đăng nhập
+                  </button>
+                  <button
+                    style={{
+                      background: "none",
+                      fontSize: "14px",
+                      padding: "5px",
+                      color: "#fff",
+                      border: "1px solid #fff",
+                      borderRadius: "10px",
+                    }}
+                  >
+                    Đăng kí
+                  </button>
+                  <button
+                    style={{
+                      background: "none",
+                      border: "none",
+                      padding: 0,
+                    }}
+                  >
+                    <NotiIcon />
+                  </button>
+                  <button
+                    style={{ background: "none", border: "none", padding: 0 }}
+                  >
+                    <QuestionIcon />
+                  </button>
+                  <button
+                    style={{ background: "none", border: "none", padding: 0 }}
+                  >
+                    <InternetIcon />
+                  </button>
+                </div>
               </div>
             )}
           </div>
