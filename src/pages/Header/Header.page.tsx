@@ -3,7 +3,6 @@ import Image from "next/image";
 import React, { useCallback, useEffect, useState, useRef } from "react";
 import "./Header.css";
 import dayjs from "dayjs";
-import DialogLogin from "@/components/login/loginForm";
 import Link from "next/link";
 import { userResponse } from "@/interface/user.interface";
 import { useRouter } from "next/navigation";
@@ -169,9 +168,8 @@ export default function HeaderPage(props: propUser) {
         <div className="header-top">
           <div className="header-left">
             <div className="logo">
-              <Link
+              <a
                 href={"/"}
-                prefetch={false}
                 style={{
                   textDecoration: "none",
                   color: "#fff",
@@ -180,7 +178,7 @@ export default function HeaderPage(props: propUser) {
                 }}
               >
                 <Image src="/images/logo.png" width={80} height={80} alt="" />
-              </Link>
+              </a>
             </div>
           </div>
           <nav className="header-bottom">
@@ -301,18 +299,20 @@ export default function HeaderPage(props: propUser) {
                     placeholder="Tìm kiếm tiền mã hoá"
                     className="search-bar"
                   />
-                  <button
+                  <a
                     style={{
                       background: "none",
                       fontSize: "14px",
                       border: "none",
                       padding: 0,
                       color: "#fff",
+                      width: "70px",
                     }}
+                    href="/login"
                   >
                     Đăng nhập
-                  </button>
-                  <button
+                  </a>
+                  <a
                     style={{
                       background: "none",
                       fontSize: "14px",
@@ -320,26 +320,39 @@ export default function HeaderPage(props: propUser) {
                       color: "#fff",
                       border: "1px solid #fff",
                       borderRadius: "10px",
+                      width: "60px",
                     }}
+                    href="/signup"
                   >
                     Đăng kí
+                  </a>
+                  <button
+                    style={{
+                      background: "none",
+                      border: "none",
+                      padding: 0,
+                      cursor: "pointer",
+                    }}
+                  >
+                    <NotiIcon />
                   </button>
                   <button
                     style={{
                       background: "none",
                       border: "none",
                       padding: 0,
+                      cursor: "pointer",
                     }}
-                  >
-                    <NotiIcon />
-                  </button>
-                  <button
-                    style={{ background: "none", border: "none", padding: 0 }}
                   >
                     <QuestionIcon />
                   </button>
                   <button
-                    style={{ background: "none", border: "none", padding: 0 }}
+                    style={{
+                      background: "none",
+                      border: "none",
+                      padding: 0,
+                      cursor: "pointer",
+                    }}
                   >
                     <InternetIcon />
                   </button>

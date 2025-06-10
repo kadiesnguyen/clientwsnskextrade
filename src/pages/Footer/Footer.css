@@ -27,3 +27,24 @@ footer li a {
     width: fit-content;
     margin-bottom: 16px;
 }
+
+footer li a:hover {
+    color: #fff;
+}
+
+.footer-icon {
+    width: 80%;
+    margin: auto;
+    margin-bottom: 50px;
+}
+
+.footer-icon img {
+    width: 150px;
+    object-fit: contain;
+}
+
+.footer-icon p {
+    color: #909090;
+    font-size: 14px;
+    margin-left: 15px;
+}

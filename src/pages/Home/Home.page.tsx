@@ -243,7 +243,10 @@ export default function HomePage() {
                 aria-controls="panel1-content"
                 id="panel1-header"
               >
-                <Typography component="span" sx={{ fontSize: 40 }}>
+                <Typography
+                  component="span"
+                  sx={{ fontSize: 35, padding: "50px 0px" }}
+                >
                   What products does OKX provide?
                 </Typography>
               </AccordionSummary>
@@ -279,7 +282,10 @@ export default function HomePage() {
                 aria-controls="panel2-content"
                 id="panel2-header"
               >
-                <Typography component="span" sx={{ fontSize: 40 }}>
+                <Typography
+                  component="span"
+                  sx={{ fontSize: 35, padding: "50px 0px" }}
+                >
                   How do I buy Bitcoin and other cryptocurrencies on OKX?
                 </Typography>
               </AccordionSummary>
@@ -317,7 +323,10 @@ export default function HomePage() {
                 aria-controls="panel2-content"
                 id="panel2-header"
               >
-                <Typography component="span" sx={{ fontSize: 40 }}>
+                <Typography
+                  component="span"
+                  sx={{ fontSize: 35, padding: "50px 0px" }}
+                >
                   What is crypto?
                 </Typography>
               </AccordionSummary>

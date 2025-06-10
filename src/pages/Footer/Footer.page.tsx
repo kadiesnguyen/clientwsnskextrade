@@ -22,7 +22,12 @@ export default function FooterPage() {
       <footer
         style={{ backgroundColor: "#000", color: "#fff", paddingTop: "200px" }}
       >
+        <div className="footer-icon">
+          <Image src={"./images/logo.png"} width={50} height={50} alt="" />
+          <p>©2017 - 2025 OKX.COM</p>
+        </div>
         <div
+          className="menu-footer"
           style={{
             maxWidth: "1200px",
             margin: "0 auto",
@@ -230,6 +235,7 @@ export default function FooterPage() {
           </div>
         </div>
         <div
+          className="footer-icon-socal"
           style={{
             display: "flex",
             gap: "10px",

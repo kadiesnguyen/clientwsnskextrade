@@ -88,6 +88,8 @@
 .trade-like .trade-like-title p {
     font-size: 18px;
     text-align: center;
+    color: #909090;
+    margin-top: 10px;
 }
 
 .trade-way {
@@ -118,6 +120,8 @@
     width: 80%;
     text-align: center;
     margin: auto;
+    color: #909090;
+    margin-top: 10px;
 }
 
 .what-is {
