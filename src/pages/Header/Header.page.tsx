@@ -200,87 +200,89 @@ export default function HeaderPage(props: propUser) {
                     onMouseEnter={(e) => handleMouseEnter(e, item.id)}
                     onMouseLeave={handleMouseLeave}
                     href={item.link}
-                    endIcon={<KeyboardArrowDownIcon />}
+                    endIcon={item.item.length > 0 && <KeyboardArrowDownIcon />}
                   >
                     {item.title}
                   </Button>
-                  <StyledMenu
-                    id={`menu-${item.id}`}
-                    anchorEl={anchorEl}
-                    open={Boolean(anchorEl) && menuId === item.id}
-                    onClose={handleMouseLeave}
-                    anchorOrigin={{
-                      vertical: "bottom",
-                      horizontal: "center", // Căn giữa theo chiều ngang
-                    }}
-                    transformOrigin={{
-                      vertical: "top",
-                      horizontal: "center", // Căn giữa điểm gốc
-                    }}
-                    MenuListProps={{
-                      onMouseEnter: handleMenuMouseEnter,
-                      onMouseLeave: handleMouseLeave,
-                    }}
-                  >
-                    {item.item.map(
-                      (
-                        subItem: any,
-                        index // Sửa item.item thành item.items
-                      ) => (
-                        <MenuItem
-                          key={index}
-                          onClick={handleMouseLeave}
-                          sx={{
-                            width: 330,
-                          }} // Đặt độ rộng tối thiểu và xuống dòng
-                        >
-                          <Link
-                            href={subItem.link}
-                            style={{
-                              textDecoration: "none",
-                              color: "inherit",
-                              display: "flex",
-                              width: "100%",
-                              alignItems: "center",
-                            }}
+                  {item.item.length > 0 && (
+                    <StyledMenu
+                      id={`menu-${item.id}`}
+                      anchorEl={anchorEl}
+                      open={Boolean(anchorEl) && menuId === item.id}
+                      onClose={handleMouseLeave}
+                      anchorOrigin={{
+                        vertical: "bottom",
+                        horizontal: "center", // Căn giữa theo chiều ngang
+                      }}
+                      transformOrigin={{
+                        vertical: "top",
+                        horizontal: "center", // Căn giữa điểm gốc
+                      }}
+                      MenuListProps={{
+                        onMouseEnter: handleMenuMouseEnter,
+                        onMouseLeave: handleMouseLeave,
+                      }}
+                    >
+                      {item.item.map(
+                        (
+                          subItem: any,
+                          index // Sửa item.item thành item.items
+                        ) => (
+                          <MenuItem
+                            key={index}
+                            onClick={handleMouseLeave}
+                            sx={{
+                              width: 330,
+                            }} // Đặt độ rộng tối thiểu và xuống dòng
                           >
-                            {subItem.icon}
-                            <div
+                            <Link
+                              href={subItem.link}
                               style={{
-                                marginLeft: 8,
-                                width: "calc(100% - 24px)",
+                                textDecoration: "none",
+                                color: "inherit",
+                                display: "flex",
+                                width: "100%",
+                                alignItems: "center",
                               }}
                             >
-                              <Typography
-                                variant="body1"
-                                sx={{
-                                  width: "100%",
-                                  wordBreak: "break-word",
-                                  overflowWrap: "break-word",
-                                  fontWeight: "600",
+                              {subItem.icon}
+                              <div
+                                style={{
+                                  marginLeft: 8,
+                                  width: "calc(100% - 24px)",
                                 }}
                               >
-                                {subItem.title}
-                              </Typography>
-                              {subItem.note && (
                                 <Typography
-                                  variant="caption"
+                                  variant="body1"
                                   sx={{
                                     width: "100%",
                                     wordBreak: "break-word",
-                                    overflowWrap: "anywhere",
-                                    whiteSpace: "normal",
+                                    overflowWrap: "break-word",
+                                    fontWeight: "600",
                                   }}
                                 >
-                                  {subItem.note}
+                                  {subItem.title}
                                 </Typography>
-                              )}
-                            </div>
-                          </Link>
-                        </MenuItem>
-                      )
-                    )}
-                  </StyledMenu>
+                                {subItem.note && (
+                                  <Typography
+                                    variant="caption"
+                                    sx={{
+                                      width: "100%",
+                                      wordBreak: "break-word",
+                                      overflowWrap: "anywhere",
+                                      whiteSpace: "normal",
+                                    }}
+                                  >
+                                    {subItem.note}
+                                  </Typography>
+                                )}
+                              </div>
+                            </Link>
+                          </MenuItem>
+                        )
+                      )}
+                    </StyledMenu>
+                  )}
                 </li>
               ))}
             </ul>
@@ -289,7 +291,45 @@ export default function HeaderPage(props: propUser) {
             {user ? (
               <div className="header-right-menu">
                 <span></span>
-                <MenuProfile user={user} />
+                <div className="header-right-menu">
+                  <input
+                    type="text"
+                    placeholder="Tìm kiếm tiền mã hoá"
+                    className="search-bar"
+                  />
+
+                  <MenuProfile user={user} />
+                  <button
+                    style={{
+                      background: "none",
+                      border: "none",
+                      padding: 0,
+                      cursor: "pointer",
+                    }}
+                  >
+                    <NotiIcon />
+                  </button>
+                  <button
+                    style={{
+                      background: "none",
+                      border: "none",
+                      padding: 0,
+                      cursor: "pointer",
+                    }}
+                  >
+                    <QuestionIcon />
+                  </button>
+                  <button
+                    style={{
+                      background: "none",
+                      border: "none",
+                      padding: 0,
+                      cursor: "pointer",
+                    }}
+                  >
+                    <InternetIcon />
+                  </button>
+                </div>
               </div>
             ) : (
               <div className="header-right">

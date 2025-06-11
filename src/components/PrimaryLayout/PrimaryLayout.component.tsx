@@ -32,7 +32,11 @@ export default function PrimaryLayoutComponent({
   const router = useRouter();
   const path = usePathname();
   const [openSupport, setOpenSupport] = useState(false);
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<any>({
+    id: "1",
+    username: "Guest",
+    coin: 0,
+  });
   const [load, setLoad] = useState(false);
   const hanldMenu = (menu: number) => {
     setMenu(menu);

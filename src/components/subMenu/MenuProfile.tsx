@@ -19,10 +19,12 @@ import { formatCurrency } from "@/utils/formatMoney";
 import {
   GiftMenuIcon,
   HistoryMenuIcon,
+  InvoiceMenuIcon,
   LiveChatMenuIcon,
   LogoutMenuIcon,
   NapIcon,
   NapMenuIcon,
+  OverviewIcon,
   ProfileIcon,
   RutIcon,
   RutMenuIcon,
@@ -53,11 +55,10 @@ export default function MenuProfile({ user }: UserProps) {
 
   const menuItemStyles = {
     minWidth: "200px",
-    color: "white",
-
+    color: "#000",
+    fontSize: "14px",
     "&:hover": {
-      background:
-        "linear-gradient(90deg, rgba(0, 104, 230, 0.1) 0%, rgba(12, 0, 230, 0) 100%)",
+      background: "lightgrey",
       "& .MuiSvgIcon-root": {
         color: "white",
       },
@@ -65,27 +66,32 @@ export default function MenuProfile({ user }: UserProps) {
   };
   const menuItems = [
     {
-      text: "Quản lý tài khoản",
+      text: "Overview",
+      icon: <OverviewIcon />,
+      onClick: () => router.push("/profile"),
+    },
+    {
+      text: "Account",
       icon: <ProfileIcon />,
       onClick: () => router.push("/profile"),
     },
     {
-      text: "Nạp Tiền",
+      text: "Security settings",
       icon: <NapIcon />,
       onClick: () => router.push("/profile/account-deposit"),
     },
     {
-      text: "Rút Tiền",
+      text: "Account verification",
       icon: <RutIcon />,
       onClick: () => router.push("/profile/account-withdraw"),
     },
     {
-      text: "Tiền thưởng",
+      text: "Invitation to join",
       icon: <GiftMenuIcon />,
       onClick: () => router.push("/promotion"),
     },
     {
-      text: "Lịch sử giao dịch",
+      text: "Notification",
       icon: <HistoryMenuIcon />,
       onClick: () => router.push("/profile/transaction-history"),
     },
@@ -96,7 +102,12 @@ export default function MenuProfile({ user }: UserProps) {
       onClick: () => NavigationGame("https://t.me/HitJuwa"),
     },
     {
-      text: "Đăng xuất",
+      text: "My invoice",
+      icon: <InvoiceMenuIcon />,
+      onClick: () => NavigationGame("https://t.me/HitJuwa"),
+    },
+    {
+      text: "Log out",
       icon: <LogoutMenuIcon />,
       onClick: () => {
         window.localStorage.removeItem("tokenku99");
@@ -113,7 +124,6 @@ export default function MenuProfile({ user }: UserProps) {
           justifyContent: "space-between",
           gap: 1,
           textAlign: "center",
-          borderRadius: "8px",
         }}
       >
         {/* Nút Rút, Nạp và Icon Menu */}
@@ -136,50 +146,6 @@ export default function MenuProfile({ user }: UserProps) {
               <UserIcon />
             </button>
           </Tooltip>
-          <button
-            onClick={() => router.push("/profile/account-withdraw")}
-            style={{
-              display: "flex",
-              backgroundImage:
-                "url(/images/bg-btn.png), conic-gradient(from 0deg at 50% 50%, #085cff 0deg, #2692e0 89.73deg, #263be0 180.18deg, #085cff 1turn)",
-              color: "white",
-              borderRadius: "20px",
-              textTransform: "none",
-              fontSize: "14px",
-              width: "122px",
-              height: "38px",
-              border: "none",
-              alignItems: "center",
-              justifyContent: "center",
-              cursor: "pointer",
-            }}
-          >
-            <RutMenuIcon />
-            RÚT
-          </button>
-
-          {/* Nút Nạp */}
-          <button
-            onClick={() => router.push("/profile/account-deposit")}
-            style={{
-              display: "flex",
-              backgroundImage:
-                "url(/images/bg-btn.png), conic-gradient(from 0deg at 50% 50%, #d61f57 0deg, #ff0250 89.73deg, #af0036 180.18deg, #d61f57 1turn)",
-
-              color: "white",
-              borderRadius: "20px",
-              border: "none",
-              fontSize: "14px",
-              width: "122px",
-              height: "38px",
-              alignItems: "center",
-              justifyContent: "center",
-              cursor: "pointer",
-            }}
-          >
-            <NapMenuIcon />
-            NẠP
-          </button>
         </Box>
 
         {/* Menu thả xuống */}
@@ -199,10 +165,10 @@ export default function MenuProfile({ user }: UserProps) {
                 overflow: "visible",
                 filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
                 border: "1px solid #353d50",
-                background: "#1e3c72",
-                borderRadius: 6,
+                background: "#fff",
+                borderRadius: 2,
                 mt: 1.5,
-                color: "white",
+                color: "#000",
                 "& .MuiAvatar-root": {
                   width: 32,
                   height: 32,
@@ -217,7 +183,7 @@ export default function MenuProfile({ user }: UserProps) {
                   right: 14,
                   width: 10,
                   height: 10,
-                  bgcolor: "#1e3c72",
+                  bgcolor: "#fff",
                   borderTop: "1px solid #353d50",
                   borderLeft: "1px solid #353d50",
                   transform: "translateY(-50%) rotate(45deg)",
