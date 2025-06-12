@@ -41,11 +41,7 @@ export default function SignupPage() {
           toast.error(err?.message || "Lỗi không xác định");
         });
     } else {
-      swal(
-        "Đăng nhập",
-        "Tên đăng nhập và mật khẩu không được để trống",
-        "error"
-      );
+      toast.error("Tên đăng nhập và mật khẩu không được để trống");
     }
   };
   return (

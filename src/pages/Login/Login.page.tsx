@@ -32,7 +32,7 @@ export default function LoginPage() {
         .then((res: any) => {
           if (res?.status === true) {
             window.localStorage.setItem("tokenokx", res.token);
-            window.location.href = "/";
+            // window.location.href = "/";
           } else {
             toast.error(res?.msg);
           }
@@ -41,11 +41,7 @@ export default function LoginPage() {
           setLoadding(false);
         });
     } else {
-      swal(
-        "Đăng nhập",
-        "Tên đăng nhập và mật khẩu không được để trống",
-        "error"
-      );
+      toast.error("Tên đăng nhập và mật khẩu không được để trống");
     }
   };
   return (
