@@ -31,8 +31,9 @@ export default function LoginPage() {
       await loginUser(email, password)
         .then((res: any) => {
           if (res?.status === true) {
+            toast.success("Đăng nhập thành công");
             window.localStorage.setItem("tokenokx", res.token);
-            // window.location.href = "/";
+            window.location.href = "/";
           } else {
             toast.error(res?.msg);
           }
