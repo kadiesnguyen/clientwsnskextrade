@@ -38,4 +38,15 @@ const getReferral = () => {
   return contentInstance.get(`/api/referral`);
 };
 
-export { loginUser, signupUser, updatePassword, getMe, getReferral };
+const getOrepool = () => {
+  return contentInstance.get("/api/orepool");
+};
+
+export {
+  loginUser,
+  signupUser,
+  updatePassword,
+  getMe,
+  getReferral,
+  getOrepool,
+};

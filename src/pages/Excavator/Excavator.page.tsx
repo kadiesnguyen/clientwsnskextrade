@@ -1,0 +1,478 @@
+"use client";
+import LinearWithValueLabel from "@/components/Input/LinearWithValueLabel";
+import { getOrepool } from "@/services/User.service";
+import { Box, Button, Tab, Tabs, Typography } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+interface TabPanelProps {
+  children?: React.ReactNode;
+  index: number;
+  value: number;
+}
+
+function CustomTabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+    </div>
+  );
+}
+
+function a11yProps(index: number) {
+  return {
+    id: `simple-tab-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
+  };
+}
+export default function ExcavatorPage() {
+  const [orepool, setOrepool] = useState<any>(null);
+  const [value, setValue] = React.useState(0);
+
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue);
+  };
+  useEffect(() => {
+    const referral = async () => {
+      try {
+        const res: any = await getOrepool();
+        if (res.status === true) {
+          setOrepool(res.data);
+        }
+      } catch (errors: any) {
+        toast.error(errors?.message);
+      }
+    };
+    referral();
+  }, []);
+  return (
+    <Box>
+      <Box
+        sx={{
+          width: "100%",
+          margin: "0 auto",
+          backgroundColor: "#000",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          gap: "50px",
+          paddingTop: "80px",
+        }}
+      >
+        <Box>
+          <img src="/images/113A699D75096FA7.png" style={{ height: "400px" }} />
+        </Box>
+        <Box sx={{ width: "400px" }}>
+          <Typography variant="h6" color={"#e5f663"}>
+            Now available
+          </Typography>
+          <Typography variant="h6" color={"#e5f663"}>
+            For institutional clients
+          </Typography>
+          <Typography variant="h3" color={"white"}>
+            Rent an excavator
+          </Typography>
+          <Typography sx={{ color: "white", fontSize: "16px" }}>
+            Rent a mining machine to speed up your coin mining. Increase your
+            earning rate.
+          </Typography>
+          <Button
+            type="button"
+            sx={{
+              background: "white",
+              color: "#000",
+              width: "150px",
+              height: "45px",
+              borderRadius: "10px",
+              marginTop: "20px",
+              "&:hover": {
+                backgroundColor: "lightgray",
+                color: "#000",
+              },
+            }}
+          >
+            Read more
+          </Button>
+        </Box>
+      </Box>
+      <Box sx={{ background: "#fff", padding: "20px 0" }}>
+        <Typography
+          sx={{
+            textAlign: "center",
+            padding: "20px 0",
+            color: "#000",
+            fontSize: "35px",
+            fontWeight: "bold",
+          }}
+          variant="h3"
+        >
+          List of machines for rent
+        </Typography>
+        <Box
+          sx={{
+            width: "90%",
+            margin: "0 auto",
+          }}
+        >
+          <Box sx={{ width: "100%" }}>
+            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+              <Tabs
+                value={value}
+                onChange={handleChange}
+                aria-label="basic tabs example"
+                sx={{
+                  justifyContent: "center",
+                  display: "flex",
+
+                  "& .MuiTabs-flexContainer": {
+                    justifyContent: "center",
+                  },
+
+                  "& .MuiTab-root": {
+                    color: "#909090",
+                    fontSize: "18px",
+                    fontWeight: 500,
+                    "&:hover": { color: "#333" },
+                    "&.Mui-selected": {
+                      color: "#000",
+                      fontWeight: 700,
+                    },
+                  },
+                  "& .MuiTabs-indicator": {
+                    backgroundColor: "#000",
+                  },
+                }}
+              >
+                <Tab label="Overview" {...a11yProps(0)} />
+                <Tab label="Exclusive" {...a11yProps(1)} />
+                <Tab label="Shared" {...a11yProps(2)} />
+              </Tabs>
+            </Box>
+            <CustomTabPanel value={value} index={0}>
+              <Box
+                sx={{
+                  width: "100%",
+                  margin: "0 auto",
+                  display: "flex",
+                  flexWrap: "wrap",
+                  gap: "30px",
+                }}
+              >
+                {orepool?.overview.map((item: any, index: number) => (
+                  <Box
+                    key={index}
+                    sx={{
+                      width: "calc(50% - 20px)",
+                      border: "1px solid #909090",
+                      padding: "10px",
+                      borderRadius: "10px",
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <img
+                      src={item.imgs}
+                      alt={item.title}
+                      style={{
+                        width: "100px",
+                        height: "auto",
+                        borderRadius: "10px",
+                      }}
+                    />
+                    <Box>
+                      <Typography variant="h6" sx={{ marginTop: "10px" }}>
+                        {item.title}
+                      </Typography>
+                      <Typography
+                        sx={{
+                          paddingTop: "5px",
+                          fontSize: "14px",
+                          color: "#666",
+                          paddingBottom: "10px",
+                        }}
+                      >
+                        {item.content}
+                      </Typography>
+                      <Box
+                        sx={{
+                          display: "grid",
+                          gridTemplateColumns: "repeat(2, 1fr)",
+                          gap: "10px",
+                        }}
+                      >
+                        <Typography
+                          variant="body1"
+                          sx={{ color: "#666", fontSize: "14px" }}
+                        >
+                          Rental price: {item.pricenum}
+                        </Typography>
+                        <Typography
+                          variant="body1"
+                          sx={{ color: "#666", fontSize: "14px" }}
+                        >
+                          Type : {item.type === 1 ? "Personal" : "Share"}
+                        </Typography>
+                        <Typography
+                          variant="body1"
+                          sx={{ color: "#666", fontSize: "14px" }}
+                        >
+                          Type currency received : {item.outcoin}
+                        </Typography>
+                        <Typography
+                          variant="body1"
+                          sx={{ color: "#666", fontSize: "14px" }}
+                        >
+                          Output the machine:{" "}
+                          {item.dayoutnum + " " + item.pricecoin}/Day
+                        </Typography>
+                        <Typography
+                          variant="body1"
+                          sx={{ color: "#666", fontSize: "14px" }}
+                        >
+                          Method: Automation
+                        </Typography>
+                        <Button
+                          type="button"
+                          sx={{
+                            width: "100px",
+                            height: "40px",
+                            background: "#000",
+                            color: "white",
+                            borderRadius: "10px",
+                            "&:hover": {
+                              backgroundColor: "#001",
+                            },
+                          }}
+                        >
+                          Rent now
+                        </Button>
+                      </Box>
+                      <LinearWithValueLabel value={item.ycnum} />
+                    </Box>
+                  </Box>
+                ))}
+              </Box>
+            </CustomTabPanel>
+            <CustomTabPanel value={value} index={1}>
+              <Box
+                sx={{
+                  width: "100%",
+                  margin: "0 auto",
+                  display: "flex",
+                  flexWrap: "wrap",
+                  gap: "20px",
+                }}
+              >
+                {orepool?.exclusive.map((item: any, index: number) => (
+                  <Box
+                    key={index}
+                    sx={{
+                      width: "calc(50% - 20px)",
+                      border: "1px solid #909090",
+                      padding: "10px",
+                      borderRadius: "10px",
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <img
+                      src={item.imgs}
+                      alt={item.title}
+                      style={{
+                        width: "100px",
+                        height: "auto",
+                        borderRadius: "10px",
+                      }}
+                    />
+                    <Box>
+                      <Typography variant="h6" sx={{ marginTop: "10px" }}>
+                        {item.title}
+                      </Typography>
+                      <Typography
+                        sx={{
+                          paddingTop: "5px",
+                          fontSize: "14px",
+                          color: "#666",
+                          paddingBottom: "10px",
+                        }}
+                      >
+                        {item.content}
+                      </Typography>
+                      <Box
+                        sx={{
+                          display: "grid",
+                          gridTemplateColumns: "repeat(2, 1fr)",
+                          gap: "10px",
+                        }}
+                      >
+                        <Typography
+                          variant="body1"
+                          sx={{ color: "#666", fontSize: "14px" }}
+                        >
+                          Rental price: {item.pricenum}
+                        </Typography>
+                        <Typography
+                          variant="body1"
+                          sx={{ color: "#666", fontSize: "14px" }}
+                        >
+                          Type : {item.type === 1 ? "Personal" : "Share"}
+                        </Typography>
+                        <Typography
+                          variant="body1"
+                          sx={{ color: "#666", fontSize: "14px" }}
+                        >
+                          Type currency received : {item.outcoin}
+                        </Typography>
+                        <Typography
+                          variant="body1"
+                          sx={{ color: "#666", fontSize: "14px" }}
+                        >
+                          Output the machine:{" "}
+                          {item.dayoutnum + " " + item.pricecoin}/Day
+                        </Typography>
+                        <Typography
+                          variant="body1"
+                          sx={{ color: "#666", fontSize: "14px" }}
+                        >
+                          Method: Automation
+                        </Typography>
+                        <Button
+                          type="button"
+                          sx={{
+                            width: "100px",
+                            height: "40px",
+                            background: "#000",
+                            color: "white",
+                            borderRadius: "10px",
+                            "&:hover": {
+                              backgroundColor: "#001",
+                            },
+                          }}
+                        >
+                          Rent now
+                        </Button>
+                      </Box>
+                      <LinearWithValueLabel value={item.ycnum} />
+                    </Box>
+                  </Box>
+                ))}
+              </Box>
+            </CustomTabPanel>
+            <CustomTabPanel value={value} index={2}>
+              <Box
+                sx={{
+                  width: "100%",
+                  margin: "0 auto",
+                  display: "flex",
+                  flexWrap: "wrap",
+                  gap: "20px",
+                }}
+              >
+                {orepool?.shared.map((item: any, index: number) => (
+                  <Box
+                    key={index}
+                    sx={{
+                      width: "calc(50% - 20px)",
+                      border: "1px solid #909090",
+                      padding: "10px",
+                      borderRadius: "10px",
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <img
+                      src={item.imgs}
+                      alt={item.title}
+                      style={{
+                        width: "100px",
+                        height: "auto",
+                        borderRadius: "10px",
+                      }}
+                    />
+                    <Box>
+                      <Typography variant="h6" sx={{ marginTop: "10px" }}>
+                        {item.title}
+                      </Typography>
+                      <Typography
+                        sx={{
+                          paddingTop: "5px",
+                          fontSize: "14px",
+                          color: "#666",
+                          paddingBottom: "10px",
+                        }}
+                      >
+                        {item.content}
+                      </Typography>
+                      <Box
+                        sx={{
+                          display: "grid",
+                          gridTemplateColumns: "repeat(2, 1fr)",
+                          gap: "10px",
+                        }}
+                      >
+                        <Typography
+                          variant="body1"
+                          sx={{ color: "#666", fontSize: "14px" }}
+                        >
+                          Rental price: {item.pricenum}
+                        </Typography>
+                        <Typography
+                          variant="body1"
+                          sx={{ color: "#666", fontSize: "14px" }}
+                        >
+                          Type : {item.type === 1 ? "Personal" : "Share"}
+                        </Typography>
+                        <Typography
+                          variant="body1"
+                          sx={{ color: "#666", fontSize: "14px" }}
+                        >
+                          Type currency received : {item.outcoin}
+                        </Typography>
+                        <Typography
+                          variant="body1"
+                          sx={{ color: "#666", fontSize: "14px" }}
+                        >
+                          Output the machine:{" "}
+                          {item.dayoutnum + " " + item.pricecoin}/Day
+                        </Typography>
+                        <Typography
+                          variant="body1"
+                          sx={{ color: "#666", fontSize: "14px" }}
+                        >
+                          Method: Automation
+                        </Typography>
+                        <Button
+                          type="button"
+                          sx={{
+                            width: "100px",
+                            height: "40px",
+                            background: "#000",
+                            color: "white",
+                            borderRadius: "10px",
+                            "&:hover": {
+                              backgroundColor: "#001",
+                            },
+                          }}
+                        >
+                          Rent now
+                        </Button>
+                      </Box>
+                      <LinearWithValueLabel value={item.ycnum} />
+                    </Box>
+                  </Box>
+                ))}
+              </Box>
+            </CustomTabPanel>
+          </Box>
+        </Box>
+      </Box>
+    </Box>
+  );
+}
