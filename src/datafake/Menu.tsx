@@ -86,7 +86,7 @@ export const MenuAset = [
 export const MenuWebsite = [
   {
     id: "1",
-    link: "/trade",
+    link: "/buysell",
     title: "Buy & Sell",
     item: [
       {
