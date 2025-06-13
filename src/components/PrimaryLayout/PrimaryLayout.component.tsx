@@ -12,8 +12,14 @@ import MenuPopupComponent from "../popup/MenuPopup.component";
 import SupportPopupComponent from "../popup/SupportPopup.component";
 import "./PrimaryLayout.css";
 import {
+  ArrowSwap1Icon,
+  ArrowSwap2Icon,
+  AssetsIcon,
   CasioIcon,
   DPGameIcon,
+  ExploreIcon,
+  HomeIcon,
+  MarketIcon,
   SearchIcon,
   SportsIcon,
 } from "@/shared/Svgs/Svg.component";
@@ -30,7 +36,7 @@ export default function PrimaryLayoutComponent({
 }: {
   children: React.ReactNode;
 }) {
-  const [menu, setMenu] = useState(2);
+  const [menu, setMenu] = useState(1);
   const [isLoading, setIsLoading] = useState(true); // New state for loading
   const router = useRouter();
   const path = usePathname();
@@ -44,19 +50,19 @@ export default function PrimaryLayoutComponent({
 
     switch (menu) {
       case 1:
-        router.replace("/sport");
+        router.replace("/");
         break;
       case 2:
         router.replace("/");
         break;
       case 3:
-        router.replace("/livecasino");
+        router.replace("/");
         break;
       case 4:
-        router.replace("/tablegame");
+        router.replace("/");
         break;
       case 5:
-        router.replace("/event");
+        router.replace("/");
         break;
     }
   };
@@ -96,65 +102,78 @@ export default function PrimaryLayoutComponent({
           <main>{children}</main>
           {path === "/login/" || path === "/signup/" ? "" : <FooterPage />}
 
-          {/* <nav className="menu-mobile">
+          <nav className="menu-mobile">
             <ul>
               <li>
-                <button type="button" onClick={() => hanldMenu(5)}>
-                  <Image
-                    src={"/images/khuyenmai.webp"}
-                    width={25}
-                    height={25}
-                    style={
-                      menu === 5 ? { color: "#d7ca63" } : { color: "white" }
-                    }
-                    alt=""
-                    className="moblie-icon"
-                  />
-                  <p className={menu === 5 ? "mobile-active" : "mobile-p"}>
-                    Khuyến mãi
-                  </p>
-                </button>
-              </li>
-              <li>
                 <button type="button" onClick={() => hanldMenu(1)}>
-                  <SportsIcon className="moblie-icon" />
+                  <HomeIcon
+                    width="25px"
+                    height="25px"
+                    fill={menu === 1 ? "#1C274C" : "#909090"}
+                  />
                   <p className={menu === 1 ? "mobile-active" : "mobile-p"}>
-                    Thể thao
+                    OKX
                   </p>
                 </button>
               </li>
               <li>
                 <button type="button" onClick={() => hanldMenu(2)}>
-                  <Image
-                    src={"/images/home.png"}
-                    width={34}
-                    height={34}
-                    alt=""
-                    style={{ objectFit: "cover" }}
+                  <MarketIcon
+                    width="25px"
+                    height="25px"
+                    fill={menu === 2 ? "#1C274C" : "#909090"}
                   />
                   <p className={menu === 2 ? "mobile-active" : "mobile-p"}>
-                    Trang chủ
+                    Markets
                   </p>
                 </button>
               </li>
               <li>
                 <button type="button" onClick={() => hanldMenu(3)}>
-                  <CasioIcon className="moblie-icon" />
+                  {menu === 3 ? (
+                    <ArrowSwap1Icon
+                      width="25px"
+                      height="25px"
+                      className="icon-home-m"
+                    />
+                  ) : (
+                    <ArrowSwap2Icon
+                      width="25px"
+                      height="25px"
+                      className="icon-home-m"
+                    />
+                  )}
                   <p className={menu === 3 ? "mobile-active" : "mobile-p"}>
-                    Live casino
+                    Trade
                   </p>
                 </button>
               </li>
               <li>
                 <button type="button" onClick={() => hanldMenu(4)}>
-                  <DPGameIcon className="moblie-icon" />
+                  <ExploreIcon
+                    width="25px"
+                    height="25px"
+                    fill={menu === 4 ? "#1C274C" : "#909090"}
+                  />
                   <p className={menu === 4 ? "mobile-active" : "mobile-p"}>
-                    Games
+                    Explore
+                  </p>
+                </button>
+              </li>
+              <li>
+                <button type="button" onClick={() => hanldMenu(5)}>
+                  <AssetsIcon
+                    width="25px"
+                    height="25px"
+                    fill={menu === 5 ? "#1C274C" : "#909090"}
+                  />
+                  <p className={menu === 5 ? "mobile-active" : "mobile-p"}>
+                    Assets
                   </p>
                 </button>
               </li>
             </ul>
-          </nav> */}
+          </nav>
 
           {/* <MenuPopupComponent
             open={open}

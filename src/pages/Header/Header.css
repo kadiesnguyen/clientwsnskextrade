@@ -449,7 +449,7 @@ header {
     }
 
     header {
-        height: 60px;
+        display: none;
     }
 
     .header-right-ios {

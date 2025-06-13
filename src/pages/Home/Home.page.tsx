@@ -17,10 +17,12 @@ import {
   AccordionDetails,
   AccordionSummary,
   Avatar,
+  Box,
   Button,
   Typography,
 } from "@mui/material";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
+import useAuth from "@/hook/useAuth";
 const responsiveSettings = [
   {
     breakpoint: 500,
@@ -39,7 +41,7 @@ const responsiveSettings = [
 ];
 
 export default function HomePage() {
-  const [isFixed, setIsFixed] = useState(false);
+  const { user, loading } = useAuth();
   const route = useRouter();
 
   // useEffect(() => {
@@ -336,6 +338,84 @@ export default function HomePage() {
           </div>
         </div>
       </div>
+      {loading ? (
+        <LoadingComponent />
+      ) : (
+        <div className="home-mobile">
+          {!user ? (
+            <Box>
+              <Typography
+                variant="h2"
+                sx={{
+                  fontSize: "35px",
+                  fontWeight: "bold",
+                  width: "180px",
+                  margin: "auto",
+                  textAlign: "center",
+                }}
+              >
+                A New Alternative
+              </Typography>
+              <Typography
+                sx={{
+                  fontSize: "12px",
+                  padding: "10px 0",
+                  textAlign: "center",
+                }}
+              >
+                To your Cryto Jouney
+              </Typography>
+              <Box
+                sx={{ width: "100%", textAlign: "center", padding: "20px 0" }}
+              >
+                <img
+                  src="/images/7889D86ACE77574B.png"
+                  style={{
+                    height: "350px",
+                    objectFit: "contain",
+                  }}
+                />
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: 2,
+                  // position: "fixed",
+                  // margin: "auto",
+                  // bottom: "100px",
+                  justifyContent: "center",
+                  justifyItems: "center",
+                }}
+              >
+                <Button
+                  sx={{
+                    width: "150px",
+                    backgroundColor: "#000",
+                    color: "white",
+                    borderRadius: "20px",
+                  }}
+                  onClick={() => route.push("/login")}
+                >
+                  Login
+                </Button>
+                <Button
+                  sx={{
+                    width: "150px",
+                    backgroundColor: "lightgray",
+                    color: "black",
+                    borderRadius: "20px",
+                  }}
+                  onClick={() => route.push("/signup")}
+                >
+                  Sign Up
+                </Button>
+              </Box>
+            </Box>
+          ) : (
+            <Box></Box>
+          )}
+        </div>
+      )}
     </div>
   );
 }

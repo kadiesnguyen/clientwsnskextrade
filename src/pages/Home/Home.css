@@ -237,3 +237,25 @@
     font-size: 45px;
     text-align: center;
 }
+
+.home-mobile {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .home-webiste {
+        display: none;
+    }
+
+    .home {
+        background-color: #fff;
+    }
+
+    .home-mobile {
+        display: block;
+        width: 100%;
+        padding-top: 40px;
+        background: #fff;
+        height: 10000px;
+    }
+}
