@@ -31,6 +31,7 @@ import { formatCurrency } from "@/utils/formatMoney";
 import Image from "next/image";
 import {
   BankMenuIcon,
+  DashboardIcon,
   GiftMenuIcon,
   HistoryBetMenuIcon,
   HistoryMenuIcon,
@@ -44,8 +45,7 @@ import {
 import NavigationGame from "@/hook/NavigationGame";
 
 export interface userProps {
-  user: userResponse;
-  message: any[];
+  user: userResponse | null;
 }
 
 export default function MenuProfileMobile(data: userProps) {
@@ -82,11 +82,6 @@ export default function MenuProfileMobile(data: userProps) {
       icon: <ProfileIcon />,
       onClick: () => route.push("/profile"),
     },
-    // {
-    //   text: "Giao dịch P2P",
-    //   icon: <P2PMenuIcon />,
-    //   onClick: () => route.push("/profile/account-deposit"),
-    // },
     {
       text: "Quản lý ngân hàng",
       icon: <BankMenuIcon />,
@@ -117,9 +112,9 @@ export default function MenuProfileMobile(data: userProps) {
   const drawerList = () => (
     <Box
       sx={{
-        width: 350,
-        background: "#232b4f",
-        color: "white",
+        width: "100vw",
+        background: "#fff",
+        color: "black",
         height: "100%",
         display: "flex",
         flexDirection: "column",
@@ -133,71 +128,33 @@ export default function MenuProfileMobile(data: userProps) {
           alignItems: "center",
           justifyContent: "space-between",
           padding: "16px",
-          borderBottom: "1px solid #2f3b56",
+          background: "#fff",
+          color: "black",
         }}
       >
         <Box sx={{ display: "flex", alignItems: "center", gap: "12px" }}>
           <Avatar src="/images/avatar-4.webp" sx={{ width: 40, height: 40 }} />
           <Box>
-            <Typography sx={{ fontSize: "16px", fontWeight: "bold" }}>
+            <Typography
+              sx={{ fontSize: "16px", fontWeight: "bold", color: "black" }}
+            >
               {data.user?.username || "huyn19e6bffa5"}
             </Typography>
           </Box>
         </Box>
-        <IconButton onClick={handleDrawerClose}>
-          <CloseIcon sx={{ color: "white" }} />
+        <IconButton
+          onClick={handleDrawerClose}
+          sx={{
+            color: "white",
+            background: "rgba(0, 0, 0, 0.1)",
+            borderRadius: "50%",
+            "&:hover": {
+              background: "rgba(255, 255, 255, 0.2)",
+            },
+          }}
+        >
+          <CloseIcon sx={{ fontSize: "24px" }} />
         </IconButton>
-      </Box>
-
-      {/* Action Buttons */}
-      <Box
-        sx={{
-          display: "flex",
-          gap: "12px",
-          padding: "16px",
-          borderBottom: "1px solid #2f3b56",
-        }}
-      >
-        <Button
-          onClick={() =>
-            handleMenuItemClick(() => route.push("/profile/account-withdraw"))
-          }
-          sx={{
-            flex: 1,
-            backgroundImage:
-              "url(/images/bg-btn.png), conic-gradient(from 0deg at 50% 50%, #085cff 0deg, #2692e0 89.73deg, #263be0 180.18deg, #085cff 1turn)",
-            color: "white",
-            borderRadius: "20px",
-            textTransform: "none",
-            fontSize: "14px",
-            "&:hover": {
-              backgroundImage:
-                "url(/images/bg-btn.png), conic-gradient(from 0deg at 50% 50%, #085cff 0deg, #2692e0 89.73deg, #263be0 180.18deg, #085cff 1turn)",
-            },
-          }}
-        >
-          <RutMenuIcon />
-          RÚT
-        </Button>
-        <Button
-          onClick={() => route.replace("/profile/account-deposit")}
-          sx={{
-            flex: 1,
-            backgroundImage:
-              "url(/images/bg-btn.png), conic-gradient(from 0deg at 50% 50%, #d61f57 0deg, #ff0250 89.73deg, #af0036 180.18deg, #d61f57 1turn)",
-
-            color: "white",
-            borderRadius: "20px",
-            textTransform: "none",
-            fontSize: "14px",
-            "&:hover": {
-              background: "#e03500",
-            },
-          }}
-        >
-          <NapMenuIcon />
-          NẠP
-        </Button>
       </Box>
 
       {/* Menu Items */}
@@ -213,10 +170,11 @@ export default function MenuProfileMobile(data: userProps) {
             <ListItemButton
               onClick={() => handleMenuItemClick(item.onClick)}
               sx={{
-                padding: "2.6666666667vw 0",
+                padding: "10px",
                 height: "12.8vw",
+                borderRadius: "10px",
                 "&:hover": {
-                  background: "#2f3b56",
+                  background: "lightgray",
                 },
               }}
             >
@@ -236,7 +194,7 @@ export default function MenuProfileMobile(data: userProps) {
       </List>
 
       {/* Sign Out Button */}
-      <Box sx={{ padding: "16px", borderTop: "1px solid #2f3b56" }}>
+      <Box sx={{ padding: "16px" }}>
         <Button
           onClick={() =>
             handleMenuItemClick(() => {
@@ -247,7 +205,7 @@ export default function MenuProfileMobile(data: userProps) {
           sx={{
             width: "100%",
             background: "transparent",
-            color: "white",
+            color: "black",
             border: "1px solid #2f3b56",
             borderRadius: "8px",
             textTransform: "none",
@@ -269,31 +227,18 @@ export default function MenuProfileMobile(data: userProps) {
     <React.Fragment>
       <Box
         sx={{
-          display: "flex",
+          display: {
+            xs: "flex",
+            sm: "none",
+          },
           gap: "8px",
-          justifyContent: "flex-end",
-          background: "#1a263f",
-          borderRadius: "20px",
-          marginLeft: "-20px",
+          height: "50px",
+          lineHeight: "50px",
+          padding: "8px 8px",
+          background: "#fff",
+          border: "none",
         }}
       >
-        <Button
-          onClick={() => route.replace("/profile/account-deposit")}
-          sx={{
-            backgroundImage:
-              "url(/images/bg-btn.png), conic-gradient(from 0deg at 50% 50%, #d61f57 0deg, #ff0250 89.73deg, #af0036 180.18deg, #d61f57 1turn)",
-            color: "white",
-            borderRadius: "16px",
-            padding: "4px 12px",
-            fontSize: "14px",
-            textTransform: "none",
-            "&:hover": {
-              background: "#e03500",
-            },
-          }}
-        >
-          NẠP
-        </Button>
         <Tooltip title="Account settings">
           <IconButton
             onClick={handleClick}
@@ -302,15 +247,12 @@ export default function MenuProfileMobile(data: userProps) {
             aria-haspopup="true"
             aria-expanded={drawerOpen ? "true" : undefined}
           >
-            <Avatar
-              src="/images/avatar-4.webp"
-              sx={{ width: 32, height: 32 }}
-            ></Avatar>
+            <DashboardIcon />
           </IconButton>
         </Tooltip>
       </Box>
       <Drawer
-        anchor="right"
+        anchor="left"
         open={drawerOpen}
         onClose={handleDrawerClose}
         sx={{

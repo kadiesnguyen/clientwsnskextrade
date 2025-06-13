@@ -26,6 +26,7 @@ import {
 import { Button } from "@mui/material";
 import useAuth from "@/hook/useAuth";
 import { IUser } from "@/shared/interfaces";
+import MenuProfileMobile from "../subMenu/MenuProfileMobile";
 
 const FooterPage = dynamic(() => import("@/pages/Footer/Footer.page"), {
   ssr: false,
@@ -98,7 +99,7 @@ export default function PrimaryLayoutComponent({
       ) : (
         <div className="container">
           <HeaderPage user={user} />
-
+          <MenuProfileMobile user={user} />
           <main>{children}</main>
           {path === "/login/" || path === "/signup/" ? "" : <FooterPage />}
 

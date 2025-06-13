@@ -393,6 +393,9 @@ export default function HomePage() {
                     backgroundColor: "#000",
                     color: "white",
                     borderRadius: "20px",
+                    "&:hover": {
+                      backgroundColor: "#333",
+                    },
                   }}
                   onClick={() => route.push("/login")}
                 >
@@ -404,6 +407,9 @@ export default function HomePage() {
                     backgroundColor: "lightgray",
                     color: "black",
                     borderRadius: "20px",
+                    "&:hover": {
+                      backgroundColor: "lightgrey",
+                    },
                   }}
                   onClick={() => route.push("/signup")}
                 >
