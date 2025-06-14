@@ -448,6 +448,7 @@ export default function HomePage() {
                     alignItems: "center",
                     justifyContent: "Center",
                     justifyItems: "center",
+                    padding: "10px",
                   }}
                 >
                   <CoinIcon width="100px" height="100px" />
@@ -475,7 +476,7 @@ export default function HomePage() {
                 </Box>
               </Box>
               <TradingViewHotlists />
-              <Box sx={{ paddingTop: "10px", paddingBottom: "100px" }}>
+              <Box sx={{ paddingTop: "40px", paddingBottom: "100px" }}>
                 <h2>Questions? We’ve got answers.</h2>
                 <Accordion
                   sx={{
