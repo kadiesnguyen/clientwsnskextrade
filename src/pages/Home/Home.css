@@ -249,11 +249,15 @@
 
     .home {
         background-color: #fff;
+        height: 100vh;
     }
 
     .home-mobile {
         display: block;
         width: 100%;
         background: #fff;
+        height: 100%;
+        display: grid;
+        align-items: center;
     }
 }
