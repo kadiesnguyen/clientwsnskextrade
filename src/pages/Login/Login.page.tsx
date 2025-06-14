@@ -50,7 +50,13 @@ export default function LoginPage() {
     }
   };
   return (
-    <Box sx={{ display: "flex", height: "100vh" }}>
+    <Box
+      sx={{
+        backgroundColor: "#fff",
+        paddingTop: "50px",
+        height: "100vh",
+      }}
+    >
       {/* Left Section */}
       <Box
         sx={{
@@ -182,7 +188,7 @@ export default function LoginPage() {
             </Button>
             <Typography variant="body2" align="center" sx={{ mb: 2 }}>
               Don’t have an account?{" "}
-              <a href="#" style={{ color: "#1976d2" }}>
+              <a href="/signup" style={{ color: "#1976d2" }}>
                 Sign up
               </a>
             </Typography>
