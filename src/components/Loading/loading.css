@@ -16,7 +16,7 @@
     /* Căn giữa theo chiều ngang */
     align-items: center;
     /* Căn giữa theo chiều dọc */
-    background: #020d24;
+    background: #000;
     /* Màu nền */
 }
 
@@ -69,7 +69,7 @@
 
 /* Loader (vòng xoay) */
 .loader {
-    border: 4px solid gold;
+    border: 4px solid white;
     /* Màu viền */
     z-index: 3;
     border-left-color: transparent;
