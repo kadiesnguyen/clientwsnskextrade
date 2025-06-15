@@ -74,7 +74,7 @@ const MarketDataWidget2 = (progs: MarketDataWidgetProps) => {
       ],
       showSymbolLogo: true,
       isTransparent: true,
-      colorTheme: progs.theme || "dark",
+      colorTheme: "dark",
       locale: "en",
       backgroundColor: "#131722",
     });

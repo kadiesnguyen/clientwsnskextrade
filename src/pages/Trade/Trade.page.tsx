@@ -9,7 +9,7 @@ export default function TradePage() {
   return (
     <Box
       sx={{
-        background: "#fff",
+        background: "#000",
         paddingTop: {
           xs: "0px",
           sm: "70px",
@@ -22,8 +22,29 @@ export default function TradePage() {
           // padding: "20px 0",
         }}
       >
-        <TradingViewTickerTape />
-        <MarketDataWidget2 height={700} theme="dark" />
+        <Box
+          sx={{
+            display: {
+              xs: "none",
+              sm: "block",
+            },
+          }}
+        >
+          <TradingViewTickerTape />
+          <MarketDataWidget2 height={700} theme="dark" />
+        </Box>
+        <Box
+          sx={{
+            display: {
+              xs: "block",
+              sm: "none",
+            },
+          }}
+        >
+          {/* <MarketDataWidget /> */}
+          <TradingViewTickerTape />
+          <MarketDataWidget2 height={700} theme="dark" />
+        </Box>
       </Box>
     </Box>
   );

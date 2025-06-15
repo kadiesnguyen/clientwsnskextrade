@@ -15,9 +15,9 @@ export default function BuySellPage() {
         }}
       >
         <TradeChart />
-        <Box sx={{ display: { xs: "block", sm: "none" }, height: "500px" }}>
+        {/* <Box sx={{ display: { xs: "block", sm: "none" }, height: "500px" }}>
           <TradingViewTechnicalAnalysis />
-        </Box>
+        </Box> */}
       </Box>
     </Box>
   );
