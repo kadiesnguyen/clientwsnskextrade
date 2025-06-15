@@ -59,34 +59,85 @@ export default function OverviewPage() {
       <Box
         sx={{
           padding: 2,
-          width: "80%",
+          width: {
+            xs: "100%",
+            sm: "80%",
+          },
           margin: "0 auto",
         }}
       >
         {/* Header Section */}
         <Box
           sx={{
-            display: "flex",
+            display: {
+              xs: "block",
+              sm: "flex",
+            },
             alignItems: "center",
             gap: 2, // Space between elements
             mb: 2,
           }}
         >
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: {
+                xs: 3,
+                sm: 2,
+              },
+              paddingBottom: {
+                xs: "10px",
+                sm: "0px",
+              },
+            }}
+          >
             <Avatar
               src={user?.username} // Replace with actual profile image path
               alt={user?.username}
-              sx={{ width: 80, height: 80, borderRadius: "50%" }}
+              sx={{
+                width: {
+                  xs: 50,
+                  sm: 80,
+                },
+                height: {
+                  xs: 50,
+                  sm: 80,
+                },
+                borderRadius: "50%",
+              }}
             />
             <Box
               sx={{
-                borderRight: "1px solid #ddd",
+                borderRight: {
+                  xs: "none",
+                  sm: "1px solid #ccc",
+                },
                 paddingRight: 2,
                 marginRight: 2,
               }}
             >
-              <Typography variant="h6">{user?.username}</Typography>
-              <Typography variant="body2" color="text.secondary">
+              <Typography
+                variant="h6"
+                sx={{
+                  fontSize: {
+                    xs: "16px",
+                    sm: "25px",
+                  },
+                }}
+              >
+                {user?.username}
+              </Typography>
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={{
+                  fontSize: {
+                    xs: "13px",
+                    sm: "18px",
+                  },
+                }}
+              >
                 {user?.phone}
               </Typography>
             </Box>
@@ -99,7 +150,15 @@ export default function OverviewPage() {
               alignItems: "center",
             }}
           >
-            <Box sx={{ display: "grid", alignItems: "center" }}>
+            <Box
+              sx={{
+                display: {
+                  xs: "none",
+                  sm: "grid",
+                },
+                alignItems: "center",
+              }}
+            >
               <Typography sx={{ color: "gray", fontSize: "13px" }}>
                 Email
               </Typography>
@@ -129,7 +188,15 @@ export default function OverviewPage() {
               </Typography>
               <Typography>{user?.addr} </Typography>
             </Box>
-            <Box sx={{ display: "grid", alignItems: "center" }}>
+            <Box
+              sx={{
+                display: {
+                  xs: "none",
+                  sm: "grid",
+                },
+                alignItems: "center",
+              }}
+            >
               <Typography sx={{ color: "gray", fontSize: "13px" }}>
                 Trading fee tier
               </Typography>
@@ -145,6 +212,10 @@ export default function OverviewPage() {
               color: "#000",
               borderRadius: "10px",
               marginLeft: "20px",
+              display: {
+                xs: "none",
+                sm: "block",
+              },
             }}
           >
             <UserIcon fill="#000" />
@@ -153,7 +224,7 @@ export default function OverviewPage() {
         </Box>
         <Grid container spacing={2}>
           {/* Left Section */}
-          <Grid item xs={8}>
+          <Grid item xs={12} sm={8}>
             <StyledPaper sx={{ display: "grid", gap: 2 }}>
               <Typography
                 variant="h2"
@@ -183,18 +254,22 @@ export default function OverviewPage() {
                 Get verified
               </Button>
             </StyledPaper>
-            <StyledPaper>
+
+            <StyledPaper sx={{ mt: 2 }}>
               <Typography
                 variant="h4"
                 sx={{ fontSize: "25px", fontWeight: "bold" }}
               >
                 Today’s crypto prices
               </Typography>
-              <MarketDataWidget width={750} height={450} theme="light" />
+              <Box sx={{ overflowX: "auto" }}>
+                <MarketDataWidget width={750} height={450} theme="light" />
+              </Box>
             </StyledPaper>
           </Grid>
+
           {/* Right Section */}
-          <Grid item xs={4}>
+          <Grid item xs={12} sm={4}>
             <StyledPaper>
               <Typography
                 variant="h3"
@@ -216,23 +291,25 @@ export default function OverviewPage() {
                 </Box>
               ))}
             </StyledPaper>
-            {/* <StyledPaper>
-              <Typography
-                variant="h4"
-                sx={{ fontSize: "20px", fontWeight: "bold" }}
-              >
-                Download app and trade on the go
-              </Typography>
-              <Box sx={{ textAlign: "center", mt: 1 }}>
-                <Box
-                  component="img"
-                  src="/images/qr.png"
-                  alt="QR Code"
-                  sx={{ width: 100, height: 100 }}
-                />
-                <Typography>Scan to download</Typography>
-              </Box>
-            </StyledPaper> */}
+
+            {/* Uncomment if needed */}
+            {/* <StyledPaper sx={{ mt: 2 }}>
+      <Typography
+        variant="h4"
+        sx={{ fontSize: "20px", fontWeight: "bold" }}
+      >
+        Download app and trade on the go
+      </Typography>
+      <Box sx={{ textAlign: "center", mt: 1 }}>
+        <Box
+          component="img"
+          src="/images/qr.png"
+          alt="QR Code"
+          sx={{ width: 100, height: 100 }}
+        />
+        <Typography>Scan to download</Typography>
+      </Box>
+    </StyledPaper> */}
           </Grid>
         </Grid>
       </Box>

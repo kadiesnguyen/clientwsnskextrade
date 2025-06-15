@@ -49,16 +49,29 @@ export default function ProfilePage(props: TabProps) {
 
   return (
     <Box sx={{ width: "100%", backgroundColor: "#fff" }}>
-      <Box sx={{ width: "80%", paddingTop: "80px", margin: "0 auto" }}>
+      <Box
+        sx={{
+          width: "100%",
+          paddingTop: "80px",
+          overflowX: "auto",
+          whiteSpace: "nowrap",
+        }}
+      >
         <Tabs
           value={value}
           onChange={handleChange}
           aria-label="basic tabs example"
+          variant="scrollable"
+          scrollButtons="auto"
           sx={{
+            width: "80%",
+            margin: "0 auto",
+            minWidth: "600px", // Optional, giúp Tabs không bị bóp nhỏ
             "& .MuiTab-root": {
               color: "#909090",
               fontSize: "18px",
               fontWeight: 500,
+              whiteSpace: "nowrap", // giữ chữ không xuống dòng
               "&:hover": { color: "#333" },
               "&.Mui-selected": {
                 color: "#000",
@@ -79,6 +92,8 @@ export default function ProfilePage(props: TabProps) {
           <Tab label="Bill" {...a11yProps(6)} />
         </Tabs>
       </Box>
+
+      {/* Tab panels */}
       <CustomTabPanel value={value} index={0}>
         <OverviewPage />
       </CustomTabPanel>

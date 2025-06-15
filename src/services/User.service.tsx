@@ -17,7 +17,7 @@ const signupUser = (email: string, password: string) => {
 };
 
 const getMe = () => {
-  return contentInstance.get("/api/me");
+  return contentInstance.get("/api/user/me");
 };
 
 // Cập nhập mật khẩu tài khoản
