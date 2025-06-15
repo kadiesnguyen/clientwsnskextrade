@@ -10,9 +10,15 @@ export default function AccountPage() {
     <Box sx={{ backgroundColor: "#fff" }}>
       <Box
         sx={{
-          width: "80%",
+          width: {
+            xs: "100%",
+            sm: "80%",
+          },
           margin: "auto",
-          display: "flex",
+          display: {
+            xs: "block",
+            sm: "flex",
+          },
           justifyContent: "center",
           gap: "50px",
         }}
@@ -21,10 +27,24 @@ export default function AccountPage() {
           <Avatar
             src={user?.username}
             alt={user?.username}
-            sx={{ width: 100, height: 100 }}
+            sx={{
+              width: 100,
+              height: 100,
+              margin: {
+                xs: "0 auto ",
+                sm: "",
+              },
+            }}
           />
         </Box>
-        <Box sx={{ width: "70%" }}>
+        <Box
+          sx={{
+            width: {
+              xs: "100%",
+              sm: "70%",
+            },
+          }}
+        >
           <Typography variant="h3" sx={{ fontSize: "25px", fontWeight: "600" }}>
             Personal info
           </Typography>

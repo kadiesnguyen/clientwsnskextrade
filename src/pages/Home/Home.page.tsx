@@ -354,6 +354,7 @@ export default function HomePage() {
                   width: "180px",
                   margin: "auto",
                   textAlign: "center",
+                  color: "white",
                 }}
               >
                 A New Alternative
@@ -363,6 +364,7 @@ export default function HomePage() {
                   fontSize: "12px",
                   padding: "10px 0",
                   textAlign: "center",
+                  color: "white",
                 }}
               >
                 To your Cryto Jouney
@@ -392,11 +394,11 @@ export default function HomePage() {
                 <Button
                   sx={{
                     width: "150px",
-                    backgroundColor: "#000",
+                    backgroundColor: "#909090",
                     color: "white",
                     borderRadius: "20px",
                     "&:hover": {
-                      backgroundColor: "#333",
+                      backgroundColor: "#909090",
                     },
                   }}
                   onClick={() => route.push("/login")}
@@ -406,11 +408,11 @@ export default function HomePage() {
                 <Button
                   sx={{
                     width: "150px",
-                    backgroundColor: "lightgray",
-                    color: "black",
+                    backgroundColor: "white",
+                    color: "#000",
                     borderRadius: "20px",
                     "&:hover": {
-                      backgroundColor: "lightgrey",
+                      backgroundColor: "white",
                     },
                   }}
                   onClick={() => route.push("/signup")}
@@ -427,6 +429,7 @@ export default function HomePage() {
                   fontSize: "30px",
                   fontWeight: "600",
                   textAlign: "center",
+                  color: "white",
                 }}
               >
                 Welcome back {user.username}
@@ -476,25 +479,33 @@ export default function HomePage() {
                 </Box>
               </Box>
               <TradingViewHotlists />
-              <Box sx={{ paddingTop: "40px", paddingBottom: "100px" }}>
-                <h2>Questions? We’ve got answers.</h2>
+              <Box
+                sx={{
+                  paddingTop: "40px",
+                  paddingBottom: "100px",
+                  background: "#000",
+                }}
+              >
+                <h2 style={{ color: "white" }}>
+                  Questions? We’ve got answers.
+                </h2>
                 <Accordion
                   sx={{
-                    backgroundColor: "#fff",
+                    backgroundColor: "#000",
                     borderBottom: "1px solid gray",
-                    color: "#000",
+                    color: "white",
                     "& .MuiAccordionSummary-root": {
-                      color: "#000", // Đảm bảo tiêu đề có màu trắng
+                      color: "white", // Đảm bảo tiêu đề có màu trắng
                     },
                     "& .MuiAccordionDetails-root": {
-                      color: "gray", // Đảm bảo nội dung có màu trắng
+                      color: "grwhiteay", // Đảm bảo nội dung có màu trắng
                     },
                   }}
                 >
                   <AccordionSummary
                     expandIcon={
                       <ControlPointIcon
-                        sx={{ color: "#000" }}
+                        sx={{ color: "white" }}
                         style={{ fontSize: 40 }}
                       />
                     }
@@ -505,7 +516,7 @@ export default function HomePage() {
                       sx={{
                         fontSize: "20px",
                         padding: "10px 0px",
-                        color: "black",
+                        color: "white",
                       }}
                     >
                       What products does OKX provide?
@@ -523,11 +534,11 @@ export default function HomePage() {
                 </Accordion>
                 <Accordion
                   sx={{
-                    backgroundColor: "#fff",
+                    backgroundColor: "#000",
                     borderBottom: "1px solid #fff",
-                    color: "#000",
+                    color: "white",
                     "& .MuiAccordionSummary-root": {
-                      color: "#000",
+                      color: "white",
                     },
                     "& .MuiAccordionDetails-root": {
                       color: "gray",
@@ -537,7 +548,7 @@ export default function HomePage() {
                   <AccordionSummary
                     expandIcon={
                       <ControlPointIcon
-                        sx={{ color: "#000" }}
+                        sx={{ color: "white" }}
                         style={{ fontSize: 40 }}
                       />
                     }
@@ -548,7 +559,7 @@ export default function HomePage() {
                       sx={{
                         fontSize: "20px",
                         padding: "10px 0px",
-                        color: "black",
+                        color: "white",
                       }}
                     >
                       How do I buy Bitcoin and other cryptocurrencies on OKX?
@@ -568,7 +579,7 @@ export default function HomePage() {
                 </Accordion>
                 <Accordion
                   sx={{
-                    backgroundColor: "#fff",
+                    backgroundColor: "#000",
                     borderBottom: "1px solid gray",
                     color: "#000",
                     "& .MuiAccordionSummary-root": {
@@ -582,7 +593,7 @@ export default function HomePage() {
                   <AccordionSummary
                     expandIcon={
                       <ControlPointIcon
-                        sx={{ color: "#000" }}
+                        sx={{ color: "white" }}
                         style={{ fontSize: 40 }}
                       />
                     }
@@ -593,7 +604,7 @@ export default function HomePage() {
                       sx={{
                         fontSize: "20px",
                         padding: "10px 0px",
-                        color: "black",
+                        color: "white",
                       }}
                     >
                       What is crypto?

@@ -48,7 +48,16 @@ export default function ProfilePage(props: TabProps) {
   };
 
   return (
-    <Box sx={{ width: "100%", backgroundColor: "#fff" }}>
+    <Box
+      sx={{
+        width: "100%",
+        backgroundColor: "#fff",
+        paddingBottom: {
+          xs: "100px",
+          sm: "0px",
+        },
+      }}
+    >
       <Box
         sx={{
           width: "100%",

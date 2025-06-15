@@ -79,7 +79,17 @@ export default function VerifiedPage() {
             <Typography variant="h6" fontWeight="bold" mb={2}>
               The customer has verified the account.
             </Typography>
-            <Box sx={{ display: "flex", justifyContent: "center", gap: 2 }}>
+            <Box
+              sx={{
+                display: {
+                  xs: "block",
+                  sm: "flex",
+                },
+                justifyContent: "center",
+                gap: 2,
+                textAlign: "center",
+              }}
+            >
               <Box sx={{ width: "40%", textAlign: "center" }}>
                 <Box
                   component="img"

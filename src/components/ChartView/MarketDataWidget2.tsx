@@ -1,28 +1,28 @@
-"use client";
-
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 type MarketDataWidgetProps = {
   width?: number;
   height?: number;
   theme?: "light" | "dark";
 };
-const MarketDataWidget: React.FC = (progs: MarketDataWidgetProps) => {
-  const containerRef = useRef<HTMLDivElement>(null);
+
+const MarketDataWidget2 = (progs: MarketDataWidgetProps) => {
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    // Xóa widget cũ trước khi render mới
+    container.innerHTML = "";
+
     const script = document.createElement("script");
     script.src =
       "https://s3.tradingview.com/external-embedding/embed-widget-market-quotes.js";
-    script.async = true;
     script.type = "text/javascript";
+    script.async = true;
     script.innerHTML = JSON.stringify({
-      width: "100%",
-      height: "700px",
-      colorTheme: "dark",
-      isTransparent: false,
-      locale: "en",
-      backgroundColor: "#000000",
-      showSymbolLogo: true,
+      width: progs.width || "100%",
+      height: progs.height,
       symbolsGroups: [
         {
           name: "Indices",
@@ -72,25 +72,24 @@ const MarketDataWidget: React.FC = (progs: MarketDataWidgetProps) => {
           ],
         },
       ],
+      showSymbolLogo: true,
+      isTransparent: true,
+      colorTheme: progs.theme || "dark",
+      locale: "en",
+      backgroundColor: "#131722",
     });
 
-    if (containerRef.current) {
-      containerRef.current.innerHTML = "";
-      containerRef.current.appendChild(script);
-    }
-  }, []);
+    container.appendChild(script);
+
+    return () => {
+      container.innerHTML = ""; // Cleanup on unmount
+    };
+  }, [progs.width, progs.height]);
 
   return (
-    <div
-      className="tradingview-widget-container"
-      style={{ width: "100%", height: "100%", border: "none" }}
-    >
-      <div
-        ref={containerRef}
-        className="tradingview-widget-container__widget"
-        style={{ border: "none" }}
-      />
-      <div className="tradingview-widget-copyright" style={{ display: "none" }}>
+    <div className="tradingview-widget-container" ref={containerRef}>
+      <div className="tradingview-widget-container__widget" />
+      <div className="tradingview-widget-copyright">
         <a
           href="https://www.tradingview.com/"
           rel="noopener nofollow"
@@ -103,4 +102,4 @@ const MarketDataWidget: React.FC = (progs: MarketDataWidgetProps) => {
   );
 };
 
-export default MarketDataWidget;
+export default MarketDataWidget2;

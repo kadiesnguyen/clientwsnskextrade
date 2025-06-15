@@ -44,7 +44,13 @@ import {
   WarningIcon,
 } from "@/shared/Svgs/Svg.component";
 import NavigationGame from "@/hook/NavigationGame";
-import { MenuAset, menuItemMobile, menuItems } from "@/datafake/Menu";
+import {
+  MenuAset,
+  MenuAset2,
+  menuItemMobile,
+  menuItemMobile2,
+  menuItems,
+} from "@/datafake/Menu";
 
 export interface userProps {
   user: userResponse | null;
@@ -82,8 +88,8 @@ export default function MenuProfileMobile(data: userProps) {
     <Box
       sx={{
         width: "100vw",
-        background: "#fff",
-        color: "black",
+        background: "#000",
+        color: "#fff",
         height: "100%",
         display: "flex",
         flexDirection: "column",
@@ -99,8 +105,8 @@ export default function MenuProfileMobile(data: userProps) {
               alignItems: "center",
               justifyContent: "space-between",
               padding: "16px",
-              background: "#fff",
-              color: "black",
+              background: "#000",
+              color: "#fff",
               border: "1px solid #e0e0e0",
             }}
           >
@@ -111,11 +117,11 @@ export default function MenuProfileMobile(data: userProps) {
               />
               <Box>
                 <Typography
-                  sx={{ fontSize: "16px", fontWeight: "bold", color: "black" }}
+                  sx={{ fontSize: "16px", fontWeight: "bold", color: "white" }}
                 >
                   {data.user?.username || "huyn19e6bffa5"}
                 </Typography>
-                <Typography sx={{ fontSize: "13px", color: "#909090" }}>
+                <Typography sx={{ fontSize: "13px", color: "white" }}>
                   Profile and settings
                 </Typography>
               </Box>
@@ -124,7 +130,7 @@ export default function MenuProfileMobile(data: userProps) {
               onClick={handleDrawerClose}
               sx={{
                 color: "white",
-                background: "rgba(0, 0, 0, 0.1)",
+                background: "#909090",
                 borderRadius: "50%",
                 "&:hover": {
                   background: "rgba(255, 255, 255, 0.2)",
@@ -141,7 +147,7 @@ export default function MenuProfileMobile(data: userProps) {
           </Typography>
           {/* Menu Items */}
           <List sx={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
-            {menuItemMobile.map((item) => (
+            {menuItemMobile2.map((item) => (
               <ListItem
                 key={item.text}
                 disablePadding
@@ -197,7 +203,7 @@ export default function MenuProfileMobile(data: userProps) {
           </Typography>
           {/* Menu Items */}
           <List sx={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
-            {MenuAset[0].item.map((item) => (
+            {MenuAset2.map((item) => (
               <ListItem
                 key={item.title}
                 disablePadding
@@ -261,7 +267,7 @@ export default function MenuProfileMobile(data: userProps) {
               sx={{
                 width: "100%",
                 background: "transparent",
-                color: "black",
+                color: "white",
                 border: "1px solid #2f3b56",
                 borderRadius: "8px",
                 textTransform: "none",
@@ -272,7 +278,7 @@ export default function MenuProfileMobile(data: userProps) {
                 },
               }}
             >
-              <LogoutMenuIcon />
+              <LogoutMenuIcon fill="#fff" />
               ĐĂNG XUẤT
             </Button>
           </Box>
@@ -285,17 +291,17 @@ export default function MenuProfileMobile(data: userProps) {
               display: "grid",
               alignItems: "center",
               padding: "100px 20px",
-              background: "#fff",
-              color: "black",
+              background: "#000",
+              color: "white",
             }}
           >
             <Typography
               variant="h2"
-              sx={{ fontSize: "30px", fontWeight: "600", color: "black" }}
+              sx={{ fontSize: "30px", fontWeight: "600", color: "white" }}
             >
               Welcome to OKX
             </Typography>
-            <Typography sx={{ fontSize: "16px", color: "#909090" }}>
+            <Typography sx={{ fontSize: "16px", color: "#fff" }}>
               Experience lightning-fast trading and low fees
             </Typography>
             <Box
@@ -316,6 +322,9 @@ export default function MenuProfileMobile(data: userProps) {
                   background: "#fff",
                   border: "1px solid #000",
                   color: "black",
+                  "&:hover": {
+                    background: "white",
+                  },
                 }}
               >
                 Log in
@@ -326,9 +335,12 @@ export default function MenuProfileMobile(data: userProps) {
                   width: "45%",
                   height: "40px",
                   borderRadius: "15px",
-                  background: "#000",
+                  background: "#909090",
                   border: "1px solid #000",
-                  color: "white",
+                  color: "black",
+                  "&:hover": {
+                    background: "#909090",
+                  },
                 }}
               >
                 Sign up
@@ -341,7 +353,7 @@ export default function MenuProfileMobile(data: userProps) {
                 width: "40px",
                 height: "40px",
                 color: "white",
-                background: "rgba(0, 0, 0, 0.1)",
+                background: "#909090",
                 borderRadius: "50%",
                 top: "20px",
                 right: "20px",
@@ -366,13 +378,13 @@ export default function MenuProfileMobile(data: userProps) {
             }}
           >
             <Box sx={{ display: "flex", alignItems: "center", gap: "12px" }}>
-              <WarningIcon width="25px" height="25px" fill="#000" />
-              <Typography sx={{ fontSize: "20px", fontWeight: 500 }}>
+              <WarningIcon width="25px" height="25px" fill="#fff" />
+              <Typography sx={{ fontSize: "16px", fontWeight: 500 }}>
                 About OKX
               </Typography>
             </Box>
             <Typography
-              sx={{ fontSize: "18px", fontWeight: 400, color: "#909090" }}
+              sx={{ fontSize: "16px", fontWeight: 400, color: "#909090" }}
             >
               v6.123.0
             </Typography>
@@ -394,7 +406,7 @@ export default function MenuProfileMobile(data: userProps) {
           height: "50px",
           lineHeight: "50px",
           padding: "8px 8px",
-          background: "#fff",
+          background: "#000",
           border: "none",
         }}
       >
@@ -406,7 +418,7 @@ export default function MenuProfileMobile(data: userProps) {
             aria-haspopup="true"
             aria-expanded={drawerOpen ? "true" : undefined}
           >
-            <DashboardIcon />
+            <DashboardIcon fill="#fff" />
           </IconButton>
         </Tooltip>
       </Box>

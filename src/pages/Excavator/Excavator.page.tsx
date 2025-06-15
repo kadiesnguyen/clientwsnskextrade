@@ -132,12 +132,12 @@ export default function ExcavatorPage() {
           </Button>
         </Box>
       </Box>
-      <Box sx={{ background: "#fff", padding: "20px 0" }}>
+      <Box sx={{ background: "#000", padding: "20px 0" }}>
         <Typography
           sx={{
             textAlign: "center",
             padding: "20px 0",
-            color: "#000",
+            color: "#fff",
             fontSize: {
               xs: "20px",
               sm: "35px",
@@ -169,17 +169,17 @@ export default function ExcavatorPage() {
                   },
 
                   "& .MuiTab-root": {
-                    color: "#909090",
+                    color: "gray",
                     fontSize: "18px",
                     fontWeight: 500,
-                    "&:hover": { color: "#333" },
+                    "&:hover": { color: "gray" },
                     "&.Mui-selected": {
-                      color: "#000",
+                      color: "#fff",
                       fontWeight: 700,
                     },
                   },
                   "& .MuiTabs-indicator": {
-                    backgroundColor: "#000",
+                    backgroundColor: "#fff",
                   },
                 }}
               >
@@ -226,7 +226,10 @@ export default function ExcavatorPage() {
                       }}
                     />
                     <Box>
-                      <Typography variant="h6" sx={{ marginTop: "10px" }}>
+                      <Typography
+                        variant="h6"
+                        sx={{ marginTop: "10px", color: "#fff" }}
+                      >
                         {item.title}
                       </Typography>
                       <Typography
@@ -282,8 +285,8 @@ export default function ExcavatorPage() {
                           sx={{
                             width: "100px",
                             height: "40px",
-                            background: "#000",
-                            color: "white",
+                            background: "#fff",
+                            color: "black",
                             borderRadius: "10px",
                             "&:hover": {
                               backgroundColor: "#001",
@@ -337,7 +340,10 @@ export default function ExcavatorPage() {
                       }}
                     />
                     <Box>
-                      <Typography variant="h6" sx={{ marginTop: "10px" }}>
+                      <Typography
+                        variant="h6"
+                        sx={{ marginTop: "10px", color: "#fff" }}
+                      >
                         {item.title}
                       </Typography>
                       <Typography
@@ -393,8 +399,8 @@ export default function ExcavatorPage() {
                           sx={{
                             width: "100px",
                             height: "40px",
-                            background: "#000",
-                            color: "white",
+                            background: "#fff",
+                            color: "black",
                             borderRadius: "10px",
                             "&:hover": {
                               backgroundColor: "#001",
@@ -448,7 +454,10 @@ export default function ExcavatorPage() {
                       }}
                     />
                     <Box>
-                      <Typography variant="h6" sx={{ marginTop: "10px" }}>
+                      <Typography
+                        variant="h6"
+                        sx={{ marginTop: "10px", color: "#fff" }}
+                      >
                         {item.title}
                       </Typography>
                       <Typography
@@ -504,8 +513,8 @@ export default function ExcavatorPage() {
                           sx={{
                             width: "100px",
                             height: "40px",
-                            background: "#000",
-                            color: "white",
+                            background: "#fff",
+                            color: "black",
                             borderRadius: "10px",
                             "&:hover": {
                               backgroundColor: "#001",

@@ -4,6 +4,7 @@ import React from "react";
 import TradeChart from "@/components/ChartView/TradeChart";
 import MarketDataWidget from "@/components/ChartView/MarketDataWidget";
 import TradingViewTickerTape from "@/components/ChartView/TradingViewTickerTape";
+import MarketDataWidget2 from "@/components/ChartView/MarketDataWidget2";
 export default function TradePage() {
   return (
     <Box
@@ -22,7 +23,7 @@ export default function TradePage() {
         }}
       >
         <TradingViewTickerTape />
-        <MarketDataWidget height={700} theme="light" />
+        <MarketDataWidget2 height={700} theme="dark" />
       </Box>
     </Box>
   );

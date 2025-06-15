@@ -22,7 +22,7 @@ const TradingViewTickerTape: React.FC = () => {
         { description: "Netflix", proName: "NASDAQ:NFLX" },
       ],
       showSymbolLogo: true,
-      colorTheme: "light",
+      colorTheme: "dark",
       isTransparent: false,
       displayMode: "compact",
       locale: "en",

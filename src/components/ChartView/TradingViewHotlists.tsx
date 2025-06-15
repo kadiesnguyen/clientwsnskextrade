@@ -12,7 +12,7 @@ const TradingViewHotlists: React.FC = () => {
     script.async = true;
     script.type = "text/javascript";
     script.innerHTML = JSON.stringify({
-      colorTheme: "light",
+      colorTheme: "dark",
       dateRange: "12M",
       showChart: false,
       locale: "en",

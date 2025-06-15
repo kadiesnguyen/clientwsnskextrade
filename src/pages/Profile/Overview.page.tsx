@@ -1,5 +1,6 @@
 "use client";
 import MarketDataWidget from "@/components/ChartView/MarketDataWidget";
+import MarketDataWidget2 from "@/components/ChartView/MarketDataWidget2";
 import useAuth from "@/hook/useAuth";
 import { ProfileIcon, UserIcon } from "@/shared/Svgs/Svg.component";
 import {
@@ -263,7 +264,7 @@ export default function OverviewPage() {
                 Today’s crypto prices
               </Typography>
               <Box sx={{ overflowX: "auto" }}>
-                <MarketDataWidget width={750} height={450} theme="light" />
+                <MarketDataWidget2 width={750} height={450} theme="light" />
               </Box>
             </StyledPaper>
           </Grid>

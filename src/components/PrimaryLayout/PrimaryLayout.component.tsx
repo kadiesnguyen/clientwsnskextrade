@@ -110,7 +110,7 @@ export default function PrimaryLayoutComponent({
                   <HomeIcon
                     width="25px"
                     height="25px"
-                    fill={menu === 1 ? "#1C274C" : "#909090"}
+                    fill={menu === 1 ? "#fff" : "#909090"}
                   />
                   <p className={menu === 1 ? "mobile-active" : "mobile-p"}>
                     OKX
@@ -122,7 +122,7 @@ export default function PrimaryLayoutComponent({
                   <MarketIcon
                     width="25px"
                     height="25px"
-                    fill={menu === 2 ? "#1C274C" : "#909090"}
+                    fill={menu === 2 ? "#fff" : "#909090"}
                   />
                   <p className={menu === 2 ? "mobile-active" : "mobile-p"}>
                     Markets
@@ -132,13 +132,15 @@ export default function PrimaryLayoutComponent({
               <li>
                 <button type="button" onClick={() => hanldMenu(3)}>
                   {menu === 3 ? (
-                    <ArrowSwap1Icon
+                    <img
+                      src="/images/swap2.png"
                       width="25px"
                       height="25px"
                       className="icon-home-m"
                     />
                   ) : (
-                    <ArrowSwap2Icon
+                    <img
+                      src="/images/swap1.png"
                       width="25px"
                       height="25px"
                       className="icon-home-m"
@@ -154,7 +156,7 @@ export default function PrimaryLayoutComponent({
                   <ExploreIcon
                     width="25px"
                     height="25px"
-                    fill={menu === 4 ? "#1C274C" : "#909090"}
+                    fill={menu === 4 ? "#fff" : "#909090"}
                   />
                   <p className={menu === 4 ? "mobile-active" : "mobile-p"}>
                     Explore
@@ -166,7 +168,7 @@ export default function PrimaryLayoutComponent({
                   <AssetsIcon
                     width="25px"
                     height="25px"
-                    fill={menu === 5 ? "#1C274C" : "#909090"}
+                    fill={menu === 5 ? "#fff" : "#909090"}
                   />
                   <p className={menu === 5 ? "mobile-active" : "mobile-p"}>
                     Assets

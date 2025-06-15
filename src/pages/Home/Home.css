@@ -248,14 +248,14 @@
     }
 
     .home {
-        background-color: #fff;
+        background-color: #000;
         height: 100vh;
     }
 
     .home-mobile {
         display: block;
         width: 100%;
-        background: #fff;
+        background: #000;
         padding-top: 20px;
     }
 }

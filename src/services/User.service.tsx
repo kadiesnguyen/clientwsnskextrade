@@ -35,7 +35,7 @@ const updatePassword = (
 
 // Cập nhập mật khẩu tài khoản
 const getReferral = () => {
-  return contentInstance.get(`/api/referral`);
+  return contentInstance.get(`/api/user/referral`);
 };
 
 const getOrepool = () => {

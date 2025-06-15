@@ -409,3 +409,96 @@ export const menuItemMobile = [
     link: "/bill",
   },
 ];
+
+export const menuItemMobile2 = [
+  {
+    text: "Overview",
+    icon: <OverviewIcon fill="#fff" />,
+    link: "/overview",
+  },
+  {
+    text: "Account",
+    icon: <ProfileIcon fill="#fff" />,
+    link: "/profile",
+  },
+  {
+    text: "Security",
+    icon: <NapIcon fill="#fff" />,
+    link: "/security",
+  },
+  {
+    text: "Verified",
+    icon: <RutIcon fill="#fff" />,
+    link: "/verified",
+  },
+  {
+    text: "Referral",
+    icon: <GiftMenuIcon fill="#fff" />,
+    link: "/referral",
+  },
+  {
+    text: "Notification",
+    icon: <HistoryMenuIcon fill="#fff" />,
+    link: "/notification",
+  },
+  {
+    text: "Live chat 24/7",
+    icon: <LiveChatMenuIcon fill="#fff" />,
+    link: "/livechat",
+  },
+  {
+    text: "My invoice",
+    icon: <InvoiceMenuIcon fill="#fff" />,
+    link: "/bill",
+  },
+];
+export const MenuAset2 = [
+  {
+    id: "1",
+    link: "#",
+    title: "History",
+    icon: <HistoryIcon fill="#fff" />,
+  },
+  {
+    id: "2",
+    link: "#",
+    title: "Experiment",
+    icon: <ExperimentIcon fill="#fff" />,
+  },
+  {
+    id: "3",
+    link: "#",
+    title: "Open command",
+    icon: <TradeIcon fill="#fff" />,
+  },
+  {
+    id: "4",
+    link: "#",
+    title: "Close command",
+    icon: <TradeIcon fill="#fff" />,
+  },
+  {
+    id: "5",
+    link: "#",
+    title: "Excavator operating",
+    icon: <CpuStartIcon fill="#fff" />,
+  },
+  {
+    id: "6",
+    link: "#",
+    title: "Excavator expired",
+    icon: <CpuStopIcon fill="#fff" />,
+  },
+  {
+    id: "7",
+    link: "#",
+    title: "Frozen Command",
+    icon: <CommandfrozenIcon fill="#fff" />,
+  },
+  {
+    id: "7",
+    link: "#",
+    title: "Not frozen yet Command",
+    icon: <NotCommandfrozenIcon fill="#fff" />,
+  },
+];

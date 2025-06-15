@@ -29,7 +29,17 @@ export default function ChangePassword() {
   };
 
   return (
-    <Box sx={{ width: "80%", margin: "auto", mt: 4 }}>
+    <Box
+      sx={{
+        width: "80%",
+        margin: "auto",
+        textAlign: {
+          xs: "Center",
+          sm: "left",
+        },
+        mt: 4,
+      }}
+    >
       <Typography variant="h4" gutterBottom sx={{ fontWeight: "bold" }}>
         Change login password
       </Typography>
