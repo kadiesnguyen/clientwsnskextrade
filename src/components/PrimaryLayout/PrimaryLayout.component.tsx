@@ -71,15 +71,28 @@ export default function PrimaryLayoutComponent({
     const initialize = async () => {
       try {
         const res: any = await getMe();
+        const isLoggedIn = !!res?.user;
         setUser(res.user);
-        if (path?.startsWith("/profile") && !res.user) {
+
+        // Các route cần bảo vệ
+        const protectedPaths = [
+          "/overview",
+          "/profile",
+          "/referral",
+          "/verified",
+        ];
+        const isProtectedPath = protectedPaths.some((protectedPath) =>
+          path?.startsWith(protectedPath)
+        );
+
+        if (!isLoggedIn && isProtectedPath) {
           router.replace("/");
           return;
         }
-        if (res?.user) {
-          setUser(res.user);
 
-          const updatedRes: any = await getMe(); // Gọi lại API sau khi hoàn thành
+        // Nếu đăng nhập, có thể gọi thêm API hoặc cập nhật user
+        if (isLoggedIn) {
+          const updatedRes: any = await getMe();
           setUser(updatedRes?.user);
         }
       } catch (error) {
