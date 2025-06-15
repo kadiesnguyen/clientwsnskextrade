@@ -50,6 +50,10 @@ const getBills = () => {
   return contentInstance.get("/api/user/bills");
 };
 
+const getMyWallet = () => {
+  return contentInstance.get("/api/finance/balance");
+};
+
 export {
   loginUser,
   signupUser,
@@ -59,4 +63,5 @@ export {
   getOrepool,
   getNotification,
   getBills,
+  getMyWallet,
 };

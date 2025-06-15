@@ -78,8 +78,8 @@ export default function PrimaryLayoutComponent({
     const initialize = async () => {
       try {
         const res: any = await getMe();
-        const isLoggedIn = !!res?.user;
-        setUser(res.user);
+        const isLoggedIn = !!res?.data;
+        setUser(res.data);
 
         const isProtectedPath = protectedPaths.some((p) => path?.startsWith(p));
 

@@ -132,10 +132,10 @@ export default function HeaderPage(props: propUser) {
     const initialize = async () => {
       try {
         const res: any = await getMe();
-        if (res?.user) {
-          setUser(res.user);
+        if (res?.data) {
+          setUser(res.data);
           const updatedRes: any = await getMe();
-          setUser(updatedRes?.user);
+          setUser(updatedRes?.data);
         }
       } catch (error) {
         console.error("Error during initialization:", error);

@@ -1,7 +1,7 @@
 "use client";
 import useAuth from "@/hook/useAuth";
 import { getReferral } from "@/services/User.service";
-import { UserIcon } from "@/shared/Svgs/Svg.component";
+import { UserIcon, VerifiedIcon } from "@/shared/Svgs/Svg.component";
 import {
   Avatar,
   Box,
@@ -157,19 +157,32 @@ export default function InvitationPage() {
               <Typography sx={{ color: "gray", fontSize: "13px" }}>
                 Identity verification
               </Typography>
-              <Button
-                type="button"
-                sx={{
-                  background: "none",
-                  border: "1px solid gray",
-                  fontSize: "10px",
-                  color: "#fff",
-                  width: "80px",
-                  borderRadius: "10px",
-                }}
-              >
-                Verify now
-              </Button>
+              {user && user.cardfm && user.cardzm ? (
+                <Typography
+                  sx={{
+                    color: "#fff",
+                    display: "flex",
+                    alignItems: "center",
+                    fontSize: "13px",
+                  }}
+                >
+                  <VerifiedIcon fill="#fff" /> Verified
+                </Typography>
+              ) : (
+                <Button
+                  type="button"
+                  sx={{
+                    background: "none",
+                    border: "1px solid gray",
+                    fontSize: "10px",
+                    color: "#fff",
+                    width: "80px",
+                    borderRadius: "10px",
+                  }}
+                >
+                  Verify now
+                </Button>
+              )}
             </Box>
             <Box sx={{ display: "grid", alignItems: "center" }}>
               <Typography sx={{ color: "gray", fontSize: "13px" }}>
@@ -192,24 +205,6 @@ export default function InvitationPage() {
               <Typography sx={{ color: "#fff" }}>Regular user</Typography>
             </Box>
           </Box>
-          <Button
-            type="button"
-            sx={{
-              background: "none",
-              border: "1px solid gray",
-              fontSize: "10px",
-              color: "#fff",
-              borderRadius: "10px",
-              marginLeft: "20px",
-              display: {
-                xs: "none",
-                sm: "flex",
-              },
-            }}
-          >
-            <UserIcon fill="#fff" />
-            View profile
-          </Button>
         </Box>
         <Grid container spacing={2}>
           {/* Left Section */}

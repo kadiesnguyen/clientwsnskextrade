@@ -14,7 +14,7 @@ export default function useAuth() {
       try {
         const res: any = await getMe();
         if (res.status === true) {
-          setUser(res.user);
+          setUser(res.data);
 
           setLoading(false);
         }

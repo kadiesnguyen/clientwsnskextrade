@@ -81,6 +81,10 @@ export interface IUser {
   erc: string;
   eth: string;
   btc: string;
+  balance: {
+    usdt: string;
+    pi: string;
+  };
 }
 
 export interface IProfile {

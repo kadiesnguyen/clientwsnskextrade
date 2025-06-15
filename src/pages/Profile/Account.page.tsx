@@ -126,12 +126,24 @@ export default function AccountPage() {
               user?.cardfm === null ||
               user?.cardfm === "" ? (
                 <span
-                  style={{ display: "flex", alignItems: "center", gap: "5px" }}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "5px",
+                    color: "white",
+                  }}
                 >
                   <WarningIcon /> Unverified
                 </span>
               ) : (
-                <span>
+                <span
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "5px",
+                    color: "white",
+                  }}
+                >
                   <VerifiedIcon /> Verified
                 </span>
               )}

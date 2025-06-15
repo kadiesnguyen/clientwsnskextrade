@@ -1,7 +1,7 @@
 "use client";
 import useAuth from "@/hook/useAuth";
 import { getBills, getReferral } from "@/services/User.service";
-import { UserIcon } from "@/shared/Svgs/Svg.component";
+import { UserIcon, VerifiedIcon } from "@/shared/Svgs/Svg.component";
 import {
   Avatar,
   Box,
@@ -53,6 +53,159 @@ export default function BillPage() {
           margin: "0 auto",
         }}
       >
+        {/* Header Section */}
+        <Box
+          sx={{
+            display: {
+              xs: "block",
+              sm: "flex",
+            },
+            alignItems: "center",
+            gap: 2, // Space between elements
+            mb: 2,
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: {
+                xs: 3,
+                sm: 2,
+              },
+              paddingBottom: {
+                xs: "10px",
+                sm: "0px",
+              },
+            }}
+          >
+            <Avatar
+              src={user?.username} // Replace with actual profile image path
+              alt={user?.username}
+              sx={{
+                width: {
+                  xs: 50,
+                  sm: 80,
+                },
+                height: {
+                  xs: 50,
+                  sm: 80,
+                },
+                borderRadius: "50%",
+              }}
+            />
+            <Box
+              sx={{
+                borderRight: {
+                  xs: "none",
+                  sm: "1px solid #ccc",
+                },
+                paddingRight: 2,
+                marginRight: 2,
+              }}
+            >
+              <Typography
+                variant="h6"
+                sx={{
+                  fontSize: {
+                    xs: "16px",
+                    sm: "25px",
+                  },
+                  color: "#fff",
+                }}
+              >
+                {user?.username}
+              </Typography>
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={{
+                  fontSize: {
+                    xs: "13px",
+                    sm: "18px",
+                  },
+                  color: "lightgrey",
+                }}
+              >
+                {user?.phone}
+              </Typography>
+            </Box>
+          </Box>
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Box
+              sx={{
+                display: {
+                  xs: "none",
+                  sm: "grid",
+                },
+                alignItems: "center",
+              }}
+            >
+              <Typography sx={{ color: "gray", fontSize: "13px" }}>
+                Email
+              </Typography>
+              <Typography sx={{ color: "#fff" }}>{user?.username} </Typography>
+            </Box>
+            <Box sx={{ display: "grid", alignItems: "center" }}>
+              <Typography sx={{ color: "gray", fontSize: "13px" }}>
+                Identity verification
+              </Typography>
+              {user && user.cardfm && user.cardzm ? (
+                <Typography
+                  sx={{
+                    color: "#fff",
+                    display: "flex",
+                    alignItems: "center",
+                    fontSize: "13px",
+                  }}
+                >
+                  <VerifiedIcon fill="#fff" /> Verified
+                </Typography>
+              ) : (
+                <Button
+                  type="button"
+                  sx={{
+                    background: "none",
+                    border: "1px solid gray",
+                    fontSize: "10px",
+                    color: "#fff",
+                    width: "80px",
+                    borderRadius: "10px",
+                  }}
+                >
+                  Verify now
+                </Button>
+              )}
+            </Box>
+            <Box sx={{ display: "grid", alignItems: "center" }}>
+              <Typography sx={{ color: "gray", fontSize: "13px" }}>
+                Country/Region
+              </Typography>
+              <Typography sx={{ color: "#fff" }}>{user?.addr} </Typography>
+            </Box>
+            <Box
+              sx={{
+                display: {
+                  xs: "none",
+                  sm: "grid",
+                },
+                alignItems: "center",
+              }}
+            >
+              <Typography sx={{ color: "gray", fontSize: "13px" }}>
+                Trading fee tier
+              </Typography>
+              <Typography sx={{ color: "#fff" }}>Regular user</Typography>
+            </Box>
+          </Box>
+        </Box>
         <Grid container spacing={1}>
           {/* Left Section */}
           <Grid item xs={12} sm={12}>

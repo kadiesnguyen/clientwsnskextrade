@@ -73,7 +73,7 @@ export default function ProfilePage(props: TabProps) {
         <Tabs
           value={value}
           onChange={handleChange}
-          aria-label="basic tabs example"
+          aria-label="scrollable prevent tabs example"
           variant="scrollable"
           scrollButtons="auto"
           sx={{

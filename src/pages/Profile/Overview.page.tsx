@@ -2,8 +2,12 @@
 import MarketDataWidget from "@/components/ChartView/MarketDataWidget";
 import MarketDataWidget2 from "@/components/ChartView/MarketDataWidget2";
 import useAuth from "@/hook/useAuth";
-import { getNotification } from "@/services/User.service";
-import { ProfileIcon, UserIcon } from "@/shared/Svgs/Svg.component";
+import { getMyWallet, getNotification } from "@/services/User.service";
+import {
+  ProfileIcon,
+  UserIcon,
+  VerifiedIcon,
+} from "@/shared/Svgs/Svg.component";
 import {
   Box,
   Button,
@@ -58,16 +62,18 @@ export default function OverviewPage() {
   const { user } = useAuth();
   const [loading, setLoading] = useState<boolean>(false);
   const [noti, setNoti] = useState<any>(null);
+  const [wallet, setWallet] = useState<any>(null);
 
   useEffect(() => {
     const notiData = async () => {
       try {
         const res: any = await getNotification();
+        const wallet: any = await getMyWallet();
         if (res.status === true) {
           setNoti(res.data);
-
           setLoading(false);
         }
+        setWallet(wallet.data);
         setLoading(false);
       } catch (error: any) {
         setLoading(false);
@@ -191,19 +197,32 @@ export default function OverviewPage() {
               <Typography sx={{ color: "gray", fontSize: "13px" }}>
                 Identity verification
               </Typography>
-              <Button
-                type="button"
-                sx={{
-                  background: "none",
-                  border: "1px solid gray",
-                  fontSize: "10px",
-                  color: "#fff",
-                  width: "80px",
-                  borderRadius: "10px",
-                }}
-              >
-                Verify now
-              </Button>
+              {user && user.cardfm && user.cardzm ? (
+                <Typography
+                  sx={{
+                    color: "#fff",
+                    display: "flex",
+                    alignItems: "center",
+                    fontSize: "13px",
+                  }}
+                >
+                  <VerifiedIcon fill="#fff" /> Verified
+                </Typography>
+              ) : (
+                <Button
+                  type="button"
+                  sx={{
+                    background: "none",
+                    border: "1px solid gray",
+                    fontSize: "10px",
+                    color: "#fff",
+                    width: "80px",
+                    borderRadius: "10px",
+                  }}
+                >
+                  Verify now
+                </Button>
+              )}
             </Box>
             <Box sx={{ display: "grid", alignItems: "center" }}>
               <Typography sx={{ color: "gray", fontSize: "13px" }}>
@@ -226,65 +245,86 @@ export default function OverviewPage() {
               <Typography sx={{ color: "#fff" }}>Regular user</Typography>
             </Box>
           </Box>
-          <Button
-            type="button"
-            sx={{
-              background: "none",
-              border: "1px solid gray",
-              fontSize: "10px",
-              color: "#fff",
-              borderRadius: "10px",
-              marginLeft: "20px",
-              display: {
-                xs: "none",
-                sm: "flex",
-              },
-            }}
-          >
-            <UserIcon fill="#fff" />
-            View profile
-          </Button>
         </Box>
         <Grid container spacing={2}>
           {/* Left Section */}
           <Grid item xs={12} sm={8}>
-            <StyledPaper
-              sx={{
-                display: "grid",
-                gap: 2,
-                background: "#000",
-                border: "1px solid gray",
-              }}
-            >
-              <Typography
-                variant="h2"
-                sx={{ fontSize: "30px", fontWeight: "bold", color: "#fff" }}
-              >
-                Get verified to secure your account
-              </Typography>
-              <Typography sx={{ color: "#fff" }}>
-                Provide your ID, a selfie, and personal information.
-              </Typography>
-              <Button
-                type="button"
+            {user && user.cardfm && user.cardzm ? (
+              <StyledPaper
                 sx={{
-                  mt: 1,
-                  backgroundColor: "#fff",
-                  color: "#000",
-                  borderRadius: "20px",
-                  width: "150px",
-                  height: "50px",
-                  textTransform: "none",
-                  fontWeight: "bold",
-                  "&:hover": {
-                    backgroundColor: "#fff",
-                  },
+                  display: "grid",
+                  gap: 1,
+                  background: "#000",
+                  border: "1px solid gray",
                 }}
               >
-                Get verified
-              </Button>
-            </StyledPaper>
-
+                <Typography
+                  sx={{ fontSize: "25px", fontWeight: "bold", color: "#fff" }}
+                >
+                  Account balance details
+                </Typography>
+                <Typography sx={{ color: "#fff", fontSize: "15px" }}>
+                  Below is the balance information in the wallet.
+                </Typography>
+                <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
+                  <Typography
+                    sx={{
+                      color: "white",
+                      fontSize: "25px",
+                      fontWeight: "500",
+                    }}
+                  >
+                    {user.balance.usdt} USDT
+                  </Typography>
+                  <Typography
+                    sx={{
+                      color: "white",
+                      fontSize: "25px",
+                      fontWeight: "500",
+                    }}
+                  >
+                    {user.balance.pi} Pi
+                  </Typography>
+                </Box>
+              </StyledPaper>
+            ) : (
+              <StyledPaper
+                sx={{
+                  display: "grid",
+                  gap: 2,
+                  background: "#000",
+                  border: "1px solid gray",
+                }}
+              >
+                <Typography
+                  variant="h2"
+                  sx={{ fontSize: "30px", fontWeight: "bold", color: "#fff" }}
+                >
+                  Get verified to secure your account
+                </Typography>
+                <Typography sx={{ color: "#fff" }}>
+                  Provide your ID, a selfie, and personal information.
+                </Typography>
+                <Button
+                  type="button"
+                  sx={{
+                    mt: 1,
+                    backgroundColor: "#fff",
+                    color: "#000",
+                    borderRadius: "20px",
+                    width: "150px",
+                    height: "50px",
+                    textTransform: "none",
+                    fontWeight: "bold",
+                    "&:hover": {
+                      backgroundColor: "#fff",
+                    },
+                  }}
+                >
+                  Get verified
+                </Button>
+              </StyledPaper>
+            )}
             <StyledPaper
               sx={{ mt: 2, background: "#000", border: "1px solid gray" }}
             >
