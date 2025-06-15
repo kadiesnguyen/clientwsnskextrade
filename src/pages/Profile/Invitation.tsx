@@ -42,38 +42,91 @@ export default function InvitationPage() {
     referral();
   }, []);
   return (
-    <Box sx={{ backgroundColor: "#fff" }}>
+    <Box sx={{ backgroundColor: "#000" }}>
       <Box
         sx={{
           padding: 2,
-          width: "80%",
+          width: {
+            xs: "100%",
+            sm: "80%",
+          },
           margin: "0 auto",
         }}
       >
         {/* Header Section */}
         <Box
           sx={{
-            display: "flex",
+            display: {
+              xs: "block",
+              sm: "flex",
+            },
             alignItems: "center",
             gap: 2, // Space between elements
             mb: 2,
           }}
         >
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: {
+                xs: 3,
+                sm: 2,
+              },
+              paddingBottom: {
+                xs: "10px",
+                sm: "0px",
+              },
+            }}
+          >
             <Avatar
               src={user?.username} // Replace with actual profile image path
               alt={user?.username}
-              sx={{ width: 80, height: 80, borderRadius: "50%" }}
+              sx={{
+                width: {
+                  xs: 50,
+                  sm: 80,
+                },
+                height: {
+                  xs: 50,
+                  sm: 80,
+                },
+                borderRadius: "50%",
+              }}
             />
             <Box
               sx={{
-                borderRight: "1px solid #ddd",
+                borderRight: {
+                  xs: "none",
+                  sm: "1px solid #ccc",
+                },
                 paddingRight: 2,
                 marginRight: 2,
               }}
             >
-              <Typography variant="h6">{user?.username}</Typography>
-              <Typography variant="body2" color="text.secondary">
+              <Typography
+                variant="h6"
+                sx={{
+                  fontSize: {
+                    xs: "16px",
+                    sm: "25px",
+                  },
+                  color: "#fff",
+                }}
+              >
+                {user?.username}
+              </Typography>
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={{
+                  fontSize: {
+                    xs: "13px",
+                    sm: "18px",
+                  },
+                  color: "lightgrey",
+                }}
+              >
                 {user?.phone}
               </Typography>
             </Box>
@@ -86,11 +139,19 @@ export default function InvitationPage() {
               alignItems: "center",
             }}
           >
-            <Box sx={{ display: "grid", alignItems: "center" }}>
+            <Box
+              sx={{
+                display: {
+                  xs: "none",
+                  sm: "grid",
+                },
+                alignItems: "center",
+              }}
+            >
               <Typography sx={{ color: "gray", fontSize: "13px" }}>
                 Email
               </Typography>
-              <Typography>{user?.username} </Typography>
+              <Typography sx={{ color: "#fff" }}>{user?.username} </Typography>
             </Box>
             <Box sx={{ display: "grid", alignItems: "center" }}>
               <Typography sx={{ color: "gray", fontSize: "13px" }}>
@@ -102,7 +163,7 @@ export default function InvitationPage() {
                   background: "none",
                   border: "1px solid gray",
                   fontSize: "10px",
-                  color: "#000",
+                  color: "#fff",
                   width: "80px",
                   borderRadius: "10px",
                 }}
@@ -114,13 +175,21 @@ export default function InvitationPage() {
               <Typography sx={{ color: "gray", fontSize: "13px" }}>
                 Country/Region
               </Typography>
-              <Typography>{user?.addr} </Typography>
+              <Typography sx={{ color: "#fff" }}>{user?.addr} </Typography>
             </Box>
-            <Box sx={{ display: "grid", alignItems: "center" }}>
+            <Box
+              sx={{
+                display: {
+                  xs: "none",
+                  sm: "grid",
+                },
+                alignItems: "center",
+              }}
+            >
               <Typography sx={{ color: "gray", fontSize: "13px" }}>
                 Trading fee tier
               </Typography>
-              <Typography>Regular user</Typography>
+              <Typography sx={{ color: "#fff" }}>Regular user</Typography>
             </Box>
           </Box>
           <Button
@@ -129,82 +198,129 @@ export default function InvitationPage() {
               background: "none",
               border: "1px solid gray",
               fontSize: "10px",
-              color: "#000",
+              color: "#fff",
               borderRadius: "10px",
               marginLeft: "20px",
+              display: {
+                xs: "none",
+                sm: "flex",
+              },
             }}
           >
-            <UserIcon fill="#000" />
+            <UserIcon fill="#fff" />
             View profile
           </Button>
         </Box>
         <Grid container spacing={2}>
           {/* Left Section */}
-          <Grid item xs={9}>
-            <StyledPaper sx={{ display: "grid", gap: 3 }}>
+          <Grid item xs={12} sm={8}>
+            <StyledPaper
+              sx={{
+                display: "grid",
+                gap: 2,
+                background: "#000",
+                border: "1px solid gray",
+              }}
+            >
               <Typography
                 variant="h2"
-                sx={{ fontSize: "30px", fontWeight: "bold" }}
+                sx={{ fontSize: "30px", fontWeight: "bold", color: "#fff" }}
               >
                 Group Information
               </Typography>
-              <Box sx={{ display: "flex", gap: 4 }}>
+              <Box
+                sx={{
+                  display: {
+                    xs: "grid",
+                    sm: "flex",
+                  },
+                  gridTemplateColumns: {
+                    xs: "1fr 1fr",
+                    sm: "",
+                  },
+                  gap: 4,
+                }}
+              >
                 <Box>
-                  <Typography sx={{ fontSize: "16px", fontWeight: "bold" }}>
+                  <Typography
+                    sx={{ fontSize: "14px", fontWeight: "bold", color: "#fff" }}
+                  >
                     Member statistics:
                   </Typography>
-                  <Typography>
+                  <Typography sx={{ fontSize: "14px", color: "#fff" }}>
                     {referral?.carr.allrz} Verified Person
                   </Typography>
-                  <Typography>
+                  <Typography sx={{ fontSize: "14px", color: "#fff" }}>
                     {referral?.carr.allnrz} Unverified person
                   </Typography>
                 </Box>
                 <Box>
-                  <Typography sx={{ fontSize: "16px", fontWeight: "bold" }}>
+                  <Typography
+                    sx={{ fontSize: "14px", fontWeight: "bold", color: "#fff" }}
+                  >
                     First generation member:
                   </Typography>
-                  <Typography>{referral?.carr.one} Verified Person</Typography>
-                  <Typography>
+                  <Typography sx={{ fontSize: "14px", color: "#fff" }}>
+                    {referral?.carr.one} Verified Person
+                  </Typography>
+                  <Typography sx={{ fontSize: "14px", color: "#fff" }}>
                     {referral?.carr.onen} Unverified person
                   </Typography>
                 </Box>
                 <Box>
-                  <Typography sx={{ fontSize: "16px", fontWeight: "bold" }}>
+                  <Typography
+                    sx={{ fontSize: "14px", fontWeight: "bold", color: "#fff" }}
+                  >
                     Two generation member:
                   </Typography>
-                  <Typography>{referral?.carr.two} Verified Person</Typography>
-                  <Typography>
+                  <Typography sx={{ fontSize: "14px", color: "#fff" }}>
+                    {referral?.carr.two} Verified Person
+                  </Typography>
+                  <Typography sx={{ fontSize: "14px", color: "#fff" }}>
                     {referral?.carr.twon} Unverified person
                   </Typography>
                 </Box>
                 <Box>
-                  <Typography sx={{ fontSize: "16px", fontWeight: "bold" }}>
+                  <Typography
+                    sx={{ fontSize: "14px", fontWeight: "bold", color: "#fff" }}
+                  >
                     Three generation member:
                   </Typography>
-                  <Typography>
+                  <Typography sx={{ fontSize: "14px", color: "#fff" }}>
                     {referral?.carr.three} Verified Person
                   </Typography>
-                  <Typography>
+                  <Typography sx={{ fontSize: "14px", color: "#fff" }}>
                     {referral?.carr.threen} Unverified person
                   </Typography>
                 </Box>
               </Box>
             </StyledPaper>
-            <StyledPaper>
+            <StyledPaper
+              sx={{
+                display: "grid",
+                gap: 2,
+                background: "#000",
+                border: "1px solid gray",
+              }}
+            >
               <Typography
                 variant="h4"
-                sx={{ fontSize: "25px", fontWeight: "bold", mb: 3 }}
+                sx={{
+                  fontSize: "25px",
+                  fontWeight: "bold",
+                  mb: 3,
+                  color: "#fff",
+                }}
               >
                 Login diary
               </Typography>
-              <TableContainer component={Paper}>
+              <TableContainer component={Paper} sx={{ background: "#000" }}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                   <TableHead>
                     <TableRow>
-                      <TableCell>Login type</TableCell>
-                      <TableCell>Login IP</TableCell>
-                      <TableCell>Login date</TableCell>
+                      <TableCell sx={{ color: "#fff" }}>Login type</TableCell>
+                      <TableCell sx={{ color: "#fff" }}>Login IP</TableCell>
+                      <TableCell sx={{ color: "#fff" }}>Login date</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -215,11 +331,17 @@ export default function InvitationPage() {
                           "&:last-child td, &:last-child th": { border: 0 },
                         }}
                       >
-                        <TableCell component="th" scope="row">
+                        <TableCell
+                          component="th"
+                          scope="row"
+                          sx={{ color: "#fff" }}
+                        >
                           {row.remark}
                         </TableCell>
-                        <TableCell>{row.addip}</TableCell>
-                        <TableCell>
+                        <TableCell sx={{ color: "#fff" }}>
+                          {row.addip}
+                        </TableCell>
+                        <TableCell sx={{ color: "#fff" }}>
                           {new Date(row?.addtime * 1000).toLocaleDateString()}
                         </TableCell>
                       </TableRow>
@@ -230,11 +352,18 @@ export default function InvitationPage() {
             </StyledPaper>
           </Grid>
           {/* Right Section */}
-          <Grid item xs={3}>
-            <StyledPaper>
+          <Grid item xs={12} sm={3}>
+            <StyledPaper
+              sx={{
+                display: "grid",
+                gap: 2,
+                background: "#000",
+                border: "1px solid gray",
+              }}
+            >
               <Typography
                 variant="h4"
-                sx={{ fontSize: "20px", fontWeight: "bold" }}
+                sx={{ fontSize: "20px", fontWeight: "bold", color: "#fff" }}
               >
                 Referral code
               </Typography>
@@ -245,7 +374,9 @@ export default function InvitationPage() {
                   alt="QR Code"
                   sx={{ width: 150, height: 150 }}
                 />
-                <Typography>My referral code: {referral?.invit}</Typography>
+                <Typography sx={{ fontSize: "16px", color: "#fff" }}>
+                  My referral code: {referral?.invit}
+                </Typography>
               </Box>
             </StyledPaper>
           </Grid>

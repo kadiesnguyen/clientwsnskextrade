@@ -43,9 +43,12 @@ export default function VerifiedPage() {
   };
 
   return (
-    <Box sx={{ backgroundColor: "#fff" }}>
+    <Box sx={{ backgroundColor: "#000" }}>
       <Box sx={{ width: "80%", margin: "auto" }}>
-        <Typography variant="h3" sx={{ fontSize: "25px", fontWeight: "600" }}>
+        <Typography
+          variant="h3"
+          sx={{ fontSize: "25px", fontWeight: "600", color: "#fff" }}
+        >
           Account Verified
         </Typography>
         {user?.cardfm === undefined ||
@@ -54,7 +57,7 @@ export default function VerifiedPage() {
           <Typography
             sx={{
               fontSize: "16px",
-              color: "#d32f2f",
+              color: "#fff",
               display: "flex",
               alignItems: "center",
               paddingTop: "10px",
@@ -69,6 +72,7 @@ export default function VerifiedPage() {
               display: "flex",
               alignItems: "center",
               paddingTop: "10px",
+              color: "#fff",
             }}
           >
             <VerifiedIcon /> Account has been verified
@@ -76,7 +80,12 @@ export default function VerifiedPage() {
         )}
         {user && user.cardfm && user.cardzm ? (
           <Box sx={{ mt: 4 }}>
-            <Typography variant="h6" fontWeight="bold" mb={2}>
+            <Typography
+              variant="h6"
+              fontWeight="bold"
+              mb={2}
+              sx={{ color: "#fff" }}
+            >
               The customer has verified the account.
             </Typography>
             <Box
@@ -90,13 +99,18 @@ export default function VerifiedPage() {
                 textAlign: "center",
               }}
             >
-              <Box sx={{ width: "40%", textAlign: "center" }}>
+              <Box
+                sx={{ width: { xs: "100%", sm: "40%" }, textAlign: "center" }}
+              >
                 <Box
                   component="img"
                   src={user.cardfm}
                   alt="Mặt trước CCCD"
                   sx={{
-                    width: "400px",
+                    width: {
+                      xs: "100%",
+                      sm: "400px",
+                    },
                     borderRadius: "8px",
                     boxShadow: 2,
                     cursor: "pointer",
@@ -104,18 +118,29 @@ export default function VerifiedPage() {
                   }}
                 />
 
-                <Typography align="center" mt={1}>
+                <Typography align="center" mt={1} sx={{ color: "#fff" }}>
                   Mặt trước
                 </Typography>
               </Box>
 
-              <Box sx={{ width: "40%", textAlign: "center" }}>
+              <Box
+                sx={{
+                  width: {
+                    xs: "100%",
+                    sm: "40%",
+                  },
+                  textAlign: "center",
+                }}
+              >
                 <Box
                   component="img"
                   src={user.cardzm}
                   alt="Mặt sau CCCD"
                   sx={{
-                    width: "400px",
+                    width: {
+                      xs: "100%",
+                      sm: "400px",
+                    },
                     borderRadius: "8px",
                     boxShadow: 2,
                     cursor: "pointer",
@@ -123,7 +148,7 @@ export default function VerifiedPage() {
                   }}
                 />
 
-                <Typography align="center" mt={1}>
+                <Typography align="center" mt={1} sx={{ color: "#fff" }}>
                   Mặt sau
                 </Typography>
               </Box>
@@ -131,7 +156,12 @@ export default function VerifiedPage() {
           </Box>
         ) : (
           <Box sx={{ mt: 4 }}>
-            <Typography variant="h6" fontWeight="bold" mb={2}>
+            <Typography
+              variant="h6"
+              fontWeight="bold"
+              mb={2}
+              sx={{ color: "#fff" }}
+            >
               Your CCCD image (click to replace)
             </Typography>
             <Box sx={{ display: "flex", justifyContent: "center", gap: 2 }}>
@@ -158,7 +188,7 @@ export default function VerifiedPage() {
                   style={{ display: "none" }}
                   onChange={handleFrontChange}
                 />
-                <Typography align="center" mt={1}>
+                <Typography align="center" mt={1} sx={{ color: "#fff" }}>
                   Mặt trước
                 </Typography>
               </Box>
@@ -184,7 +214,7 @@ export default function VerifiedPage() {
                   style={{ display: "none" }}
                   onChange={handleBackChange}
                 />
-                <Typography align="center" mt={1}>
+                <Typography align="center" mt={1} sx={{ color: "#fff" }}>
                   Mặt sau
                 </Typography>
               </Box>
@@ -193,14 +223,14 @@ export default function VerifiedPage() {
               type="button"
               sx={{
                 display: "flex",
-                background: "#000",
-                color: "#fff",
+                background: "#fff",
+                color: "#000",
                 width: "200px",
                 height: "50px",
                 borderRadius: "15px",
                 margin: "0 auto",
                 "&:hover": {
-                  background: "#333",
+                  background: "#fff",
                 },
               }}
             >

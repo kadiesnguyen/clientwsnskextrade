@@ -40,10 +40,19 @@ export default function ChangePassword() {
         mt: 4,
       }}
     >
-      <Typography variant="h4" gutterBottom sx={{ fontWeight: "bold" }}>
+      <Typography
+        variant="h4"
+        gutterBottom
+        sx={{ fontWeight: "bold", color: "#fff" }}
+      >
         Change login password
       </Typography>
-      <Typography variant="caption" color="textSecondary" gutterBottom>
+      <Typography
+        variant="caption"
+        color="textSecondary"
+        gutterBottom
+        sx={{ color: "#fff" }}
+      >
         * Please ensure that the new password is strong enough and different
         from the old password.
       </Typography>
@@ -57,7 +66,41 @@ export default function ChangePassword() {
           margin="normal"
           required
           helperText="Please enter the old password"
+          InputLabelProps={{
+            sx: {
+              color: "#fff",
+              "&.Mui-focused": {
+                color: "#fff", // giữ màu trắng khi label floating
+              },
+            }, // Label màu trắng
+          }}
+          InputProps={{
+            sx: {
+              color: "#fff", // Chữ nhập vào màu trắng
+              "& .MuiInputBase-input::placeholder": {
+                color: "#fff", // Placeholder màu trắng
+                opacity: 1,
+              },
+            },
+          }}
+          FormHelperTextProps={{
+            sx: { color: "#fff" }, // HelperText màu trắng
+          }}
+          sx={{
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": {
+                borderColor: "#fff",
+              },
+              "&:hover fieldset": {
+                borderColor: "#fff",
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: "#fff",
+              },
+            },
+          }}
         />
+
         <TextField
           fullWidth
           label="New Password"
@@ -67,6 +110,39 @@ export default function ChangePassword() {
           margin="normal"
           required
           helperText="Please enter a new password"
+          InputLabelProps={{
+            sx: {
+              color: "#fff",
+              "&.Mui-focused": {
+                color: "#fff", // giữ màu trắng khi label floating
+              },
+            }, // Label màu trắng
+          }}
+          InputProps={{
+            sx: {
+              color: "#fff", // Chữ nhập vào màu trắng
+              "& .MuiInputBase-input::placeholder": {
+                color: "#fff", // Placeholder màu trắng
+                opacity: 1,
+              },
+            },
+          }}
+          FormHelperTextProps={{
+            sx: { color: "#fff" }, // HelperText màu trắng
+          }}
+          sx={{
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": {
+                borderColor: "#fff",
+              },
+              "&:hover fieldset": {
+                borderColor: "#fff",
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: "#fff",
+              },
+            },
+          }}
         />
         <TextField
           fullWidth
@@ -77,13 +153,46 @@ export default function ChangePassword() {
           margin="normal"
           required
           helperText="Please confirm the new password"
+          InputLabelProps={{
+            sx: {
+              color: "#fff",
+              "&.Mui-focused": {
+                color: "#fff", // giữ màu trắng khi label floating
+              },
+            }, // Label màu trắng
+          }}
+          InputProps={{
+            sx: {
+              color: "#fff", // Chữ nhập vào màu trắng
+              "& .MuiInputBase-input::placeholder": {
+                color: "#fff", // Placeholder màu trắng
+                opacity: 1,
+              },
+            },
+          }}
+          FormHelperTextProps={{
+            sx: { color: "#fff" }, // HelperText màu trắng
+          }}
+          sx={{
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": {
+                borderColor: "#fff",
+              },
+              "&:hover fieldset": {
+                borderColor: "#fff",
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: "#fff",
+              },
+            },
+          }}
         />
         <Button
           type="submit"
           sx={{
             mt: 2,
-            backgroundColor: "#000",
-            color: "white",
+            backgroundColor: "#fff",
+            color: "black",
             width: "250px",
             height: "50px",
             borderRadius: "15px",

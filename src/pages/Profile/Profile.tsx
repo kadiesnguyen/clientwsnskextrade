@@ -51,7 +51,7 @@ export default function ProfilePage(props: TabProps) {
     <Box
       sx={{
         width: "100%",
-        backgroundColor: "#fff",
+        backgroundColor: "#000",
         paddingBottom: {
           xs: "100px",
           sm: "0px",
@@ -81,9 +81,9 @@ export default function ProfilePage(props: TabProps) {
               fontSize: "18px",
               fontWeight: 500,
               whiteSpace: "nowrap", // giữ chữ không xuống dòng
-              "&:hover": { color: "#333" },
+              "&:hover": { color: "#fff" },
               "&.Mui-selected": {
-                color: "#000",
+                color: "#fff",
                 fontWeight: 700,
               },
             },
@@ -97,8 +97,7 @@ export default function ProfilePage(props: TabProps) {
           <Tab label="Security setting" {...a11yProps(2)} />
           <Tab label="Account verification" {...a11yProps(3)} />
           <Tab label="Referral" {...a11yProps(4)} />
-          <Tab label="Notification" {...a11yProps(5)} />
-          <Tab label="Bill" {...a11yProps(6)} />
+          <Tab label="Bill" {...a11yProps(5)} />
         </Tabs>
       </Box>
 
@@ -116,6 +115,9 @@ export default function ProfilePage(props: TabProps) {
         <VerifiedPage />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={4}>
+        <InvitationPage />
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={5}>
         <InvitationPage />
       </CustomTabPanel>
     </Box>

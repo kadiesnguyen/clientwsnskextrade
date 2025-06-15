@@ -42,6 +42,10 @@ const getOrepool = () => {
   return contentInstance.get("/api/orepool");
 };
 
+const getNotification = () => {
+  return contentInstance.get("/api/user/notices");
+};
+
 export {
   loginUser,
   signupUser,
@@ -49,4 +53,5 @@ export {
   getMe,
   getReferral,
   getOrepool,
+  getNotification,
 };

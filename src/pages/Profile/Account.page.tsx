@@ -7,7 +7,7 @@ import React from "react";
 export default function AccountPage() {
   const { user, loading } = useAuth();
   return (
-    <Box sx={{ backgroundColor: "#fff" }}>
+    <Box sx={{ backgroundColor: "#000" }}>
       <Box
         sx={{
           width: {
@@ -45,7 +45,10 @@ export default function AccountPage() {
             },
           }}
         >
-          <Typography variant="h3" sx={{ fontSize: "25px", fontWeight: "600" }}>
+          <Typography
+            variant="h3"
+            sx={{ fontSize: "25px", fontWeight: "600", color: "#fff" }}
+          >
             Personal info
           </Typography>
           <Box
@@ -59,7 +62,7 @@ export default function AccountPage() {
             <Typography
               variant="h4"
               sx={{
-                color: "#000",
+                color: "#fff",
                 fontWeight: 500,
                 fontSize: "16px",
                 width: "30%",
@@ -67,7 +70,7 @@ export default function AccountPage() {
             >
               Nickname
             </Typography>
-            <Typography sx={{ color: "#827a75", fontSize: "16px" }}>
+            <Typography sx={{ fontSize: "16px", color: "#fff" }}>
               {user?.username || "test@gmail.com"}
             </Typography>
           </Box>
@@ -81,7 +84,7 @@ export default function AccountPage() {
             <Typography
               variant="h4"
               sx={{
-                color: "#000",
+                color: "#fff",
                 fontWeight: 500,
                 fontSize: "16px",
                 width: "30%",
@@ -89,11 +92,14 @@ export default function AccountPage() {
             >
               Phone
             </Typography>
-            <Typography sx={{ color: "#827a75", fontSize: "16px" }}>
+            <Typography sx={{ color: "#fff", fontSize: "16px" }}>
               {user?.phone || "0918188172727"}
             </Typography>
           </Box>
-          <Typography variant="h3" sx={{ fontSize: "25px", fontWeight: "600" }}>
+          <Typography
+            variant="h3"
+            sx={{ fontSize: "25px", fontWeight: "600", color: "#fff" }}
+          >
             Verification info
           </Typography>
           <Box
@@ -107,7 +113,7 @@ export default function AccountPage() {
             <Typography
               variant="h4"
               sx={{
-                color: "#000",
+                color: "#fff",
                 fontWeight: 500,
                 fontSize: "16px",
                 width: "30%",
@@ -115,7 +121,7 @@ export default function AccountPage() {
             >
               Identity verification
             </Typography>
-            <Typography sx={{ color: "#827a75", fontSize: "16px" }}>
+            <Typography sx={{ color: "#fff", fontSize: "16px" }}>
               {user?.cardfm === undefined ||
               user?.cardfm === null ||
               user?.cardfm === "" ? (
@@ -141,7 +147,7 @@ export default function AccountPage() {
             <Typography
               variant="h4"
               sx={{
-                color: "#000",
+                color: "#fff",
                 fontWeight: 500,
                 fontSize: "16px",
                 width: "30%",
@@ -149,7 +155,7 @@ export default function AccountPage() {
             >
               Country/Region
             </Typography>
-            <Typography sx={{ color: "#827a75", fontSize: "16px" }}>
+            <Typography sx={{ color: "#fff", fontSize: "16px" }}>
               {user?.addr || "Vietnam"}
             </Typography>
           </Box>

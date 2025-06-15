@@ -2,6 +2,7 @@
 import MarketDataWidget from "@/components/ChartView/MarketDataWidget";
 import MarketDataWidget2 from "@/components/ChartView/MarketDataWidget2";
 import useAuth from "@/hook/useAuth";
+import { getNotification } from "@/services/User.service";
 import { ProfileIcon, UserIcon } from "@/shared/Svgs/Svg.component";
 import {
   Box,
@@ -14,6 +15,7 @@ import {
   Avatar,
 } from "@mui/material";
 import { log } from "console";
+import { useEffect, useState } from "react";
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(2),
@@ -54,9 +56,27 @@ const Announcements = [
 
 export default function OverviewPage() {
   const { user } = useAuth();
-  console.log("User data:", user);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [noti, setNoti] = useState<any>(null);
+
+  useEffect(() => {
+    const notiData = async () => {
+      try {
+        const res: any = await getNotification();
+        if (res.status === true) {
+          setNoti(res.data);
+
+          setLoading(false);
+        }
+        setLoading(false);
+      } catch (error: any) {
+        setLoading(false);
+      }
+    };
+    notiData();
+  }, []);
   return (
-    <Box sx={{ backgroundColor: "#fff" }}>
+    <Box sx={{ backgroundColor: "#000" }}>
       <Box
         sx={{
           padding: 2,
@@ -125,6 +145,7 @@ export default function OverviewPage() {
                     xs: "16px",
                     sm: "25px",
                   },
+                  color: "#fff",
                 }}
               >
                 {user?.username}
@@ -137,6 +158,7 @@ export default function OverviewPage() {
                     xs: "13px",
                     sm: "18px",
                   },
+                  color: "lightgrey",
                 }}
               >
                 {user?.phone}
@@ -163,7 +185,7 @@ export default function OverviewPage() {
               <Typography sx={{ color: "gray", fontSize: "13px" }}>
                 Email
               </Typography>
-              <Typography>{user?.username} </Typography>
+              <Typography sx={{ color: "#fff" }}>{user?.username} </Typography>
             </Box>
             <Box sx={{ display: "grid", alignItems: "center" }}>
               <Typography sx={{ color: "gray", fontSize: "13px" }}>
@@ -175,7 +197,7 @@ export default function OverviewPage() {
                   background: "none",
                   border: "1px solid gray",
                   fontSize: "10px",
-                  color: "#000",
+                  color: "#fff",
                   width: "80px",
                   borderRadius: "10px",
                 }}
@@ -187,7 +209,7 @@ export default function OverviewPage() {
               <Typography sx={{ color: "gray", fontSize: "13px" }}>
                 Country/Region
               </Typography>
-              <Typography>{user?.addr} </Typography>
+              <Typography sx={{ color: "#fff" }}>{user?.addr} </Typography>
             </Box>
             <Box
               sx={{
@@ -201,7 +223,7 @@ export default function OverviewPage() {
               <Typography sx={{ color: "gray", fontSize: "13px" }}>
                 Trading fee tier
               </Typography>
-              <Typography>Regular user</Typography>
+              <Typography sx={{ color: "#fff" }}>Regular user</Typography>
             </Box>
           </Box>
           <Button
@@ -210,45 +232,52 @@ export default function OverviewPage() {
               background: "none",
               border: "1px solid gray",
               fontSize: "10px",
-              color: "#000",
+              color: "#fff",
               borderRadius: "10px",
               marginLeft: "20px",
               display: {
                 xs: "none",
-                sm: "block",
+                sm: "flex",
               },
             }}
           >
-            <UserIcon fill="#000" />
+            <UserIcon fill="#fff" />
             View profile
           </Button>
         </Box>
         <Grid container spacing={2}>
           {/* Left Section */}
           <Grid item xs={12} sm={8}>
-            <StyledPaper sx={{ display: "grid", gap: 2 }}>
+            <StyledPaper
+              sx={{
+                display: "grid",
+                gap: 2,
+                background: "#000",
+                border: "1px solid gray",
+              }}
+            >
               <Typography
                 variant="h2"
-                sx={{ fontSize: "30px", fontWeight: "bold" }}
+                sx={{ fontSize: "30px", fontWeight: "bold", color: "#fff" }}
               >
                 Get verified to secure your account
               </Typography>
-              <Typography>
+              <Typography sx={{ color: "#fff" }}>
                 Provide your ID, a selfie, and personal information.
               </Typography>
               <Button
                 type="button"
                 sx={{
                   mt: 1,
-                  backgroundColor: "#000",
-                  color: "#fff",
+                  backgroundColor: "#fff",
+                  color: "#000",
                   borderRadius: "20px",
                   width: "150px",
                   height: "50px",
                   textTransform: "none",
                   fontWeight: "bold",
                   "&:hover": {
-                    backgroundColor: "#000",
+                    backgroundColor: "#fff",
                   },
                 }}
               >
@@ -256,61 +285,63 @@ export default function OverviewPage() {
               </Button>
             </StyledPaper>
 
-            <StyledPaper sx={{ mt: 2 }}>
+            <StyledPaper
+              sx={{ mt: 2, background: "#000", border: "1px solid gray" }}
+            >
               <Typography
                 variant="h4"
-                sx={{ fontSize: "25px", fontWeight: "bold" }}
+                sx={{ fontSize: "25px", fontWeight: "bold", color: "#fff" }}
               >
                 Today’s crypto prices
               </Typography>
-              <Box sx={{ overflowX: "auto" }}>
-                <MarketDataWidget2 width={750} height={450} theme="light" />
+              <Box sx={{ overflowX: "auto", background: "#000" }}>
+                <MarketDataWidget2 width={750} height={450} theme="dark" />
               </Box>
             </StyledPaper>
           </Grid>
 
           {/* Right Section */}
           <Grid item xs={12} sm={4}>
-            <StyledPaper>
+            <StyledPaper
+              sx={{
+                display: "grid",
+                gap: 2,
+                background: "#000",
+                border: "1px solid gray",
+              }}
+            >
               <Typography
                 variant="h3"
-                sx={{ fontSize: "28px", fontWeight: "bold" }}
+                sx={{ fontSize: "28px", fontWeight: "bold", color: "#fff" }}
               >
-                Announcements
+                Notification
               </Typography>
-              {Announcements.map((announcement, index) => (
-                <Box key={index}>
-                  <Divider sx={{ my: 1 }} />
-                  <Box sx={{ padding: "10px 0px" }}>
-                    <Typography variant="body2" color="text.secondary">
-                      {announcement.date}
-                    </Typography>
-                    <Typography variant="body2" color="black">
-                      {announcement.title}
-                    </Typography>
+              {noti &&
+                noti.map((announcement: any, index: number) => (
+                  <Box key={index}>
+                    {/* <Divider sx={{ my: 1 }} /> */}
+                    <Box
+                      sx={{
+                        padding: "10px 0px",
+                        borderTop: "1px solid gray",
+                      }}
+                    >
+                      <Typography variant="body2" color="white">
+                        {new Date(announcement.addtime).toLocaleString()}
+                      </Typography>
+                      <Typography variant="body2" color="white">
+                        {announcement.title}
+                      </Typography>
+                      <Typography
+                        color="gray"
+                        sx={{ fontSize: "14px", fontWeight: "400" }}
+                      >
+                        {announcement.content}
+                      </Typography>
+                    </Box>
                   </Box>
-                </Box>
-              ))}
+                ))}
             </StyledPaper>
-
-            {/* Uncomment if needed */}
-            {/* <StyledPaper sx={{ mt: 2 }}>
-      <Typography
-        variant="h4"
-        sx={{ fontSize: "20px", fontWeight: "bold" }}
-      >
-        Download app and trade on the go
-      </Typography>
-      <Box sx={{ textAlign: "center", mt: 1 }}>
-        <Box
-          component="img"
-          src="/images/qr.png"
-          alt="QR Code"
-          sx={{ width: 100, height: 100 }}
-        />
-        <Typography>Scan to download</Typography>
-      </Box>
-    </StyledPaper> */}
           </Grid>
         </Grid>
       </Box>

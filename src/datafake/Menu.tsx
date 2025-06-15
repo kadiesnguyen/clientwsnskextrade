@@ -346,11 +346,7 @@ export const menuItems = [
     icon: <GiftMenuIcon />,
     link: "/referral",
   },
-  {
-    text: "Notification",
-    icon: <HistoryMenuIcon />,
-    link: "/notification",
-  },
+
   {
     text: "Live chat 24/7",
     icon: <LiveChatMenuIcon />,
@@ -393,11 +389,7 @@ export const menuItemMobile = [
     icon: <GiftMenuIcon />,
     link: "/referral",
   },
-  {
-    text: "Notification",
-    icon: <HistoryMenuIcon />,
-    link: "/notification",
-  },
+
   {
     text: "Live chat 24/7",
     icon: <LiveChatMenuIcon />,
@@ -436,11 +428,7 @@ export const menuItemMobile2 = [
     icon: <GiftMenuIcon fill="#fff" />,
     link: "/referral",
   },
-  {
-    text: "Notification",
-    icon: <HistoryMenuIcon fill="#fff" />,
-    link: "/notification",
-  },
+
   {
     text: "Live chat 24/7",
     icon: <LiveChatMenuIcon fill="#fff" />,
