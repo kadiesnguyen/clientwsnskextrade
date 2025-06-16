@@ -298,8 +298,8 @@ export default function AssetPage() {
                   },
                 }}
               >
-                <Tab label="Buy" {...a11yProps(0)} />
-                <Tab label="Sell" {...a11yProps(1)} />
+                <Tab label="Deposit" {...a11yProps(0)} />
+                <Tab label="Withdraw" {...a11yProps(1)} />
               </Tabs>
             </Box>
             <CustomTabPanel value={value} index={0}>
@@ -629,7 +629,7 @@ export default function AssetPage() {
                       }}
                       onClick={handleSubmit}
                     >
-                      Buy
+                      Deposit
                     </Button>
                   </Box>
                 </Box>
@@ -1152,7 +1152,7 @@ export default function AssetPage() {
                       }}
                       onClick={handleSubmitSell}
                     >
-                      Sell
+                      Withdraw
                     </Button>
                   </Box>
                 </Box>
