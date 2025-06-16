@@ -26,10 +26,17 @@ const updatePassword = (
   new_password: string,
   new_password_confirmation: string
 ) => {
-  return contentInstance.post(`/api/change-password`, {
+  return contentInstance.post(`/api/user/change-password`, {
     old_password,
     new_password,
     new_password_confirmation,
+  });
+};
+const updatePaymentPassword = (formData: FormData) => {
+  return contentInstance.post(`/api/user/change-paypassword`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
   });
 };
 
@@ -43,6 +50,14 @@ const verifiUser = (formData: FormData) => {
 
 const topUpCoins = (formData: FormData) => {
   return contentInstance.post("/api/finance/deposit", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};
+
+const sellCoins = (formData: FormData) => {
+  return contentInstance.post("/api/finance/withdraw", formData, {
     headers: {
       "Content-Type": "multipart/form-data",
     },
@@ -87,4 +102,6 @@ export {
   verifiUser,
   topUpCoins,
   getWebsiteConfig,
+  updatePaymentPassword,
+  sellCoins,
 };

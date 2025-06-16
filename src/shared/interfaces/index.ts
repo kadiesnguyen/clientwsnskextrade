@@ -76,6 +76,7 @@ export interface IUser {
   invit: string;
   stoptime: number;
   is_agent: number;
+  wdstatus: number;
   kefu: number;
   trc: string;
   erc: string;

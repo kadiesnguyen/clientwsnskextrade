@@ -1,8 +1,47 @@
+// import React, { useEffect, useRef } from "react";
+
+// const TradingViewTickersWidget = () => {
+//   const containerRef = useRef(null);
+
+//   useEffect(() => {
+//     const script = document.createElement("script");
+//     script.src = "https://s3.tradingview.com/external-embedding/embed-widget-tickers.js";
+//     script.async = true;
+//     script.innerHTML = JSON.stringify({
+//       symbols: [
+//         { description: "", proName: "CRYPTOCAP:USDT" },
+//         { description: "", proName: "OKX:PIUSDT" },
+//         { description: "", proName: "CRYPTOCAP:USDC.D" },
+//         { description: "", proName: "COINBASE:ETHUSD" },
+//         { description: "", proName: "CRYPTOCAP:BTC.D" },
+//       ],
+//       isTransparent: false,
+//       showSymbolLogo: true,
+//       colorTheme: "dark",
+//       locale: "en"
+//     });
+
+//     if (containerRef.current) {
+//       containerRef.current.innerHTML = ""; // clear if rerender
+//       containerRef.current.appendChild(script);
+//     }
+//   }, []);
+
+//   return (
+//     <div
+//       className="tradingview-widget-container"
+//       ref={containerRef}
+//       style={{ width: "100%", border: "none" }}
+//     />
+//   );
+// };
+
+// export default TradingViewTickersWidget;
 "use client";
 
 import React, { useEffect, useRef } from "react";
 
-const TradingViewTickerTape: React.FC = () => {
+const AssetChartView: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -28,9 +67,11 @@ const TradingViewTickerTape: React.FC = () => {
       ],
       showSymbolLogo: true,
       colorTheme: "dark",
-      isTransparent: false,
-      displayMode: "compact",
+      //   isTransparent: false,
       locale: "en",
+      width: "100%",
+      height: "300px",
+      displayMode: "compact",
     });
     if (containerRef.current) {
       containerRef.current.innerHTML = "";
@@ -49,4 +90,4 @@ const TradingViewTickerTape: React.FC = () => {
   );
 };
 
-export default TradingViewTickerTape;
+export default AssetChartView;
