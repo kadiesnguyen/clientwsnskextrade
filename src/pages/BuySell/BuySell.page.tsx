@@ -51,7 +51,7 @@ function a11yProps(index: number) {
 export default function BuySellPage() {
   const { user } = useAuth();
   const [listCoin, setListCoin] = useState<any>(null);
-  const [coin, setCoin] = useState<any>(null);
+  const [coin, setCoin] = useState<any>("BTCUSDT");
   const [value, setValue] = useState(0);
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -100,58 +100,99 @@ export default function BuySellPage() {
                 xs: "none",
                 sm: "block",
               },
+              width: "70%",
             }}
-            aria-label="main mailbox folders"
           >
-            <List>
-              <ListItem disablePadding>
-                <ListItemButton>
-                  <ListItemText
-                    sx={{
-                      color: "gray",
-                      fontSize: {
-                        xs: "10px",
-                        sm: "16px",
-                      },
-                    }}
-                  >
-                    Transaction
-                  </ListItemText>
-                </ListItemButton>
-                <ListItemButton>
-                  <ListItemText
-                    sx={{
-                      color: "gray",
-                      fontSize: {
-                        xs: "10px",
-                        sm: "16px",
-                      },
-                    }}
-                  >
-                    Staus
-                  </ListItemText>
-                </ListItemButton>
-              </ListItem>{" "}
-              <Divider sx={{ borderColor: "gray" }} />
-            </List>
-            <List
+            <TradeChart height="700" symbols={coin} />
+          </Box>
+          <Box
+            sx={{
+              display: {
+                xs: "block",
+                sm: "none",
+              },
+              width: "100%",
+            }}
+          >
+            <TradeChart height="400" symbols={coin} />
+          </Box>
+          <Box
+            width="30%"
+            sx={{
+              display: {
+                xs: "none",
+                sm: "flex",
+              },
+              flexDirection: "column",
+              gap: "10px",
+            }}
+          >
+            <Box
               sx={{
-                height: {
-                  xs: "350px",
-                  sm: "500px",
-                },
-                overflowY: "scroll",
-                scrollbarWidth: "none", // Firefox
-                "&::-webkit-scrollbar": {
-                  display: "none", // Chrome, Safari
-                },
+                padding: "10px",
+                height: "360px",
               }}
+              aria-label="main mailbox folders"
             >
-              {listCoin &&
-                listCoin.map((coin: any, index: number) => (
-                  <ListItem key={index} onClick={() => handleClick(coin.title)}>
-                    <ListItemButton>
-                      <ListItemText
+              <Box
+                sx={{
+                  width: "100%",
+                  display: "flex",
+                  gap: "20px",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Typography
+                  sx={{
+                    color: "gray",
+                    fontSize: {
+                      xs: "12px",
+                      sm: "16px",
+                    },
+                  }}
+                >
+                  Transaction
+                </Typography>
+
+                <Typography
+                  sx={{
+                    color: "gray",
+                    fontSize: {
+                      xs: "12px",
+                      sm: "16px",
+                    },
+                  }}
+                >
+                  Staus
+                </Typography>
+              </Box>
+              <Divider sx={{ borderColor: "gray" }} />
+              <Box
+                sx={{
+                  height: {
+                    xs: "380px",
+                    sm: "350px",
+                  },
+                  overflowY: "scroll",
+                  scrollbarWidth: "none", // Firefox
+                  "&::-webkit-scrollbar": {
+                    display: "none", // Chrome, Safari
+                  },
+                }}
+              >
+                {listCoin &&
+                  listCoin.map((coin: any, index: number) => (
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        padding: "10px 0",
+                        alignItems: "center",
+                      }}
+                      key={index}
+                      onClick={() => handleClick(coin.title)}
+                    >
+                      <Typography
                         sx={{
                           color: "white",
                           fontSize: {
@@ -161,10 +202,9 @@ export default function BuySellPage() {
                         }}
                       >
                         {coin.title}
-                      </ListItemText>
-                    </ListItemButton>
-                    <ListItemButton>
-                      <ListItemText
+                      </Typography>
+
+                      <Button
                         sx={{
                           padding: {
                             xs: "3px 5px",
@@ -181,23 +221,12 @@ export default function BuySellPage() {
                         }}
                       >
                         {coin.status === 1 ? " Active" : "Inactive"}
-                      </ListItemText>
-                    </ListItemButton>
-                  </ListItem>
-                ))}
-            </List>
-          </Box>
-          <Box sx={{ width: "100%" }}>
-            <TradeChart height="400" symbols={coin} />
-            <Box
-              sx={{
-                display: {
-                  xs: "none",
-                  sm: "block",
-                },
-                marginTop: "10px",
-              }}
-            >
+                      </Button>
+                    </Box>
+                  ))}
+              </Box>
+            </Box>
+            <Box sx={{ width: "100%", padding: "10px" }}>
               <Tabs
                 value={value}
                 onChange={handleChange}
@@ -207,13 +236,14 @@ export default function BuySellPage() {
                     xs: "100%",
                     sm: "80%",
                   },
-                  padding: "0px 10px",
+                  padding: "0px 5px",
                   "& .MuiTab-root": {
                     color: "#909090",
                     fontSize: {
                       xs: "14px",
                       sm: "18px",
                     },
+
                     fontWeight: 500,
                     whiteSpace: "nowrap",
                     "&:hover": { color: "#fff" },
@@ -235,7 +265,12 @@ export default function BuySellPage() {
                 <Tab label="Buy" {...a11yProps(0)} />
                 <Tab label="Sell" {...a11yProps(1)} />
               </Tabs>
-              <CustomTabPanel value={value} index={0}></CustomTabPanel>
+              <CustomTabPanel value={value} index={0}>
+                <BuyComponent user={user} value={coin} />
+              </CustomTabPanel>
+              <CustomTabPanel value={value} index={1}>
+                <SellComponent user={user} value={coin} />
+              </CustomTabPanel>
             </Box>
           </Box>
         </Box>
@@ -398,10 +433,10 @@ export default function BuySellPage() {
               <Tab label="Sell" {...a11yProps(1)} />
             </Tabs>
             <CustomTabPanel value={value} index={0}>
-              <BuyComponent user={user} />
+              <BuyComponent user={user} value={coin} />
             </CustomTabPanel>
             <CustomTabPanel value={value} index={1}>
-              <SellComponent user={user} />
+              <SellComponent user={user} value={coin} />
             </CustomTabPanel>
           </Box>
         </Box>

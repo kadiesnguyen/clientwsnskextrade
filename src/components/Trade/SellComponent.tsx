@@ -1,19 +1,20 @@
 import useAuth from "@/hook/useAuth";
-import { getBuySellConfig } from "@/services/User.service";
+import { createOrder, getBuySellConfig } from "@/services/User.service";
 import { IUser } from "@/shared/interfaces";
 import { Box, Button, TextField, Typography } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 interface TabProps {
   user: IUser | null;
+  value: string;
 }
 
 export default function SellComponent(progs: TabProps) {
   const [valueAmount, setValueAmount] = useState(0);
-  const [amount, setAmount] = useState("");
+  const [amount, setAmount] = useState("100");
   const [type, setType] = useState(0);
-  const [hytime, setHytime] = useState("");
-  const [hyykbl, setHyykbl] = useState("");
+  const [hytime, setHytime] = useState("1");
+  const [hyykbl, setHyykbl] = useState("10");
   const [buySellConfig, setBuySellConfig] = useState<any>(null);
   const buttonRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const timeButtonRefs = useRef<(HTMLButtonElement | null)[]>([]);
@@ -59,6 +60,31 @@ export default function SellComponent(progs: TabProps) {
     };
     referral();
   }, []);
+  const handleSubmit = async () => {
+    if (!hytime || !amount) {
+      toast.error("Please select time and amount");
+      return;
+    }
+    if (parseFloat(amount) < parseFloat(buySellConfig.hy_min?.[type] || "0")) {
+      toast.error(
+        `The minimum amount for this type is ${buySellConfig.hy_min?.[type]}`
+      );
+      return;
+    }
+    try {
+      const formData = new FormData();
+      formData.append("ctime", hytime);
+      formData.append("amount", amount);
+      formData.append("coinname", progs.value);
+      formData.append("method", "2");
+      formData.append("uprate", hyykbl);
+
+      await createOrder(formData);
+      toast.success("Order created successfully");
+    } catch (error: any) {
+      toast.error(error.message || "Order created failed, please check again!");
+    }
+  };
   return (
     <div>
       {progs.user ? (
@@ -93,9 +119,9 @@ export default function SellComponent(progs: TabProps) {
                   sx={{
                     background: type === index ? "#fff" : "#909090",
                     color: "black",
-                    width: "400px",
-                    height: "65px",
-                    borderRadius: "15px",
+                    minWidth: { xs: "85px", sm: "130px" },
+
+                    borderRadius: "10px",
                     fontWeight: 600,
                     fontSize: { xs: "10px", sm: "14px" },
                     "&:hover": {
@@ -286,7 +312,7 @@ export default function SellComponent(progs: TabProps) {
                 background: "#fff",
               },
             }}
-            // onClick={handleSubmitSell}
+            onClick={handleSubmit}
           >
             Sell
           </Button>
