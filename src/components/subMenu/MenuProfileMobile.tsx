@@ -400,7 +400,8 @@ export default function MenuProfileMobile(data: userProps) {
         sx={{
           display: {
             xs: "flex",
-            sm: "none",
+            sm: "flex",
+            md: "none",
           },
           gap: "8px",
           height: "50px",

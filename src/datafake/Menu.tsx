@@ -123,7 +123,7 @@ export const MenuWebsite = [
   },
   {
     id: "2",
-    link: "/discover",
+    link: "/buysell",
     title: "Discover",
     item: [
       {
@@ -218,12 +218,12 @@ export const MenuWebsite = [
       },
     ],
   },
-  {
-    id: "6",
-    link: "#",
-    title: "Notification",
-    item: [],
-  },
+  // {
+  //   id: "6",
+  //   link: "#",
+  //   title: "Notification",
+  //   item: [],
+  // },
 ];
 
 export const MenuMobile = [

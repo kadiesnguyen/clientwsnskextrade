@@ -49,6 +49,13 @@ footer li a:hover {
     margin-left: 15px;
 }
 
+@media (max-width: 1024px) {
+    footer {
+        display: none;
+    }
+
+}
+
 @media (max-width: 768px) {
     footer {
         display: none;

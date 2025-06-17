@@ -242,6 +242,116 @@
     display: none;
 }
 
+/* Tablet-specific styles */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+    .home-webiste {
+        padding: 15px;
+    }
+
+    .home-join {
+        flex-direction: column;
+        gap: 20px;
+        padding: 30px 0;
+    }
+
+    .home-join-left h2 {
+        font-size: 36px;
+        text-align: center;
+    }
+
+    .send-mail {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .send-mail input {
+        width: 100%;
+        max-width: 400px;
+    }
+
+    .send-mail button {
+        width: 100%;
+        max-width: 400px;
+        padding: 12px;
+    }
+
+    .join-img {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .join-img img {
+        width: 150px;
+        height: 150px;
+    }
+
+    .join-img img:last-child {
+        width: 50px;
+        height: 50px;
+    }
+
+    .home-join-right video {
+        width: 100%;
+        max-width: 600px;
+        height: auto;
+    }
+
+    .trade-like-title h2,
+    .trade-way-title h2,
+    .what-is-top h2 {
+        font-size: 30px;
+    }
+
+    .trade-like-title p,
+    .trade-way-title p,
+    .what-is-top p {
+        font-size: 16px;
+    }
+
+    .trade-like video,
+    .trade-way video {
+        width: 100%;
+        max-width: 600px;
+        height: auto;
+        margin: 0 auto;
+    }
+
+    .what-is-top {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .what-is-left {
+        text-align: center;
+    }
+
+    .what-is-right img {
+        max-width: 300px;
+    }
+
+    .video-section {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .video-item {
+        min-width: 100%;
+        max-width: 500px;
+    }
+
+    .question h2 {
+        font-size: 30px;
+    }
+
+    .question .MuiAccordionSummary-content {
+        font-size: 24px !important;
+    }
+
+    .question .MuiAccordionDetails-root {
+        font-size: 20px !important;
+    }
+}
+
 @media (max-width: 768px) {
     .home-webiste {
         display: none;
