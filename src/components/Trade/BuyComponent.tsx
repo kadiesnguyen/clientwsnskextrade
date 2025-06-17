@@ -126,7 +126,7 @@ export default function BuyComponent(progs: TabProps) {
                     background: type === index ? "#fff" : "#909090",
                     color: "black",
                     minWidth: { xs: "95px", sm: "130px" },
-
+                    padding: "2px",
                     borderRadius: "10px",
                     fontWeight: 600,
                     fontSize: { xs: "10px", sm: "14px" },
@@ -165,7 +165,7 @@ export default function BuyComponent(progs: TabProps) {
                   </Typography>
                   <Typography
                     sx={{
-                      fontSize: { xs: "12px", sm: "15px" },
+                      fontSize: { xs: "11px", sm: "15px" },
                       fontWeight: 600,
                       textTransform: "capitalize",
                     }}

@@ -125,8 +125,8 @@ export default function SellComponent(progs: TabProps) {
                   sx={{
                     background: type === index ? "#fff" : "#909090",
                     color: "black",
-                    minWidth: { xs: "85px", sm: "130px" },
-
+                    minWidth: { xs: "95px", sm: "130px" },
+                    padding: "2px",
                     borderRadius: "10px",
                     fontWeight: 600,
                     fontSize: { xs: "10px", sm: "14px" },
@@ -135,7 +135,7 @@ export default function SellComponent(progs: TabProps) {
                     },
                     display: "flex",
                     flexDirection: "column",
-                    gap: "2px",
+                    // gap: "1px",
                   }}
                   onClick={() => {
                     setType(index);
@@ -147,8 +147,8 @@ export default function SellComponent(progs: TabProps) {
                 >
                   <Typography
                     sx={{
-                      fontSize: { xs: "12px", sm: "16px" },
-                      fontWeight: 700,
+                      fontSize: { xs: "13px", sm: "16px" },
+                      fontWeight: 800,
                       textTransform: "uppercase",
                     }}
                   >
@@ -161,7 +161,16 @@ export default function SellComponent(progs: TabProps) {
                       textTransform: "capitalize",
                     }}
                   >
-                    Profit {buySellConfig.hy_ykbl?.[index]}%
+                    Profit
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: { xs: "11px", sm: "15px" },
+                      fontWeight: 600,
+                      textTransform: "capitalize",
+                    }}
+                  >
+                    {buySellConfig.hy_ykbl?.[index]}%
                   </Typography>
                 </Button>
               ))}
