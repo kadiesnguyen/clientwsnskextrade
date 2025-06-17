@@ -2,6 +2,7 @@ import useAuth from "@/hook/useAuth";
 import { createOrder, getBuySellConfig } from "@/services/User.service";
 import { IUser } from "@/shared/interfaces";
 import { Box, Button, TextField, Typography } from "@mui/material";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 interface TabProps {
@@ -15,6 +16,7 @@ export default function SellComponent(progs: TabProps) {
   const [type, setType] = useState(0);
   const [hytime, setHytime] = useState("1");
   const [hyykbl, setHyykbl] = useState("10");
+  const router = useRouter();
   const [buySellConfig, setBuySellConfig] = useState<any>(null);
   const buttonRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const timeButtonRefs = useRef<(HTMLButtonElement | null)[]>([]);
@@ -69,6 +71,10 @@ export default function SellComponent(progs: TabProps) {
       toast.error(
         `The minimum amount for this type is ${buySellConfig.hy_min?.[type]}`
       );
+      return;
+    }
+    if (parseFloat(amount) > parseFloat(progs.user?.balance.usdt || "0")) {
+      router.push("/asset");
       return;
     }
     try {

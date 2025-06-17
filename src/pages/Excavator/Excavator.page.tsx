@@ -1,7 +1,10 @@
 "use client";
 import LinearWithValueLabel from "@/components/Input/LinearWithValueLabel";
-import { getOrepool } from "@/services/User.service";
+import useAuth from "@/hook/useAuth";
+import { buyMining, getOrepool } from "@/services/User.service";
 import { Box, Button, Tab, Tabs, Typography } from "@mui/material";
+import { useRouter } from "next/navigation";
+
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 interface TabPanelProps {
@@ -35,10 +38,11 @@ function a11yProps(index: number) {
 export default function ExcavatorPage() {
   const [orepool, setOrepool] = useState<any>(null);
   const [value, setValue] = React.useState(0);
-
+  const { user } = useAuth();
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+  const router = useRouter();
   useEffect(() => {
     const referral = async () => {
       try {
@@ -52,6 +56,25 @@ export default function ExcavatorPage() {
     };
     referral();
   }, []);
+  const handleSubmit = async (item: any) => {
+    if (!user) {
+      toast.error("Please login to rent a machine.");
+      return;
+    }
+    if (Number(user.balance.usdt) < Number(item.pricenum)) {
+      router.push("/asset");
+      return;
+    }
+    try {
+      const formData = new FormData();
+      formData.append("id", item.id);
+      await buyMining(formData);
+    } catch (error: any) {
+      toast.error(
+        error?.message || "An error occurred while renting the machine."
+      );
+    }
+  };
   return (
     <Box>
       <Box
@@ -292,14 +315,15 @@ export default function ExcavatorPage() {
                             color: "black",
                             borderRadius: "10px",
                             "&:hover": {
-                              backgroundColor: "#001",
+                              backgroundColor: "#fff",
                             },
                           }}
+                          onClick={() => handleSubmit(item)}
                         >
                           Rent now
                         </Button>
                       </Box>
-                      <LinearWithValueLabel value={item.ycnum} />
+                      <LinearWithValueLabel value={item.suanl} />
                     </Box>
                   </Box>
                 ))}
@@ -406,14 +430,15 @@ export default function ExcavatorPage() {
                             color: "black",
                             borderRadius: "10px",
                             "&:hover": {
-                              backgroundColor: "#001",
+                              backgroundColor: "#fff",
                             },
                           }}
+                          onClick={() => handleSubmit(item)}
                         >
                           Rent now
                         </Button>
                       </Box>
-                      <LinearWithValueLabel value={item.ycnum} />
+                      <LinearWithValueLabel value={item.suanl} />
                     </Box>
                   </Box>
                 ))}
@@ -520,14 +545,15 @@ export default function ExcavatorPage() {
                             color: "black",
                             borderRadius: "10px",
                             "&:hover": {
-                              backgroundColor: "#001",
+                              backgroundColor: "#fff",
                             },
                           }}
+                          onClick={() => handleSubmit(item)}
                         >
                           Rent now
                         </Button>
                       </Box>
-                      <LinearWithValueLabel value={item.ycnum} />
+                      <LinearWithValueLabel value={item.suanl} />
                     </Box>
                   </Box>
                 ))}

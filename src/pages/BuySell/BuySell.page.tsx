@@ -200,7 +200,7 @@ export default function BuySellPage() {
                   width: "fit-content",
                   margin: "auto",
                   display: "flex",
-                  color: "#fff",
+                  color: "#ffffff",
                   "& .MuiTab-root": {
                     textTransform: "none",
                     borderRadius: "999px",
@@ -208,7 +208,7 @@ export default function BuySellPage() {
                     minWidth: "80px",
                     px: 3,
                     fontWeight: 500,
-                    color: "#fff",
+                    color: "#ffffff",
                     backgroundColor: "transparent",
                     transition: "0.3s",
                   },

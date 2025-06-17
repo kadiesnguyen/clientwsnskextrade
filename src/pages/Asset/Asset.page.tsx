@@ -279,6 +279,7 @@ export default function AssetPage() {
                 value={value}
                 onChange={handleChange}
                 aria-label="basic tabs example"
+                TabIndicatorProps={{ style: { display: "none" } }}
                 sx={{
                   backgroundColor: "#2c2c2c",
                   borderRadius: "999px",

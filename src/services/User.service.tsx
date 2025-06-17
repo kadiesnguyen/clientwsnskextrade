@@ -72,6 +72,14 @@ const createOrder = (formData: FormData) => {
   });
 };
 
+const buyMining = (formData: FormData) => {
+  return contentInstance.post("/api/orepool/buy-mining-machine", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};
+
 // Cập nhập mật khẩu tài khoản
 const getReferral = () => {
   return contentInstance.get(`/api/user/referral`);
@@ -102,6 +110,9 @@ const getListCoin = () => {
 const getBuySellConfig = () => {
   return contentInstance.get("/api/contract/settings");
 };
+const getStaking = () => {
+  return contentInstance.get("api/issue/list");
+};
 export {
   loginUser,
   signupUser,
@@ -120,4 +131,6 @@ export {
   getListCoin,
   createOrder,
   getBuySellConfig,
+  getStaking,
+  buyMining,
 };
