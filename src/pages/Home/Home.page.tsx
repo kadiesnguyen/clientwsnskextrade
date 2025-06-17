@@ -423,22 +423,53 @@ export default function HomePage() {
             </Box>
           ) : (
             <Box>
-              <Typography
-                variant="h2"
+              <Box
                 sx={{
-                  fontSize: "30px",
-                  fontWeight: "600",
-                  textAlign: "center",
-                  color: "white",
+                  width: "100%",
+                  display: "flex",
+                  padding: "0 20px",
                 }}
               >
-                Welcome back {user.username}
-              </Typography>
+                <Box sx={{ width: "50%", textAlign: "left" }}>
+                  <Typography sx={{ color: "#909090", padding: "5px 0" }}>
+                    Estimated total value
+                  </Typography>
+                  <Box
+                    sx={{
+                      height: "30px",
+                      display: "flex",
+                      gap: "5px",
+                      alignItems: "flex-end",
+                    }}
+                  >
+                    <Typography
+                      sx={{
+                        color: "white",
+                        fontSize: "20px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {user?.balance?.usdt ? `${user?.balance?.usdt} ` : "0 "}
+                    </Typography>
+                    <Typography
+                      sx={{
+                        color: "#909090",
+                        fontSize: "16px",
+                      }}
+                    >
+                      USD
+                    </Typography>
+                  </Box>
+                  <Typography sx={{ color: "#909090", padding: "5px 0" }}>
+                    PNL today $0.00(0.00%)
+                  </Typography>
+                </Box>
+              </Box>
               <Box
                 sx={{
                   width: "90%",
                   margin: "auto",
-                  background: "lightgrey",
+                  backgroundColor: "rgba(142, 142, 142, 0.34)",
                   borderRadius: "10px",
                   marginTop: "20px",
                   marginBottom: "20px",
@@ -454,7 +485,7 @@ export default function HomePage() {
                     padding: "10px",
                   }}
                 >
-                  <CoinIcon width="100px" height="100px" />
+                  <CoinIcon fill="white" width="100px" height="100px" />
                   <Box>
                     <Typography
                       sx={{
@@ -467,9 +498,9 @@ export default function HomePage() {
                     </Typography>
                     <Typography
                       sx={{
-                        color: "black",
+                        color: "white",
                         fontSize: "16px",
-                        fontWeight: "550",
+                        fontWeight: "500",
                       }}
                     >
                       Ejnoy a 23 USDT welcome to reward to kickstart your

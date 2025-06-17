@@ -3,10 +3,14 @@ import {
   Box,
   Button,
   Divider,
+  FormControl,
+  InputLabel,
   List,
   ListItem,
   ListItemButton,
   ListItemText,
+  MenuItem,
+  Select,
   Tab,
   Tabs,
   TextField,
@@ -19,6 +23,8 @@ import { toast } from "react-toastify";
 import useAuth from "@/hook/useAuth";
 import BuyComponent from "@/components/Trade/BuyComponent";
 import SellComponent from "@/components/Trade/SellComponent";
+import { ArrowDropDownCircleOutlined } from "@mui/icons-material";
+import TradingViewSymbolInfo from "@/components/ChartView/SymbolDetail";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -52,6 +58,7 @@ export default function BuySellPage() {
   const { user } = useAuth();
   const [listCoin, setListCoin] = useState<any>(null);
   const [coin, setCoin] = useState<any>("BTCUSDT");
+  const [coinTitle, setCoinTitle] = useState<any>("BTC/USDT");
   const [value, setValue] = useState(0);
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -72,6 +79,7 @@ export default function BuySellPage() {
   }, []);
   const handleClick = (coin: any) => {
     if (coin) {
+      setCoinTitle(coin);
       const [base, quote] = coin.split("/");
       setCoin(base + quote);
     }
@@ -84,6 +92,45 @@ export default function BuySellPage() {
           height: "900px",
         }}
       >
+        <FormControl
+          variant="standard"
+          sx={{
+            m: 1,
+            minWidth: 120,
+            color: "white",
+            "& .MuiInput-underline:before": { borderBottom: "none" }, // bỏ border mặc định
+            "& .MuiInput-underline:after": { borderBottom: "none" }, // bỏ border khi focus
+            "& .MuiInput-underline:hover:not(.Mui-disabled):before": {
+              borderBottom: "none", // hover cũng không có border
+            },
+          }}
+        >
+          <Select
+            labelId="demo-simple-select-standard-label"
+            id="demo-simple-select-standard"
+            value={coinTitle}
+            onChange={(e) => handleClick(e.target.value)}
+            IconComponent={ArrowDropDownCircleOutlined}
+            disableUnderline
+            sx={{
+              color: "white",
+              "& .MuiSelect-icon": {
+                color: "white", // màu icon
+              },
+            }}
+          >
+            {listCoin &&
+              listCoin.map((coin: any, index: number) => (
+                <MenuItem
+                  key={index}
+                  value={coin.title}
+                  sx={{ color: "black" }}
+                >
+                  {coin.title}
+                </MenuItem>
+              ))}
+          </Select>
+        </FormControl>
         <Box
           sx={{
             display: {
@@ -91,7 +138,7 @@ export default function BuySellPage() {
               sm: "flex",
             },
             gap: "10px",
-            padding: "10px",
+            // padding: "10px 10px",
           }}
         >
           <Box
@@ -133,99 +180,7 @@ export default function BuySellPage() {
                 height: "360px",
               }}
               aria-label="main mailbox folders"
-            >
-              <Box
-                sx={{
-                  width: "100%",
-                  display: "flex",
-                  gap: "20px",
-                  justifyContent: "space-between",
-                }}
-              >
-                <Typography
-                  sx={{
-                    color: "gray",
-                    fontSize: {
-                      xs: "12px",
-                      sm: "16px",
-                    },
-                  }}
-                >
-                  Transaction
-                </Typography>
-
-                <Typography
-                  sx={{
-                    color: "gray",
-                    fontSize: {
-                      xs: "12px",
-                      sm: "16px",
-                    },
-                  }}
-                >
-                  Staus
-                </Typography>
-              </Box>
-              <Divider sx={{ borderColor: "gray" }} />
-              <Box
-                sx={{
-                  height: {
-                    xs: "380px",
-                    sm: "350px",
-                  },
-                  overflowY: "scroll",
-                  scrollbarWidth: "none", // Firefox
-                  "&::-webkit-scrollbar": {
-                    display: "none", // Chrome, Safari
-                  },
-                }}
-              >
-                {listCoin &&
-                  listCoin.map((coin: any, index: number) => (
-                    <Box
-                      sx={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        padding: "10px 0",
-                        alignItems: "center",
-                      }}
-                      key={index}
-                      onClick={() => handleClick(coin.title)}
-                    >
-                      <Typography
-                        sx={{
-                          color: "white",
-                          fontSize: {
-                            xs: "10px",
-                            sm: "16px",
-                          },
-                        }}
-                      >
-                        {coin.title}
-                      </Typography>
-
-                      <Button
-                        sx={{
-                          padding: {
-                            xs: "3px 5px",
-                            sm: "3px 10px",
-                          },
-                          backgroundColor:
-                            coin.status === 1 ? "#25a74e" : "#c94064",
-                          color: "white",
-                          fontSize: {
-                            xs: "10px",
-                            sm: "16px",
-                          },
-                          textAlign: "center",
-                        }}
-                      >
-                        {coin.status === 1 ? " Active" : "Inactive"}
-                      </Button>
-                    </Box>
-                  ))}
-              </Box>
-            </Box>
+            ></Box>
             <Box sx={{ width: "100%", padding: "10px" }}>
               <Tabs
                 value={value}
@@ -293,7 +248,7 @@ export default function BuySellPage() {
             }}
             aria-label="main mailbox folders"
           >
-            <Box
+            {/* <Box
               sx={{
                 width: "100%",
                 display: "flex",
@@ -382,7 +337,8 @@ export default function BuySellPage() {
                     </Button>
                   </Box>
                 ))}
-            </Box>
+            </Box> */}
+            <TradingViewSymbolInfo symbol={coin} />
           </Box>
           <Box
             sx={{

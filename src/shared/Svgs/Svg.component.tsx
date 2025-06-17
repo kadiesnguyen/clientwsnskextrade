@@ -5553,7 +5553,7 @@ export const CoinIcon = ({
   fill,
 }: IIconPropsComponent) => (
   <svg
-    fill="#000000"
+    fill={fill || "#000000"}
     viewBox="0 0 60 60"
     id="Capa_1"
     version="1.1"

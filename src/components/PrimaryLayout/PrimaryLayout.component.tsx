@@ -139,7 +139,7 @@ export default function PrimaryLayoutComponent({
                     fill={menu === 2 ? "#fff" : "#909090"}
                   />
                   <p className={menu === 2 ? "mobile-active" : "mobile-p"}>
-                    Markets
+                    Staking
                   </p>
                 </button>
               </li>
@@ -173,7 +173,7 @@ export default function PrimaryLayoutComponent({
                     fill={menu === 4 ? "#fff" : "#909090"}
                   />
                   <p className={menu === 4 ? "mobile-active" : "mobile-p"}>
-                    Explore
+                    Mining
                   </p>
                 </button>
               </li>

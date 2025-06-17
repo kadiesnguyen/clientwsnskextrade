@@ -20,6 +20,7 @@ const TradeChart = (props: TradeChartProps) => {
       symbol: `COINBASE:${props.symbols || "BTCUSD"}`,
       interval: "D",
       timezone: "Etc/UTC",
+      hide_top_toolbar: true,
       theme: "dark",
       style: "1",
       locale: "en",
