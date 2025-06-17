@@ -81,7 +81,7 @@ export default function BuySellPage() {
     <Box sx={{ background: "#000", paddingTop: { xs: "0px", sm: "70px" } }}>
       <Box
         sx={{
-          height: "700px",
+          height: "900px",
         }}
       >
         <Box
@@ -103,7 +103,7 @@ export default function BuySellPage() {
               width: "70%",
             }}
           >
-            <TradeChart height="700" symbols={coin} />
+            <TradeChart height="800" symbols={coin} />
           </Box>
           <Box
             sx={{
