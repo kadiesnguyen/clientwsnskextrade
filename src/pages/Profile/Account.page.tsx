@@ -121,33 +121,61 @@ export default function AccountPage() {
             >
               Identity verification
             </Typography>
-            <Typography sx={{ color: "#fff", fontSize: "16px" }}>
-              {user?.cardfm === undefined ||
-              user?.cardfm === null ||
-              user?.cardfm === "" ? (
-                <span
-                  style={{
+            <Box>
+              {user?.rzstatus === 0 ? (
+                <Typography
+                  sx={{
+                    fontSize: "16px",
+                    color: "#fff",
                     display: "flex",
                     alignItems: "center",
+                    paddingTop: "10px",
                     gap: "5px",
-                    color: "white",
                   }}
                 >
-                  <WarningIcon /> Unverified
-                </span>
+                  <WarningIcon /> The customer account has not been verified.
+                </Typography>
+              ) : user?.rzstatus === 1 ? (
+                <Typography
+                  sx={{
+                    fontSize: "16px",
+                    display: "flex",
+                    alignItems: "center",
+                    paddingTop: "10px",
+                    color: "#fff",
+                    gap: "5px",
+                  }}
+                >
+                  <WarningIcon /> Pending approval
+                </Typography>
+              ) : user?.rzstatus === 2 ? (
+                <Typography
+                  sx={{
+                    fontSize: "16px",
+                    display: "flex",
+                    alignItems: "center",
+                    paddingTop: "10px",
+                    color: "#fff",
+                    gap: "5px",
+                  }}
+                >
+                  <VerifiedIcon /> Account has been verified
+                </Typography>
               ) : (
-                <span
-                  style={{
+                <Typography
+                  sx={{
+                    fontSize: "16px",
                     display: "flex",
                     alignItems: "center",
+                    paddingTop: "10px",
+                    color: "#fff",
                     gap: "5px",
-                    color: "white",
                   }}
                 >
-                  <VerifiedIcon /> Verified
-                </span>
+                  <WarningIcon /> Verified failed
+                </Typography>
               )}
-            </Typography>
+            </Box>
           </Box>
           <Box
             sx={{

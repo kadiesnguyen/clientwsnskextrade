@@ -5,6 +5,7 @@ import {
   NotFoundIcon,
   UserIcon,
   VerifiedIcon,
+  WarningIcon,
 } from "@/shared/Svgs/Svg.component";
 import {
   Avatar,
@@ -161,31 +162,58 @@ export default function CloseCommand() {
               <Typography sx={{ color: "gray", fontSize: "13px" }}>
                 Identity verification
               </Typography>
-              {user && user.cardfm && user.cardzm ? (
+              {user?.rzstatus === 0 ? (
                 <Typography
                   sx={{
+                    fontSize: "14px",
                     color: "#fff",
                     display: "flex",
                     alignItems: "center",
-                    fontSize: "13px",
+
+                    gap: "5px",
                   }}
                 >
-                  <VerifiedIcon fill="#fff" /> Verified
+                  <WarningIcon /> The customer account has not been verified.
+                </Typography>
+              ) : user?.rzstatus === 1 ? (
+                <Typography
+                  sx={{
+                    fontSize: "14px",
+                    display: "flex",
+                    alignItems: "center",
+
+                    color: "#fff",
+                    gap: "5px",
+                  }}
+                >
+                  <WarningIcon /> Pending approval
+                </Typography>
+              ) : user?.rzstatus === 2 ? (
+                <Typography
+                  sx={{
+                    fontSize: "14px",
+                    display: "flex",
+                    alignItems: "center",
+
+                    color: "#fff",
+                    gap: "5px",
+                  }}
+                >
+                  <VerifiedIcon /> Account has been verified
                 </Typography>
               ) : (
-                <Button
-                  type="button"
+                <Typography
                   sx={{
-                    background: "none",
-                    border: "1px solid gray",
-                    fontSize: "10px",
+                    fontSize: "14px",
+                    display: "flex",
+                    alignItems: "center",
+
                     color: "#fff",
-                    width: "80px",
-                    borderRadius: "10px",
+                    gap: "5px",
                   }}
                 >
-                  Verify now
-                </Button>
+                  <WarningIcon /> Verified failed
+                </Typography>
               )}
             </Box>
             <Box sx={{ display: "grid", alignItems: "center" }}>

@@ -347,11 +347,11 @@ export const menuItems = [
     link: "/referral",
   },
 
-  {
-    text: "Live chat 24/7",
-    icon: <LiveChatMenuIcon />,
-    link: "/livechat",
-  },
+  // {
+  //   text: "Live chat 24/7",
+  //   icon: <LiveChatMenuIcon />,
+  //   link: "/livechat",
+  // },
   {
     text: "My invoice",
     icon: <InvoiceMenuIcon />,
@@ -390,11 +390,11 @@ export const menuItemMobile = [
     link: "/referral",
   },
 
-  {
-    text: "Live chat 24/7",
-    icon: <LiveChatMenuIcon />,
-    link: "/livechat",
-  },
+  // {
+  //   text: "Live chat 24/7",
+  //   icon: <LiveChatMenuIcon />,
+  //   link: "#",
+  // },
   {
     text: "My invoice",
     icon: <InvoiceMenuIcon />,
@@ -429,11 +429,11 @@ export const menuItemMobile2 = [
     link: "/referral",
   },
 
-  {
-    text: "Live chat 24/7",
-    icon: <LiveChatMenuIcon fill="#fff" />,
-    link: "/livechat",
-  },
+  // {
+  //   text: "Live chat 24/7",
+  //   icon: <LiveChatMenuIcon fill="#fff" />,
+  //   link: "#",
+  // },
   {
     text: "My invoice",
     icon: <InvoiceMenuIcon fill="#fff" />,

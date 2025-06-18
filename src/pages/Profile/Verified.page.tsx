@@ -2,7 +2,7 @@
 import useAuth from "@/hook/useAuth";
 import { verifiUser } from "@/services/User.service";
 import { VerifiedIcon, WarningIcon } from "@/shared/Svgs/Svg.component";
-import { Box, Button, Stack, Typography, Grid } from "@mui/material";
+import { Box, Button, Stack, Typography, Grid, TextField } from "@mui/material";
 import React, { useRef, useState } from "react";
 import { toast } from "react-toastify";
 
@@ -61,16 +61,22 @@ export default function VerifiedPage() {
 
   return (
     <Box sx={{ backgroundColor: "#000" }}>
-      <Box sx={{ width: "80%", margin: "auto" }}>
+      <Box
+        sx={{
+          width: {
+            xs: "100%",
+            sm: "80%",
+          },
+          margin: "auto",
+        }}
+      >
         <Typography
           variant="h3"
           sx={{ fontSize: "25px", fontWeight: "600", color: "#fff" }}
         >
           Account Verified
         </Typography>
-        {user?.cardfm === undefined ||
-        user?.cardfm === null ||
-        user?.cardfm === "" ? (
+        {user?.rzstatus === 0 ? (
           <Typography
             sx={{
               fontSize: "16px",
@@ -78,9 +84,36 @@ export default function VerifiedPage() {
               display: "flex",
               alignItems: "center",
               paddingTop: "10px",
+              gap: "5px",
             }}
           >
             <WarningIcon /> The customer account has not been verified.
+          </Typography>
+        ) : user?.rzstatus === 1 ? (
+          <Typography
+            sx={{
+              fontSize: "16px",
+              display: "flex",
+              alignItems: "center",
+              paddingTop: "10px",
+              color: "#fff",
+              gap: "5px",
+            }}
+          >
+            <WarningIcon /> Pending approval
+          </Typography>
+        ) : user?.rzstatus === 2 ? (
+          <Typography
+            sx={{
+              fontSize: "16px",
+              display: "flex",
+              alignItems: "center",
+              paddingTop: "10px",
+              color: "#fff",
+              gap: "5px",
+            }}
+          >
+            <VerifiedIcon /> Account has been verified
           </Typography>
         ) : (
           <Typography
@@ -90,12 +123,13 @@ export default function VerifiedPage() {
               alignItems: "center",
               paddingTop: "10px",
               color: "#fff",
+              gap: "5px",
             }}
           >
-            <VerifiedIcon /> Account has been verified
+            <WarningIcon /> Verified failed
           </Typography>
         )}
-        {user && user.cardfm && user.cardzm ? (
+        {user && (user.rzstatus === 2 || user.rzstatus === 1) ? (
           <Box sx={{ mt: 4 }}>
             <Typography
               variant="h6"
@@ -179,8 +213,25 @@ export default function VerifiedPage() {
             >
               Your CCCD image (click to replace)
             </Typography>
-            <Box sx={{ display: "flex", justifyContent: "center", gap: 2 }}>
-              <Box sx={{ width: "40%", textAlign: "center" }}>
+            <Box
+              sx={{
+                display: {
+                  xs: "block",
+                  sm: "flex",
+                },
+                justifyContent: "center",
+                gap: 2,
+              }}
+            >
+              <Box
+                sx={{
+                  width: {
+                    xs: "100%",
+                    sm: "40%",
+                  },
+                  textAlign: "center",
+                }}
+              >
                 <Box
                   component="img"
                   src={
@@ -205,12 +256,27 @@ export default function VerifiedPage() {
                   style={{ display: "none" }}
                   onChange={handleFrontChange}
                 />
-                <Typography align="center" mt={1} sx={{ color: "#fff" }}>
-                  Mặt trước
+                <Typography
+                  sx={{
+                    color: "#fff",
+                    width: "100%",
+                    textAlign: "center",
+                    paddingBottom: "10px",
+                  }}
+                >
+                  Card before
                 </Typography>
               </Box>
 
-              <Box sx={{ width: "40%", textAlign: "center" }}>
+              <Box
+                sx={{
+                  width: {
+                    xs: "100%",
+                    sm: "40%",
+                  },
+                  textAlign: "center",
+                }}
+              >
                 <Box
                   component="img"
                   src={
@@ -235,24 +301,31 @@ export default function VerifiedPage() {
                   style={{ display: "none" }}
                   onChange={handleBackChange}
                 />
-                <Typography align="center" mt={1} sx={{ color: "#fff" }}>
-                  Mặt sau
+                <Typography align="center" sx={{ color: "#fff" }}>
+                  Card after
                 </Typography>
               </Box>
             </Box>
             <Box sx={{ mt: 2, textAlign: "center" }}>
-              <input
+              <TextField
+                fullWidth
                 type="text"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="Enter phone number"
-                style={{
-                  padding: "10px",
+                sx={{
                   borderRadius: "8px",
-                  border: "1px solid #fff",
-                  background: "#000",
+                  background: "#909090",
                   color: "#fff",
                   marginBottom: "20px",
+                  "& .MuiOutlinedInput-root": {
+                    color: "white",
+                  },
+                  "& .MuiInputBase-input::placeholder": {
+                    color: "white",
+                    fontSize: { xs: "16px", sm: "14px" },
+                    opacity: 1, // để không bị mờ
+                  },
                 }}
               />
               <Button
