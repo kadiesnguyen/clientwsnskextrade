@@ -17,15 +17,17 @@ import { signupUser } from "@/services/User.service";
 export default function SignupPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [invit, setInvit] = useState("");
   const [loadding, setLoadding] = useState<boolean>(false);
   const handlePassword = (e: any) => setPassword(e.target.value);
   const handleUsername = (e: any) => setEmail(e.target.value);
+  const handleinvit = (e: any) => setInvit(e.target.value);
 
   const signup = (e: React.FormEvent) => {
     // e.preventDefault();
     if (email !== "" && password !== "") {
       setLoadding(true);
-      signupUser(email, password)
+      signupUser(email, password, invit)
         .then((res: any) => {
           console.log(res.message);
 
@@ -151,24 +153,33 @@ export default function SignupPage() {
             Enter your email
           </Typography>
           <form>
-            <InputLabel>Email </InputLabel>
+            <InputLabel>Email* </InputLabel>
             <TextField
               fullWidth
               placeholder="Enter Email"
               variant="outlined"
               value={email}
               onChange={handleUsername}
-              sx={{ mb: 2, borderRadius: "15px" }}
+              sx={{ mb: 2, borderRadius: "15px", mt: 1 }}
             />
 
-            <InputLabel>Password </InputLabel>
+            <InputLabel>Password* </InputLabel>
             <TextField
               fullWidth
               variant="outlined"
               type="password"
               value={password}
               onChange={handlePassword}
-              sx={{ mb: 2, borderRadius: "15px" }}
+              sx={{ mb: 2, borderRadius: "15px", mt: 1 }}
+            />
+            <InputLabel>Referral code* </InputLabel>
+            <TextField
+              fullWidth
+              variant="outlined"
+              type="text"
+              value={invit}
+              onChange={handleinvit}
+              sx={{ mb: 2, borderRadius: "15px", mt: 1 }}
             />
             <Button
               type="button"

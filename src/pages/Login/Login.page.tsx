@@ -164,7 +164,7 @@ export default function LoginPage() {
               value={email}
               type="email"
               onChange={handleUsername}
-              sx={{ mb: 2, borderRadius: "15px" }}
+              sx={{ mb: 2, borderRadius: "15px", mt: 1 }}
             />
 
             <InputLabel>Password </InputLabel>
@@ -175,7 +175,7 @@ export default function LoginPage() {
               type="password"
               value={password}
               onChange={handlePassword}
-              sx={{ mb: 2, borderRadius: "15px" }}
+              sx={{ mb: 2, borderRadius: "15px", mt: 1 }}
             />
             <Button
               type="submit"
