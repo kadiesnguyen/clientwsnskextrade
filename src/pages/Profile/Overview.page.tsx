@@ -41,20 +41,20 @@ const CryptoTable = styled("div")({
 const Announcements = [
   {
     date: "06/10/2025",
-    title: "OKX to delist several perpetual futures",
+    title: "Staking to delist several perpetual futures",
   },
   {
     date: "06/10/2025",
-    title: "OKX to list perpetual for RESOLV crypto",
+    title: "Staking to list perpetual for RESOLV crypto",
   },
   {
     date: "06/10/2025",
     title:
-      "Announcement from OKX regarding the delay of RESOLV (Resolv) listing",
+      "Announcement from Staking regarding the delay of RESOLV (Resolv) listing",
   },
   {
     date: "06/10/2025",
-    title: "OKX to adjust position tiers of several futures",
+    title: "Staking to adjust position tiers of several futures",
   },
 ];
 

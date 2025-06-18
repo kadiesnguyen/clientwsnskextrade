@@ -83,7 +83,7 @@ export default function ExcavatorPage() {
           width: "100%",
           backgroundColor: "#000",
           display: {
-            xs: "grid",
+            xs: "none",
             sm: "flex",
           },
           justifyContent: "center",
@@ -94,6 +94,10 @@ export default function ExcavatorPage() {
             sm: "50px",
           },
           paddingTop: "80px",
+          paddingBottom: {
+            xs: "0px",
+            sm: "0px",
+          },
         }}
       >
         <Box>
@@ -159,7 +163,15 @@ export default function ExcavatorPage() {
           </Button>
         </Box>
       </Box>
-      <Box sx={{ background: "#000", padding: "20px 0" }}>
+      <Box
+        sx={{
+          background: "#000",
+          paddingBottom: {
+            xs: "100px",
+            sm: "0px",
+          },
+        }}
+      >
         <Typography
           sx={{
             textAlign: "center",

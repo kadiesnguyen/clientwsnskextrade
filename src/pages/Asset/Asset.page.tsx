@@ -326,7 +326,7 @@ export default function AssetPage() {
                   sx={{
                     color: "white",
                     "&.Mui-selected": {
-                      backgroundColor: "#00c853",
+                      backgroundColor: "red",
                       color: "white",
                       fontWeight: 600,
                     },
@@ -337,13 +337,354 @@ export default function AssetPage() {
             <CustomTabPanel value={value} index={0}>
               <Box
                 sx={{
-                  display: "flex",
+                  display: {
+                    xs: "block",
+                    sm: "flex",
+                  },
                   flexWrap: "wrap",
                   gap: 1,
                   alignItems: "flex-start",
                 }}
               >
-                <Box sx={{ width: { xs: "45%", sm: "45%" } }}>
+                <Box
+                  sx={{
+                    width: { xs: "100%", sm: "45%" },
+                    boxShadow: {
+                      xs: "0px 0px 30px rgba(255, 255, 255, 0.31)",
+                      sm: "0px 0px 30px rgba(255, 255, 255, 0.24)",
+                    },
+                    padding: {
+                      xs: "10px",
+                      sm: "15px",
+                    },
+
+                    borderRadius: "10px",
+                    display: {
+                      xs: "flex",
+                      sm: "none",
+                    },
+                    flexDirection: "column",
+                    alignItems: "center",
+                    height: "100%",
+                    marginBottom: "20px",
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      color: "white",
+                      fontSize: {
+                        xs: "16px",
+                        sm: "25px",
+                      },
+                      fontWeight: "bold",
+                      marginTop: "10px",
+                      textAlign: "center",
+                    }}
+                  >
+                    Top-up information
+                  </Typography>
+
+                  {method === 1 && (
+                    <Box>
+                      <Box
+                        sx={{
+                          display: "grid",
+                          gridTemplateColumns: "1fr 1fr",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Typography
+                          sx={{
+                            color: "white",
+                            fontSize: { xs: "10px", sm: "14px" },
+                            marginTop: "10px",
+                          }}
+                        >
+                          Bank name:
+                        </Typography>
+                        <Typography
+                          sx={{
+                            color: "white",
+                            fontSize: { xs: "10px", sm: "14px" },
+                            marginTop: "10px",
+                          }}
+                        >
+                          {configs.bank_name}
+                        </Typography>
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "grid",
+                          gridTemplateColumns: "1fr 1fr",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Typography
+                          sx={{
+                            color: "white",
+                            fontSize: { xs: "10px", sm: "14px" },
+                            marginTop: "10px",
+                          }}
+                        >
+                          Account number:
+                        </Typography>
+                        <Typography
+                          sx={{
+                            color: "white",
+                            fontSize: { xs: "10px", sm: "14px" },
+                            marginTop: "10px",
+                          }}
+                        >
+                          {configs.bank_acc_no}
+
+                          <Tooltip title="Copy">
+                            <IconButton
+                              size="small"
+                              onClick={() => {
+                                navigator.clipboard.writeText(
+                                  configs.bank_acc_no || ""
+                                );
+                              }}
+                              sx={{ color: "white" }}
+                            >
+                              <CopyAllOutlined
+                                sx={{
+                                  fontSize: {
+                                    xs: "14px",
+                                    sm: "24px",
+                                  },
+                                }}
+                              />
+                            </IconButton>
+                          </Tooltip>
+                        </Typography>
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "grid",
+                          gridTemplateColumns: "1fr 1fr",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Typography
+                          sx={{
+                            color: "white",
+                            fontSize: { xs: "10px", sm: "14px" },
+                            marginTop: "10px",
+                          }}
+                        >
+                          Account name:
+                        </Typography>
+                        <Typography
+                          sx={{
+                            color: "white",
+                            fontSize: { xs: "10px", sm: "14px" },
+                            marginTop: "10px",
+                          }}
+                        >
+                          {configs.bank_acc_name}
+                        </Typography>
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "grid",
+                          gridTemplateColumns: "1fr 1fr",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Typography
+                          sx={{
+                            color: "white",
+                            fontSize: { xs: "10px", sm: "14px" },
+                            marginTop: "10px",
+                          }}
+                        >
+                          Amount to be paid:
+                        </Typography>
+                        <Typography
+                          sx={{
+                            color: "white",
+                            fontSize: { xs: "10px", sm: "14px" },
+                            marginTop: "10px",
+                          }}
+                        >
+                          {formatCurrency(bank * Number(amount))}{" "}
+                        </Typography>
+                      </Box>
+
+                      <Typography
+                        sx={{
+                          color: "red",
+                          fontSize: { xs: "10px", sm: "14px" },
+                          marginTop: "10px",
+                        }}
+                      >
+                        Note: After completing the payment, please take a
+                        screenshot and confirm that the payment has been made.
+                      </Typography>
+                    </Box>
+                  )}
+                  {method === 2 && (
+                    <Box>
+                      <Typography
+                        sx={{
+                          color: "white",
+                          fontSize: { xs: "10px", sm: "14px" },
+                          marginTop: "10px",
+                        }}
+                      >
+                        Transfer coins to the wallet
+                      </Typography>
+                      <Box
+                        sx={{
+                          display: "grid",
+                          gridTemplateColumns: "40% 60%",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Typography
+                          sx={{
+                            color: "white",
+                            fontSize: { xs: "10px", sm: "14px" },
+                            marginTop: "10px",
+                          }}
+                        >
+                          Wallet address:
+                        </Typography>
+                        <Typography
+                          sx={{
+                            color: "white",
+                            fontSize: { xs: "10px", sm: "14px" },
+                            marginTop: "10px",
+                          }}
+                        >
+                          {address}
+                          <Tooltip title="Copy">
+                            <IconButton
+                              size="small"
+                              onClick={() => {
+                                navigator.clipboard.writeText(address || "");
+                              }}
+                              sx={{ color: "white" }}
+                            >
+                              <CopyAllOutlined
+                                sx={{
+                                  fontSize: {
+                                    xs: "14px",
+                                    sm: "24px",
+                                  },
+                                }}
+                              />
+                            </IconButton>
+                          </Tooltip>
+                        </Typography>
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "grid",
+                          gridTemplateColumns: "1fr 1fr",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Typography
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "10px",
+                            color: "white",
+                            fontSize: { xs: "10px", sm: "14px" },
+                            marginTop: "10px",
+                          }}
+                        >
+                          Type of coin:
+                        </Typography>
+                        <Typography
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "10px",
+                            color: "white",
+                            fontSize: { xs: "10px", sm: "14px" },
+                            marginTop: "10px",
+                          }}
+                        >
+                          {coin === "1" ? (
+                            <>
+                              <img
+                                loading="lazy"
+                                width="30"
+                                src="/images/4f8f27a4de61fca0faca95298f6714c81fcfc22929d68e1062e396c4026452f9_200.webp"
+                                alt=""
+                              />{" "}
+                              PI Nework
+                            </>
+                          ) : (
+                            <>
+                              <img
+                                loading="lazy"
+                                width="30"
+                                srcSet={`/images/usdt.png`}
+                                src="/images/usdt.png"
+                                alt=""
+                              />{" "}
+                              USDT
+                            </>
+                          )}
+                        </Typography>
+                      </Box>
+
+                      <Box
+                        sx={{
+                          display: "grid",
+                          gridTemplateColumns: "1fr 1fr",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Typography
+                          sx={{
+                            color: "white",
+                            fontSize: { xs: "10px", sm: "14px" },
+                            marginTop: "10px",
+                          }}
+                        >
+                          Coins to transfer:
+                        </Typography>
+                        <Typography
+                          sx={{
+                            color: "white",
+                            fontSize: { xs: "10px", sm: "14px" },
+                            marginTop: "10px",
+                          }}
+                        >
+                          {amount}
+                        </Typography>
+                      </Box>
+                      <Typography
+                        sx={{
+                          color: "red",
+                          fontSize: {
+                            xs: "10px",
+                            sm: "14px",
+                          },
+                          marginTop: "10px",
+                        }}
+                      >
+                        Note: After payment through the wallet, please take a
+                        picture of the confirmation receipt.
+                      </Typography>
+                    </Box>
+                  )}
+                  {method === 0 && (
+                    <Box>
+                      <img
+                        src="/images/credit-card.png"
+                        height={40}
+                        style={{ margin: "30px 0" }}
+                      />
+                    </Box>
+                  )}
+                </Box>
+                <Box sx={{ width: { xs: "100%", sm: "45%" } }}>
                   <Autocomplete
                     id="country-select-demo"
                     sx={{
@@ -367,7 +708,6 @@ export default function AssetPage() {
                           key={option.id}
                           component="li"
                           sx={{
-                            fontSize: { xs: "10px", sm: "14px" },
                             "& > img": { mr: 2, flexShrink: 0 },
                           }}
                           {...optionProps}
@@ -402,11 +742,7 @@ export default function AssetPage() {
                         sx={{
                           "& .MuiOutlinedInput-root": {
                             color: "white",
-                            height: {
-                              xs: "35px",
-                              sm: "45px",
-                            },
-                            fontSize: { xs: "12px", sm: "14px" },
+
                             "& fieldset": {
                               borderColor: "white",
                             },
@@ -426,7 +762,7 @@ export default function AssetPage() {
                           },
                           "& .MuiInputBase-input::placeholder": {
                             color: "white",
-                            fontSize: { xs: "12px", sm: "14px" },
+
                             opacity: 1, // để không bị mờ
                           },
                         }}
@@ -490,11 +826,7 @@ export default function AssetPage() {
                           sx={{
                             "& .MuiOutlinedInput-root": {
                               color: "white",
-                              height: {
-                                xs: "35px",
-                                sm: "45px",
-                              },
-                              fontSize: { xs: "12px", sm: "14px" },
+
                               "& fieldset": {
                                 borderColor: "white",
                               },
@@ -514,7 +846,7 @@ export default function AssetPage() {
                             },
                             "& .MuiInputBase-input::placeholder": {
                               color: "white",
-                              fontSize: { xs: "12px", sm: "14px" },
+
                               opacity: 1, // để không bị mờ
                             },
                           }}
@@ -579,11 +911,6 @@ export default function AssetPage() {
                           sx={{
                             "& .MuiOutlinedInput-root": {
                               color: "white",
-                              height: {
-                                xs: "35px",
-                                sm: "45px",
-                              },
-                              fontSize: { xs: "12px", sm: "14px" },
                               "& fieldset": {
                                 borderColor: "white",
                               },
@@ -603,7 +930,6 @@ export default function AssetPage() {
                             },
                             "& .MuiInputBase-input::placeholder": {
                               color: "white",
-                              fontSize: { xs: "12px", sm: "14px" },
                               opacity: 1, // để không bị mờ
                             },
                           }}
@@ -627,10 +953,10 @@ export default function AssetPage() {
                       "& .MuiOutlinedInput-root": {
                         color: "white",
                         height: {
-                          xs: "35px",
+                          xs: "52px",
                           sm: "45px",
                         },
-                        fontSize: { xs: "12px", sm: "14px" },
+                        fontSize: "16px",
                         "& fieldset": {
                           borderColor: "white",
                         },
@@ -651,7 +977,7 @@ export default function AssetPage() {
                       },
                       "& .MuiInputBase-input::placeholder": {
                         color: "white",
-                        fontSize: { xs: "12px", sm: "14px" },
+                        fontSize: "16px",
                         opacity: 1, // để không bị mờ
                       },
                     }}
@@ -673,13 +999,15 @@ export default function AssetPage() {
                     ref={frontFileInput}
                     onChange={handleFrontChange}
                     sx={{
+                      width: "100%",
                       "& .MuiOutlinedInput-root": {
                         color: "white",
+                        width: "100%",
                         height: {
-                          xs: "35px",
+                          xs: "52px",
                           sm: "45px",
                         },
-                        fontSize: { xs: "12px", sm: "14px" },
+                        fontSize: { xs: "16px", sm: "14px" },
                         lineHeight: {
                           xs: "35px",
                           sm: "45px",
@@ -703,7 +1031,6 @@ export default function AssetPage() {
                       },
                       "& .MuiInputBase-input::placeholder": {
                         color: "white",
-                        fontSize: { xs: "12px", sm: "14px" },
                         opacity: 1, // để không bị mờ
                       },
                     }}
@@ -748,7 +1075,10 @@ export default function AssetPage() {
                     },
 
                     borderRadius: "10px",
-                    display: "flex",
+                    display: {
+                      xs: "none",
+                      sm: "flex",
+                    },
                     flexDirection: "column",
                     alignItems: "center",
                     height: "100%",

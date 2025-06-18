@@ -270,7 +270,7 @@ export default function MenuProfile({ user }: UserProps) {
               <MenuItem
                 onClick={() => {
                   if (item.link === "/logout") {
-                    window.localStorage.removeItem("tokenokx");
+                    window.localStorage.removeItem("tokenStaking");
                     window.location.href = "/";
                     handleClose();
                   } else {

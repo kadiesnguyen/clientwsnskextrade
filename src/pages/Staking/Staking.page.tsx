@@ -117,7 +117,10 @@ export default function StakingPage() {
             xs: "10px",
             sm: "50px",
           },
-          paddingTop: "80px",
+          paddingTop: {
+            xs: "10px",
+            sm: "80px",
+          },
         }}
       >
         <Box
@@ -129,10 +132,6 @@ export default function StakingPage() {
             textAlign: {
               xs: "center",
               sm: "left",
-            },
-            paddingBottom: {
-              xs: "100px",
-              sm: "0px",
             },
           }}
         >

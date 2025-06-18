@@ -77,7 +77,7 @@ export default function HomePage() {
                 placeholder="Enter Email"
                 style={{ color: "#fff" }}
               />
-              <button type="button">Try OKX</button>
+              <button type="button">Try Staking</button>
             </div>
             <div className="join-img">
               <img
@@ -149,7 +149,7 @@ export default function HomePage() {
         <div className="what-is">
           <div className="what-is-top">
             <div className="what-is-left">
-              <h2>What is OKX?</h2>
+              <h2>What is Staking?</h2>
               <p>
                 Find out why we{"'"}re your new favorite crypto app with some
                 help from our world-class partners
@@ -248,16 +248,17 @@ export default function HomePage() {
                   component="span"
                   sx={{ fontSize: 35, padding: "50px 0px" }}
                 >
-                  What products does OKX provide?
+                  What products does Staking provide?
                 </Typography>
               </AccordionSummary>
               <AccordionDetails sx={{ fontSize: 28, color: "gray" }}>
-                OKX is an innovative cryptocurrency exchange with advanced
+                Staking is an innovative cryptocurrency exchange with advanced
                 financial offerings. We offer cutting-edge crypto trading and
                 earning services to millions of users globally in more than 180
-                regions. With OKX, you can: Trade a wide variety of tokens and
-                trading pairs. Connect to the world-famous TradingView Platform
-                and trade crypto directly with their supercharged charts.
+                regions. With Staking, you can: Trade a wide variety of tokens
+                and trading pairs. Connect to the world-famous TradingView
+                Platform and trade crypto directly with their supercharged
+                charts.
               </AccordionDetails>
             </Accordion>
             <Accordion
@@ -287,18 +288,18 @@ export default function HomePage() {
                   component="span"
                   sx={{ fontSize: 35, padding: "50px 0px" }}
                 >
-                  How do I buy Bitcoin and other cryptocurrencies on OKX?
+                  How do I buy Bitcoin and other cryptocurrencies on Staking?
                 </Typography>
               </AccordionSummary>
               <AccordionDetails sx={{ fontSize: 28, color: "gray" }}>
                 Easily buy Bitcoin within minutes with GBP, EUR, USD, or your
-                local currency. OKX supports various popular payment methods,
-                including Visa, Mastercard, and ApplePay credit cards. To get
-                started, check out our latest guide on how to buy Bitcoin on
-                OKX. Want to buy, sell, or hold other coins that are gaining
-                traction in the crypto ecosystem? Kickstart your journey with
-                OKX and explore prices and other information for cryptos such as
-                Bitcoin (BTC), Ethereum (ETH) and more!
+                local currency. Staking supports various popular payment
+                methods, including Visa, Mastercard, and ApplePay credit cards.
+                To get started, check out our latest guide on how to buy Bitcoin
+                on Staking. Want to buy, sell, or hold other coins that are
+                gaining traction in the crypto ecosystem? Kickstart your journey
+                with Staking and explore prices and other information for
+                cryptos such as Bitcoin (BTC), Ethereum (ETH) and more!
               </AccordionDetails>
             </Accordion>
             <Accordion
@@ -336,7 +337,7 @@ export default function HomePage() {
                 on blockchain technology. Its key features include transparency,
                 borderless transactions and immutability. Some of the most
                 popular cryptocurrencies, by market capitalization, include
-                Bitcoin, Ethereum, Tether, which can be traded on OKX.
+                Bitcoin, Ethereum, Tether, which can be traded on Staking.
               </AccordionDetails>
             </Accordion>
           </div>
@@ -565,7 +566,7 @@ export default function HomePage() {
                     padding: "10px",
                   }}
                 >
-                  <CoinIcon fill="white" width="100px" height="100px" />
+                  <CoinIcon fill="white" width="150px" height="100px" />
                   <Box>
                     <Typography
                       sx={{
@@ -579,12 +580,15 @@ export default function HomePage() {
                     <Typography
                       sx={{
                         color: "white",
-                        fontSize: "16px",
+                        fontSize: "11px",
                         fontWeight: "500",
                       }}
                     >
-                      Ejnoy a 23 USDT welcome to reward to kickstart your
-                      trading journey
+                      Increase the number of Pi Coins by staking without limits
+                      in the Staking section. Maximum profit up to 45%, act fast
+                      or you might miss out.Increase the number of Pi Coins by
+                      staking without limits in the Staking section. Maximum
+                      profit up to 45%, act fast or you might miss out.
                     </Typography>
                   </Box>
                 </Box>
@@ -632,17 +636,17 @@ export default function HomePage() {
                         color: "white",
                       }}
                     >
-                      What products does OKX provide?
+                      What products does Staking provide?
                     </Typography>
                   </AccordionSummary>
                   <AccordionDetails sx={{ fontSize: 18, color: "gray" }}>
-                    OKX is an innovative cryptocurrency exchange with advanced
-                    financial offerings. We offer cutting-edge crypto trading
-                    and earning services to millions of users globally in more
-                    than 180 regions. With OKX, you can: Trade a wide variety of
-                    tokens and trading pairs. Connect to the world-famous
-                    TradingView Platform and trade crypto directly with their
-                    supercharged charts.
+                    Staking is an innovative cryptocurrency exchange with
+                    advanced financial offerings. We offer cutting-edge crypto
+                    trading and earning services to millions of users globally
+                    in more than 180 regions. With Staking, you can: Trade a
+                    wide variety of tokens and trading pairs. Connect to the
+                    world-famous TradingView Platform and trade crypto directly
+                    with their supercharged charts.
                   </AccordionDetails>
                 </Accordion>
                 <Accordion
@@ -675,19 +679,20 @@ export default function HomePage() {
                         color: "white",
                       }}
                     >
-                      How do I buy Bitcoin and other cryptocurrencies on OKX?
+                      How do I buy Bitcoin and other cryptocurrencies on
+                      Staking?
                     </Typography>
                   </AccordionSummary>
                   <AccordionDetails sx={{ fontSize: 18, color: "gray" }}>
                     Easily buy Bitcoin within minutes with GBP, EUR, USD, or
-                    your local currency. OKX supports various popular payment
-                    methods, including Visa, Mastercard, and ApplePay credit
-                    cards. To get started, check out our latest guide on how to
-                    buy Bitcoin on OKX. Want to buy, sell, or hold other coins
-                    that are gaining traction in the crypto ecosystem? Kickstart
-                    your journey with OKX and explore prices and other
-                    information for cryptos such as Bitcoin (BTC), Ethereum
-                    (ETH) and more!
+                    your local currency. Staking supports various popular
+                    payment methods, including Visa, Mastercard, and ApplePay
+                    credit cards. To get started, check out our latest guide on
+                    how to buy Bitcoin on Staking. Want to buy, sell, or hold
+                    other coins that are gaining traction in the crypto
+                    ecosystem? Kickstart your journey with Staking and explore
+                    prices and other information for cryptos such as Bitcoin
+                    (BTC), Ethereum (ETH) and more!
                   </AccordionDetails>
                 </Accordion>
                 <Accordion
@@ -729,7 +734,7 @@ export default function HomePage() {
                     transparency, borderless transactions and immutability. Some
                     of the most popular cryptocurrencies, by market
                     capitalization, include Bitcoin, Ethereum, Tether, which can
-                    be traded on OKX.
+                    be traded on Staking.
                   </AccordionDetails>
                 </Accordion>
               </Box>

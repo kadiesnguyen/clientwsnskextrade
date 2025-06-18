@@ -28,7 +28,7 @@ export default function FooterPage() {
             height={50}
             alt=""
           />
-          <p>©2017 - 2025 OKX.COM</p>
+          <p>©2017 - 2025 Staking.COM</p>
         </div>
         <div
           className="menu-footer"
@@ -42,7 +42,7 @@ export default function FooterPage() {
           }}
         >
           <div>
-            <h3>More about OKX</h3>
+            <h3>More about Staking</h3>
             <ul style={{ listStyle: "none", padding: 0 }}>
               <li>
                 <Link href="#">About us</Link>
@@ -74,10 +74,10 @@ export default function FooterPage() {
                 <Link href="#">Law enforcement</Link>
               </li>
               <li>
-                <Link href="#">OKX app</Link>
+                <Link href="#">Staking app</Link>
               </li>
               <li>
-                <Link href="#">OKX TR</Link>
+                <Link href="#">Staking TR</Link>
               </li>
               <li>
                 <Link href="#">xBTC</Link>
@@ -153,7 +153,7 @@ export default function FooterPage() {
                 <Link href="#">Announcements</Link>
               </li>
               <li>
-                <Link href="#">Connect with OKX</Link>
+                <Link href="#">Connect with Staking</Link>
               </li>
             </ul>
           </div>
@@ -210,7 +210,7 @@ export default function FooterPage() {
             </ul>
           </div>
           <div style={{ display: "grid", gap: "10px" }}>
-            <h3>Trade on the go with OKX</h3>
+            <h3>Trade on the go with Staking</h3>
             <button
               style={{
                 backgroundColor: "#fff",
@@ -229,12 +229,12 @@ export default function FooterPage() {
             <div style={{ width: "100px", margin: "auto" }}>
               <img
                 src="/images/qr.png"
-                alt="Scan to download OKX app"
+                alt="Scan to download Staking app"
                 style={{ width: "100px", height: "100px", marginTop: "-50px" }}
               />
             </div>
             <p style={{ textAlign: "center", marginTop: "-40px" }}>
-              Scan to download OKX app
+              Scan to download Staking app
             </p>
           </div>
         </div>

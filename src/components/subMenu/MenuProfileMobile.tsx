@@ -164,7 +164,7 @@ export default function MenuProfileMobile(data: userProps) {
                 <ListItemButton
                   onClick={() => {
                     if (item.link === "/logout") {
-                      window.localStorage.removeItem("tokenokx");
+                      window.localStorage.removeItem("tokenStaking");
                       window.location.href = "/";
                       handleDrawerClose();
                     } else {
@@ -220,7 +220,7 @@ export default function MenuProfileMobile(data: userProps) {
                 <ListItemButton
                   onClick={() => {
                     if (item.link === "/logout") {
-                      window.localStorage.removeItem("tokenokx");
+                      window.localStorage.removeItem("tokenStaking");
                       window.location.href = "/";
                       handleDrawerClose();
                     } else {
@@ -263,7 +263,7 @@ export default function MenuProfileMobile(data: userProps) {
             <Button
               onClick={() =>
                 handleMenuItemClick(() => {
-                  window.localStorage.removeItem("tokenokx");
+                  window.localStorage.removeItem("tokenStaking");
                   window.location.href = "/";
                 })
               }
@@ -302,7 +302,7 @@ export default function MenuProfileMobile(data: userProps) {
               variant="h2"
               sx={{ fontSize: "30px", fontWeight: "600", color: "white" }}
             >
-              Welcome to OKX
+              Welcome to Staking
             </Typography>
             <Typography sx={{ fontSize: "16px", color: "#fff" }}>
               Experience lightning-fast trading and low fees
@@ -383,7 +383,7 @@ export default function MenuProfileMobile(data: userProps) {
             <Box sx={{ display: "flex", alignItems: "center", gap: "12px" }}>
               <WarningIcon width="25px" height="25px" fill="#fff" />
               <Typography sx={{ fontSize: "16px", fontWeight: 500 }}>
-                About OKX
+                About Staking
               </Typography>
             </Box>
             <Typography

@@ -32,7 +32,7 @@ export default function LoginPage() {
         .then((res: any) => {
           if (res?.status === true) {
             toast.success("Đăng nhập thành công");
-            window.localStorage.setItem("tokenokx", res.token);
+            window.localStorage.setItem("tokenStaking", res.token);
             window.location.href = "/";
           } else {
             toast.error(res?.msg);

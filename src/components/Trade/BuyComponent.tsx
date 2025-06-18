@@ -272,11 +272,11 @@ export default function BuyComponent(progs: TabProps) {
               },
               "& .MuiOutlinedInput-root": {
                 height: {
-                  xs: "45px",
+                  xs: "52px",
                   sm: "45px",
                 },
 
-                fontSize: { xs: "12px", sm: "14px" },
+                fontSize: { xs: "16px", sm: "14px" },
                 "& fieldset": {
                   color: "white",
                   outline: "none",

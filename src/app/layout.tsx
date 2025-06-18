@@ -10,8 +10,8 @@ import { Analytics } from "@vercel/analytics/react";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "OKX",
-  description: "OKX",
+  title: "Staking",
+  description: "Staking",
   icons: {
     icon: "images/photo_2025-06-18_16-37-52-removebg-preview.png", // /public path
   },
