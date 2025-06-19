@@ -154,6 +154,7 @@ body {
   background-color: var(--theme-btm-bg-color);
   --device: "d";
   overflow-y: scroll;
+  top: 0px !important;
   /* Luôn hiển thị scrollbar dọc */
 }
 
@@ -299,6 +300,15 @@ input {
     color: white;
   }
 }
+
+.goog-te-banner-frame.skiptranslate {
+  display: none !important;
+}
+
+body>.skiptranslate {
+  display: none !important;
+}
+
 
 @media(max-width: 500px) {
   .google_translate_element {
