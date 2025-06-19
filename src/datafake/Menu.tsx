@@ -7,10 +7,6 @@ import {
   CpuStopIcon,
   ExperimentIcon,
   FishIcon,
-  FishMenuIcon,
-  GameCasinoMenuIcon,
-  GameFastMenuIcon,
-  GameIcon,
   GiftMenuIcon,
   HistoryIcon,
   HistoryMenuIcon,
@@ -20,9 +16,6 @@ import {
   LoDeMenuIcon,
   LogoutMenuIcon,
   LottoIcon,
-  MasterCardIcon,
-  MoneybagIcon,
-  MonyExchangeIcon,
   NapIcon,
   NotCommandfrozenIcon,
   OverviewIcon,
@@ -30,25 +23,10 @@ import {
   ProfileIcon,
   QuaySoMenuIcon,
   RutIcon,
-  SlotMenuIcon,
   SlotsIcon,
-  SpinsIcon,
   SportIcon,
-  TableGameMenuIcon,
-  TabletGameIcon,
   TradeIcon,
-  USDTIcon,
-  VisaIcon,
 } from "@/shared/Svgs/Svg.component";
-import {
-  Facebook,
-  Message,
-  SupportAgent,
-  Telegram,
-  YouTube,
-} from "@mui/icons-material";
-import { link } from "fs";
-import Image from "next/image";
 export const MenuAset = [
   {
     id: "1",
@@ -63,8 +41,8 @@ export const MenuAset = [
       // },
       // {
       //   id: "2",
-      //   link: "#",
-      //   title: "Experiment",
+      //   link: "/mystaking",
+      //   title: "My Staking",
       //   icon: <ExperimentIcon />,
       // },
       {
@@ -93,15 +71,9 @@ export const MenuAset = [
       },
       {
         id: "7",
-        link: "/frozenCommand",
-        title: "Frozen Command",
-        icon: <CommandfrozenIcon />,
-      },
-      {
-        id: "8",
-        link: "/frozenyet",
-        title: "Not frozen yet Command",
-        icon: <NotCommandfrozenIcon />,
+        link: "/mystaking",
+        title: "My Staking",
+        icon: <ExperimentIcon fill="#fff" />,
       },
     ],
   },
@@ -449,8 +421,8 @@ export const MenuAset2 = [
   // },
   // {
   //   id: "2",
-  //   link: "#",
-  //   title: "Experiment",
+  //   link: "/mystaking",
+  //   title: "My Staking",
   //   icon: <ExperimentIcon fill="#fff" />,
   // },
   {
@@ -477,12 +449,12 @@ export const MenuAset2 = [
     title: "Mining expired",
     icon: <CpuStopIcon fill="#fff" />,
   },
-  // {
-  //   id: "7",
-  //   link: "/frozenCommand",
-  //   title: "Frozen Command",
-  //   icon: <CommandfrozenIcon fill="#fff" />,
-  // },
+  {
+    id: "7",
+    link: "/mystaking",
+    title: "My Staking",
+    icon: <ExperimentIcon fill="#fff" />,
+  },
   // {
   //   id: "8",
   //   link: "/frozenyet",

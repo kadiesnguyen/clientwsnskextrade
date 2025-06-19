@@ -10,6 +10,7 @@ import NormalMin from "./NormalMin";
 import OverdueMin from "./OverdueMin";
 import NormalIssue from "./NormalIssue";
 import OverDueIssue from "./OverDueIssue";
+import MyStaking from "./MyStaking";
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -47,7 +48,10 @@ export default function HistoryPage(props: TabProps) {
   const [loading, setLoading] = useState(true);
   const tabRefs = useRef<(HTMLElement | null)[]>([]);
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleChange: (
+    event: React.SyntheticEvent,
+    newValue: number
+  ) => void = (event, newValue) => {
     setValue(newValue);
   };
   useEffect(() => {
@@ -64,6 +68,7 @@ export default function HistoryPage(props: TabProps) {
     "Close command",
     "Excavator operating",
     "Excavator expired",
+    "My Staking",
   ];
   return (
     <Box
@@ -139,6 +144,9 @@ export default function HistoryPage(props: TabProps) {
       </CustomTabPanel>
       <CustomTabPanel value={value} index={3}>
         <OverdueMin />
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={4}>
+        <MyStaking />
       </CustomTabPanel>
       {/* <CustomTabPanel value={value} index={4}>
         <NormalIssue />

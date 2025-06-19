@@ -146,6 +146,10 @@
   }
 }
 
+.Toastify__toast-container {
+  z-index: 10000000 !important;
+}
+
 body {
   background-color: var(--theme-btm-bg-color);
   --device: "d";
