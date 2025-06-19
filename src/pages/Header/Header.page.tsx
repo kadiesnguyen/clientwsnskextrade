@@ -11,7 +11,9 @@ import { getMe } from "@/services/User.service";
 import {
   alpha,
   Avatar,
+  Box,
   Button,
+  Dialog,
   IconButton,
   Menu,
   MenuItem,
@@ -38,6 +40,7 @@ import {
   NotiIcon,
   QuestionIcon,
 } from "@/shared/Svgs/Svg.component";
+import TranslateGoogle from "../../components/GgTranstale/TranslateContext.component";
 
 interface propUser {
   user: userResponse | null;
@@ -94,7 +97,18 @@ export default function HeaderPage(props: propUser) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [menuId, setMenuId] = React.useState<null | string>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null); // Ref để lưu timeout
+  const [langAnchorEl, setLangAnchorEl] = React.useState<null | HTMLElement>(
+    null
+  );
+  const isLangMenuOpen = Boolean(langAnchorEl);
 
+  const handleLangMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setLangAnchorEl(event.currentTarget);
+  };
+
+  const handleLangMenuClose = () => {
+    setLangAnchorEl(null);
+  };
   const handleMouseEnter = (
     event: React.MouseEvent<HTMLElement>,
     id: string
@@ -155,7 +169,32 @@ export default function HeaderPage(props: propUser) {
       setDevice("Khác");
     }
   }, []);
-
+  const menuTranslate = () => (
+    <Box
+      sx={{
+        width: "100%",
+        background: "#909090",
+        color: "#fff",
+        height: "200px",
+      }}
+    >
+      <Box
+        sx={{
+          width: "100%",
+          height: "200px",
+          padding: "20px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <Typography sx={{ fontSize: "20px", fontWeight: "bold" }}>
+          Select language
+        </Typography>
+        <TranslateGoogle />
+      </Box>
+    </Box>
+  );
   return (
     <header>
       <div className="main-header">
@@ -317,6 +356,7 @@ export default function HeaderPage(props: propUser) {
                   <QuestionIcon />
                 </button>
                 <button
+                  onClick={handleLangMenuOpen}
                   style={{
                     background: "none",
                     border: "none",
@@ -398,6 +438,21 @@ export default function HeaderPage(props: propUser) {
           </div>
         </div>
       </div>
+      <Dialog
+        open={isLangMenuOpen}
+        onClose={handleLangMenuClose}
+        PaperProps={{
+          style: {
+            width: "80%",
+            backgroundColor: "#909090",
+            color: "#fff",
+            borderRadius: "8px",
+            marginTop: "10%",
+          },
+        }}
+      >
+        {menuTranslate()}
+      </Dialog>
     </header>
   );
 }

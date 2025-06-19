@@ -271,7 +271,7 @@ export default function StakingPage() {
                   >
                     Maximum purchase : {item.max}
                   </Typography>
-                  <Stakingdetail staking={item} />
+                  {user ? <Stakingdetail staking={item} /> : ""}
                 </Box>
               </Box>
             </Box>
