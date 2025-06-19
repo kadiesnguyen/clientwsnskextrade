@@ -312,7 +312,7 @@ export default function AssetPage() {
                     height: "50px",
                   }}
                 />
-                Transfer money
+                Transfer
               </Button>
               <Button
                 href="/bill"
