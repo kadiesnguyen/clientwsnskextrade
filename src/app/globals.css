@@ -266,7 +266,7 @@ li a {
 }
 
 #google_translate_element {
-  width: 150px;
+  width: 250px;
   height: 50px;
   display: flex;
   gap: 10px;
@@ -318,11 +318,11 @@ body>.skiptranslate {
 
 @media(max-width: 500px) {
   .google_translate_element {
-    width: 80%;
+    width: 250px;
   }
 
   #google_translate_element select {
-    width: 120px;
+    width: 250px;
     height: 50px;
     margin: auto;
   }

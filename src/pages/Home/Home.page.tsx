@@ -472,7 +472,7 @@ export default function HomePage() {
                   padding: "5px 20px",
                 }}
               >
-                <Box sx={{ width: "50%", textAlign: "left" }}>
+                <Box sx={{ width: "100%", textAlign: "left" }}>
                   <Typography sx={{ color: "#909090", padding: "5px 0" }}>
                     Estimated total value
                   </Typography>
