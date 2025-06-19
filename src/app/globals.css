@@ -302,7 +302,7 @@ input {
 
 @media(max-width: 500px) {
   .google_translate_element {
-    width: 30px;
+    width: 80%;
   }
 
   #google_translate_element select {
