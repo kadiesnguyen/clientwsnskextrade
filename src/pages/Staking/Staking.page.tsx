@@ -2,7 +2,12 @@
 import LinearWithValueLabel from "@/components/Input/LinearWithValueLabel";
 import Stakingdetail from "@/components/subMenu/Stakingdetail";
 import useAuth from "@/hook/useAuth";
-import { buyMining, getOrepool, getStaking } from "@/services/User.service";
+import {
+  buyMining,
+  getOrepool,
+  getStaking,
+  getWebsiteConfig,
+} from "@/services/User.service";
 import {
   Box,
   Button,
@@ -50,6 +55,7 @@ function a11yProps(index: number) {
 export default function StakingPage() {
   const [orepool, setOrepool] = useState<any>(null);
   const [value, setValue] = React.useState(0);
+  const [websiteConfig, setWebsiteConfig] = useState<any>(null);
   const { user } = useAuth();
   const router = useRouter();
   const [openPopup, setOpenPopup] = useState(false);
@@ -59,6 +65,10 @@ export default function StakingPage() {
     const referral = async () => {
       try {
         const res: any = await getStaking();
+        const buySellConfig: any = await getWebsiteConfig();
+        if (buySellConfig) {
+          setWebsiteConfig(buySellConfig.data);
+        }
         if (res.status === true) {
           setOrepool(res.data);
         }
@@ -101,13 +111,13 @@ export default function StakingPage() {
   };
 
   return (
-    <Box>
+    <Box sx={{ width: "100%", background: "#000" }}>
       <Box
         sx={{
           width: "100%",
           backgroundColor: "#000",
           display: {
-            xs: "grid",
+            xs: "none",
             sm: "flex",
           },
           justifyContent: "center",
@@ -191,14 +201,19 @@ export default function StakingPage() {
           <img src="/images/F695CAF106522D37.png" style={{ height: "300px" }} />
         </Box>
       </Box>
+      <Box sx={{ width: "90%", margin: "auto" }}>
+        <img
+          src={
+            websiteConfig.websildeb ||
+            "/images/photo_2025-06-18_15-01-46-removebg-preview.png"
+          }
+          style={{ width: "100%", borderRadius: "15px" }}
+        />
+      </Box>
       <Box
         sx={{
           background: "#000",
           padding: "20px 0",
-          paddingBottom: {
-            xs: "100px",
-            sm: "0px",
-          },
         }}
       >
         <Typography
@@ -281,6 +296,99 @@ export default function StakingPage() {
               </Box>
             </Box>
           ))}
+        </Box>
+      </Box>
+      <Box
+        sx={{
+          width: "100%",
+          backgroundColor: "#000",
+          display: {
+            xs: "grid",
+            sm: "none",
+          },
+          justifyContent: "center",
+          justifyItems: "center",
+          alignItems: "center",
+          gap: {
+            xs: "10px",
+            sm: "50px",
+          },
+          paddingTop: {
+            xs: "10px",
+            sm: "80px",
+          },
+          paddingBottom: {
+            xs: "100px",
+            sm: "0px",
+          },
+        }}
+      >
+        <Box
+          sx={{
+            width: {
+              xs: "100%",
+              sm: "400px",
+            },
+            textAlign: {
+              xs: "center",
+              sm: "left",
+            },
+          }}
+        >
+          <Typography
+            variant="h6"
+            color={"#e5f663"}
+            sx={{ fontSize: { xs: "18px", sm: "30px" } }}
+          >
+            Staking
+          </Typography>
+          <Typography
+            variant="h3"
+            color={"white"}
+            sx={{
+              fontSize: { xs: "20px", sm: "35px" },
+              fontWeight: "bold",
+              padding: "10px 0",
+            }}
+          >
+            Earn passive income with your crypto
+          </Typography>
+          <Typography
+            sx={{
+              color: "white",
+              fontSize: "16px",
+              width: {
+                xs: "90%",
+                sm: "300px",
+              },
+              margin: "0 auto",
+            }}
+          >
+            Turn your idle crypto into a steady source of income with just a few
+            simple steps. Staking allows you to lock tokens to support the
+            operation of the blockchain network and receive periodic rewards.
+          </Typography>
+          <Button
+            type="button"
+            sx={{
+              background: "#d7fe65",
+              color: "#000",
+              width: "150px",
+              height: "45px",
+              borderRadius: "10px",
+              marginTop: "20px",
+              textTransform: "capitalize",
+              "&:hover": {
+                backgroundColor: "lightgray",
+                color: "#000",
+              },
+            }}
+          >
+            Read more
+          </Button>
+        </Box>
+        <Box>
+          <img src="/images/F695CAF106522D37.png" style={{ height: "300px" }} />
         </Box>
       </Box>
     </Box>

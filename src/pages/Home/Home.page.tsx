@@ -793,10 +793,17 @@ export default function HomePage() {
                       >
                         Notification
                       </Typography>
+                      <img
+                        src={
+                          websiteConfig.websildeb ||
+                          "/images/photo_2025-06-18_15-01-46-removebg-preview.png"
+                        }
+                        style={{ width: "100%", borderRadius: "15px" }}
+                      />
                       <Typography
                         variant="h6"
                         sx={{
-                          fontSize: "16px",
+                          fontSize: "18px",
                           padding: "5px",
                         }}
                       >
