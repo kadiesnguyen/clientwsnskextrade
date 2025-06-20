@@ -409,31 +409,7 @@ export default function BuySellPage() {
                   </Button>
                 </Box>
               </Tabs>
-              <Box sx={{ width: "100%", textAlign: "center" }}>
-                <Button
-                  type="button"
-                  sx={{
-                    width: "100px",
-                    height: "35px",
-                    background: "white",
-                    color: "black",
-                    display: "flex",
-                    gap: "5px",
-                    justifyContent: "center",
-                    margin: "auto",
-                    textAlign: "center",
-                    marginTop: "8px",
-                    borderRadius: "10px",
-                    "&:hover": {
-                      background: "white",
-                    },
-                  }}
-                  href="/bill"
-                >
-                  <HistoryIcon />
-                  History
-                </Button>
-              </Box>
+
               <CustomTabPanel value={value} index={0}>
                 <BuyComponent
                   user={user}
