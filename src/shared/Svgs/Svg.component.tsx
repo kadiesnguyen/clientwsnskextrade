@@ -459,7 +459,7 @@ export const MasterCardIcon = ({
             <g>
               {" "}
               <rect
-                id="Rectangle-path"
+                id="RectanglePath"
                 fill="#FF5F00"
                 x="170.55"
                 y="32.39"
@@ -2445,7 +2445,7 @@ export const PhoneIcon = ({
     <defs></defs>
     <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
       <g
-        id="DribbbleLight-Preview"
+        id="DribbbleLightPreview"
         transform="translate(-384.000000, -7159.000000)"
         fill={fill}
       >
@@ -4973,7 +4973,7 @@ export const YoutubeIcon = ({
       >
         {" "}
         <g
-          id="DribbbleLight-Preview"
+          id="DribbbleLightPreview"
           transform="translate(-300.000000, -7442.000000)"
           fill="#909090"
         >
@@ -5697,20 +5697,88 @@ export const CalendarIcon = ({
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+    <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
     <g
       id="SVGRepo_tracerCarrier"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     ></g>
     <g id="SVGRepo_iconCarrier">
       {" "}
       <path
         d="M3 9H21M7 3V5M17 3V5M6 12H8M11 12H13M16 12H18M6 15H8M11 15H13M16 15H18M6 18H8M11 18H13M16 18H18M6.2 21H17.8C18.9201 21 19.4802 21 19.908 20.782C20.2843 20.5903 20.5903 20.2843 20.782 19.908C21 19.4802 21 18.9201 21 17.8V8.2C21 7.07989 21 6.51984 20.782 6.09202C20.5903 5.71569 20.2843 5.40973 19.908 5.21799C19.4802 5 18.9201 5 17.8 5H6.2C5.0799 5 4.51984 5 4.09202 5.21799C3.71569 5.40973 3.40973 5.71569 3.21799 6.09202C3 6.51984 3 7.07989 3 8.2V17.8C3 18.9201 3 19.4802 3.21799 19.908C3.40973 20.2843 3.71569 20.5903 4.09202 20.782C4.51984 21 5.07989 21 6.2 21Z"
         stroke="#fff"
-        stroke-width="2"
-        stroke-linecap="round"
+        strokeWidth="2"
+        strokeLinecap="round"
       ></path>{" "}
+    </g>
+  </svg>
+);
+export const ArrowTrendDownIcon = ({
+  className,
+  width,
+  height,
+  fill,
+}: IIconPropsComponent) => (
+  <svg
+    viewBox="0 0 16 16"
+    width={width || "18px"}
+    height={height || "18px"}
+    fill="none"
+    style={{ marginLeft: "3px" }}
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+    <g
+      id="SVGRepo_tracerCarrier"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    ></g>
+    <g id="SVGRepo_iconCarrier">
+      {" "}
+      <path
+        d="M10 13L9.00001 12L11.2929 9.70712L8.50001 6.91423L5.50001 9.91423L0.292908 4.70712L1.70712 3.29291L5.50001 7.0858L8.50001 4.0858L12.7071 8.29291L15 6.00001L16 7.00001L16 13H10Z"
+        fill={fill || "#000000"}
+      ></path>{" "}
+    </g>
+  </svg>
+);
+export const ArrowTrendUpIcon = ({
+  className,
+  width,
+  height,
+  fill,
+}: IIconPropsComponent) => (
+  <svg
+    viewBox="0 0 24 24"
+    width={width || "18px"}
+    height={height || "18px"}
+    fill="none"
+    style={{ marginLeft: "3px" }}
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+    <g
+      id="SVGRepo_tracerCarrier"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    ></g>
+    <g id="SVGRepo_iconCarrier">
+      {" "}
+      <g clipPath="url(#clip0_1076_36062)">
+        {" "}
+        <path
+          d="M23.3826 12.9239C23.7562 12.7691 23.9999 12.4045 23.9999 12V6C23.9999 5.44772 23.5522 5 22.9999 5H16.9999C16.5954 5 16.2308 5.24364 16.076 5.61732C15.9212 5.99099 16.0068 6.42111 16.2928 6.70711L18.2322 8.64649L13.5 13.3787L9.56062 9.43935C8.97484 8.85356 8.02509 8.85356 7.4393 9.43935L0.646409 16.2322C0.255885 16.6228 0.255885 17.2559 0.646409 17.6465L1.35352 18.3536C1.74404 18.7441 2.3772 18.7441 2.76773 18.3536L8.49996 12.6213L12.4393 16.5607C13.0251 17.1465 13.9748 17.1465 14.5606 16.5607L20.3535 10.7678L22.2928 12.7071C22.5788 12.9931 23.0089 13.0787 23.3826 12.9239Z"
+          fill={fill || "#000000"}
+        ></path>{" "}
+      </g>{" "}
+      <defs>
+        {" "}
+        <clipPath id="clip0_1076_36062">
+          {" "}
+          <rect width="24" height="24" fill="white"></rect>{" "}
+        </clipPath>{" "}
+      </defs>{" "}
     </g>
   </svg>
 );

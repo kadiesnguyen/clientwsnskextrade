@@ -34,7 +34,11 @@ import {
 import TradingViewSymbolInfo from "@/components/ChartView/SymbolDetail";
 import { formatCurrency } from "@/utils/formatMoney";
 import { CircleCountdown } from "@/components/CountdownCircle/CountdownCircle";
-import { HistoryIcon } from "@/shared/Svgs/Svg.component";
+import {
+  ArrowTrendDownIcon,
+  ArrowTrendUpIcon,
+  HistoryIcon,
+} from "@/shared/Svgs/Svg.component";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -312,7 +316,7 @@ export default function BuySellPage() {
                       },
                     }}
                   >
-                    Buy
+                    Buy <ArrowTrendUpIcon fill="white" />
                   </Button>
 
                   {trade ? (
@@ -401,7 +405,7 @@ export default function BuySellPage() {
                       },
                     }}
                   >
-                    Sell
+                    Sell <ArrowTrendDownIcon fill="white" />
                   </Button>
                 </Box>
               </Tabs>
@@ -563,7 +567,7 @@ export default function BuySellPage() {
                     },
                   }}
                 >
-                  Buy
+                  Buy <ArrowTrendUpIcon fill="white" />
                 </Button>
                 {trade ? (
                   <Box
@@ -651,7 +655,7 @@ export default function BuySellPage() {
                     },
                   }}
                 >
-                  Sell
+                  Sell <ArrowTrendDownIcon fill="white" />
                 </Button>
               </Box>
             </Tabs>
