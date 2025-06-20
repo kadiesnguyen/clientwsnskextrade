@@ -80,6 +80,7 @@ export default function PrimaryLayoutComponent({
     "/excavatoroperating",
     "/opencommand",
     "/closecommand",
+    "/dailyrewards",
   ];
   useEffect(() => {
     const initialize = async () => {

@@ -149,6 +149,14 @@ const getMyStaking = () => {
 const getOrderResult = (id: number) => {
   return contentInstance.get("/api/contract/check-order?id=" + id);
 };
+const fetchCheckinData = () => {
+  return contentInstance.get("/api/checkin/history");
+};
+
+const postDaily = () => {
+  return contentInstance.post(`/api/checkin`);
+};
+
 export {
   loginUser,
   signupUser,
@@ -179,4 +187,6 @@ export {
   buySubscribe,
   getMyStaking,
   getOrderResult,
+  fetchCheckinData,
+  postDaily,
 };

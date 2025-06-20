@@ -78,7 +78,7 @@ export const MenuAset = [
       },
       {
         id: "8",
-        link: "#",
+        link: "/dailyrewards",
         title: "Daily Rewards",
         icon: <CalendarIcon fill="#fff" />,
       },
@@ -464,7 +464,7 @@ export const MenuAset2 = [
   },
   {
     id: "8",
-    link: "#",
+    link: "/dailyrewards",
     title: "Daily Rewards",
     icon: <CalendarIcon width="25px" height="25px" fill="#fff" />,
   },
