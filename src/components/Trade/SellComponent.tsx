@@ -446,6 +446,7 @@ export default function SellComponent(progs: TabProps) {
               width: "90%",
               textAlign: "center",
               position: "relative",
+              marginTop: "-20%",
             }}
           >
             {result ? (
@@ -660,7 +661,7 @@ export default function SellComponent(progs: TabProps) {
                       textTransform: "capitalize",
                     }}
                   >
-                    {formatCurrency(trade.buyprice, "USD", "USD")}
+                    {formatCurrency(Number(trade.buyprice), "USD", "USD")}
                   </Typography>
                 </Box>
 

@@ -35,7 +35,7 @@ export const CircleCountdown = ({ radius = 60, duration, timeLeft }: any) => {
         fontSize="20"
         fill="#000"
       >
-        {timeLeft}s
+        {timeLeft}
       </text>
     </svg>
   );
