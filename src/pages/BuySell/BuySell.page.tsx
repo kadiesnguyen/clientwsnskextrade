@@ -373,7 +373,8 @@ export default function BuySellPage() {
                     console.log("Order result:", orderData);
                     if (orderData) {
                       setTrade(orderData);
-                      setCountdown(orderData.time);
+                      // setCountdown(orderData.time);
+                      setCountdown(30);
                     }
                   }}
                 />
