@@ -110,7 +110,7 @@ export default function SellComponent(progs: TabProps) {
             sx={{
               color: "white",
               fontSize: { xs: "14px", sm: "14px" },
-              marginTop: "10px",
+              // marginTop: "10px",
             }}
           >
             Type

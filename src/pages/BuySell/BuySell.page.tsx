@@ -34,6 +34,7 @@ import {
 import TradingViewSymbolInfo from "@/components/ChartView/SymbolDetail";
 import { formatCurrency } from "@/utils/formatMoney";
 import { CircleCountdown } from "@/components/CountdownCircle/CountdownCircle";
+import { HistoryIcon } from "@/shared/Svgs/Svg.component";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -377,6 +378,31 @@ export default function BuySellPage() {
                   </Button>
                 </Box>
               </Tabs>
+              <Box sx={{ width: "100%", textAlign: "center" }}>
+                <Button
+                  type="button"
+                  sx={{
+                    width: "100px",
+                    height: "35px",
+                    background: "#909090",
+                    color: "black",
+                    display: "flex",
+                    gap: "5px",
+                    justifyContent: "center",
+                    margin: "auto",
+                    textAlign: "center",
+                    marginTop: "8px",
+                    borderRadius: "10px",
+                    "&:hover": {
+                      background: "#909090",
+                    },
+                  }}
+                  href="/bill"
+                >
+                  <HistoryIcon />
+                  History
+                </Button>
+              </Box>
               <CustomTabPanel value={value} index={0}>
                 <BuyComponent
                   user={user}
@@ -576,6 +602,29 @@ export default function BuySellPage() {
                 </Button>
               </Box>
             </Tabs>
+            <Button
+              type="button"
+              sx={{
+                width: "100px",
+                height: "35px",
+                background: "#909090",
+                color: "black",
+                display: "flex",
+                gap: "5px",
+                justifyContent: "center",
+                margin: "auto",
+                textAlign: "center",
+                marginTop: "8px",
+                borderRadius: "10px",
+                "&:hover": {
+                  background: "#909090",
+                },
+              }}
+              href="/bill"
+            >
+              <HistoryIcon />
+              History
+            </Button>
             <CustomTabPanel value={value} index={0}>
               <BuyComponent
                 user={user}
