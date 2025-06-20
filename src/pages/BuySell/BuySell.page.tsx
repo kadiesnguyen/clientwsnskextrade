@@ -106,7 +106,7 @@ export default function BuySellPage() {
         if (prev && prev <= 1) {
           clearInterval(interval);
           fetchResult(); // khi countdown = 0 thì gọi API
-          setShowPopup(true);
+
           return 0;
         }
         return (prev ?? 0) - 1;
@@ -123,6 +123,7 @@ export default function BuySellPage() {
       setResult(res.data);
       setCountdown(null);
       setTrade(null);
+      setShowPopup(true);
       // toast.success("Order created successfully");
     } catch (error: any) {
       toast.error("Order created failed, please check again!");
