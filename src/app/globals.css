@@ -290,6 +290,7 @@ input {
 }
 
 #google_translate_element select {
+  display: none;
   width: 250px;
   height: 50px;
   background: none;
@@ -302,6 +303,20 @@ input {
     color: white;
     font-size: 18px;
   }
+}
+
+.menu-lang {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.menu-lang li {
+  width: 120px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 14px;
 }
 
 .goog-te-banner-frame.skiptranslate {

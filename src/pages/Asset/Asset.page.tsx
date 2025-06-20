@@ -233,15 +233,13 @@ export default function AssetPage() {
                       fontWeight: "bold",
                     }}
                   >
-                    {user?.balance?.usdt ? `${user?.balance?.usdt} ` : "0 "}
-                  </Typography>
-                  <Typography
-                    sx={{
-                      color: "#909090",
-                      fontSize: "16px",
-                    }}
-                  >
-                    USD
+                    {user?.balance?.usdt
+                      ? `${formatCurrency(
+                          Number(user?.balance?.usdt),
+                          "USD",
+                          "USD"
+                        )} `
+                      : "0 "}
                   </Typography>
                 </Box>
                 <Typography sx={{ color: "#909090", padding: "5px 0" }}>
@@ -265,6 +263,7 @@ export default function AssetPage() {
                   flexDirection: "column",
                   color: "white",
                   fontSize: "13px",
+                  textTransform: "capitalize",
                 }}
               >
                 <img
@@ -284,6 +283,7 @@ export default function AssetPage() {
                   flexDirection: "column",
                   color: "white",
                   fontSize: "13px",
+                  textTransform: "capitalize",
                 }}
               >
                 <img
@@ -303,6 +303,7 @@ export default function AssetPage() {
                   flexDirection: "column",
                   color: "white",
                   fontSize: "13px",
+                  textTransform: "capitalize",
                 }}
               >
                 <img
@@ -322,6 +323,7 @@ export default function AssetPage() {
                   flexDirection: "column",
                   color: "white",
                   fontSize: "13px",
+                  textTransform: "capitalize",
                 }}
               >
                 <img

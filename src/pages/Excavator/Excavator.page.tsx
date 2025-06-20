@@ -292,7 +292,7 @@ export default function ExcavatorPage() {
                           variant="body1"
                           sx={{ color: "#666", fontSize: "14px" }}
                         >
-                          Rental price: {item.pricenum}
+                          Rental price: {item.pricenum} USDT
                         </Typography>
                         <Typography
                           variant="body1"

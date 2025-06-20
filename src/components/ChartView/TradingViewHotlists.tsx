@@ -32,53 +32,95 @@ const TradingViewHotlists: React.FC = () => {
         {
           title: "Favorite",
           symbols: [
-            { s: "OKX:PIUSDT", d: "PIUSDT" },
-            { s: "CRYPTOCAP:USDT.D" },
-            { s: "INDEX:BTCUSD" },
-            { s: "CRYPTOCAP:BTC.D" },
-            { s: "OANDA:SPX500USD" },
-            { s: "CRYPTOCAP:TOTAL3" },
-            { s: "FOREXCOM:EURUSD" },
-            { s: "FOREXCOM:GBPUSD" },
-            { s: "FOREXCOM:USDJPY" },
-            { s: "CAPITALCOM:US500" },
+            {
+              s: "BITSTAMP:BTCUSD",
+            },
+            {
+              s: "COINBASE:ETHUSD",
+            },
+            {
+              s: "OKX:PIUSD",
+            },
+            {
+              s: "CRYPTOCAP:SOL",
+            },
+            {
+              s: "CAPITALCOM:DOGEUSD",
+            },
+            {
+              s: "OKX:OKBUSDT",
+            },
+            {
+              s: "BINANCE:SPKUSDT.P",
+            },
+            {
+              s: "CRYPTOCAP:PEPE",
+            },
+            {
+              s: "OKX:RADARUSD",
+            },
+            {
+              s: "BINANCE:TRUMPUSDT",
+            },
+            {
+              s: "BITMEX:BXT",
+            },
+            {
+              s: "NASDAQ:RAY",
+            },
+            {
+              s: "CRYPTOCAP:XRP",
+            },
+            {
+              s: "TSXV:OLV",
+            },
+            {
+              s: "NASDAQ:HUMA",
+            },
+            {
+              s: "CRYPTOCAP:SUI",
+            },
+            {
+              s: "CSE:IP",
+            },
+            {
+              s: "BME:UNI",
+            },
+            {
+              s: "CRYPTOCAP:BCH",
+            },
+            {
+              s: "BITMEX:BKAITOT",
+            },
+            {
+              s: "CBOE:WLDR",
+            },
+            {
+              s: "GEMINI:JTOUSD",
+            },
+            {
+              s: "CRYPTOCAP:ADA",
+            },
+            {
+              s: "CRYPTOCAP:TON",
+            },
+            {
+              s: "OMXTSE:MAGIC",
+            },
+            {
+              s: "CRYPTO:ZKJUSD",
+            },
+            {
+              s: "NASDAQ:WCT",
+            },
+            {
+              s: "BX:AAVE",
+            },
+            {
+              s: "CRYPTOCAP:FIL",
+            },
           ],
           originalTitle: "Favorite",
-        },
-        {
-          title: "Popular",
-          symbols: [
-            { s: "FOREXCOM:EURUSD" },
-            { s: "FOREXCOM:GBPUSD" },
-            { s: "FOREXCOM:USDJPY" },
-            { s: "FOREXCOM:GBPJPY" },
-            { s: "FOREXCOM:USDCAD" },
-            { s: "FOREXCOM:AUDUSD" },
-            { s: "FOREXCOM:USDCHF" },
-            { s: "FOREXCOM:EURJPY" },
-            { s: "FOREXCOM:NZDUSD" },
-            { s: "FOREXCOM:AUDJPY" },
-            { s: "FOREXCOM:GBPAUD" },
-            { s: "FOREXCOM:GBPCAD" },
-          ],
-          originalTitle: "Popular",
-        },
-        {
-          title: "Latest",
-          symbols: [
-            { s: "OKX:PIUSDT", d: "PIUSDT" },
-            { s: "CRYPTOCAP:USDT.D" },
-            { s: "CRYPTOCAP:TOTAL3" },
-            { s: "CAPITALCOM:US500" },
-            { s: "FOREXCOM:NZDUSD" },
-            { s: "FOREXCOM:AUDJPY" },
-            { s: "FOREXCOM:GBPAUD" },
-            { s: "FOREXCOM:GBPCAD" },
-            { s: "FOREXCOM:EURUSD" },
-            { s: "FOREXCOM:GBPUSD" },
-            { s: "FOREXCOM:USDJPY" },
-          ],
-          originalTitle: "Latest",
         },
       ],
     });

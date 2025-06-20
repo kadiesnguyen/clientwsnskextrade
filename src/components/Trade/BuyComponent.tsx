@@ -1,4 +1,5 @@
 import useAuth from "@/hook/useAuth";
+import { useDebounce } from "@/hook/useDebounce";
 import { createOrder, getBuySellConfig } from "@/services/User.service";
 import { IUser } from "@/shared/interfaces";
 import { Box, Button, TextField, Typography } from "@mui/material";
@@ -13,6 +14,7 @@ interface TabProps {
 export default function BuyComponent(progs: TabProps) {
   const [valueAmount, setValueAmount] = useState(0);
   const [amount, setAmount] = useState("100");
+  const [price, setPrice] = useState<Number | null>(100);
   const [type, setType] = useState(0);
   const [hytime, setHytime] = useState("1");
   const [hyykbl, setHyykbl] = useState("10");
@@ -20,6 +22,7 @@ export default function BuyComponent(progs: TabProps) {
   const [buySellConfig, setBuySellConfig] = useState<any>(null);
   const buttonRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const timeButtonRefs = useRef<(HTMLButtonElement | null)[]>([]);
+
   useEffect(() => {
     if (timeButtonRefs.current[type]) {
       timeButtonRefs.current[type]?.scrollIntoView({
@@ -67,10 +70,8 @@ export default function BuyComponent(progs: TabProps) {
       toast.error("Please select time and amount");
       return;
     }
-    if (parseFloat(amount) < parseFloat(buySellConfig.hy_min?.[type] || "0")) {
-      toast.error(
-        `The minimum amount for this type is ${buySellConfig.hy_min?.[type]}`
-      );
+    if (Number(price) < Number(amount)) {
+      toast.error("The value does not correspond to the type");
       return;
     }
     if (parseFloat(amount) > parseFloat(progs.user?.balance.usdt || "0")) {
@@ -143,6 +144,7 @@ export default function BuyComponent(progs: TabProps) {
                     setHyykbl(buySellConfig.hy_ykbl?.[index] || "0");
                     setValueAmount(index);
                     setAmount(buySellConfig.hy_tzed?.[index] || "100");
+                    setPrice(Number(buySellConfig.hy_tzed?.[index]) || 100);
                   }}
                 >
                   <Typography
@@ -165,7 +167,7 @@ export default function BuyComponent(progs: TabProps) {
                   </Typography>
                   <Typography
                     sx={{
-                      fontSize: { xs: "11px", sm: "15px" },
+                      fontSize: { xs: "13px", sm: "16px" },
                       fontWeight: 600,
                       textTransform: "capitalize",
                     }}
@@ -209,7 +211,7 @@ export default function BuyComponent(progs: TabProps) {
                     height: "55px",
                     borderRadius: "15px",
                     fontWeight: 600,
-                    fontSize: { xs: "10px", sm: "14px" },
+                    fontSize: { xs: "13px", sm: "16px" },
                     "&:hover": {
                       background: valueAmount === index ? "#fff" : "#909090",
                     },
@@ -217,10 +219,10 @@ export default function BuyComponent(progs: TabProps) {
                   onClick={() => {
                     if (index < type) {
                       toast.error("The value does not correspond to the type");
-                      return;
                     } else {
                       setValueAmount(index);
                       setAmount(item);
+                      setPrice(Number(item));
                     }
                   }}
                 >
@@ -241,16 +243,8 @@ export default function BuyComponent(progs: TabProps) {
             id="outlined-basic"
             placeholder="Amount"
             variant="outlined"
-            value={amount}
-            onChange={(e) => {
-              const value = e.target.value;
-
-              if (value < amount) {
-                toast.error("The value does not correspond to the type");
-              } else {
-                setAmount(e.target.value);
-              }
-            }}
+            value={price}
+            onChange={(e) => setPrice(Number(e.target.value))}
             sx={{
               width: "100%",
               background: "#5e5e5e",
@@ -302,7 +296,7 @@ export default function BuyComponent(progs: TabProps) {
               color: "white",
               padding: "10px 0",
               fontSize: {
-                xs: "10px",
+                xs: "13px",
                 sm: "14px",
               },
             }}

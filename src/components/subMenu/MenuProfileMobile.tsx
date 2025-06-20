@@ -69,7 +69,14 @@ export default function MenuProfileMobile(data: userProps) {
   const isLangMenuOpen = Boolean(langAnchorEl);
   const open1 = Boolean(anchorEl1);
   const router = useRouter();
-
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClickLang = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   const handleLangMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setLangAnchorEl(event.currentTarget);
   };
@@ -430,11 +437,13 @@ export default function MenuProfileMobile(data: userProps) {
         <Typography sx={{ fontSize: "20px", fontWeight: "bold" }}>
           Select language
         </Typography>
-        <TranslateGoogle />
       </Box>
     </Box>
   );
-
+  const handleLanguageChange = (langCode: string) => {
+    console.log("User selected language:", langCode);
+    setAnchorEl(null);
+  };
   return (
     <>
       <React.Fragment>
@@ -490,10 +499,26 @@ export default function MenuProfileMobile(data: userProps) {
               </Badge>
             </Tooltip>
             <Tooltip title="Language">
-              <IconButton onClick={handleLangMenuOpen}>
+              <IconButton
+                aria-controls={open ? "basic-menu" : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? "true" : undefined}
+                onClick={handleClickLang}
+              >
                 <InternetIcon width="24px" height="24px" />
               </IconButton>
             </Tooltip>
+            <Menu
+              id="basic-menu"
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              sx={{
+                width: "120px",
+              }}
+            >
+              <TranslateGoogle onLanguageChange={handleLanguageChange} />
+            </Menu>
           </Box>
         </Box>
         <Drawer

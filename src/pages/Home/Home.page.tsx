@@ -27,6 +27,7 @@ import useAuth from "@/hook/useAuth";
 import TradingViewHotlists from "@/components/ChartView/TradingViewHotlists";
 import { CoinIcon, SearchIcon } from "@/shared/Svgs/Svg.component";
 import { Search } from "@mui/icons-material";
+import { formatCurrency } from "@/utils/formatMoney";
 const responsiveSettings = [
   {
     breakpoint: 500,
@@ -400,6 +401,7 @@ export default function HomePage() {
                     backgroundColor: "#909090",
                     color: "white",
                     borderRadius: "20px",
+                    textTransform: "capitalize",
                     "&:hover": {
                       backgroundColor: "#909090",
                     },
@@ -414,6 +416,7 @@ export default function HomePage() {
                     backgroundColor: "white",
                     color: "#000",
                     borderRadius: "20px",
+                    textTransform: "capitalize",
                     "&:hover": {
                       backgroundColor: "white",
                     },
@@ -491,15 +494,13 @@ export default function HomePage() {
                         fontWeight: "bold",
                       }}
                     >
-                      {user?.balance?.usdt ? `${user?.balance?.usdt} ` : "0 "}
-                    </Typography>
-                    <Typography
-                      sx={{
-                        color: "#909090",
-                        fontSize: "16px",
-                      }}
-                    >
-                      USD
+                      {user?.balance?.usdt
+                        ? `${formatCurrency(
+                            Number(user?.balance?.usdt),
+                            "USD",
+                            "USD"
+                          )} `
+                        : "0 "}
                     </Typography>
                   </Box>
                   <Typography sx={{ color: "#909090", padding: "5px 0" }}>
@@ -523,6 +524,7 @@ export default function HomePage() {
                     borderRadius: "15px",
                     background: "#bafc42",
                     color: "black",
+                    textTransform: "capitalize",
                     "&:hover": {
                       background: "#bafc42",
                     },
@@ -537,6 +539,7 @@ export default function HomePage() {
                     height: "35px",
                     borderRadius: "15px",
                     background: "#bafc42",
+                    textTransform: "capitalize",
                     color: "black",
                     "&:hover": {
                       background: "#bafc42",
@@ -586,9 +589,7 @@ export default function HomePage() {
                     >
                       Increase the number of Pi Coins by staking without limits
                       in the Staking section. Maximum profit up to 45%, act fast
-                      or you might miss out.Increase the number of Pi Coins by
-                      staking without limits in the Staking section. Maximum
-                      profit up to 45%, act fast or you might miss out.
+                      or you might miss out.
                     </Typography>
                   </Box>
                 </Box>
