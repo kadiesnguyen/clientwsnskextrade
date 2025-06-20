@@ -302,6 +302,7 @@ export default function BuySellPage() {
                       borderRadius: "12px",
                       padding: "8px 24px",
                       minWidth: "100px",
+                      textTransform: "capitalize",
                       border:
                         value === 0
                           ? "2px solid #00c853"
@@ -311,7 +312,7 @@ export default function BuySellPage() {
                       },
                     }}
                   >
-                    MUA
+                    Buy
                   </Button>
 
                   {trade ? (
@@ -363,7 +364,7 @@ export default function BuySellPage() {
                       borderRadius: "12px",
                       padding: "8px 24px",
                       minWidth: "100px",
-                      // height: "59px",
+                      textTransform: "capitalize",
                       border:
                         value === 1
                           ? "2px solid #ff3b30"
@@ -373,7 +374,7 @@ export default function BuySellPage() {
                       },
                     }}
                   >
-                    BÁN
+                    Sell
                   </Button>
                 </Box>
               </Tabs>
@@ -485,6 +486,7 @@ export default function BuySellPage() {
                     borderRadius: "12px",
                     padding: "8px 24px",
                     minWidth: "100px",
+                    textTransform: "capitalize",
                     border:
                       value === 0
                         ? "2px solid #00c853"
@@ -494,7 +496,7 @@ export default function BuySellPage() {
                     },
                   }}
                 >
-                  MUA
+                  Buy
                 </Button>
 
                 {trade ? (
@@ -546,7 +548,7 @@ export default function BuySellPage() {
                     borderRadius: "12px",
                     padding: "8px 24px",
                     minWidth: "100px",
-                    // height: "59px",
+                    textTransform: "capitalize",
                     border:
                       value === 1
                         ? "2px solid #ff3b30"
@@ -556,7 +558,7 @@ export default function BuySellPage() {
                     },
                   }}
                 >
-                  BÁN
+                  Sell
                 </Button>
               </Box>
             </Tabs>
