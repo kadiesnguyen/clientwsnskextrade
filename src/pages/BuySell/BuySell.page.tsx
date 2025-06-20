@@ -18,13 +18,22 @@ import {
 } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import TradeChart from "@/components/ChartView/TradeChart";
-import { getBuySellConfig, getListCoin } from "@/services/User.service";
+import {
+  getBuySellConfig,
+  getListCoin,
+  getOrderResult,
+} from "@/services/User.service";
 import { toast } from "react-toastify";
 import useAuth from "@/hook/useAuth";
 import BuyComponent from "@/components/Trade/BuyComponent";
 import SellComponent from "@/components/Trade/SellComponent";
-import { ArrowDropDownCircleOutlined } from "@mui/icons-material";
+import {
+  ArrowDropDownCircleOutlined,
+  CloseOutlined,
+} from "@mui/icons-material";
 import TradingViewSymbolInfo from "@/components/ChartView/SymbolDetail";
+import { formatCurrency } from "@/utils/formatMoney";
+import { CircleCountdown } from "@/components/CountdownCircle/CountdownCircle";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -61,6 +70,10 @@ export default function BuySellPage() {
   const [symbol, setSymbol] = useState<any>("btc-usdt");
   const [coinTitle, setCoinTitle] = useState<any>("BTC/USDT");
   const [value, setValue] = useState(0);
+  const [result, setResult] = useState<any>(null);
+  const [trade, setTrade] = useState<any>(null);
+  const [countdown, setCountdown] = useState<number | null>(null);
+  const [showPopup, setShowPopup] = useState(false);
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
@@ -85,6 +98,47 @@ export default function BuySellPage() {
       setCoin(base + quote);
     }
   };
+  useEffect(() => {
+    if (countdown === null || countdown <= 0) return;
+
+    const interval = setInterval(() => {
+      setCountdown((prev) => {
+        if (prev && prev <= 1) {
+          clearInterval(interval);
+          setShowPopup(true);
+          fetchResult(); // khi countdown = 0 thì gọi API
+          return 0;
+        }
+        return (prev ?? 0) - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [countdown]);
+
+  const fetchResult = async () => {
+    try {
+      // Gọi API lấy kết quả
+      const res = await getOrderResult(trade.id);
+      setResult(res.data);
+      setCountdown(null);
+      setTrade(null);
+      toast.success("Order created successfully");
+    } catch (error: any) {
+      toast.error("Order created failed, please check again!");
+    }
+  };
+  useEffect(() => {
+    if (showPopup) {
+      const timeout = setTimeout(() => {
+        setShowPopup(false); // Ẩn popup sau 5 giây
+        setResult(null); // Reset kết quả nếu cần
+      }, 5000);
+
+      return () => clearTimeout(timeout); // Clear khi component unmount hoặc showPopup thay đổi
+    }
+  }, [showPopup]);
+
   return (
     <Box sx={{ background: "#000", paddingTop: { xs: "0px", sm: "70px" } }}>
       <Box
@@ -229,36 +283,125 @@ export default function BuySellPage() {
                   },
                 }}
               >
-                <Tab
-                  label="Buy"
-                  {...a11yProps(0)}
+                <Box
                   sx={{
-                    color: "white",
-                    "&.Mui-selected": {
-                      backgroundColor: "#00c853",
-                      color: "white",
-                      fontWeight: 600,
-                    },
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    gap: 2,
+                    // paddingBottom: 2,
                   }}
-                />
-                <Tab
-                  label="Sell"
-                  {...a11yProps(1)}
-                  sx={{
-                    color: "white",
-                    "&.Mui-selected": {
-                      backgroundColor: "red",
+                >
+                  <Button
+                    onClick={() => setValue(0)}
+                    sx={{
+                      backgroundColor: value === 0 ? "#00c853" : "#00b248",
                       color: "white",
-                      fontWeight: 600,
-                    },
-                  }}
-                />
+                      fontWeight: "bold",
+                      borderRadius: "12px",
+                      padding: "8px 24px",
+                      minWidth: "100px",
+                      border:
+                        value === 0
+                          ? "2px solid #00c853"
+                          : "2px solid transparent",
+                      "&:hover": {
+                        backgroundColor: "#00c853",
+                      },
+                    }}
+                  >
+                    MUA
+                  </Button>
+
+                  {trade ? (
+                    <Box
+                      sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "1px",
+                      }}
+                    >
+                      <Typography
+                        sx={{
+                          color: "#909090",
+                          textAlign: "center",
+                          fontSize: "12px",
+                        }}
+                      >
+                        Result wating
+                      </Typography>
+                      <Typography
+                        sx={{
+                          color: "white",
+                          textAlign: "center",
+                          fontSize: "13px",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {countdown}s
+                      </Typography>
+                    </Box>
+                  ) : (
+                    <Typography
+                      sx={{
+                        color: "white",
+                        textAlign: "center",
+                        fontSize: "12px",
+                      }}
+                    >
+                      Please place the order
+                    </Typography>
+                  )}
+
+                  <Button
+                    onClick={() => setValue(1)}
+                    sx={{
+                      backgroundColor: value === 1 ? "#ff3b30" : "#e53935",
+                      color: "white",
+                      fontWeight: "bold",
+                      borderRadius: "12px",
+                      padding: "8px 24px",
+                      minWidth: "100px",
+                      // height: "59px",
+                      border:
+                        value === 1
+                          ? "2px solid #ff3b30"
+                          : "2px solid transparent",
+                      "&:hover": {
+                        backgroundColor: "#ff3b30",
+                      },
+                    }}
+                  >
+                    BÁN
+                  </Button>
+                </Box>
               </Tabs>
               <CustomTabPanel value={value} index={0}>
-                <BuyComponent user={user} value={symbol} />
+                <BuyComponent
+                  user={user}
+                  value={symbol}
+                  onSuccess={(orderData) => {
+                    console.log("Order result:", orderData);
+                    if (orderData) {
+                      setTrade(orderData);
+                      setCountdown(orderData.time);
+                    }
+                  }}
+                />
               </CustomTabPanel>
               <CustomTabPanel value={value} index={1}>
-                <SellComponent user={user} value={symbol} />
+                <SellComponent
+                  user={user}
+                  value={symbol}
+                  onSuccess={(orderData) => {
+                    console.log("Order result:", orderData);
+                    if (orderData) {
+                      setTrade(orderData);
+                      setCountdown(orderData.time);
+                    }
+                  }}
+                />
               </CustomTabPanel>
             </Box>
           </Box>
@@ -323,38 +466,190 @@ export default function BuySellPage() {
                 },
               }}
             >
-              <Tab
-                label="Buy"
-                {...a11yProps(0)}
+              <Box
                 sx={{
-                  color: "white",
-                  "&.Mui-selected": {
-                    backgroundColor: "#00c853",
-                    color: "white",
-                    fontWeight: 600,
-                  },
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  gap: 2,
+                  // paddingBottom: 2,
                 }}
-              />
-              <Tab
-                label="Sell"
-                {...a11yProps(1)}
-                sx={{
-                  color: "white",
-                  "&.Mui-selected": {
-                    backgroundColor: "red",
+              >
+                <Button
+                  onClick={() => setValue(0)}
+                  sx={{
+                    backgroundColor: value === 0 ? "#00c853" : "#00b248",
                     color: "white",
-                    fontWeight: 600,
-                  },
-                }}
-              />
+                    fontWeight: "bold",
+                    borderRadius: "12px",
+                    padding: "8px 24px",
+                    minWidth: "100px",
+                    border:
+                      value === 0
+                        ? "2px solid #00c853"
+                        : "2px solid transparent",
+                    "&:hover": {
+                      backgroundColor: "#00c853",
+                    },
+                  }}
+                >
+                  MUA
+                </Button>
+
+                {trade ? (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "1px",
+                    }}
+                  >
+                    <Typography
+                      sx={{
+                        color: "#909090",
+                        textAlign: "center",
+                        fontSize: "12px",
+                      }}
+                    >
+                      Result wating
+                    </Typography>
+                    <Typography
+                      sx={{
+                        color: "white",
+                        textAlign: "center",
+                        fontSize: "13px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {countdown}s
+                    </Typography>
+                  </Box>
+                ) : (
+                  <Typography
+                    sx={{
+                      color: "white",
+                      textAlign: "center",
+                      fontSize: "12px",
+                    }}
+                  >
+                    Please place the order
+                  </Typography>
+                )}
+
+                <Button
+                  onClick={() => setValue(1)}
+                  sx={{
+                    backgroundColor: value === 1 ? "#ff3b30" : "#e53935",
+                    color: "white",
+                    fontWeight: "bold",
+                    borderRadius: "12px",
+                    padding: "8px 24px",
+                    minWidth: "100px",
+                    // height: "59px",
+                    border:
+                      value === 1
+                        ? "2px solid #ff3b30"
+                        : "2px solid transparent",
+                    "&:hover": {
+                      backgroundColor: "#ff3b30",
+                    },
+                  }}
+                >
+                  BÁN
+                </Button>
+              </Box>
             </Tabs>
             <CustomTabPanel value={value} index={0}>
-              <BuyComponent user={user} value={symbol} />
+              <BuyComponent
+                user={user}
+                value={symbol}
+                onSuccess={(orderData) => {
+                  console.log("Order result:", orderData);
+                  if (orderData) {
+                    setTrade(orderData);
+                    setCountdown(orderData.time);
+                  }
+                }}
+              />
             </CustomTabPanel>
             <CustomTabPanel value={value} index={1}>
-              <SellComponent user={user} value={symbol} />
+              <SellComponent
+                user={user}
+                value={symbol}
+                onSuccess={(orderData) => {
+                  console.log("Order result:", orderData);
+                  if (orderData) {
+                    setTrade(orderData);
+                    setCountdown(orderData.time);
+                  }
+                }}
+              />
             </CustomTabPanel>
           </Box>
+          {showPopup && (
+            <Box
+              sx={{
+                position: "fixed",
+                top: 0,
+                left: 0,
+                width: "100vw",
+                height: "100vh",
+                // background: "rgba(53, 53, 53, 0.5)",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                zIndex: 1000,
+              }}
+            >
+              <Box
+                sx={{
+                  position: "relative",
+                  width: "90%",
+                  maxWidth: "400px",
+                  borderRadius: "10px",
+                }}
+              >
+                {/* Ảnh nền */}
+                <Box
+                  component="img"
+                  src="/images/thongbao.png"
+                  alt="Thông báo"
+                  sx={{
+                    width: "100%",
+                    height: "auto",
+                    display: "block",
+                    borderRadius: "10px",
+                  }}
+                />
+
+                <Box
+                  sx={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    textAlign: "center",
+                    width: "100%",
+                    px: 2,
+                    opacity: "2",
+                  }}
+                >
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      fontSize: "35px",
+                      fontWeight: "bold",
+                      color: result?.is_win === 1 ? "#00c853" : "red",
+                    }}
+                  >
+                    {result?.is_win === 1 ? "+" : "-"}
+                    {formatCurrency(Number(result?.ploss), "en", "USD")}
+                  </Typography>
+                </Box>
+              </Box>
+            </Box>
+          )}
         </Box>
       </Box>
     </Box>
