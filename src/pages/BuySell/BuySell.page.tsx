@@ -105,8 +105,8 @@ export default function BuySellPage() {
       setCountdown((prev) => {
         if (prev && prev <= 1) {
           clearInterval(interval);
-          setShowPopup(true);
           fetchResult(); // khi countdown = 0 thì gọi API
+          setShowPopup(true);
           return 0;
         }
         return (prev ?? 0) - 1;
@@ -123,7 +123,7 @@ export default function BuySellPage() {
       setResult(res.data);
       setCountdown(null);
       setTrade(null);
-      toast.success("Order created successfully");
+      // toast.success("Order created successfully");
     } catch (error: any) {
       toast.error("Order created failed, please check again!");
     }
@@ -581,7 +581,8 @@ export default function BuySellPage() {
                   console.log("Order result:", orderData);
                   if (orderData) {
                     setTrade(orderData);
-                    setCountdown(orderData.time);
+                    // setCountdown(orderData.time);
+                    setCountdown(20);
                   }
                 }}
               />
@@ -644,7 +645,9 @@ export default function BuySellPage() {
                     }}
                   >
                     {result?.is_win === 1 ? "+" : "-"}
-                    {formatCurrency(Number(result?.ploss), "en", "USD")}
+                    {result
+                      ? formatCurrency(Number(result?.ploss), "en", "USD")
+                      : 0}
                   </Typography>
                 </Box>
               </Box>
