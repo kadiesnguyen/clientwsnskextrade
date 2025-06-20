@@ -582,7 +582,7 @@ export default function BuySellPage() {
                   if (orderData) {
                     setTrade(orderData);
                     // setCountdown(orderData.time);
-                    setCountdown(20);
+                    setCountdown(30);
                   }
                 }}
               />
@@ -596,7 +596,7 @@ export default function BuySellPage() {
                 left: 0,
                 width: "100vw",
                 height: "100vh",
-                // background: "rgba(53, 53, 53, 0.5)",
+                background: "rgba(53, 53, 53, 0.5)",
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
@@ -607,7 +607,7 @@ export default function BuySellPage() {
                 sx={{
                   position: "relative",
                   width: "90%",
-                  maxWidth: "400px",
+                  maxWidth: "300px",
                   borderRadius: "10px",
                 }}
               >
