@@ -418,7 +418,7 @@ export default function AssetPage() {
                             alignItems: "center",
                           }}
                         >
-                          <Box sx={{ width: "65%" }}>
+                          <Box >
                             <Typography
                               sx={{
                                 color: "white",
@@ -441,7 +441,7 @@ export default function AssetPage() {
                           <Box>
                             <Typography
                               sx={{
-                                width: "30%",
+                                
                                 textAlign: "left",
                                 color: "white",
                                 fontSize: "14px",
