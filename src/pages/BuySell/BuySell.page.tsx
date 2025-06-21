@@ -300,7 +300,7 @@ export default function BuySellPage() {
                   <Button
                     onClick={() => setValue(0)}
                     sx={{
-                      backgroundColor: value === 0 ? "#00c853" : "#00b248",
+                      backgroundColor: value === 0 ? "#00c853" : "#909090",
                       color: "white",
                       fontWeight: "bold",
                       borderRadius: "12px",
@@ -389,7 +389,7 @@ export default function BuySellPage() {
                   <Button
                     onClick={() => setValue(1)}
                     sx={{
-                      backgroundColor: value === 1 ? "#ff3b30" : "#e53935",
+                      backgroundColor: value === 1 ? "#ff3b30" : "#909090",
                       color: "white",
                       fontWeight: "bold",
                       borderRadius: "12px",
@@ -527,7 +527,7 @@ export default function BuySellPage() {
                 <Button
                   onClick={() => setValue(0)}
                   sx={{
-                    backgroundColor: value === 0 ? "#00c853" : "#00b248",
+                    backgroundColor: value === 0 ? "#00c853" : "#909090",
                     color: "white",
                     fontWeight: "bold",
                     borderRadius: "12px",
@@ -615,7 +615,7 @@ export default function BuySellPage() {
                 <Button
                   onClick={() => setValue(1)}
                   sx={{
-                    backgroundColor: value === 1 ? "#ff3b30" : "#e53935",
+                    backgroundColor: value === 1 ? "#ff3b30" : "#909090",
                     color: "white",
                     fontWeight: "bold",
                     borderRadius: "12px",
