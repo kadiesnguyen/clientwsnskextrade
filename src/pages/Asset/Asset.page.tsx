@@ -411,24 +411,47 @@ export default function AssetPage() {
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((item: any, index: number) => (
                       <Box key={index} sx={{ padding: "10px 0" }}>
-                        <Typography
+                        <Box
                           sx={{
-                            color: "white",
-                            fontSize: "14px",
-                            fontWeight: 600,
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
                           }}
                         >
-                          {item.remark}
-                        </Typography>
-                        <Typography
-                          sx={{
-                            color: "#909090",
-                            fontSize: "12px",
-                            fontWeight: 600,
-                          }}
-                        >
-                          {formatDateTime(item.addtime)}
-                        </Typography>
+                          <Box sx={{ width: "65%" }}>
+                            <Typography
+                              sx={{
+                                color: "white",
+                                fontSize: "14px",
+                                fontWeight: 600,
+                              }}
+                            >
+                              {item.remark}
+                            </Typography>
+                            <Typography
+                              sx={{
+                                color: "#909090",
+                                fontSize: "12px",
+                                fontWeight: 600,
+                              }}
+                            >
+                              {formatDateTime(item.addtime)}
+                            </Typography>
+                          </Box>
+                          <Box>
+                            <Typography
+                              sx={{
+                                width: "30%",
+                                textAlign: "left",
+                                color: "white",
+                                fontSize: "14px",
+                                fontWeight: 600,
+                              }}
+                            >
+                              {item.num}
+                            </Typography>
+                          </Box>
+                        </Box>
                       </Box>
                     ))}
                   <TablePagination

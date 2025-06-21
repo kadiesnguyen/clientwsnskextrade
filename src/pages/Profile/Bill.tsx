@@ -266,6 +266,7 @@ export default function BillPage() {
                       <TableCell sx={{ color: "#fff" }}>
                         Transaction Type
                       </TableCell>
+                      <TableCell sx={{ color: "#fff" }}>Note</TableCell>
                       <TableCell sx={{ color: "#fff" }}>Currency</TableCell>
                       <TableCell sx={{ color: "#fff" }}>Quantity</TableCell>
                       <TableCell sx={{ color: "#fff" }}>
@@ -290,6 +291,9 @@ export default function BillPage() {
                           sx={{ color: "#fff" }}
                         >
                           {row.type === 1 ? "Bank" : "Wallet"}
+                        </TableCell>
+                        <TableCell sx={{ color: "#fff" }}>
+                          {row.remark}
                         </TableCell>
                         <TableCell sx={{ color: "#fff" }}>
                           {row.coinname}

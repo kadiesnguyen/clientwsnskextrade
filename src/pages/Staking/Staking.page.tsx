@@ -8,6 +8,7 @@ import {
   getStaking,
   getWebsiteConfig,
 } from "@/services/User.service";
+import { CloseOutlined } from "@mui/icons-material";
 import {
   Box,
   Button,
@@ -60,6 +61,8 @@ export default function StakingPage() {
   const router = useRouter();
   const [openPopup, setOpenPopup] = useState(false);
   const [selectedItem, setSelectedItem] = useState<any>(null);
+  const [showPopup, setShowPopup] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   useEffect(() => {
     const referral = async () => {
@@ -367,6 +370,7 @@ export default function StakingPage() {
           </Typography>
           <Button
             type="button"
+            onClick={() => setShowPopup(true)}
             sx={{
               background: "#d7fe65",
               color: "#000",
@@ -388,6 +392,127 @@ export default function StakingPage() {
           <img src="/images/F695CAF106522D37.png" style={{ height: "300px" }} />
         </Box>
       </Box>
+      {showPopup && (
+        <Box
+          sx={{
+            position: "fixed",
+            top: "0",
+            left: "0",
+            width: "100vw",
+            height: "100vh",
+            background: "rgba(0,0,0,0.5)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: 1000,
+          }}
+        >
+          <Box
+            sx={{
+              background: "white",
+              borderRadius: "10px",
+              padding: "20px",
+              width: "90%",
+              textAlign: "center",
+              position: "relative",
+              marginTop: "-20%",
+            }}
+          >
+            <>
+              <Typography
+                variant="h6"
+                sx={{
+                  fontSize: "25px",
+                  fontWeight: "bold",
+                  padding: "5px",
+                }}
+              >
+                Consignment promotion
+              </Typography>
+              <img
+                src={
+                  websiteConfig.websildeb ||
+                  "/images/photo_2025-06-18_15-01-46-removebg-preview.png"
+                }
+                style={{ width: "100%", borderRadius: "15px" }}
+              />
+              <Box>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    fontSize: "15px",
+                    fontWeight: 500,
+                    padding: "5px",
+                  }}
+                >
+                  Milestone: From 1,000 Pi to 10,000 Pi with a monthly profit of
+                  10%
+                </Typography>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    fontSize: "15px",
+                    fontWeight: 500,
+                    padding: "5px",
+                  }}
+                >
+                  Milestone: From 10,000 Pi to 50,000 Pi with a monthly profit
+                  of 20%
+                </Typography>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    fontSize: "15px",
+                    fontWeight: 500,
+                    padding: "5px",
+                  }}
+                >
+                  Milestone: From 100.000 Pi to 150.000 Pi with a monthly profit
+                  of 25%
+                </Typography>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    fontSize: "15px",
+                    fontWeight: 500,
+                    padding: "5px",
+                  }}
+                >
+                  Milestone: From 150.000 Pi to 300.000 Pi with a monthly profit
+                  of 30%
+                </Typography>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    fontSize: "15px",
+                    fontWeight: 500,
+                    padding: "5px",
+                  }}
+                >
+                  Milestone: From 300,000 Pi and above, the monthly interest is
+                  45%.
+                </Typography>
+              </Box>
+              <Button
+                sx={{
+                  position: "absolute",
+                  top: "10px",
+                  right: "5px",
+                  color: "black",
+                  "&:hover": {
+                    background: "none",
+                  },
+                }}
+                onClick={() => {
+                  setShowPopup(false);
+                }}
+              >
+                <CloseOutlined style={{ fontSize: "20px" }} />
+              </Button>
+            </>
+          </Box>
+        </Box>
+      )}
     </Box>
   );
 }
