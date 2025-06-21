@@ -294,24 +294,30 @@ export default function OverviewPage() {
                 <Typography sx={{ color: "#fff", fontSize: "15px" }}>
                   Below is the balance information in the wallet.
                 </Typography>
-                <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    gap: 2,
+                    justifyContent: "space-between",
+                  }}
+                >
                   <Typography
                     sx={{
                       color: "white",
-                      fontSize: "25px",
+                      fontSize: "20px",
                       fontWeight: "500",
                     }}
                   >
-                    {user.balance.usdt} USDT
+                    {parseFloat(user.balance.usdt).toLocaleString()} USDT
                   </Typography>
                   <Typography
                     sx={{
                       color: "white",
-                      fontSize: "25px",
+                      fontSize: "20px",
                       fontWeight: "500",
                     }}
                   >
-                    {user.balance.pi} Pi
+                    {parseFloat(user.balance.pi).toLocaleString()} Pi
                   </Typography>
                 </Box>
               </StyledPaper>

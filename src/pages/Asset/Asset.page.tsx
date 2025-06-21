@@ -21,6 +21,7 @@ import {
 import { toast } from "react-toastify";
 import {
   getBills,
+  getContractpc,
   getMyWallet,
   getWebsiteConfig,
   sellCoins,
@@ -107,7 +108,7 @@ export default function AssetPage() {
   useEffect(() => {
     const referral = async () => {
       try {
-        const res: any = await getBills();
+        const res: any = await getContractpc();
         if (res.status === true) {
           setBill(res.data);
         }
@@ -395,7 +396,7 @@ export default function AssetPage() {
                     textAlign: "right",
                   }}
                 >
-                  {user.balance.pi}
+                  {parseFloat(user.balance.pi).toLocaleString()} PI
                 </Typography>
               </Box>
             </Box>
@@ -418,7 +419,7 @@ export default function AssetPage() {
                             alignItems: "center",
                           }}
                         >
-                          <Box >
+                          <Box>
                             <Typography
                               sx={{
                                 color: "white",
@@ -426,7 +427,7 @@ export default function AssetPage() {
                                 fontWeight: 600,
                               }}
                             >
-                              {item.remark}
+                              {item.hyzd === 1 ? "Buy" : "Sell"} {item.coinname}
                             </Typography>
                             <Typography
                               sx={{
@@ -435,21 +436,33 @@ export default function AssetPage() {
                                 fontWeight: 600,
                               }}
                             >
-                              {formatDateTime(item.addtime)}
+                              {formatDateTime(item.buytime)}
                             </Typography>
                           </Box>
                           <Box>
-                            <Typography
-                              sx={{
-                                
-                                textAlign: "left",
-                                color: "white",
-                                fontSize: "14px",
-                                fontWeight: 600,
-                              }}
-                            >
-                              {item.num}
-                            </Typography>
+                            {item.is_win === 1 ? (
+                              <Typography
+                                sx={{
+                                  textAlign: "left",
+                                  color: "green",
+                                  fontSize: "14px",
+                                  fontWeight: 600,
+                                }}
+                              >
+                                + {formatCurrency(item.num, "en", "USD")}
+                              </Typography>
+                            ) : (
+                              <Typography
+                                sx={{
+                                  textAlign: "left",
+                                  color: "red",
+                                  fontSize: "14px",
+                                  fontWeight: 600,
+                                }}
+                              >
+                                - {formatCurrency(item.num, "en", "USD")}
+                              </Typography>
+                            )}
                           </Box>
                         </Box>
                       </Box>

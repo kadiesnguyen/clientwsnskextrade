@@ -7,6 +7,7 @@ import {
   VerifiedIcon,
   WarningIcon,
 } from "@/shared/Svgs/Svg.component";
+import { formatDateTime } from "@/utils/formatDateTime";
 import {
   Avatar,
   Box,
@@ -271,14 +272,16 @@ export default function OpenCommand() {
                         Transaction type
                       </TableCell>
                       <TableCell sx={{ color: "#fff" }}>status</TableCell>
-                      <TableCell sx={{ color: "#fff" }}>Command</TableCell>
+                      <TableCell sx={{ color: "#fff" }}>
+                        status Command
+                      </TableCell>
                       <TableCell sx={{ color: "#fff" }}>
                         Opening price{" "}
                       </TableCell>
+                      <TableCell sx={{ color: "#fff" }}>Closed time </TableCell>
                       <TableCell sx={{ color: "#fff" }}>
-                        Opening time{" "}
+                        profit / loss
                       </TableCell>
-                      <TableCell sx={{ color: "#fff" }}>Countdown</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -294,26 +297,37 @@ export default function OpenCommand() {
                             component="th"
                             scope="row"
                             sx={{ color: "#fff" }}
-                          ></TableCell>
+                          >
+                            {row.hyzd === 1 ? "Buy" : "Sell"}
+                          </TableCell>
                           <TableCell sx={{ color: "#fff" }}>
-                            {" "}
                             {row.coinname}
                           </TableCell>
-                          <TableCell sx={{ color: "#fff" }}></TableCell>
                           <TableCell sx={{ color: "#fff" }}>
-                            {" "}
-                            {row.status}
+                            {user?.status === 1
+                              ? "Payment Watting "
+                              : user?.status === 2
+                              ? "Paymented"
+                              : "Invalid payment"}
                           </TableCell>
-                          <TableCell sx={{ color: "#fff" }}></TableCell>
                           <TableCell sx={{ color: "#fff" }}>
-                            {new Date(row.buytime).toLocaleDateString()}
+                            {row.is_win === 1 ? "Win" : "Lose"}
                           </TableCell>
-                          <TableCell sx={{ color: "#fff" }}></TableCell>
+
+                          <TableCell sx={{ color: "#fff" }}>
+                            {formatDateTime(row.buytime)}
+                          </TableCell>
+                          <TableCell sx={{ color: "#fff" }}>
+                            {formatDateTime(row.selltime)}
+                          </TableCell>
+                          <TableCell sx={{ color: "#fff" }}>
+                            {row.ploss}
+                          </TableCell>
                         </TableRow>
                       ))
                     ) : (
                       <TableRow>
-                        <TableCell colSpan={7} align="center">
+                        <TableCell colSpan={9} align="center">
                           <NotFoundIcon width="100px" height="100px" />
                         </TableCell>
                       </TableRow>

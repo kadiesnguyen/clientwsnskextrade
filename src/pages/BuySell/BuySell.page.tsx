@@ -381,7 +381,7 @@ export default function BuySellPage() {
                         background: "none",
                       },
                     }}
-                    href="/bill"
+                    href="/asset"
                   >
                     <HistoryIcon fill="white" />
                     History
@@ -607,7 +607,7 @@ export default function BuySellPage() {
                       background: "none",
                     },
                   }}
-                  href="/bill"
+                  href="/asset"
                 >
                   <HistoryIcon fill="white" />
                   History
