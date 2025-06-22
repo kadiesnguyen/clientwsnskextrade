@@ -149,8 +149,8 @@ export default function BuySellPage() {
       setCountdown((prev) => {
         if (prev && prev <= 1) {
           clearInterval(interval);
-          fetchResult(); // khi countdown = 0 thì gọi API
-
+          fetchResult();
+          setProgressContract(null); // Đặt progressContract về null khi countdown về 0
           return 0;
         }
         return (prev ?? 0) - 1;
@@ -159,27 +159,40 @@ export default function BuySellPage() {
 
     return () => clearInterval(interval);
   }, [countdown]);
+
   const preloadImage = (src: string): Promise<void> => {
     return new Promise((resolve, reject) => {
       const img = new Image();
       img.src = src;
       img.onload = () => resolve();
-      img.onerror = () => reject();
+      img.onerror = () => {
+        console.warn(`Failed to preload image: ${src}`);
+        resolve(); // Tiếp tục thực thi thay vì reject
+      };
     });
   };
 
   const fetchResult = async () => {
     try {
-      // Gọi API lấy kết quả
-      const res = await getOrderResult(trade.id);
+      const tradeId = window.localStorage.getItem("tradeId");
+      console.log("tradeId:", tradeId);
+      console.log("progressContract.id:", progressContract?.id);
+
+      if (!tradeId || !progressContract?.id) {
+        throw new Error("Missing trade ID or progress contract ID");
+      }
+
+      const res = await getOrderResult(progressContract.id);
+      console.log("getOrderResult response:", res); // Log toàn bộ response
+
       setResult(res.data);
       setCountdown(null);
       setTrade(null);
-      await preloadImage("/images/thongbao.png"); // preload ảnh
+      await preloadImage("/images/thongbao.png");
       setShowPopup(true);
-      // toast.success("Order created successfully");
     } catch (error: any) {
-      toast.error("Order created failed, please check again!");
+      console.error("Error in fetchResult:", error); // Log chi tiết lỗi
+      toast.error(error.message || "Failed to fetch order result");
     }
   };
   useEffect(() => {
@@ -193,6 +206,31 @@ export default function BuySellPage() {
     }
   }, [showPopup]);
 
+  const fetchProgressContract = async () => {
+    try {
+      const res: any = await getProgressContract();
+      if (res.data) {
+        const fixedSellTimeStr = res.data.selltime.replace(/\.\d{6}Z$/, "Z");
+        const sellTime = new Date(fixedSellTimeStr).getTime();
+        const now = Date.now();
+        const remainingSeconds = Math.floor((sellTime - now) / 1000);
+
+        if (remainingSeconds > 0) {
+          setProgressContract(res.data);
+          setCountdown(remainingSeconds);
+        } else {
+          setProgressContract(null);
+          setCountdown(null);
+        }
+      } else {
+        setProgressContract(null);
+        setCountdown(null);
+      }
+    } catch (error) {
+      console.error("Error fetching progress contract:", error);
+      setProgressContract(null);
+    }
+  };
   return (
     <Box sx={{ background: "#000", paddingTop: { xs: "0px", sm: "70px" } }}>
       <Box
@@ -451,10 +489,13 @@ export default function BuySellPage() {
                 <BuyComponent
                   user={user}
                   value={symbol}
-                  onSuccess={(orderData) => {
+                  dataProcess={progressContract}
+                  onSuccess={async (orderData) => {
                     if (orderData) {
                       setTrade(orderData);
+                      window.localStorage.setItem("tradeId", orderData.id);
                       setCountdown(orderData.time);
+                      await fetchProgressContract();
                       // setCountdown(30);
                     }
                   }}
@@ -464,10 +505,13 @@ export default function BuySellPage() {
                 <SellComponent
                   user={user}
                   value={symbol}
-                  onSuccess={(orderData) => {
+                  dataProcess={progressContract}
+                  onSuccess={async (orderData) => {
                     if (orderData) {
                       setTrade(orderData);
+                      window.localStorage.setItem("tradeId", orderData.id);
                       setCountdown(orderData.time);
+                      await fetchProgressContract();
                       // setCountdown(30);
                     }
                   }}
@@ -675,10 +719,13 @@ export default function BuySellPage() {
               <BuyComponent
                 user={user}
                 value={symbol}
-                onSuccess={(orderData) => {
+                dataProcess={progressContract}
+                onSuccess={async (orderData) => {
                   if (orderData) {
                     setTrade(orderData);
+                    window.localStorage.setItem("tradeId", orderData.id);
                     setCountdown(orderData.time);
+                    await fetchProgressContract();
                     // setCountdown(30);
                   }
                 }}
@@ -688,10 +735,13 @@ export default function BuySellPage() {
               <SellComponent
                 user={user}
                 value={symbol}
-                onSuccess={(orderData) => {
+                dataProcess={progressContract}
+                onSuccess={async (orderData) => {
                   if (orderData) {
                     setTrade(orderData);
+                    window.localStorage.setItem("tradeId", orderData.id);
                     setCountdown(orderData.time);
+                    await fetchProgressContract();
                     // setCountdown(30);
                   }
                 }}

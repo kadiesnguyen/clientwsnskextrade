@@ -16,6 +16,7 @@ import {
   startOfMonth,
   endOfMonth,
   eachDayOfInterval,
+  addDays,
 } from "date-fns";
 import { toast } from "react-toastify";
 import { fetchCheckinData, postDaily } from "@/services/User.service";
@@ -64,14 +65,13 @@ const DailyRewards = () => {
       </Box>
     );
   }
+  const today = new Date(); // Ví dụ: 2025-06-22
+  const startDate = subDays(today, 4); // Trừ 3 ngày: 2025-06-19
+  const endDate = addDays(startDate, 6); // Cộng 6 ngày để lấy đủ 7 ngày: 2025-06-25
 
-  const today = new Date();
-  const start = startOfMonth(today); // ví dụ: 2025-06-01
-  const end = endOfMonth(today); // ví dụ: 2025-06-30
-
-  const daysInMonth = eachDayOfInterval({ start, end });
-
-  const last30Days = daysInMonth.map((date) => format(date, "yyyy-MM-dd"));
+  const sevenDays = eachDayOfInterval({ start: startDate, end: endDate }).map(
+    (date) => format(date, "yyyy-MM-dd")
+  );
   return (
     <Box bgcolor="#000" color="#fff" minHeight="100vh" padding={3}>
       <Typography
@@ -89,7 +89,7 @@ const DailyRewards = () => {
       </Typography>
       <Box
         sx={{
-          height: "50vh",
+          height: "55vh",
           overflowY: "auto",
           paddingRight: 1,
           scrollbarWidth: "none",
@@ -100,18 +100,18 @@ const DailyRewards = () => {
         }}
       >
         <Grid container spacing={2} justifyContent="center">
-          {last30Days.map((date, idx) => {
+          {sevenDays.map((date, idx) => {
             const formattedDate = format(date, "yyyy-MM-dd");
             const match = checkinData?.history.find((h: any) =>
               isSameDay(new Date(h.checkin_date), date)
             );
 
             return (
-              <Grid item xs={3} sm={3} md={2} key={idx}>
+              <Grid item xs={4} sm={3} md={2} key={idx}>
                 <Paper
                   sx={{
                     backgroundColor: "#111",
-                    padding: 2,
+                    padding: 3,
                     borderRadius: 2,
                     textAlign: "center",
                     border: match ? "2px solid #bafc42" : "1px solid #444",

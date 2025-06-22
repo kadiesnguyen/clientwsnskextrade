@@ -16,6 +16,7 @@ import { CircleCountdown } from "../CountdownCircle/CountdownCircle";
 interface TabProps {
   user: IUser | null;
   value: string;
+  dataProcess: any;
   onSuccess?: (orderData: any) => void;
 }
 
@@ -26,8 +27,6 @@ export default function SellComponent(progs: TabProps) {
   const [type, setType] = useState(0);
   const [hytime, setHytime] = useState<any>(null);
   const [hyykbl, setHyykbl] = useState<any>(null);
-  const [result, setResult] = useState<any>(null);
-  const [progressContract, setProgressContract] = useState<any>(null);
   const router = useRouter();
   const [buySellConfig, setBuySellConfig] = useState<any>(null);
   const buttonRefs = useRef<(HTMLButtonElement | null)[]>([]);
@@ -50,11 +49,12 @@ export default function SellComponent(progs: TabProps) {
       });
     }
   }, [valueAmount]);
+
   useEffect(() => {
     const referral = async () => {
       try {
         const buySellConfig: any = await getBuySellConfig();
-        const res: any = await getProgressContract();
+
         if (buySellConfig.status === true) {
           const data = buySellConfig.data;
 
@@ -72,9 +72,6 @@ export default function SellComponent(progs: TabProps) {
           setAmount(processedData.hy_tzed?.[0] || "200");
           setPrice(Number(processedData.hy_tzed?.[0]) || 200);
           setBuySellConfig(processedData);
-        }
-        if (res.data) {
-          setProgressContract(res.data);
         }
       } catch (errors: any) {
         // toast.error(errors?.message);
@@ -106,7 +103,6 @@ export default function SellComponent(progs: TabProps) {
       await createOrder(formData).then((res) => {
         if (progs.onSuccess) {
           progs.onSuccess(res.data);
-          setResult(res.data);
         }
       });
     } catch (error: any) {
@@ -330,8 +326,8 @@ export default function SellComponent(progs: TabProps) {
               : "0 "}
           </Typography>
           <Button
+            disabled={progs.dataProcess}
             type="button"
-            disabled={progressContract?.length > 0 || result}
             sx={{
               background: "#fff",
               color: "black",
