@@ -111,7 +111,7 @@ const DailyRewards = () => {
                 <Paper
                   sx={{
                     backgroundColor: "#111",
-                    padding: 3,
+                    padding: 2,
                     borderRadius: 2,
                     textAlign: "center",
                     border: match ? "2px solid #bafc42" : "1px solid #444",
