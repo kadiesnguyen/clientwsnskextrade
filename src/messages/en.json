@@ -1,4 +1,11 @@
 {
+  "MenuMobile": {
+    "menu1": "Home",
+    "menu2": "Staking",
+    "menu3": "Trade",
+    "menu4": "Mining",
+    "menu5": "Assets"
+  },
   "HomePage": {
     "join_title": "Join the all-in-one crypto app in Vietnam",
     "trade_like_title": "Trade like a pro",

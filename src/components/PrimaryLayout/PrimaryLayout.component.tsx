@@ -29,6 +29,7 @@ import { IUser } from "@/shared/interfaces";
 import MenuProfileMobile from "../subMenu/MenuProfileMobile";
 import "../../i18n";
 import LiveChatWidget from "../LIveChat/LiveChat";
+import { useTranslation } from "react-i18next";
 const FooterPage = dynamic(() => import("@/pages/Footer/Footer.page"), {
   ssr: false,
 });
@@ -38,6 +39,7 @@ export default function PrimaryLayoutComponent({
 }: {
   children: React.ReactNode;
 }) {
+  const { t, i18n } = useTranslation();
   const [menu, setMenu] = useState(1);
   const [isLoading, setIsLoading] = useState(true); // New state for loading
   const router = useRouter();
@@ -136,7 +138,7 @@ export default function PrimaryLayoutComponent({
                     fill={menu === 1 ? "#fff" : "#909090"}
                   />
                   <p className={menu === 1 ? "mobile-active" : "mobile-p"}>
-                    Home
+                    {t("MenuMobile.menu1")}
                   </p>
                 </button>
               </li>
@@ -148,7 +150,7 @@ export default function PrimaryLayoutComponent({
                     fill={menu === 2 ? "#fff" : "#909090"}
                   />
                   <p className={menu === 2 ? "mobile-active" : "mobile-p"}>
-                    Staking
+                    {t("MenuMobile.menu2")}
                   </p>
                 </button>
               </li>
@@ -170,7 +172,7 @@ export default function PrimaryLayoutComponent({
                     />
                   )}
                   <p className={menu === 3 ? "mobile-active" : "mobile-p"}>
-                    Trade
+                    {t("MenuMobile.menu3")}
                   </p>
                 </button>
               </li>
@@ -182,7 +184,7 @@ export default function PrimaryLayoutComponent({
                     fill={menu === 4 ? "#fff" : "#909090"}
                   />
                   <p className={menu === 4 ? "mobile-active" : "mobile-p"}>
-                    Mining
+                    {t("MenuMobile.menu4")}
                   </p>
                 </button>
               </li>
@@ -194,7 +196,7 @@ export default function PrimaryLayoutComponent({
                     fill={menu === 5 ? "#fff" : "#909090"}
                   />
                   <p className={menu === 5 ? "mobile-active" : "mobile-p"}>
-                    Assets
+                    {t("MenuMobile.menu5")}
                   </p>
                 </button>
               </li>

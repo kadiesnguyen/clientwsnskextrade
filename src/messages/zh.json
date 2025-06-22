@@ -1,10 +1,10 @@
 {
   "MenuMobile": {
-    "menu1": "Trang chủ",
-    "menu2": "Ký gửi",
-    "menu3": "Giao dịch",
-    "menu4": "Máy đào",
-    "menu5": "Tài sản"
+    "menu1": "Home",
+    "menu2": "Staking",
+    "menu3": "Trade",
+    "menu4": "Mining",
+    "menu5": "Assets"
   },
   "HomePage": {
     "join_title": "Tham gia ứng dụng tiền điện tử tất cả trong một tại Việt Nam",
