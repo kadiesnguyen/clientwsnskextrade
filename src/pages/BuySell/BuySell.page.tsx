@@ -88,18 +88,23 @@ export default function BuySellPage() {
   };
   useEffect(() => {
     const fetchData = async () => {
+      const resCoin: any = await getListCoin();
+
+      // Xử lý danh sách coin
+      if (resCoin.data) {
+        setListCoin(resCoin.data);
+      }
+    };
+    fetchData();
+  }, []);
+  useEffect(() => {
+    const fetchData = async () => {
       try {
         // Gọi API lấy danh sách coin và cấu hình mua bán
-        const [resCoin, buySellConfig, result] = await Promise.all([
-          getListCoin(),
+        const [buySellConfig, result] = await Promise.all([
           getBuySellConfig(),
           getProgressContract(),
         ]);
-
-        // Xử lý danh sách coin
-        if (resCoin) {
-          setListCoin(resCoin.data);
-        }
 
         // Xử lý progress contract
         if (result && result.data) {
@@ -447,7 +452,6 @@ export default function BuySellPage() {
                   user={user}
                   value={symbol}
                   onSuccess={(orderData) => {
-                    console.log("Order result:", orderData);
                     if (orderData) {
                       setTrade(orderData);
                       setCountdown(orderData.time);
@@ -461,7 +465,6 @@ export default function BuySellPage() {
                   user={user}
                   value={symbol}
                   onSuccess={(orderData) => {
-                    console.log("Order result:", orderData);
                     if (orderData) {
                       setTrade(orderData);
                       setCountdown(orderData.time);
@@ -673,7 +676,6 @@ export default function BuySellPage() {
                 user={user}
                 value={symbol}
                 onSuccess={(orderData) => {
-                  console.log("Order result:", orderData);
                   if (orderData) {
                     setTrade(orderData);
                     setCountdown(orderData.time);
@@ -687,7 +689,6 @@ export default function BuySellPage() {
                 user={user}
                 value={symbol}
                 onSuccess={(orderData) => {
-                  console.log("Order result:", orderData);
                   if (orderData) {
                     setTrade(orderData);
                     setCountdown(orderData.time);
