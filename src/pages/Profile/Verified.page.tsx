@@ -54,10 +54,10 @@ export default function VerifiedPage() {
       formData.append("cardzm", backImage);
 
       await verifiUser(formData);
-      toast.success("Verification submitted successfully!");
+      toast.success(t("Toast.verifide1"));
     } catch (error) {
       console.error("Error submitting verification:", error);
-      toast.error("Failed to submit verification. Please try again.");
+      toast.error(t("Toast.verifide2"));
     }
   };
 

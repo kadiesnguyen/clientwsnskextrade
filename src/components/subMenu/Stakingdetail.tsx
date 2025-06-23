@@ -95,14 +95,12 @@ export default function Stakingdetail(data: userProps) {
   const handleSubmit = async () => {
     if (!amount) {
       console.log("Submit Clicked1");
-      toast.error("Please enter a valid staking amount");
+      toast.error(t("Toast.staking1"));
       return;
     }
     if (Number(amount) < data.staking.min) {
       console.log("Submit Clicked2");
-      toast.warning(
-        "The staking amount must be greater than the minimum amount."
-      );
+      toast.warning(t("Toast.staking2"));
       return;
     }
     try {
@@ -110,10 +108,10 @@ export default function Stakingdetail(data: userProps) {
       formData.append("pid", data.staking.id);
       formData.append("amount", amount.toString());
       await buySubscribe(formData);
-      toast.success("Staking successfully");
+      toast.success(t("Toast.staking3"));
       setDrawerOpen(false);
     } catch (error: any) {
-      toast.error(error?.message || "Staking failed");
+      toast.error(t("Toast.staking4"));
     }
   };
 

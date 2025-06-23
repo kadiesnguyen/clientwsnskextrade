@@ -34,7 +34,7 @@ const DailyRewards = () => {
       const res = await fetchCheckinData();
       setCheckinData(res.data);
     } catch (error) {
-      toast.error("Failed to fetch check-in data.");
+      toast.error(t("Toast.Daily1"));
     } finally {
       setLoading(false);
     }
@@ -47,10 +47,10 @@ const DailyRewards = () => {
   const handleCheckin = async () => {
     try {
       await postDaily();
-      toast.success("Daily attendance successful");
+      toast.success(t("Toast.Daily2"));
       getData();
     } catch (error: any) {
-      toast.error(error?.info || "Daily attendance faild");
+      toast.error(t("Toast.Daily3"));
     }
   };
 

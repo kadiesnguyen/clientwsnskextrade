@@ -82,12 +82,16 @@ export default function SellComponent(progs: TabProps) {
     referral();
   }, []);
   const handleSubmit = async () => {
+    if (progs.user?.rzstatus !== 2) {
+      toast.error(t("Toast.buysell5"));
+      return;
+    }
     if (!hytime || !amount) {
-      toast.error("Please select time and amount");
+      toast.error(t("Toast.buysell1"));
       return;
     }
     if (Number(price) < Number(amount)) {
-      toast.error("The value does not correspond to the type");
+      toast.error(t("Toast.buysell2"));
       return;
     }
     if (parseFloat(amount) > parseFloat(progs.user?.balance.usdt || "0")) {
@@ -107,8 +111,9 @@ export default function SellComponent(progs: TabProps) {
           progs.onSuccess(res.data);
         }
       });
+      toast.success(t("Toast.buysell3"));
     } catch (error: any) {
-      toast.error(error.message || "Order created failed, please check again!");
+      toast.error(t("Toast.buysell4"));
     }
   };
 
@@ -238,7 +243,7 @@ export default function SellComponent(progs: TabProps) {
                   }}
                   onClick={() => {
                     if (index < type) {
-                      toast.error("The value does not correspond to the type");
+                      toast.error(t("Toast.buysell2"));
                       return;
                     } else {
                       setValueAmount(index);

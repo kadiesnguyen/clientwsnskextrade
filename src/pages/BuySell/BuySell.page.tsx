@@ -194,7 +194,7 @@ export default function BuySellPage() {
       setShowPopup(true);
     } catch (error: any) {
       console.error("Error in fetchResult:", error); // Log chi tiết lỗi
-      toast.error(error.message || "Failed to fetch order result");
+      toast.error(t("Toast.buysell"));
     }
   };
   useEffect(() => {

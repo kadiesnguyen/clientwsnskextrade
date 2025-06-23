@@ -145,11 +145,11 @@ export default function DepositWithdrawPage(props: TabProps) {
 
   const handleSubmit = async () => {
     if (!frontImage) {
-      toast.warning("Please upload the transaction image.");
+      toast.warning(t("Toast.Desposit1"));
       return;
     }
     if (!amount || !method || !coin) {
-      toast.warning("Please select and enter all required information.");
+      toast.warning(t("Toast.Desposit2"));
       return;
     }
 
@@ -161,17 +161,15 @@ export default function DepositWithdrawPage(props: TabProps) {
       formData.append("method", method.toString());
 
       await topUpCoins(formData);
-      toast.success("Successful deposit command is pending approval!");
+      toast.success(t("Toast.Desposit3"));
     } catch (error: any) {
-      toast.error(
-        error.message || "Deposit command failed, please check again!"
-      );
+      toast.error(t("Toast.Desposit4"));
     }
   };
 
   const handleSubmitSell = async () => {
     if (!amount || !method || !coin || !password) {
-      toast.warning("Please select and enter all required information.");
+      toast.warning(t("Toast.Desposit5"));
       return;
     }
 
@@ -183,11 +181,9 @@ export default function DepositWithdrawPage(props: TabProps) {
       formData.append("paypassword", password);
 
       await sellCoins(formData);
-      toast.success("Coin withdrawal command created successfully");
+      toast.success(t("Toast.Desposit6"));
     } catch (error: any) {
-      toast.error(
-        error.message || "withdraw command failed, please check again!"
-      );
+      toast.error(t("Toast.Desposit7"));
     }
   };
   return (

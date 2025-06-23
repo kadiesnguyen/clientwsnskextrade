@@ -84,37 +84,6 @@ export default function StakingPage() {
     referral();
   }, []);
 
-  const handleSubmit = async (item: any) => {
-    if (!user) {
-      toast.error("Please login to Staking.");
-      return;
-    }
-    if (Number(user.balance.usdt) < Number(item.pricenum)) {
-      router.push("/asset");
-      return;
-    }
-    setSelectedItem(item);
-    setOpenPopup(true);
-  };
-
-  const handleConfirm = async () => {
-    try {
-      const formData = new FormData();
-      formData.append("id", selectedItem.id);
-      await buyMining(formData);
-      setOpenPopup(false);
-    } catch (error: any) {
-      toast.error(
-        error?.message || "An error occurred while renting the machine."
-      );
-    }
-  };
-
-  const handleClose = () => {
-    setOpenPopup(false);
-    setSelectedItem(null);
-  };
-
   return (
     <Box sx={{ width: "100%", background: "#000" }}>
       <Box

@@ -60,7 +60,7 @@ export default function ExcavatorPage() {
   }, []);
   const handleSubmit = async (item: any) => {
     if (!user) {
-      toast.error("Please login to rent a machine.");
+      toast.error(t("Toast.mining1"));
       return;
     }
     if (Number(user.balance.usdt) < Number(item.pricenum)) {
@@ -71,11 +71,9 @@ export default function ExcavatorPage() {
       const formData = new FormData();
       formData.append("id", item.id);
       await buyMining(formData);
-      toast.success("Buy mining machine successfully.");
+      toast.success(t("Toast.mining2"));
     } catch (error: any) {
-      toast.error(
-        error?.message || "An error occurred while renting the machine."
-      );
+      toast.error(t("Toast.mining3"));
     }
   };
   return (

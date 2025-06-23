@@ -55,9 +55,9 @@ export default function ChangePassword() {
       await updatePassword(currentPassword, newPassword, confirmPassword)
         .then((response: any) => {
           if (response.status === true) {
-            toast.success("Password changed successfully!");
+            toast.success(t("Toast.change_pass1"));
           } else {
-            toast.error("Failed to change password. Please try again.");
+            toast.error(t("Toast.change_pass2"));
           }
         })
         .catch((error) => {
@@ -68,7 +68,7 @@ export default function ChangePassword() {
   const handleSubmitPayment = async (e: any) => {
     e.preventDefault();
     if (newPaymentPassword !== confirmPaymentPassword) {
-      alert("New passwords do not match!");
+      toast.warning(t("Toast.change_pass4"));
       return;
     }
     if (oldPassword && newPaymentPassword && confirmPaymentPassword) {
@@ -79,9 +79,9 @@ export default function ChangePassword() {
       await updatePaymentPassword(formData)
         .then((response: any) => {
           if (response.status === true) {
-            toast.success("Password payment changed successfully!");
+            toast.success(t("Toast.change_pass4"));
           } else {
-            toast.error("Failed to change password. Please try again.");
+            toast.error(t("Toast.change_pass5"));
           }
         })
         .catch((error) => {
@@ -95,9 +95,9 @@ export default function ChangePassword() {
       await updatePaymentPassword(formData)
         .then((response: any) => {
           if (response.status === true) {
-            toast.success("Password payment changed successfully!");
+            toast.success(t("Toast.change_pass6"));
           } else {
-            toast.error("Failed to change password. Please try again.");
+            toast.error(t("Toast.change_pass7"));
           }
         })
         .catch((error) => {
