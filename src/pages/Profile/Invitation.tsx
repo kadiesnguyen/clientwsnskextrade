@@ -23,6 +23,7 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
@@ -30,6 +31,7 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
   marginBottom: theme.spacing(2),
 }));
 export default function InvitationPage() {
+  const { t } = useTranslation();
   const { user } = useAuth();
   const [referral, setReferral] = useState<any>(null);
   useEffect(() => {
@@ -159,7 +161,7 @@ export default function InvitationPage() {
             </Box>
             <Box sx={{ display: "grid", alignItems: "center" }}>
               <Typography sx={{ color: "gray", fontSize: "13px" }}>
-                Identity verification
+                {t("ProfilePage.Identity")}
               </Typography>
               {user?.rzstatus === 0 ? (
                 <Typography
@@ -172,7 +174,7 @@ export default function InvitationPage() {
                     gap: "5px",
                   }}
                 >
-                  <WarningIcon /> The customer account has not been verified.
+                  <WarningIcon /> {t("ProfilePage.Identity1")}
                 </Typography>
               ) : user?.rzstatus === 1 ? (
                 <Typography
@@ -185,7 +187,7 @@ export default function InvitationPage() {
                     gap: "5px",
                   }}
                 >
-                  <WarningIcon /> Pending approval
+                  <WarningIcon /> {t("ProfilePage.Identity2")}
                 </Typography>
               ) : user?.rzstatus === 2 ? (
                 <Typography
@@ -198,7 +200,7 @@ export default function InvitationPage() {
                     gap: "5px",
                   }}
                 >
-                  <VerifiedIcon /> Account has been verified
+                  <VerifiedIcon /> {t("ProfilePage.Identity3")}
                 </Typography>
               ) : (
                 <Typography
@@ -211,13 +213,13 @@ export default function InvitationPage() {
                     gap: "5px",
                   }}
                 >
-                  <WarningIcon /> Verified failed
+                  <WarningIcon /> {t("ProfilePage.Identity4")}
                 </Typography>
               )}
             </Box>
             <Box sx={{ display: "grid", alignItems: "center" }}>
               <Typography sx={{ color: "gray", fontSize: "13px" }}>
-                Country/Region
+                {t("ProfilePage.country")}
               </Typography>
               <Typography sx={{ color: "#fff" }}>{user?.addr} </Typography>
             </Box>
@@ -231,9 +233,11 @@ export default function InvitationPage() {
               }}
             >
               <Typography sx={{ color: "gray", fontSize: "13px" }}>
-                Trading fee tier
+                {t("ProfilePage.Trading")}
               </Typography>
-              <Typography sx={{ color: "#fff" }}>Regular user</Typography>
+              <Typography sx={{ color: "#fff" }}>
+                {t("ProfilePage.Regular")}
+              </Typography>
             </Box>
           </Box>
         </Box>
@@ -252,7 +256,7 @@ export default function InvitationPage() {
                 variant="h2"
                 sx={{ fontSize: "30px", fontWeight: "bold", color: "#fff" }}
               >
-                Group Information
+                {t("ProfilePage.Group")}
               </Typography>
               <Box
                 sx={{
@@ -271,52 +275,52 @@ export default function InvitationPage() {
                   <Typography
                     sx={{ fontSize: "14px", fontWeight: "bold", color: "#fff" }}
                   >
-                    Member statistics:
+                    {t("ProfilePage.Member")}:
                   </Typography>
                   <Typography sx={{ fontSize: "14px", color: "#fff" }}>
-                    {referral?.carr.allrz} Verified Person
+                    {referral?.carr.allrz} {t("ProfilePage.Verified_pe")}
                   </Typography>
                   <Typography sx={{ fontSize: "14px", color: "#fff" }}>
-                    {referral?.carr.allnrz} Unverified person
+                    {referral?.carr.allnrz} {t("ProfilePage.Unverified_pe")}
                   </Typography>
                 </Box>
                 <Box>
                   <Typography
                     sx={{ fontSize: "14px", fontWeight: "bold", color: "#fff" }}
                   >
-                    First generation member:
+                    {t("ProfilePage.generation1")}:
                   </Typography>
                   <Typography sx={{ fontSize: "14px", color: "#fff" }}>
-                    {referral?.carr.one} Verified Person
+                    {referral?.carr.one} {t("ProfilePage.Verified_pe")}
                   </Typography>
                   <Typography sx={{ fontSize: "14px", color: "#fff" }}>
-                    {referral?.carr.onen} Unverified person
+                    {referral?.carr.onen} {t("ProfilePage.Unverified_pe")}
                   </Typography>
                 </Box>
                 <Box>
                   <Typography
                     sx={{ fontSize: "14px", fontWeight: "bold", color: "#fff" }}
                   >
-                    Two generation member:
+                    {t("ProfilePage.generation2")}:
                   </Typography>
                   <Typography sx={{ fontSize: "14px", color: "#fff" }}>
-                    {referral?.carr.two} Verified Person
+                    {referral?.carr.two} {t("ProfilePage.Verified_pe")}
                   </Typography>
                   <Typography sx={{ fontSize: "14px", color: "#fff" }}>
-                    {referral?.carr.twon} Unverified person
+                    {referral?.carr.twon} {t("ProfilePage.Unverified_pe")}
                   </Typography>
                 </Box>
                 <Box>
                   <Typography
                     sx={{ fontSize: "14px", fontWeight: "bold", color: "#fff" }}
                   >
-                    Three generation member:
+                    {t("ProfilePage.generation3")}:
                   </Typography>
                   <Typography sx={{ fontSize: "14px", color: "#fff" }}>
-                    {referral?.carr.three} Verified Person
+                    {referral?.carr.three} {t("ProfilePage.Verified_pe")}
                   </Typography>
                   <Typography sx={{ fontSize: "14px", color: "#fff" }}>
-                    {referral?.carr.threen} Unverified person
+                    {referral?.carr.threen} {t("ProfilePage.Unverified_pe")}
                   </Typography>
                 </Box>
               </Box>
@@ -338,15 +342,21 @@ export default function InvitationPage() {
                   color: "#fff",
                 }}
               >
-                Login diary
+                {t("ProfilePage.diary")}
               </Typography>
               <TableContainer component={Paper} sx={{ background: "#000" }}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                   <TableHead>
                     <TableRow>
-                      <TableCell sx={{ color: "#fff" }}>Login type</TableCell>
-                      <TableCell sx={{ color: "#fff" }}>Login IP</TableCell>
-                      <TableCell sx={{ color: "#fff" }}>Login date</TableCell>
+                      <TableCell sx={{ color: "#fff" }}>
+                        {t("ProfilePage.Login_type")}
+                      </TableCell>
+                      <TableCell sx={{ color: "#fff" }}>
+                        {t("ProfilePage.Login_IP")}
+                      </TableCell>
+                      <TableCell sx={{ color: "#fff" }}>
+                        {t("ProfilePage.Login_date")}
+                      </TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -391,7 +401,7 @@ export default function InvitationPage() {
                 variant="h4"
                 sx={{ fontSize: "20px", fontWeight: "bold", color: "#fff" }}
               >
-                Referral code
+                {t("ProfilePage.menu4")}
               </Typography>
               <Box sx={{ mt: 1, mb: 2, textAlign: "center" }}>
                 <Box
@@ -401,7 +411,7 @@ export default function InvitationPage() {
                   sx={{ width: 150, height: 150 }}
                 />
                 <Typography sx={{ fontSize: "16px", color: "#fff" }}>
-                  My referral code: {referral?.invit}
+                  {t("ProfilePage.my_referral")}: {referral?.invit}
                 </Typography>
               </Box>
             </StyledPaper>

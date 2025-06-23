@@ -3,8 +3,10 @@ import useAuth from "@/hook/useAuth";
 import { VerifiedIcon, WarningIcon } from "@/shared/Svgs/Svg.component";
 import { Avatar, Box, Typography } from "@mui/material";
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 export default function AccountPage() {
+  const { t } = useTranslation();
   const { user, loading } = useAuth();
   return (
     <Box sx={{ backgroundColor: "#000" }}>
@@ -49,7 +51,7 @@ export default function AccountPage() {
             variant="h3"
             sx={{ fontSize: "25px", fontWeight: "600", color: "#fff" }}
           >
-            Personal info
+            {t("ProfilePage.Personal")}
           </Typography>
           <Box
             sx={{
@@ -68,7 +70,7 @@ export default function AccountPage() {
                 width: "30%",
               }}
             >
-              Nickname
+              {t("ProfilePage.Nickname")}
             </Typography>
             <Typography sx={{ fontSize: "16px", color: "#fff" }}>
               {user?.username || "test@gmail.com"}
@@ -90,7 +92,7 @@ export default function AccountPage() {
                 width: "30%",
               }}
             >
-              Phone
+              {t("ProfilePage.Phone")}
             </Typography>
             <Typography sx={{ color: "#fff", fontSize: "16px" }}>
               {user?.phone || "0918188172727"}
@@ -100,7 +102,7 @@ export default function AccountPage() {
             variant="h3"
             sx={{ fontSize: "25px", fontWeight: "600", color: "#fff" }}
           >
-            Verification info
+            {t("ProfilePage.Verification")}
           </Typography>
           <Box
             sx={{
@@ -119,60 +121,60 @@ export default function AccountPage() {
                 width: "30%",
               }}
             >
-              Identity verification
+              {t("ProfilePage.Identity")}
             </Typography>
             <Box>
               {user?.rzstatus === 0 ? (
                 <Typography
                   sx={{
-                    fontSize: "16px",
+                    fontSize: "14px",
                     color: "#fff",
                     display: "flex",
                     alignItems: "center",
-                    paddingTop: "10px",
+
                     gap: "5px",
                   }}
                 >
-                  <WarningIcon /> The customer account has not been verified.
+                  <WarningIcon /> {t("ProfilePage.Identity1")}
                 </Typography>
               ) : user?.rzstatus === 1 ? (
                 <Typography
                   sx={{
-                    fontSize: "16px",
+                    fontSize: "14px",
                     display: "flex",
                     alignItems: "center",
-                    paddingTop: "10px",
+
                     color: "#fff",
                     gap: "5px",
                   }}
                 >
-                  <WarningIcon /> Pending approval
+                  <WarningIcon /> {t("ProfilePage.Identity2")}
                 </Typography>
               ) : user?.rzstatus === 2 ? (
                 <Typography
                   sx={{
-                    fontSize: "16px",
+                    fontSize: "14px",
                     display: "flex",
                     alignItems: "center",
-                    paddingTop: "10px",
+
                     color: "#fff",
                     gap: "5px",
                   }}
                 >
-                  <VerifiedIcon /> Account has been verified
+                  <VerifiedIcon /> {t("ProfilePage.Identity3")}
                 </Typography>
               ) : (
                 <Typography
                   sx={{
-                    fontSize: "16px",
+                    fontSize: "14px",
                     display: "flex",
                     alignItems: "center",
-                    paddingTop: "10px",
+
                     color: "#fff",
                     gap: "5px",
                   }}
                 >
-                  <WarningIcon /> Verified failed
+                  <WarningIcon /> {t("ProfilePage.Identity4")}
                 </Typography>
               )}
             </Box>
@@ -193,7 +195,7 @@ export default function AccountPage() {
                 width: "30%",
               }}
             >
-              Country/Region
+              {t("ProfilePage.country")}
             </Typography>
             <Typography sx={{ color: "#fff", fontSize: "16px" }}>
               {user?.addr || "Vietnam"}

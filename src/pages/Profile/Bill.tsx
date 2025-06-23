@@ -23,6 +23,7 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
@@ -30,6 +31,7 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
   marginBottom: theme.spacing(2),
 }));
 export default function BillPage() {
+  const { t } = useTranslation();
   const { user } = useAuth();
   const [bill, setBills] = useState<any>(null);
   useEffect(() => {
@@ -159,7 +161,7 @@ export default function BillPage() {
             </Box>
             <Box sx={{ display: "grid", alignItems: "center" }}>
               <Typography sx={{ color: "gray", fontSize: "13px" }}>
-                Identity verification
+                {t("ProfilePage.Identity")}
               </Typography>
               {user?.rzstatus === 0 ? (
                 <Typography
@@ -172,7 +174,7 @@ export default function BillPage() {
                     gap: "5px",
                   }}
                 >
-                  <WarningIcon /> The customer account has not been verified.
+                  <WarningIcon /> {t("ProfilePage.Identity1")}
                 </Typography>
               ) : user?.rzstatus === 1 ? (
                 <Typography
@@ -185,7 +187,7 @@ export default function BillPage() {
                     gap: "5px",
                   }}
                 >
-                  <WarningIcon /> Pending approval
+                  <WarningIcon /> {t("ProfilePage.Identity2")}
                 </Typography>
               ) : user?.rzstatus === 2 ? (
                 <Typography
@@ -198,7 +200,7 @@ export default function BillPage() {
                     gap: "5px",
                   }}
                 >
-                  <VerifiedIcon /> Account has been verified
+                  <VerifiedIcon /> {t("ProfilePage.Identity3")}
                 </Typography>
               ) : (
                 <Typography
@@ -211,13 +213,13 @@ export default function BillPage() {
                     gap: "5px",
                   }}
                 >
-                  <WarningIcon /> Verified failed
+                  <WarningIcon /> {t("ProfilePage.Identity4")}
                 </Typography>
               )}
             </Box>
             <Box sx={{ display: "grid", alignItems: "center" }}>
               <Typography sx={{ color: "gray", fontSize: "13px" }}>
-                Country/Region
+                {t("ProfilePage.country")}
               </Typography>
               <Typography sx={{ color: "#fff" }}>{user?.addr} </Typography>
             </Box>
@@ -231,9 +233,11 @@ export default function BillPage() {
               }}
             >
               <Typography sx={{ color: "gray", fontSize: "13px" }}>
-                Trading fee tier
+                {t("ProfilePage.Trading")}
               </Typography>
-              <Typography sx={{ color: "#fff" }}>Regular user</Typography>
+              <Typography sx={{ color: "#fff" }}>
+                {t("ProfilePage.Regular")}
+              </Typography>
             </Box>
           </Box>
         </Box>
@@ -257,23 +261,29 @@ export default function BillPage() {
                   color: "#fff",
                 }}
               >
-                History of finance
+                {t("ProfilePage.History_finance")}
               </Typography>
               <TableContainer component={Paper} sx={{ background: "#000" }}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                   <TableHead>
                     <TableRow>
                       <TableCell sx={{ color: "#fff" }}>
-                        Transaction Type
-                      </TableCell>
-                      <TableCell sx={{ color: "#fff" }}>Note</TableCell>
-                      <TableCell sx={{ color: "#fff" }}>Currency</TableCell>
-                      <TableCell sx={{ color: "#fff" }}>Quantity</TableCell>
-                      <TableCell sx={{ color: "#fff" }}>
-                        Balance after transaction
+                        {t("ProfilePage.tran_type")}
                       </TableCell>
                       <TableCell sx={{ color: "#fff" }}>
-                        Implementation date
+                        {t("ProfilePage.Note")}
+                      </TableCell>
+                      <TableCell sx={{ color: "#fff" }}>
+                        {t("ProfilePage.Currency")}
+                      </TableCell>
+                      <TableCell sx={{ color: "#fff" }}>
+                        {t("ProfilePage.Quantity")}
+                      </TableCell>
+                      <TableCell sx={{ color: "#fff" }}>
+                        {t("ProfilePage.balance_tran")}
+                      </TableCell>
+                      <TableCell sx={{ color: "#fff" }}>
+                        {t("ProfilePage.imp_date")}
                       </TableCell>
                     </TableRow>
                   </TableHead>

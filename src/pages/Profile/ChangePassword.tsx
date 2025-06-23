@@ -4,6 +4,7 @@ import { Box, TextField, Button, Typography, Tabs, Tab } from "@mui/material";
 import { updatePassword, updatePaymentPassword } from "@/services/User.service";
 import { toast } from "react-toastify";
 import useAuth from "@/hook/useAuth";
+import { useTranslation } from "react-i18next";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -34,6 +35,7 @@ function a11yProps(index: number) {
   };
 }
 export default function ChangePassword() {
+  const { t } = useTranslation();
   const { user } = useAuth();
   const [currentPassword, setCurrentPassword] = useState<string | null>(null);
   const [newPassword, setNewPassword] = useState("");
@@ -146,8 +148,8 @@ export default function ChangePassword() {
             },
           }}
         >
-          <Tab label="Change login password" {...a11yProps(0)} />
-          <Tab label="Change payment password" {...a11yProps(1)} />
+          <Tab label={t("ProfilePage.tab_pass1")} {...a11yProps(0)} />
+          <Tab label={t("ProfilePage.tab_pass2")} {...a11yProps(1)} />
         </Tabs>
         <CustomTabPanel value={value} index={0}>
           <Box
@@ -166,7 +168,7 @@ export default function ChangePassword() {
               gutterBottom
               sx={{ fontWeight: "bold", color: "#fff" }}
             >
-              Change login password
+              {t("ProfilePage.title_change")}
             </Typography>
             <Typography
               variant="caption"
@@ -174,19 +176,18 @@ export default function ChangePassword() {
               gutterBottom
               sx={{ color: "#fff" }}
             >
-              * Please ensure that the new password is strong enough and
-              different from the old password.
+              * {t("ProfilePage.change_note")}
             </Typography>
             <form onSubmit={handleSubmit}>
               <TextField
                 fullWidth
-                label="Old Password"
+                label={t("ProfilePage.change_label1")}
                 type="password"
                 value={currentPassword}
                 onChange={(e) => setCurrentPassword(e.target.value)}
                 margin="normal"
                 required
-                helperText="Please enter the old password"
+                helperText={t("ProfilePage.helper_text1")}
                 InputLabelProps={{
                   sx: {
                     color: "#fff",
@@ -224,13 +225,13 @@ export default function ChangePassword() {
 
               <TextField
                 fullWidth
-                label="New Password"
+                label={t("ProfilePage.change_label2")}
                 type="password"
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
                 margin="normal"
                 required
-                helperText="Please enter a new password"
+                helperText={t("ProfilePage.helper_text2")}
                 InputLabelProps={{
                   sx: {
                     color: "#fff",
@@ -267,13 +268,13 @@ export default function ChangePassword() {
               />
               <TextField
                 fullWidth
-                label="Confirm New Password"
+                label={t("ProfilePage.change_label3")}
                 type="password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 margin="normal"
                 required
-                helperText="Please confirm the new password"
+                helperText={t("ProfilePage.helper_text3")}
                 InputLabelProps={{
                   sx: {
                     color: "#fff",
@@ -317,9 +318,10 @@ export default function ChangePassword() {
                   width: "250px",
                   height: "50px",
                   borderRadius: "15px",
+                  textTransform: "capitalize",
                 }}
               >
-                Change Password
+                {t("ProfilePage.button_change")}
               </Button>
             </form>
           </Box>
@@ -342,7 +344,7 @@ export default function ChangePassword() {
               gutterBottom
               sx={{ fontWeight: "bold", color: "#fff" }}
             >
-              Change payment password
+              {t("ProfilePage.change_pay_title")}
             </Typography>
             <Typography
               variant="caption"
@@ -350,20 +352,19 @@ export default function ChangePassword() {
               gutterBottom
               sx={{ color: "#fff" }}
             >
-              * Please ensure that the new password is strong enough and
-              different from the old password.
+              * {t("ProfilePage.change_pay_note")}
             </Typography>
             <form onSubmit={handleSubmitPayment}>
               {user && user.wdstatus === 1 && (
                 <TextField
                   fullWidth
-                  label="Old Password"
+                  label={t("ProfilePage.change_label1")}
                   type="password"
                   value={oldPassword}
                   onChange={(e) => setOldPassword(e.target.value)}
                   margin="normal"
                   required
-                  helperText="Please enter the old password"
+                  helperText={t("ProfilePage.helper_text1")}
                   InputLabelProps={{
                     sx: {
                       color: "#fff",
@@ -401,13 +402,13 @@ export default function ChangePassword() {
               )}
               <TextField
                 fullWidth
-                label="New Password"
+                label={t("ProfilePage.change_label2")}
                 type="password"
                 value={newPaymentPassword}
                 onChange={(e) => setNewPaymentPassword(e.target.value)}
                 margin="normal"
                 required
-                helperText="Please enter a new password"
+                helperText={t("ProfilePage.helper_text2")}
                 InputLabelProps={{
                   sx: {
                     color: "#fff",
@@ -444,13 +445,13 @@ export default function ChangePassword() {
               />
               <TextField
                 fullWidth
-                label="Confirm New Password"
+                label={t("ProfilePage.change_label3")}
                 type="password"
                 value={confirmPaymentPassword}
                 onChange={(e) => setConfirmPaymentPassword(e.target.value)}
                 margin="normal"
                 required
-                helperText="Please confirm the new password"
+                helperText={t("ProfilePage.helper_text3")}
                 InputLabelProps={{
                   sx: {
                     color: "#fff",
@@ -494,9 +495,10 @@ export default function ChangePassword() {
                   width: "250px",
                   height: "50px",
                   borderRadius: "15px",
+                  textTransform: "capitalize",
                 }}
               >
-                Change Password
+                {t("ProfilePage.button_change")}
               </Button>
             </form>
           </Box>

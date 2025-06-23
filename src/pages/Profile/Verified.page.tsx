@@ -4,9 +4,11 @@ import { verifiUser } from "@/services/User.service";
 import { VerifiedIcon, WarningIcon } from "@/shared/Svgs/Svg.component";
 import { Box, Button, Stack, Typography, Grid, TextField } from "@mui/material";
 import React, { useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 
 export default function VerifiedPage() {
+  const { t } = useTranslation();
   const { user, loading } = useAuth();
   const frontFileInput = useRef<HTMLInputElement>(null);
   const backFileInput = useRef<HTMLInputElement>(null);
@@ -74,59 +76,59 @@ export default function VerifiedPage() {
           variant="h3"
           sx={{ fontSize: "25px", fontWeight: "600", color: "#fff" }}
         >
-          Account Verified
+          {t("ProfilePage.menu3")}
         </Typography>
         {user?.rzstatus === 0 ? (
           <Typography
             sx={{
-              fontSize: "16px",
+              fontSize: "14px",
               color: "#fff",
               display: "flex",
               alignItems: "center",
-              paddingTop: "10px",
+
               gap: "5px",
             }}
           >
-            <WarningIcon /> The customer account has not been verified.
+            <WarningIcon /> {t("ProfilePage.Identity1")}
           </Typography>
         ) : user?.rzstatus === 1 ? (
           <Typography
             sx={{
-              fontSize: "16px",
+              fontSize: "14px",
               display: "flex",
               alignItems: "center",
-              paddingTop: "10px",
+
               color: "#fff",
               gap: "5px",
             }}
           >
-            <WarningIcon /> Pending approval
+            <WarningIcon /> {t("ProfilePage.Identity2")}
           </Typography>
         ) : user?.rzstatus === 2 ? (
           <Typography
             sx={{
-              fontSize: "16px",
+              fontSize: "14px",
               display: "flex",
               alignItems: "center",
-              paddingTop: "10px",
+
               color: "#fff",
               gap: "5px",
             }}
           >
-            <VerifiedIcon /> Account has been verified
+            <VerifiedIcon /> {t("ProfilePage.Identity3")}
           </Typography>
         ) : (
           <Typography
             sx={{
-              fontSize: "16px",
+              fontSize: "14px",
               display: "flex",
               alignItems: "center",
-              paddingTop: "10px",
+
               color: "#fff",
               gap: "5px",
             }}
           >
-            <WarningIcon /> Verified failed
+            <WarningIcon /> {t("ProfilePage.Identity4")}
           </Typography>
         )}
         {user && (user.rzstatus === 2 || user.rzstatus === 1) ? (
@@ -137,7 +139,7 @@ export default function VerifiedPage() {
               mb={2}
               sx={{ color: "#fff" }}
             >
-              The customer has verified the account.
+              {t("ProfilePage.verified_title")}
             </Typography>
             <Box
               sx={{
@@ -169,7 +171,7 @@ export default function VerifiedPage() {
                   }}
                 />
                 <Typography align="center" mt={1} sx={{ color: "#fff" }}>
-                  Mặt trước
+                  {t("ProfilePage.before")}
                 </Typography>
               </Box>
 
@@ -198,7 +200,7 @@ export default function VerifiedPage() {
                   }}
                 />
                 <Typography align="center" mt={1} sx={{ color: "#fff" }}>
-                  Mặt sau
+                  {t("ProfilePage.after")}
                 </Typography>
               </Box>
             </Box>
@@ -211,7 +213,7 @@ export default function VerifiedPage() {
               mb={2}
               sx={{ color: "#fff" }}
             >
-              Your CCCD image (click to replace)
+              {t("ProfilePage.verified_title1")}
             </Typography>
             <Box
               sx={{
@@ -264,7 +266,7 @@ export default function VerifiedPage() {
                     paddingBottom: "10px",
                   }}
                 >
-                  Card before
+                  {t("ProfilePage.before")}
                 </Typography>
               </Box>
 
@@ -302,7 +304,7 @@ export default function VerifiedPage() {
                   onChange={handleBackChange}
                 />
                 <Typography align="center" sx={{ color: "#fff" }}>
-                  Card after
+                  {t("ProfilePage.after")}
                 </Typography>
               </Box>
             </Box>
@@ -312,7 +314,7 @@ export default function VerifiedPage() {
                 type="text"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                placeholder="Enter phone number"
+                placeholder={t("ProfilePage.verified_title2")}
                 sx={{
                   borderRadius: "8px",
                   background: "#909090",
@@ -344,7 +346,7 @@ export default function VerifiedPage() {
                 }}
                 onClick={handleSubmit}
               >
-                Submit
+                {t("ProfilePage.verified_button")}
               </Button>
             </Box>
           </Box>
