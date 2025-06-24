@@ -17,6 +17,7 @@ import {
   endOfMonth,
   eachDayOfInterval,
   addDays,
+  parseISO,
 } from "date-fns";
 import { toast } from "react-toastify";
 import { fetchCheckinData, postDaily } from "@/services/User.service";
@@ -67,9 +68,12 @@ const DailyRewards = () => {
       </Box>
     );
   }
-  const today = new Date(); // Ví dụ: 2025-06-22
-  const startDate = subDays(today, 4); // Trừ 3 ngày: 2025-06-19
-  const endDate = addDays(startDate, 6); // Cộng 6 ngày để lấy đủ 7 ngày: 2025-06-25
+  const today = checkinData?.first_checkin_date
+    ? parseISO(checkinData.first_checkin_date)
+    : new Date();
+
+  const startDate = subDays(today, 0);
+  const endDate = addDays(startDate, 7);
 
   const sevenDays = eachDayOfInterval({ start: startDate, end: endDate }).map(
     (date) => format(date, "yyyy-MM-dd")

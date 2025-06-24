@@ -314,10 +314,10 @@ export default function OpenCommand() {
                           </TableCell>
                           <TableCell sx={{ color: "#fff" }}>
                             {user?.status === 1
-                              ? t("ProfilePage.status1")
+                              ? t("HistoryPage.status1")
                               : user?.status === 2
-                              ? t("ProfilePage.status2")
-                              : t("ProfilePage.status3")}
+                              ? t("HistoryPage.status2")
+                              : t("HistoryPage.status3")}
                           </TableCell>
                           <TableCell sx={{ color: "#fff" }}>
                             {row.is_win === 1 ? "Win" : "Lose"}
