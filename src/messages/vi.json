@@ -198,7 +198,9 @@
     "add_pass": "Thêm mật khẩu thanh toán",
     "log_title": "Bạn chưa đăng nhập",
     "log_note": "Vui lòng đăng nhập để Nạp / Rút coin",
-    "bankTransfer": "Vui lòng đăng nhập để Nạp / Rút coin"
+    "bankTransfer": "Vui lòng đăng nhập để Nạp / Rút coin",
+    "wallet_link": "Liên kết ví",
+    "bank_link": "Liên kết ngân hàng"
   },
   "DailyRewardsPage": {
     "title": "Điểm danh nhận thưởng",
@@ -293,7 +295,9 @@
     "Currency": "Tiền tệ",
     "Quantity": "Số lượng",
     "balance_tran": "Số dư sau giao dịch",
-    "imp_date": "Ngày thực hiện"
+    "imp_date": "Ngày thực hiện",
+    "tab_bank": "Cập nhập ngân hàng",
+    "tab_wallet": "Cập nhập địa chỉ ví"
   },
   "HistoryPage": {
     "tab1": "Lệnh mở",

@@ -39,7 +39,12 @@ function a11yProps(index: number) {
     "aria-controls": `simple-tabpanel-${index}`,
   };
 }
-export default function ChangePassword() {
+
+interface Tab {
+  tab: number | null;
+  subTab: number | null;
+}
+export default function ChangePassword(props: Tab) {
   const { t } = useTranslation();
   const { user } = useAuth();
   const [currentPassword, setCurrentPassword] = useState<string | null>(null);
@@ -53,7 +58,16 @@ export default function ChangePassword() {
   const [wallet, setWallet] = useState<string | null>(null);
   const [newPaymentPassword, setNewPaymentPassword] = useState("");
   const [confirmPaymentPassword, setConfirmPaymentPassword] = useState("");
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(props.tab || 0);
+  const [subTab, setSubTab] = useState(props.subTab || 0);
+
+  const handleChangeSubTab = (
+    event: React.SyntheticEvent,
+    newValue: number
+  ) => {
+    setSubTab(newValue);
+  };
+
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     if (newPassword !== confirmPassword) {
@@ -117,25 +131,44 @@ export default function ChangePassword() {
   const handleSubmitBank = async (e: any) => {
     e.preventDefault();
 
-    if (bankAccNo && bankAccName && wallet && bankName) {
-      const formData = new FormData();
-      formData.append("bank_name", bankName);
-      formData.append("bank_acc_no", bankAccNo);
-      formData.append("bank_acc_name", bankAccName);
-      formData.append("wallet", wallet);
-      await updateBank(formData)
-        .then((response: any) => {
-          if (response.status === true) {
-            toast.success(t("Toast.change_pass9"));
-          } else {
-            toast.error(t("Toast.change_pass8"));
-          }
-        })
-        .catch((error) => {
-          toast.error(error.message);
-        });
+    if (subTab === 0) {
+      if (bankAccNo && bankAccName && bankName) {
+        const formData = new FormData();
+        formData.append("bank_name", bankName);
+        formData.append("bank_acc_no", bankAccNo);
+        formData.append("bank_acc_name", bankAccName);
+        await updateBank(formData)
+          .then((response: any) => {
+            if (response.status === true) {
+              toast.success(t("Toast.change_pass9"));
+            } else {
+              toast.error(t("Toast.change_pass8"));
+            }
+          })
+          .catch((error) => {
+            toast.error(error.message);
+          });
+      } else {
+        toast.error(t("Toast.Desposit5"));
+      }
     } else {
-      toast.error(t("Toast.Desposit5"));
+      if (wallet) {
+        const formData = new FormData();
+        formData.append("wallet", wallet);
+        await updateBank(formData)
+          .then((response: any) => {
+            if (response.status === true) {
+              toast.success(t("Toast.change_pass9"));
+            } else {
+              toast.error(t("Toast.change_pass8"));
+            }
+          })
+          .catch((error) => {
+            toast.error(error.message);
+          });
+      } else {
+        toast.error(t("Toast.Desposit5"));
+      }
     }
   };
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -546,6 +579,45 @@ export default function ChangePassword() {
           </Box>
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
+          <Tabs
+            value={subTab}
+            onChange={handleChangeSubTab}
+            textColor="inherit"
+            indicatorColor="secondary"
+            variant="scrollable"
+            scrollButtons="auto"
+            sx={{
+              width: {
+                xs: "100%",
+                sm: "80%",
+              },
+              padding: "0px 10px",
+              "& .MuiTab-root": {
+                color: "#909090",
+                fontSize: "15px",
+                fontWeight: 500,
+                whiteSpace: "nowrap",
+                "&:hover": { color: "#fff" },
+                "&.Mui-selected": {
+                  color: "#fff",
+                  fontWeight: 700,
+                  borderBottom: "2px solid #fff",
+                },
+              },
+              "& .MuiTabs-indicator": {
+                backgroundColor: "#000",
+              },
+            }}
+          >
+            <Tab
+              label={t("ProfilePage.tab_bank")}
+              onClick={() => setSubTab(0)}
+            />
+            <Tab
+              label={t("ProfilePage.tab_wallet")}
+              onClick={() => setSubTab(1)}
+            />
+          </Tabs>
           <Box
             sx={{
               width: {
@@ -560,7 +632,7 @@ export default function ChangePassword() {
               mt: 4,
             }}
           >
-            <Typography
+            {/* <Typography
               variant="h4"
               gutterBottom
               sx={{ fontWeight: "bold", color: "#fff" }}
@@ -755,7 +827,225 @@ export default function ChangePassword() {
               >
                 {t("ProfilePage.button_save")}
               </Button>
-            </form>
+            </form> */}
+
+            {subTab === 0 && (
+              <form onSubmit={handleSubmitBank}>
+                {/* --- Các field ngân hàng --- */}
+                <TextField
+                  fullWidth
+                  label={t("ProfilePage.change_label4")}
+                  type="text"
+                  value={user?.bank_name || bankName}
+                  onChange={(e) => setBankName(e.target.value)}
+                  margin="normal"
+                  required
+                  helperText={t("ProfilePage.helper_text4")}
+                  InputLabelProps={{
+                    sx: {
+                      color: "#fff",
+                      "&.Mui-focused": {
+                        color: "#fff", // giữ màu trắng khi label floating
+                      },
+                    }, // Label màu trắng
+                  }}
+                  InputProps={{
+                    sx: {
+                      color: "#fff", // Chữ nhập vào màu trắng
+                      "& .MuiInputBase-input::placeholder": {
+                        color: "#fff", // Placeholder màu trắng
+                        opacity: 1,
+                      },
+                    },
+                  }}
+                  FormHelperTextProps={{
+                    sx: { color: "#fff" }, // HelperText màu trắng
+                  }}
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      "& fieldset": {
+                        borderColor: "#fff",
+                      },
+                      "&:hover fieldset": {
+                        borderColor: "#fff",
+                      },
+                      "&.Mui-focused fieldset": {
+                        borderColor: "#fff",
+                      },
+                    },
+                  }}
+                />
+                <TextField
+                  fullWidth
+                  label={t("ProfilePage.change_label5")}
+                  type="text"
+                  value={user?.bank_acc_no || bankAccNo}
+                  onChange={(e) => setbankAccNo(e.target.value)}
+                  margin="normal"
+                  required
+                  helperText={t("ProfilePage.helper_text5")}
+                  InputLabelProps={{
+                    sx: {
+                      color: "#fff",
+                      "&.Mui-focused": {
+                        color: "#fff", // giữ màu trắng khi label floating
+                      },
+                    }, // Label màu trắng
+                  }}
+                  InputProps={{
+                    sx: {
+                      color: "#fff", // Chữ nhập vào màu trắng
+                      "& .MuiInputBase-input::placeholder": {
+                        color: "#fff", // Placeholder màu trắng
+                        opacity: 1,
+                      },
+                    },
+                  }}
+                  FormHelperTextProps={{
+                    sx: { color: "#fff" }, // HelperText màu trắng
+                  }}
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      "& fieldset": {
+                        borderColor: "#fff",
+                      },
+                      "&:hover fieldset": {
+                        borderColor: "#fff",
+                      },
+                      "&.Mui-focused fieldset": {
+                        borderColor: "#fff",
+                      },
+                    },
+                  }}
+                />
+                <TextField
+                  fullWidth
+                  label={t("ProfilePage.change_label6")}
+                  type="text"
+                  value={user?.bank_acc_name || bankAccName}
+                  onChange={(e) => setbankAccName(e.target.value)}
+                  margin="normal"
+                  required
+                  helperText={t("ProfilePage.helper_text6")}
+                  InputLabelProps={{
+                    sx: {
+                      color: "#fff",
+                      "&.Mui-focused": {
+                        color: "#fff", // giữ màu trắng khi label floating
+                      },
+                    }, // Label màu trắng
+                  }}
+                  InputProps={{
+                    sx: {
+                      color: "#fff", // Chữ nhập vào màu trắng
+                      "& .MuiInputBase-input::placeholder": {
+                        color: "#fff", // Placeholder màu trắng
+                        opacity: 1,
+                      },
+                    },
+                  }}
+                  FormHelperTextProps={{
+                    sx: { color: "#fff" }, // HelperText màu trắng
+                  }}
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      "& fieldset": {
+                        borderColor: "#fff",
+                      },
+                      "&:hover fieldset": {
+                        borderColor: "#fff",
+                      },
+                      "&.Mui-focused fieldset": {
+                        borderColor: "#fff",
+                      },
+                    },
+                  }}
+                />
+                <Button
+                  type="submit"
+                  sx={{
+                    mt: 2,
+                    backgroundColor: "#fff",
+                    color: "black",
+                    width: "250px",
+                    height: "50px",
+                    borderRadius: "15px",
+                    textTransform: "capitalize",
+                    "&:hover": {
+                      backgroundColor: "#fff",
+                    },
+                  }}
+                >
+                  {t("ProfilePage.button_save")}
+                </Button>
+              </form>
+            )}
+
+            {subTab === 1 && (
+              <form onSubmit={handleSubmitBank}>
+                {/* --- Field ví --- */}
+                <TextField
+                  fullWidth
+                  label={t("ProfilePage.change_label7")}
+                  type="text"
+                  value={user?.wallet || wallet}
+                  onChange={(e) => setWallet(e.target.value)}
+                  margin="normal"
+                  required
+                  helperText={t("ProfilePage.helper_text7")}
+                  InputLabelProps={{
+                    sx: {
+                      color: "#fff",
+                      "&.Mui-focused": {
+                        color: "#fff", // giữ màu trắng khi label floating
+                      },
+                    }, // Label màu trắng
+                  }}
+                  InputProps={{
+                    sx: {
+                      color: "#fff", // Chữ nhập vào màu trắng
+                      "& .MuiInputBase-input::placeholder": {
+                        color: "#fff", // Placeholder màu trắng
+                        opacity: 1,
+                      },
+                    },
+                  }}
+                  FormHelperTextProps={{
+                    sx: { color: "#fff" }, // HelperText màu trắng
+                  }}
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      "& fieldset": {
+                        borderColor: "#fff",
+                      },
+                      "&:hover fieldset": {
+                        borderColor: "#fff",
+                      },
+                      "&.Mui-focused fieldset": {
+                        borderColor: "#fff",
+                      },
+                    },
+                  }}
+                />
+                <Button
+                  type="submit"
+                  sx={{
+                    mt: 2,
+                    backgroundColor: "#fff",
+                    color: "black",
+                    width: "250px",
+                    height: "50px",
+                    borderRadius: "15px",
+                    textTransform: "capitalize",
+                    "&:hover": {
+                      backgroundColor: "#fff",
+                    },
+                  }}
+                >
+                  {t("ProfilePage.button_save")}
+                </Button>
+              </form>
+            )}
           </Box>
         </CustomTabPanel>
       </Box>

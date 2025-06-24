@@ -17,6 +17,8 @@ interface TabPanelProps {
 }
 interface TabProps {
   value: number;
+  tab: number | null;
+  subTab: number | null;
 }
 function CustomTabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
@@ -115,7 +117,7 @@ export default function ProfilePage(props: TabProps) {
         <AccountPage />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-        <ChangePassword />
+        <ChangePassword tab={props.tab || 0} subTab={props.subTab || 0} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={3}>
         <VerifiedPage />

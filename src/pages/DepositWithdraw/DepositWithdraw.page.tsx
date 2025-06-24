@@ -35,6 +35,7 @@ import {
   VisibilityOff,
 } from "@mui/icons-material";
 import { useTranslation } from "react-i18next";
+import { useRouter } from "next/navigation";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -106,6 +107,7 @@ export default function DepositWithdrawPage(props: TabProps) {
   const frontFileInput = useRef<HTMLInputElement>(null);
   const [frontImage, setFrontImage] = useState<File>();
   const { user } = useAuth();
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState("");
 
@@ -172,7 +174,22 @@ export default function DepositWithdrawPage(props: TabProps) {
       toast.warning(t("Toast.Desposit5"));
       return;
     }
-
+    if (
+      method === 1 &&
+      (user?.bank_acc_no === undefined ||
+        user.bank_acc_no === null ||
+        user.bank_acc_no == "")
+    ) {
+      router.push("/addbank");
+      return;
+    }
+    if (
+      method === 2 &&
+      (user?.wallet === undefined || user.wallet === null || user.wallet == "")
+    ) {
+      router.push("/addwallet");
+      return;
+    }
     try {
       const formData = new FormData();
       formData.append("cid", coin);
@@ -1488,7 +1505,9 @@ export default function DepositWithdrawPage(props: TabProps) {
                       sx={{ padding: "20px 0px" }}
                       options={medthod}
                       autoHighlight
-                      getOptionLabel={(option) => option.name}
+                      getOptionLabel={(option) =>
+                        t("DepositWithdrawPage." + option.name)
+                      }
                       onChange={(event, newValue) => {
                         setMethod(newValue?.id || 2);
                       }}
@@ -1561,7 +1580,9 @@ export default function DepositWithdrawPage(props: TabProps) {
                       sx={{ padding: "20px 0px" }}
                       options={medthodWallet}
                       autoHighlight
-                      getOptionLabel={(option) => option.name}
+                      getOptionLabel={(option) =>
+                        t("DepositWithdrawPage." + option.name)
+                      }
                       onChange={(event, newValue) => {
                         setMethod(newValue?.id || 2);
                       }}
@@ -1629,6 +1650,90 @@ export default function DepositWithdrawPage(props: TabProps) {
                       )}
                     />
                   )}
+                  {method && method === 1 && user.bank_acc_no ? (
+                    <TextField
+                      id="outlined-basic"
+                      label={t("DepositWithdrawPage.back_acc")}
+                      variant="outlined"
+                      value={user.bank_acc_no}
+                      disabled={true} // hoặc condition
+                      sx={{
+                        width: "100%",
+                        "& .MuiInputBase-input": {
+                          color: "white",
+                        },
+                        marginBottom: "20px",
+                        "& .MuiInputBase-input.Mui-disabled": {
+                          color: "gray",
+                          WebkitTextFillColor: "gray",
+                        },
+                        "& .MuiInputLabel-root": {
+                          color: "white",
+                        },
+                        "& .MuiInputLabel-root.Mui-disabled": {
+                          color: "gray",
+                        },
+                        "& .MuiOutlinedInput-root": {
+                          "& fieldset": {
+                            borderColor: "white",
+                          },
+                          "&:hover fieldset": {
+                            borderColor: "white",
+                          },
+                          "&.Mui-focused fieldset": {
+                            borderColor: "white",
+                          },
+                          "&.Mui-disabled fieldset": {
+                            borderColor: "gray",
+                          },
+                        },
+                      }}
+                    />
+                  ) : (
+                    ""
+                  )}
+                  {method && method === 2 && user.wallet ? (
+                    <TextField
+                      id="outlined-basic"
+                      label={t("ProfilePage.change_label7")}
+                      variant="outlined"
+                      value={user.wallet}
+                      disabled={true} // hoặc condition
+                      sx={{
+                        width: "100%",
+                        "& .MuiInputBase-input": {
+                          color: "white",
+                        },
+                        marginBottom: "20px",
+                        "& .MuiInputBase-input.Mui-disabled": {
+                          color: "gray",
+                          WebkitTextFillColor: "gray",
+                        },
+                        "& .MuiInputLabel-root": {
+                          color: "white",
+                        },
+                        "& .MuiInputLabel-root.Mui-disabled": {
+                          color: "gray",
+                        },
+                        "& .MuiOutlinedInput-root": {
+                          "& fieldset": {
+                            borderColor: "white",
+                          },
+                          "&:hover fieldset": {
+                            borderColor: "white",
+                          },
+                          "&.Mui-focused fieldset": {
+                            borderColor: "white",
+                          },
+                          "&.Mui-disabled fieldset": {
+                            borderColor: "gray",
+                          },
+                        },
+                      }}
+                    />
+                  ) : (
+                    ""
+                  )}
                   <TextField
                     id="outlined-basic"
                     label={t("DepositWithdrawPage.amount_name")}
@@ -1639,10 +1744,15 @@ export default function DepositWithdrawPage(props: TabProps) {
                       "& .MuiInputBase-input": {
                         color: "white",
                       },
+                      marginBottom: "20px",
+                      "& .MuiInputBase-input.Mui-disabled": {
+                        color: "white",
+                        WebkitTextFillColor: "white", // fix Chrome override
+                      },
                       "& .MuiInputLabel-root": {
                         color: "white",
                       },
-                      "& .MuiInputLabel-root.Mui-focused": {
+                      "& .MuiInputLabel-root.Mui-disabled": {
                         color: "white",
                       },
                       "& .MuiOutlinedInput-root": {
@@ -1655,9 +1765,13 @@ export default function DepositWithdrawPage(props: TabProps) {
                         "&.Mui-focused fieldset": {
                           borderColor: "white",
                         },
+                        "&.Mui-disabled fieldset": {
+                          borderColor: "white",
+                        },
                       },
                     }}
                   />
+
                   <TextField
                     id="outlined-basic"
                     label={t("DepositWithdrawPage.Password")}
@@ -1676,7 +1790,7 @@ export default function DepositWithdrawPage(props: TabProps) {
                       "& .MuiInputLabel-root.Mui-focused": {
                         color: "white",
                       },
-                      marginTop: "20px",
+                      marginBottom: "20px",
                       "& .MuiOutlinedInput-root": {
                         "& fieldset": {
                           borderColor: "white",
@@ -1710,24 +1824,48 @@ export default function DepositWithdrawPage(props: TabProps) {
                       marginTop: "20px",
                     }}
                   >
-                    <Button
-                      type="button"
-                      sx={{
-                        background: "#fff",
-                        color: "black",
-                        width: "80%",
-                        height: "45px",
-                        borderRadius: "15px",
-                        fontSize: { xs: "10px", sm: "14px" },
-                        fontWeight: "bold",
-                        "&:hover": {
+                    {(method === 1 && user.bank_acc_no) ||
+                    (method === 2 && user.wallet) ? (
+                      <Button
+                        type="button"
+                        sx={{
                           background: "#fff",
-                        },
-                      }}
-                      onClick={handleSubmitSell}
-                    >
-                      {t("DepositWithdrawPage.tab2")}
-                    </Button>
+                          color: "black",
+                          width: "80%",
+                          height: "45px",
+                          borderRadius: "15px",
+                          fontSize: { xs: "10px", sm: "14px" },
+                          fontWeight: "bold",
+                          "&:hover": {
+                            background: "#fff",
+                          },
+                        }}
+                        onClick={handleSubmitSell}
+                      >
+                        {t("DepositWithdrawPage.tab2")}
+                      </Button>
+                    ) : (
+                      <Button
+                        type="button"
+                        href={method === 1 ? "/addbank" : "/addwallet"}
+                        sx={{
+                          background: "#fff",
+                          color: "black",
+                          width: "250px",
+                          height: "45px",
+                          borderRadius: "15px",
+                          marginTop: "20px",
+                          fontWeight: 600,
+                          "&:hover": {
+                            background: "#fff",
+                          },
+                        }}
+                      >
+                        {method === 1
+                          ? t("DepositWithdrawPage.bank_link")
+                          : t("DepositWithdrawPage.wallet_link")}
+                      </Button>
+                    )}
                   </Box>
                 </Box>
               ) : (
@@ -1743,9 +1881,10 @@ export default function DepositWithdrawPage(props: TabProps) {
                   >
                     {t("DepositWithdrawPage.log_is")}
                   </Typography>
+
                   <Button
                     type="button"
-                    href="/security"
+                    href="/securitypayment"
                     sx={{
                       background: "#fff",
                       color: "black",

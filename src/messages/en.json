@@ -198,7 +198,10 @@
     "log_is": "You have not created a payment password.",
     "add_pass": "Add Password Payment",
     "log_title": "You are not logged in",
-    "log_note": "Please log in to deposit / withdraw coins."
+    "log_note": "Please log in to deposit / withdraw coins.",
+    "bankTransfer": "Please log in to Deposit / Withdraw coins",
+    "wallet_link": "Wallet link",
+    "bank_link": "Bank link"
   },
   "DailyRewardsPage": {
     "title": " Daily Check-in Rewards",
@@ -293,7 +296,9 @@
     "Currency": "Currency",
     "Quantity": "Quantity",
     "balance_tran": "Balance after transaction",
-    "imp_date": "Implementation date"
+    "imp_date": "Implementation date",
+    "tab_bank": "Add/Update Bank",
+    "tab_wallet": "Add/update Wallet"
   },
   "HistoryPage": {
     "tab1": "Open command",
