@@ -74,6 +74,10 @@ export interface IUser {
   status: number;
   txstate: number;
   invit: string;
+  bank_name: string;
+  bank_acc_no: string;
+  bank_acc_name: string;
+  wallet: string;
   stoptime: number;
   is_agent: number;
   wdstatus: number;

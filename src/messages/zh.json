@@ -30,6 +30,8 @@
     "change_pass5": "修改支付密码失败，请重试。",
     "change_pass6": "支付密码修改成功！",
     "change_pass7": "修改支付密码失败，请重试。",
+    "change_pass8": "银行更新失败",
+    "change_pass9": "银行更新成功",
     "verifide1": "验证提交成功！",
     "verifide2": "提交验证失败，请重试。"
   },
@@ -279,7 +281,18 @@
     "Currency": "币种",
     "Quantity": "数量",
     "balance_tran": "交易后余额",
-    "imp_date": "执行日期"
+    "imp_date": "执行日期",
+    "change_label4": "银行名称",
+    "helper_text4": "例如：越南萨贡银行（SACOMBANK）",
+    "change_label5": "账户号码",
+    "helper_text5": "例如: 0123456789",
+    "change_label6": "账户名",
+    "helper_text6": "例如：阮文A",
+    "change_label7": "钱包地址",
+    "helper_text7": "例如: AGBAHJJ1",
+    "button_save": "更新",
+    "add_bank": "添加银行",
+    "tab_pass3": "添加银行"
   },
   "HistoryPage": {
     "tab1": "开仓指令",

@@ -73,6 +73,14 @@ const createOrder = (formData: FormData) => {
   });
 };
 
+const updateBank = (formData: FormData) => {
+  return contentInstance.post("/api/user/update-bank", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};
+
 const buyMining = (formData: FormData) => {
   return contentInstance.post("/api/orepool/buy-mining-machine", formData, {
     headers: {
@@ -192,4 +200,5 @@ export {
   fetchCheckinData,
   postDaily,
   getProgressContract,
+  updateBank,
 };
