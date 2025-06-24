@@ -154,7 +154,8 @@
     "methodValue": "自动",
     "type2": "个人",
     "type3": "共享",
-    "day": "天"
+    "day": "天",
+    "content": "每天生产的免费硬币"
   },
   "AssetPage": {
     "menu2": "充值",

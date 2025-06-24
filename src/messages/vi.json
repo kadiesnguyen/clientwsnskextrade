@@ -154,7 +154,8 @@
     "method": "Phương thức",
     "button2": "Thuê ngay",
     "methodValue": "Tự động",
-    "day": "Ngày"
+    "day": "Ngày",
+    "content": "coin free được sản xuất mỗi ngày"
   },
   "AssetPage": {
     "menu2": "Nạp tiền",

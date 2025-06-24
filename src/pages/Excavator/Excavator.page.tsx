@@ -281,7 +281,8 @@ export default function ExcavatorPage() {
                           paddingBottom: "10px",
                         }}
                       >
-                        {item.content}
+                        {item.dayoutnum + " " + item.outcoin}{" "}
+                        {t("MiningPage.content")}
                       </Typography>
                       <Box
                         sx={{
@@ -402,7 +403,8 @@ export default function ExcavatorPage() {
                           paddingBottom: "10px",
                         }}
                       >
-                        {item.content}
+                        {item.dayoutnum + " " + item.outcoin}{" "}
+                        {t("MiningPage.content")}
                       </Typography>
                       <Box
                         sx={{
@@ -523,7 +525,8 @@ export default function ExcavatorPage() {
                           paddingBottom: "10px",
                         }}
                       >
-                        {item.content}
+                        {item.dayoutnum + " " + item.outcoin}{" "}
+                        {t("MiningPage.content")}
                       </Typography>
                       <Box
                         sx={{

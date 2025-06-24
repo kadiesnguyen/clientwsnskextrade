@@ -155,7 +155,8 @@
     "methodValue": "Automatic",
     "type2": "Personal",
     "type3": "Share",
-    "day": "Day"
+    "day": "Day",
+    "content": "coin free is produced every day"
   },
   "AssetPage": {
     "menu2": "Deposit",
