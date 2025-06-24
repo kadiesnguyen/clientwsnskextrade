@@ -125,6 +125,8 @@ export default function ChangePassword() {
           value={value}
           onChange={handleChange}
           aria-label="basic tabs example"
+          variant="scrollable"
+          scrollButtons="auto"
           sx={{
             width: {
               xs: "100%",
