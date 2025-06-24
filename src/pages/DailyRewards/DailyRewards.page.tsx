@@ -91,7 +91,8 @@ const DailyRewards = () => {
 
       <Typography variant="body1" textAlign="center" mb={2}>
         {t("DailyRewardsPage.Current")}:{" "}
-        <strong>{checkinData && checkinData?.current_streak}</strong> days
+        <strong>{checkinData && checkinData?.current_streak}</strong>{" "}
+        {t("MiningPage.day")}
       </Typography>
       <Box
         sx={{
@@ -142,7 +143,7 @@ const DailyRewards = () => {
                     sx={{ fontSize: "10px" }}
                   >
                     {match
-                      ? `${parseFloat(match.reward).toLocaleString()}Pi`
+                      ? `${parseFloat(match.reward).toLocaleString()} Pi`
                       : "--"}
                   </Typography>
                 </Paper>
