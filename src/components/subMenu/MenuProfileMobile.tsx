@@ -515,7 +515,7 @@ export default function MenuProfileMobile(data: userProps) {
                 width: "120px",
               }}
             >
-              <LanguageSwitcher />
+              <LanguageSwitcher onLanguageChange={handleClose} />
             </Menu>
           </Box>
         </Box>

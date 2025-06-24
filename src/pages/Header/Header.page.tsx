@@ -389,7 +389,7 @@ export default function HeaderPage(props: propUser) {
                       alignItems: "center",
                     }}
                   >
-                    <LanguageSwitcher />
+                    <LanguageSwitcher onLanguageChange={handleLangMenuClose} />
                   </Box>
                 </StyledMenu>
               </div>
@@ -489,7 +489,7 @@ export default function HeaderPage(props: propUser) {
                       alignItems: "center",
                     }}
                   >
-                    <LanguageSwitcher />
+                    <LanguageSwitcher onLanguageChange={handleLangMenuClose} />
                   </Box>
                 </StyledMenu>
               </div>

@@ -1,13 +1,18 @@
 "use client";
 import { useTranslation } from "react-i18next";
-
-const LanguageSwitcher = () => {
+interface LanguageSwitcherProps {
+  onLanguageChange?: (lang: string) => void;
+}
+const LanguageSwitcher = ({ onLanguageChange }: LanguageSwitcherProps) => {
   const { i18n } = useTranslation();
 
   const changeLanguage = (lang: string) => {
     i18n.changeLanguage(lang);
     // Lưu vào localStorage (nếu cần lưu trạng thái)
     localStorage.setItem("lang", lang);
+    if (onLanguageChange) {
+      onLanguageChange(lang); // Notify parent
+    }
   };
 
   return (
