@@ -35,6 +35,36 @@
     "verifide1": "Verification submitted successfully!",
     "verifide2": "Failed to submit verification. Please try again."
   },
+  "MenuWebsite": {
+    "menu1": "Buy & Sell",
+    "sub_menu1": {
+      "menu1": "Buy & Sell Crypto",
+      "note1": "Buying and selling without transaction fees through more than 100 payment methods."
+    },
+    "menu2": "Staking",
+    "sub_menu2": {
+      "menu1": "Staking Buy",
+      "note1": "View the latest market trends and prices, volume, and data.",
+      "menu2": "Opportunities",
+      "note2": "Discover hot and new crypto"
+    },
+    "menu4": "Mining",
+    "sub_menu4": {
+      "menu1": "Earn",
+      "note1": "Don't just hold earn.",
+      "menu2": "Loan",
+      "note2": "Borrow to earn, borrow to spend",
+      "menu3": "Jumpstart",
+      "note3": "Discover new, hight-quality project around the world."
+    },
+    "menu5": "Trade",
+    "sub_menu5": {
+      "menu1": "Convert",
+      "note1": "Quick convertion, zero tranding fees, and no hidden costs.",
+      "menu2": "Spot",
+      "note2": "Buy and sell crypto with ease"
+    }
+  },
   "MenuMobile": {
     "menu1": "Home",
     "menu2": "Staking",
@@ -54,7 +84,8 @@
       "menu2": "Security",
       "menu3": "Verified",
       "menu4": "Referral",
-      "menu5": "My invoice"
+      "menu5": "My invoice",
+      "menu6": "Log out"
     },
     "assets": {
       "menu0": "Open command",
@@ -62,7 +93,8 @@
       "menu2": "Mining activity",
       "menu3": "Mining expired",
       "menu4": "My Staking",
-      "menu5": "Daily Rewards"
+      "menu5": "Daily Rewards",
+      "menu6": "Assets"
     }
   },
 

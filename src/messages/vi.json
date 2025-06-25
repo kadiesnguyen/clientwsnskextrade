@@ -35,6 +35,36 @@
     "verifide1": "Xác minh đã được gửi thành công!",
     "verifide2": "Không thể gửi xác minh. Vui lòng thử lại."
   },
+  "MenuWebsite": {
+    "menu1": "Mua và bán",
+    "sub_menu1": {
+      "menu1": "Mua và bán crypto",
+      "note1": "Mua bán không phí giao dịch thông qua nhiều phương thức thanh toán."
+    },
+    "menu2": "Ký gửi",
+    "sub_menu2": {
+      "menu1": "Ký gửi mới",
+      "note1": "Tham gia ký gửi tăng thêm thu nhập",
+      "menu2": "Cơ hội",
+      "note2": "Cơ hội tăng tiền tự động"
+    },
+    "menu4": "Máy đào",
+    "sub_menu4": {
+      "menu1": "Máy đào nổi",
+      "note1": "Mua máy đào để tăng tốc đào coin",
+      "menu2": "Đào tự động",
+      "note2": "Đào tự động sinh lời tự động",
+      "menu3": "Khởi đầu",
+      "note3": "Khám phá các dự án mới, chất lượng cao trên toàn thế giới."
+    },
+    "menu5": "Giao dịch",
+    "sub_menu5": {
+      "menu1": "Giao dịch nhanh",
+      "note1": "Giao dịch nhanh nhận tiền nhanh, tham gia ngay",
+      "menu2": "Giao dịch mới",
+      "note2": "Mua và bán tiền điện tử một cách dễ dàng"
+    }
+  },
   "MenuMobile": {
     "menu1": "Trang chủ",
     "menu2": "Ký gửi",
@@ -54,7 +84,8 @@
       "menu2": "Bảo mật",
       "menu3": "Xác thực",
       "menu4": "Mời bạn bè",
-      "menu5": "Hoá đơn"
+      "menu5": "Hoá đơn",
+      "menu6": "Đăng xuất"
     },
     "assets": {
       "menu0": "Lệnh mở",
@@ -62,7 +93,8 @@
       "menu2": "Máy đào đang hoạt động",
       "menu3": "Máy đào hết hạn",
       "menu4": "Danh sách ký gửi",
-      "menu5": "Điểm danh"
+      "menu5": "Điểm danh",
+      "menu6": "Tài sản của tôi"
     }
   },
   "HomePage": {

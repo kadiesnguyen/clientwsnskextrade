@@ -22,6 +22,7 @@ import {
 import NavigationGame from "@/hook/NavigationGame";
 import { MenuAset, menuItems } from "@/datafake/Menu";
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 
 export interface UserProps {
   user: {
@@ -74,6 +75,7 @@ const StyledMenu = styled((props: MenuProps) => (
 }));
 
 export default function MenuProfile({ user }: UserProps) {
+  const { t } = useTranslation();
   const [profileAnchorEl, setProfileAnchorEl] =
     React.useState<null | HTMLElement>(null);
   const [subMenuAnchorEl, setSubMenuAnchorEl] =
@@ -135,7 +137,7 @@ export default function MenuProfile({ user }: UserProps) {
           textAlign: "center",
         }}
       >
-        {MenuAset.map((item) => (
+        {MenuAset.map((item, index) => (
           <Box key={item.id}>
             <a
               id={`menu-button-${item.id}`}
@@ -159,7 +161,7 @@ export default function MenuProfile({ user }: UserProps) {
                 justifyContent: "center",
               }}
             >
-              {item.title}
+              {t(`MenuMobile.menu5`)}
               <KeyboardArrowDownIcon />
             </a>
             {item.item.length > 0 && (
@@ -199,7 +201,8 @@ export default function MenuProfile({ user }: UserProps) {
                             fontSize: "14px",
                           }}
                         >
-                          {subItem.title}
+                          {/* {subItem.title} */}
+                          {t(`MenuMobile.assets.menu` + subItem.id)}
                         </Typography>
                       </div>
                     </Link>
@@ -282,7 +285,7 @@ export default function MenuProfile({ user }: UserProps) {
                 key={index}
               >
                 <ListItemIcon>{item.icon}</ListItemIcon>
-                {item.text}
+                {t(`MenuMobile.Shortcuts.menu` + index)}
               </MenuItem>
             ))}
           </StyledMenu>

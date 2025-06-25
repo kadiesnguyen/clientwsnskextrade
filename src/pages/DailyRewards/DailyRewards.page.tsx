@@ -80,101 +80,119 @@ const DailyRewards = () => {
   );
   return (
     <Box bgcolor="#000" color="#fff" minHeight="100vh" padding={3}>
-      <Typography
-        variant="h5"
-        fontWeight="bold"
-        gutterBottom
-        textAlign="center"
-      >
-        {t("DailyRewardsPage.title")}
-      </Typography>
-
-      <Typography variant="body1" textAlign="center" mb={2}>
-        {t("DailyRewardsPage.Current")}:{" "}
-        <strong>{checkinData && checkinData?.current_streak}</strong>{" "}
-        {t("MiningPage.day")}
-      </Typography>
       <Box
         sx={{
-          height: "55vh",
-          overflowY: "auto",
-          paddingRight: 1,
-          scrollbarWidth: "none",
-          msOverflowStyle: "none",
-          "&::-webkit-scrollbar": {
-            display: "none",
+          width: {
+            xs: "100%",
+            sm: "70%",
+          },
+          margin: "auto",
+          paddingTop: {
+            xs: "0px",
+            sm: "100px",
           },
         }}
       >
-        <Grid container spacing={2} justifyContent="center">
-          {sevenDays.map((date, idx) => {
-            const formattedDate = format(date, "yyyy-MM-dd");
-            const match = checkinData?.history.find((h: any) =>
-              isSameDay(new Date(h.checkin_date), date)
-            );
+        <Typography
+          variant="h5"
+          fontWeight="bold"
+          gutterBottom
+          textAlign="center"
+        >
+          {t("DailyRewardsPage.title")}
+        </Typography>
 
-            return (
-              <Grid item xs={4} sm={3} md={2} key={idx}>
-                <Paper
-                  sx={{
-                    backgroundColor: "#111",
-                    padding: 2,
-                    borderRadius: 2,
-                    textAlign: "center",
-                    border: match ? "2px solid #bafc42" : "1px solid #444",
-                  }}
-                >
-                  <Typography variant="body2" color="#ccc">
-                    {match ? (
-                      <img src="/images/gift-box.png" width={30} height={30} />
-                    ) : (
-                      <img src="/images/gift.png" width={30} height={30} />
-                    )}
-                    <Typography
-                      variant="subtitle1"
-                      sx={{ color: "white", fontSize: "10px" }}
-                    >
-                      {format(date, "dd/MM/yyyy")}
-                    </Typography>
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="#ccc"
-                    sx={{ fontSize: "10px" }}
-                  >
-                    {match
-                      ? `${parseFloat(match.reward).toLocaleString()} Pi`
-                      : "--"}
-                  </Typography>
-                </Paper>
-              </Grid>
-            );
-          })}
-        </Grid>
-      </Box>
-      <Box sx={{ height: "20vh" }}>
-        <Button
-          disabled={checkinData.has_checked_in_today}
+        <Typography variant="body1" textAlign="center" mb={2}>
+          {t("DailyRewardsPage.Current")}:{" "}
+          <strong>{checkinData && checkinData?.current_streak}</strong>{" "}
+          {t("MiningPage.day")}
+        </Typography>
+        <Box
           sx={{
-            width: "100%",
-            height: "40px",
-            color: "black",
-            background: "#00d084",
-            marginTop: "10px",
-            fontSize: "16px",
-            textTransform: "capitalize",
-            fontWeight: "bold",
-            "&:disabled": {
-              background: "gray",
-            },
-            "&:hover": {
-              background: "#00d084",
+            height: "55vh",
+            overflowY: "auto",
+            paddingRight: 1,
+            scrollbarWidth: "none",
+            msOverflowStyle: "none",
+            "&::-webkit-scrollbar": {
+              display: "none",
             },
           }}
-          onClick={handleCheckin}
         >
-          {t("DailyRewardsPage.button")}
-        </Button>
+          <Grid container spacing={2} justifyContent="center">
+            {sevenDays.map((date, idx) => {
+              const formattedDate = format(date, "yyyy-MM-dd");
+              const match = checkinData?.history.find((h: any) =>
+                isSameDay(new Date(h.checkin_date), date)
+              );
+
+              return (
+                <Grid item xs={4} sm={3} md={2} key={idx}>
+                  <Paper
+                    sx={{
+                      backgroundColor: "#111",
+                      padding: 2,
+                      borderRadius: 2,
+                      textAlign: "center",
+                      border: match ? "2px solid #bafc42" : "1px solid #444",
+                    }}
+                  >
+                    <Typography variant="body2" color="#ccc">
+                      {match ? (
+                        <img
+                          src="/images/gift-box.png"
+                          width={30}
+                          height={30}
+                        />
+                      ) : (
+                        <img src="/images/gift.png" width={30} height={30} />
+                      )}
+                      <Typography
+                        variant="subtitle1"
+                        sx={{ color: "white", fontSize: "10px" }}
+                      >
+                        {format(date, "dd/MM/yyyy")}
+                      </Typography>
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      color="#ccc"
+                      sx={{ fontSize: "10px" }}
+                    >
+                      {match
+                        ? `${parseFloat(match.reward).toLocaleString()} Pi`
+                        : "--"}
+                    </Typography>
+                  </Paper>
+                </Grid>
+              );
+            })}
+          </Grid>
+        </Box>
+        <Box sx={{ height: "20vh" }}>
+          <Button
+            disabled={checkinData.has_checked_in_today}
+            sx={{
+              width: "100%",
+              height: "40px",
+              color: "black",
+              background: "#00d084",
+              marginTop: "10px",
+              fontSize: "16px",
+              textTransform: "capitalize",
+              fontWeight: "bold",
+              "&:disabled": {
+                background: "gray",
+              },
+              "&:hover": {
+                background: "#00d084",
+              },
+            }}
+            onClick={handleCheckin}
+          >
+            {t("DailyRewardsPage.button")}
+          </Button>
+        </Box>
       </Box>
     </Box>
   );

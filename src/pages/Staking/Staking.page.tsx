@@ -111,7 +111,7 @@ export default function StakingPage() {
           sx={{
             width: {
               xs: "100%",
-              sm: "400px",
+              sm: "50%",
             },
             textAlign: {
               xs: "center",
@@ -143,7 +143,7 @@ export default function StakingPage() {
               fontSize: "16px",
               width: {
                 xs: "90%",
-                sm: "300px",
+                sm: "100%",
               },
               margin: "0 auto",
             }}
@@ -173,7 +173,17 @@ export default function StakingPage() {
           <img src="/images/F695CAF106522D37.png" style={{ height: "300px" }} />
         </Box>
       </Box>
-      <Box sx={{ width: "95%", margin: "auto", textAlign: "center" }}>
+      <Box
+        sx={{
+          display: {
+            xs: "block",
+            sm: "none",
+          },
+          width: "95%",
+          margin: "auto",
+          textAlign: "center",
+        }}
+      >
         <img
           src={websiteConfig && websiteConfig?.websildea}
           style={{
@@ -188,7 +198,10 @@ export default function StakingPage() {
         sx={{
           width: "95%",
           margin: "0 auto",
-          display: "grid",
+          display: {
+            xs: "grid",
+            sm: "none",
+          },
           justifyContent: "center",
         }}
       >
@@ -207,7 +220,10 @@ export default function StakingPage() {
         sx={{
           width: "95%",
           margin: "0 auto",
-          display: "grid",
+          display: {
+            xs: "grid",
+            sm: "none",
+          },
           justifyContent: "center",
           textAlign: "justify",
         }}

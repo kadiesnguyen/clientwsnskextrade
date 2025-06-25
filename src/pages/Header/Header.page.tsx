@@ -102,6 +102,7 @@ export default function HeaderPage(props: propUser) {
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [dataNoti, setDataNoti] = useState<any | null>(null);
   const [popupOpen, setPopupOpen] = React.useState<null | HTMLElement>(null);
+  const router = useRouter();
   const [langAnchorEl, setLangAnchorEl] = React.useState<null | HTMLElement>(
     null
   );
@@ -216,7 +217,7 @@ export default function HeaderPage(props: propUser) {
           <div className="header-left">
             <div className="logo">
               <a
-                href={"/"}
+                onClick={() => router.push("/")}
                 style={{
                   textDecoration: "none",
                   color: "#fff",
@@ -251,10 +252,11 @@ export default function HeaderPage(props: propUser) {
                     disableElevation
                     onMouseEnter={(e) => handleMouseEnter(e, item.id)}
                     onMouseLeave={handleMouseLeave}
-                    href={item.link}
+                    onClick={() => router.push(item.link)}
                     endIcon={item.item.length > 0 && <KeyboardArrowDownIcon />}
+                    sx={{ color: "white" }}
                   >
-                    {item.title}
+                    {t("MenuWebsite." + item.title)}
                   </Button>
                   {item.item.length > 0 && (
                     <StyledMenu
@@ -283,8 +285,9 @@ export default function HeaderPage(props: propUser) {
                             width: 330,
                           }}
                         >
-                          <Link
-                            href={subItem.link}
+                          <Typography
+                            // href={subItem.link}
+                            onClick={() => router.push(subItem.link)}
                             style={{
                               textDecoration: "none",
                               color: "inherit",
@@ -309,7 +312,7 @@ export default function HeaderPage(props: propUser) {
                                   fontWeight: "600",
                                 }}
                               >
-                                {subItem.title}
+                                {t("MenuWebsite." + subItem.title)}
                               </Typography>
                               {subItem.note && (
                                 <Typography
@@ -321,11 +324,11 @@ export default function HeaderPage(props: propUser) {
                                     whiteSpace: "normal",
                                   }}
                                 >
-                                  {subItem.note}
+                                  {t("MenuWebsite." + subItem.note)}
                                 </Typography>
                               )}
                             </div>
-                          </Link>
+                          </Typography>
                         </MenuItem>
                       ))}
                     </StyledMenu>
@@ -339,7 +342,7 @@ export default function HeaderPage(props: propUser) {
               <div className="header-right-menu">
                 <input
                   type="text"
-                  placeholder="Tìm kiếm tiền mã hoá"
+                  placeholder={t("HomePage.mobile_search_placeholder")}
                   className="search-bar"
                 />
                 <MenuProfile user={user} />
@@ -496,7 +499,7 @@ export default function HeaderPage(props: propUser) {
               <div className="header-right-menu">
                 <input
                   type="text"
-                  placeholder="Tìm kiếm tiền mã hoá"
+                  placeholder={t("HomePage.mobile_search_placeholder")}
                   className="search-bar"
                 />
                 <a
@@ -508,9 +511,10 @@ export default function HeaderPage(props: propUser) {
                     color: "#fff",
                     width: "70px",
                   }}
-                  href="/login"
+                  // href="/login"
+                  onClick={() => router.push("/login")}
                 >
-                  Đăng nhập
+                  {t("HomePage.mobile_login")}
                 </a>
                 <a
                   style={{
@@ -520,11 +524,12 @@ export default function HeaderPage(props: propUser) {
                     color: "#fff",
                     border: "1px solid #fff",
                     borderRadius: "10px",
-                    width: "60px",
+                    width: "65px",
                   }}
-                  href="/signup"
+                  // href="/signup"
+                  onClick={() => router.push("/signup")}
                 >
-                  Đăng kí
+                  {t("HomePage.mobile_signup")}
                 </a>
                 <button
                   style={{
