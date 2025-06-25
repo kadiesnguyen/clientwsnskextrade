@@ -1434,9 +1434,7 @@ export default function DepositWithdrawPage(props: TabProps) {
                     }}
                     options={wallet}
                     autoHighlight
-                    getOptionLabel={(option) =>
-                      t("DepositWithdrawPage." + option.name)
-                    }
+                    getOptionLabel={(option) => option.title}
                     onChange={(event, newValue) => {
                       setCoin(newValue?.id?.toString() || "2");
                       setbank(newValue?.bank || 0);
