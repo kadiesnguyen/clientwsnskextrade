@@ -1752,6 +1752,9 @@ export default function DepositWithdrawPage(props: TabProps) {
                       "& .MuiInputLabel-root": {
                         color: "white",
                       },
+                      "& .MuiInputLabel-root.Mui-focused": {
+                        color: "white",
+                      },
                       "& .MuiInputLabel-root.Mui-disabled": {
                         color: "white",
                       },
