@@ -189,6 +189,7 @@ export default function StakingPage() {
           width: "95%",
           margin: "0 auto",
           display: "grid",
+          justifyContent: "center",
         }}
       >
         <Typography
@@ -196,15 +197,26 @@ export default function StakingPage() {
           sx={{
             fontSize: "18px",
             fontWeight: "bold",
-            color: "white",
+            color: "#d7fe65",
           }}
         >
           {t("StakingPage.staking_Consignment")}
         </Typography>
+      </Box>
+      <Box
+        sx={{
+          width: "95%",
+          margin: "0 auto",
+          display: "grid",
+          justifyContent: "center",
+          textAlign: "justify",
+        }}
+      >
         <Typography
           variant="h6"
           sx={{
-            fontSize: "11px",
+            fontSize: "13px",
+            textAlign: "justify",
             fontWeight: 550,
             padding: "5px",
             color: "white",
@@ -215,7 +227,8 @@ export default function StakingPage() {
         <Typography
           variant="h6"
           sx={{
-            fontSize: "11px",
+            fontSize: "13px",
+            textAlign: "justify",
             fontWeight: 550,
             padding: "5px",
             color: "white",
@@ -226,7 +239,8 @@ export default function StakingPage() {
         <Typography
           variant="h6"
           sx={{
-            fontSize: "11px",
+            fontSize: "13px",
+            textAlign: "justify",
             fontWeight: 550,
             padding: "5px",
             color: "white",
@@ -237,7 +251,8 @@ export default function StakingPage() {
         <Typography
           variant="h6"
           sx={{
-            fontSize: "11px",
+            fontSize: "13px",
+            textAlign: "justify",
             fontWeight: 550,
             padding: "5px",
             color: "white",
@@ -248,7 +263,8 @@ export default function StakingPage() {
         <Typography
           variant="h6"
           sx={{
-            fontSize: "11px",
+            fontSize: "13px",
+            textAlign: "justify",
             fontWeight: 550,
             padding: "5px 0px 0px 5px",
             color: "white",
@@ -261,7 +277,7 @@ export default function StakingPage() {
         sx={{
           background: "#000",
           // padding: "20px 0",
-          paddingTop: "10px",
+          paddingTop: "20px",
         }}
       >
         <Typography
@@ -274,6 +290,7 @@ export default function StakingPage() {
               sm: "35px",
             },
             fontWeight: "bold",
+            paddingBottom: "5px",
           }}
           variant="h3"
         >
