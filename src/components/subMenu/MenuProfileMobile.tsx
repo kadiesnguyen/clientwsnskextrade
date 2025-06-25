@@ -40,6 +40,7 @@ import {
   LogoutMenuIcon,
   MessageIcon,
   NapMenuIcon,
+  NotiIcon,
   P2PMenuIcon,
   ProfileIcon,
   RutMenuIcon,
@@ -60,11 +61,13 @@ import { useTranslation } from "react-i18next";
 
 export interface userProps {
   user: userResponse | null;
+  noti: any | null;
 }
 
 export default function MenuProfileMobile(data: userProps) {
   const [anchorEl1, setAnchorEl1] = React.useState<null | HTMLElement>(null);
   const [drawerOpen, setDrawerOpen] = React.useState(false);
+  const [popupOpen, setPopupOpen] = React.useState(false);
   const [langAnchorEl, setLangAnchorEl] = React.useState<null | HTMLElement>(
     null
   );
@@ -93,6 +96,14 @@ export default function MenuProfileMobile(data: userProps) {
 
   const handleDrawerClose = () => {
     setDrawerOpen(false);
+  };
+
+  const handleClickPopup = (event: React.MouseEvent<HTMLElement>) => {
+    setPopupOpen(true);
+  };
+
+  const handleDrawerPopupClose = () => {
+    setPopupOpen(false);
   };
 
   const handleClick1 = (event: React.MouseEvent<HTMLElement>) => {
@@ -445,10 +456,133 @@ export default function MenuProfileMobile(data: userProps) {
       </Box>
     </Box>
   );
-  const handleLanguageChange = (langCode: string) => {
-    console.log("User selected language:", langCode);
-    setAnchorEl(null);
-  };
+  const popupNotication = () => (
+    <Box
+      sx={{
+        width: "100vw",
+        background: "#000",
+        color: "#fff",
+        height: "100vh",
+        overflowY: "auto",
+      }}
+    >
+      <Box
+        sx={{
+          padding: "16px",
+          background: "#000",
+          color: "#fff",
+          position: "relative",
+          textAlign: "center",
+        }}
+      >
+        <Typography
+          sx={{ fontSize: "16px", fontWeight: "bold", color: "white" }}
+        >
+          {t("ProfilePage.noti")}
+        </Typography>
+
+        <IconButton
+          onClick={handleDrawerPopupClose}
+          sx={{
+            color: "white",
+            background: "#909090",
+            borderRadius: "50%",
+            position: "absolute",
+            right: "20px",
+            top: "10px",
+            "&:hover": {
+              background: "rgba(255, 255, 255, 0.2)",
+            },
+          }}
+        >
+          <CloseIcon sx={{ fontSize: "24px" }} />
+        </IconButton>
+      </Box>
+      <Box
+        sx={{ width: "90%", height: "90%", margin: "auto", padding: "10px 0" }}
+      >
+        {data.noti ? (
+          data.noti.map((announcement: any, index: number) => (
+            <Box key={index}>
+              {/* <Divider sx={{ my: 1 }} /> */}
+              <Box
+                sx={{
+                  padding: "15px 0px",
+                  borderTop: index !== 0 ? "1px solid gray" : "none",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "5px",
+                }}
+              >
+                <Typography variant="body2" color="white">
+                  {announcement.title}
+                </Typography>
+                <Typography variant="body2" color="white">
+                  {new Date(announcement.addtime).toLocaleString()}
+                </Typography>
+
+                <Typography
+                  color="gray"
+                  sx={{ fontSize: "14px", fontWeight: "400" }}
+                >
+                  {announcement.content}
+                </Typography>
+              </Box>
+            </Box>
+          ))
+        ) : (
+          <Box sx={{ width: "100%" }}>
+            <Box
+              sx={{
+                width: "100%",
+                display: "flex",
+                marginTop: "15px",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "12px",
+              }}
+            >
+              <Button
+                href="/login"
+                sx={{
+                  width: "50%",
+                  height: "40px",
+                  borderRadius: "15px",
+                  background: "#fff",
+                  border: "1px solid #000",
+                  textTransform: "capitalize",
+                  color: "black",
+                  "&:hover": {
+                    background: "white",
+                  },
+                }}
+              >
+                {t("HomePage.mobile_login")}
+              </Button>
+              <Button
+                href="/signup"
+                sx={{
+                  width: "50%",
+                  height: "40px",
+                  borderRadius: "15px",
+                  background: "#909090",
+                  border: "1px solid #000",
+                  textTransform: "capitalize",
+                  color: "black",
+                  "&:hover": {
+                    background: "#909090",
+                  },
+                }}
+              >
+                {t("HomePage.mobile_signup")}
+              </Button>
+            </Box>
+          </Box>
+        )}
+      </Box>
+    </Box>
+  );
+
   return (
     <>
       <React.Fragment>
@@ -488,7 +622,15 @@ export default function MenuProfileMobile(data: userProps) {
             }}
           >
             <Tooltip title="Hot">
-              <StarIcon width="25px" height="25px" />
+              <IconButton
+                onClick={handleClickPopup}
+                size="small"
+                aria-controls={popupOpen ? "account-menu" : undefined}
+                aria-haspopup="true"
+                aria-expanded={popupOpen ? "true" : undefined}
+              >
+                <NotiIcon fill="#fff" width="25px" height="25px" />
+              </IconButton>
             </Tooltip>
             <Tooltip
               title="Notification"
@@ -534,6 +676,23 @@ export default function MenuProfileMobile(data: userProps) {
         >
           {drawerList()}
         </Drawer>
+
+        <Drawer
+          anchor="right"
+          open={popupOpen}
+          onClose={handleDrawerPopupClose}
+          sx={{
+            zIndex: 9999999,
+            "& .MuiDrawer-paper": {
+              background: "#1a263f",
+              border: "none",
+              borderRadius: "0",
+            },
+          }}
+        >
+          {popupNotication()}
+        </Drawer>
+
         <Dialog
           open={isLangMenuOpen}
           onClose={handleLangMenuClose}

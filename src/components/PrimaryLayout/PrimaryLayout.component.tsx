@@ -6,7 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import LoadingComponent from "../Loading";
-import { getMe } from "@/services/User.service";
+import { getMe, getNotification } from "@/services/User.service";
 import { GameConfig } from "@/configs/GameConfig";
 import MenuPopupComponent from "../popup/MenuPopup.component";
 import SupportPopupComponent from "../popup/SupportPopup.component";
@@ -47,6 +47,7 @@ export default function PrimaryLayoutComponent({
   const [load, setLoad] = useState(true);
   const [openSupport, setOpenSupport] = useState(false);
   const [user, setUser] = useState<IUser | null>(null);
+  const [dataNoti, setDataNoti] = useState<any | null>(null);
   // const { user, loading } = useAuth();
   const hanldMenu = (menu: number) => {
     setMenu(menu);
@@ -89,6 +90,7 @@ export default function PrimaryLayoutComponent({
     const initialize = async () => {
       try {
         const res: any = await getMe();
+        const noti: any = await getNotification();
         const isLoggedIn = !!res?.data;
         setUser(res.data);
 
@@ -103,6 +105,9 @@ export default function PrimaryLayoutComponent({
           const updatedRes: any = await getMe();
           setUser(updatedRes?.data);
           setLoad(false);
+        }
+        if (noti.status === true) {
+          setDataNoti(noti.data);
         }
       } catch (error) {
         const isProtectedPath = protectedPaths.some((p) => path?.startsWith(p));
@@ -124,7 +129,7 @@ export default function PrimaryLayoutComponent({
       ) : (
         <div className="container">
           <HeaderPage user={user} />
-          <MenuProfileMobile user={user} />
+          <MenuProfileMobile user={user} noti={dataNoti} />
           <main>{children}</main>
           {path === "/login/" || path === "/signup/" ? "" : <FooterPage />}
 

@@ -797,7 +797,9 @@ export default function DepositWithdrawPage(props: TabProps) {
                       sx={{ padding: "20px 0px" }}
                       options={medthod}
                       autoHighlight
-                      getOptionLabel={(option) => option.name}
+                      getOptionLabel={(option) =>
+                        t("DepositWithdrawPage." + option.name)
+                      }
                       onChange={(event, newValue) => {
                         setMethod(newValue?.id || 2);
                       }}
@@ -881,7 +883,9 @@ export default function DepositWithdrawPage(props: TabProps) {
                       sx={{ padding: "20px 0px" }}
                       options={medthodWallet}
                       autoHighlight
-                      getOptionLabel={(option) => option.name}
+                      getOptionLabel={(option) =>
+                        t("DepositWithdrawPage." + option.name)
+                      }
                       onChange={(event, newValue) => {
                         setMethod(newValue?.id || 2);
                       }}
@@ -1430,7 +1434,9 @@ export default function DepositWithdrawPage(props: TabProps) {
                     }}
                     options={wallet}
                     autoHighlight
-                    getOptionLabel={(option) => option.title}
+                    getOptionLabel={(option) =>
+                      t("DepositWithdrawPage." + option.name)
+                    }
                     onChange={(event, newValue) => {
                       setCoin(newValue?.id?.toString() || "2");
                       setbank(newValue?.bank || 0);

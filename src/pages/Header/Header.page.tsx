@@ -7,7 +7,7 @@ import Link from "next/link";
 import { userResponse } from "@/interface/user.interface";
 import { useRouter } from "next/navigation";
 import swal from "sweetalert";
-import { getMe } from "@/services/User.service";
+import { getMe, getNotification } from "@/services/User.service";
 import {
   alpha,
   Avatar,
@@ -42,6 +42,7 @@ import {
 } from "@/shared/Svgs/Svg.component";
 import TranslateGoogle from "../../components/GgTranstale/TranslateContext.component";
 import LanguageSwitcher from "@/components/Language/LanguageSwitcher";
+import { useTranslation } from "react-i18next";
 
 interface propUser {
   user: userResponse | null;
@@ -91,24 +92,35 @@ const StyledMenu = styled((props: MenuProps) => (
 }));
 
 export default function HeaderPage(props: propUser) {
+  const { t } = useTranslation();
   const [show, setShow] = useState(false);
   const [activeTab, setActiveTab] = useState<number>(0);
   const [user, setUser] = useState<any>(props.user);
   const [message, setMessage] = React.useState<any>(null);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [menuId, setMenuId] = React.useState<null | string>(null);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null); // Ref để lưu timeout
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const [dataNoti, setDataNoti] = useState<any | null>(null);
+  const [popupOpen, setPopupOpen] = React.useState<null | HTMLElement>(null);
   const [langAnchorEl, setLangAnchorEl] = React.useState<null | HTMLElement>(
     null
   );
   const isLangMenuOpen = Boolean(langAnchorEl);
+  const isNotiOpen = Boolean(popupOpen);
 
   const handleLangMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setLangAnchorEl(event.currentTarget);
   };
 
+  const handleNotiOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setPopupOpen(event.currentTarget);
+  };
+
   const handleLangMenuClose = () => {
     setLangAnchorEl(null);
+  };
+  const handleNotiClose = () => {
+    setPopupOpen(null);
   };
   const handleMouseEnter = (
     event: React.MouseEvent<HTMLElement>,
@@ -147,10 +159,14 @@ export default function HeaderPage(props: propUser) {
     const initialize = async () => {
       try {
         const res: any = await getMe();
+        const noti: any = await getNotification();
         if (res?.data) {
           setUser(res.data);
           const updatedRes: any = await getMe();
           setUser(updatedRes?.data);
+        }
+        if (noti.status === true) {
+          setDataNoti(noti.data);
         }
       } catch (error) {
         console.error("Error during initialization:", error);
@@ -328,6 +344,7 @@ export default function HeaderPage(props: propUser) {
                 />
                 <MenuProfile user={user} />
                 <button
+                  onClick={handleNotiOpen}
                   style={{
                     background: "none",
                     border: "none",
@@ -337,6 +354,88 @@ export default function HeaderPage(props: propUser) {
                 >
                   <NotiIcon />
                 </button>
+                <StyledMenu
+                  id="language-menu"
+                  anchorEl={popupOpen}
+                  open={isNotiOpen}
+                  onClose={handleNotiClose}
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "center",
+                  }}
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "center",
+                  }}
+                  MenuListProps={{
+                    onMouseEnter: handleMenuMouseEnter,
+                    onMouseLeave: handleNotiClose,
+                  }}
+                  sx={{
+                    "& .MuiPaper-root": {
+                      width: "400px",
+                      height: "400px",
+                      overflowY: "auto",
+                    },
+                  }}
+                >
+                  <Box
+                    sx={{
+                      width: "90%",
+                      padding: "10px",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      margin: "auto",
+                    }}
+                  >
+                    {dataNoti ? (
+                      dataNoti.map((announcement: any, index: number) => (
+                        <Box key={index}>
+                          {/* <Divider sx={{ my: 1 }} /> */}
+                          <Box
+                            sx={{
+                              width: "100%",
+                              padding: "15px 0px",
+                              borderTop:
+                                index !== 0 ? "1px solid gray" : "none",
+                              display: "flex",
+                              flexDirection: "column",
+                              gap: "5px",
+                            }}
+                          >
+                            <Typography variant="body2" color="black">
+                              {announcement.title}
+                            </Typography>
+                            <Typography variant="body2" color="black">
+                              {new Date(announcement.addtime).toLocaleString()}
+                            </Typography>
+
+                            <Typography
+                              color="gray"
+                              sx={{ fontSize: "14px", fontWeight: "400" }}
+                            >
+                              {announcement.content}
+                            </Typography>
+                          </Box>
+                        </Box>
+                      ))
+                    ) : (
+                      <Box sx={{ width: "100%" }}>
+                        <Box
+                          sx={{
+                            width: "100%",
+                            display: "flex",
+                            marginTop: "15px",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            gap: "12px",
+                          }}
+                        ></Box>
+                      </Box>
+                    )}
+                  </Box>
+                </StyledMenu>
                 <button
                   style={{
                     background: "none",
