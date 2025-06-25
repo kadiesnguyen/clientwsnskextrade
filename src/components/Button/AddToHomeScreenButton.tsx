@@ -14,7 +14,6 @@ declare global {
 const AddToHomeScreenButton = () => {
   const { t } = useTranslation();
   useEffect(() => {
-    // Load thư viện nếu chưa có
     const loadScript = () => {
       const script = document.createElement("script");
       script.src =

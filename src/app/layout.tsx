@@ -31,6 +31,10 @@ export default function RootLayout({
           name="viewport"
           content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
         />
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/gh/philfung/add-to-homescreen@3.2/dist/add-to-homescreen.min.css"
+        />
       </head>
       <body className={inter.className}>
         <PrimaryLayoutComponent>{children}</PrimaryLayoutComponent>
