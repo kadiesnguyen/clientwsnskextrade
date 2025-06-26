@@ -1,9 +1,14 @@
 export function getStore(key: string): any {
-  const store =
-    typeof window !== "undefined"
-      ? JSON.parse(window.localStorage.getItem(key) || "null")
-      : null;
-  return store;
+  if (typeof window === "undefined") return null;
+
+  const raw = window.localStorage.getItem(key);
+  if (!raw) return null;
+
+  try {
+    return JSON.parse(raw);
+  } catch (e) {
+    return raw;
+  }
 }
 
 export function getToken() {
