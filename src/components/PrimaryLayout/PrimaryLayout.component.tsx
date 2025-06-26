@@ -7,7 +7,6 @@ import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import LoadingComponent from "../Loading";
 import { getMe, getNotification } from "@/services/User.service";
-import { GameConfig } from "@/configs/GameConfig";
 import MenuPopupComponent from "../popup/MenuPopup.component";
 import SupportPopupComponent from "../popup/SupportPopup.component";
 import "./PrimaryLayout.css";

@@ -1,6 +1,7 @@
 "use client";
 import LinearWithValueLabel from "@/components/Input/LinearWithValueLabel";
 import Stakingdetail from "@/components/subMenu/Stakingdetail";
+import { getStore } from "@/configs/client-store";
 import useAuth from "@/hook/useAuth";
 import {
   buyMining,
@@ -65,7 +66,7 @@ export default function StakingPage() {
   const [selectedItem, setSelectedItem] = useState<any>(null);
   const [showPopup, setShowPopup] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
-  const land = window.localStorage.getItem("lang");
+  const land = getStore("lang");
 
   useEffect(() => {
     const referral = async () => {
