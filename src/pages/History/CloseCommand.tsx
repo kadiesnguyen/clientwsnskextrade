@@ -161,6 +161,7 @@ export default function CloseCommand() {
               </Typography>
               <Typography sx={{ color: "#fff" }}>{user?.username} </Typography>
             </Box>
+            {/* hide country */}
             <Box sx={{ display: "grid", alignItems: "center" }}>
               <Typography sx={{ color: "gray", fontSize: "13px" }}>
                 {t("ProfilePage.Identity")}
