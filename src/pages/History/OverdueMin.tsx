@@ -224,12 +224,12 @@ export default function OverdueMin() {
                 </Typography>
               )}
             </Box>
-            <Box sx={{ display: "grid", alignItems: "center" }}>
+            {/* <Box sx={{ display: "grid", alignItems: "center" }}>
               <Typography sx={{ color: "gray", fontSize: "13px" }}>
                 {t("ProfilePage.country")}
               </Typography>
               <Typography sx={{ color: "#fff" }}>{user?.addr} </Typography>
-            </Box>
+            </Box> */}
             <Box
               sx={{
                 display: {

@@ -108,7 +108,6 @@ export default function AccountPage() {
             sx={{
               display: "flex",
               gap: 4,
-              borderBottom: "1px solid #e0e0e0",
               padding: "20px 0px",
             }}
           >
@@ -179,7 +178,7 @@ export default function AccountPage() {
               )}
             </Box>
           </Box>
-          <Box
+          {/* <Box
             sx={{
               display: "flex",
               gap: 4,
@@ -200,7 +199,7 @@ export default function AccountPage() {
             <Typography sx={{ color: "#fff", fontSize: "16px" }}>
               {user?.addr || "Vietnam"}
             </Typography>
-          </Box>
+          </Box> */}
         </Box>
       </Box>
     </Box>
