@@ -35,7 +35,10 @@
     "change_pass9": "更新银行信息成功",
     "verifide1": "验证已成功发送！",
     "verifide2": "无法发送验证。请重试。",
-    "file": "下载应用"
+    "file": "下载应用",
+    "hot": "新",
+    "seeAll": "查看全部",
+    "toastSeeAll": "您已经阅读了所有新消息"
   },
   "MenuWebsite": {
     "menu1": "买入与卖出",

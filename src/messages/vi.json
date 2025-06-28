@@ -35,7 +35,10 @@
     "change_pass9": "Cập nhập ngân hàng thành công",
     "verifide1": "Xác minh đã được gửi thành công!",
     "verifide2": "Không thể gửi xác minh. Vui lòng thử lại.",
-    "file": "Tải app"
+    "file": "Tải app",
+    "hot": "Mới",
+    "seeAll": "Xem tất cả",
+    "toastSeeAll": "Bạn đã đọc hết tin nhắn mới"
   },
   "MenuWebsite": {
     "menu1": "Mua và bán",

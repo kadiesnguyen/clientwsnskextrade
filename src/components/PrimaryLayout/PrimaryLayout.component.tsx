@@ -6,7 +6,12 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import LoadingComponent from "../Loading";
-import { getMe, getNotification } from "@/services/User.service";
+import {
+  getMe,
+  getNotiDetail,
+  getNotification,
+  seeAllNoti,
+} from "@/services/User.service";
 import MenuPopupComponent from "../popup/MenuPopup.component";
 import SupportPopupComponent from "../popup/SupportPopup.component";
 import "./PrimaryLayout.css";
@@ -29,6 +34,7 @@ import MenuProfileMobile from "../subMenu/MenuProfileMobile";
 import "../../i18n";
 import LiveChatWidget from "../LIveChat/LiveChat";
 import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 const FooterPage = dynamic(() => import("@/pages/Footer/Footer.page"), {
   ssr: false,
 });
@@ -128,7 +134,29 @@ export default function PrimaryLayoutComponent({
       ) : (
         <div className="container">
           <HeaderPage user={user} />
-          <MenuProfileMobile user={user} noti={dataNoti} />
+          <MenuProfileMobile
+            user={user}
+            noti={dataNoti}
+            notiSee={async (e) => {
+              if (e) {
+                if (e.user_view === 1) {
+                  await getNotiDetail(e.id);
+                  const noti: any = await getNotification();
+                  if (noti.status === true) {
+                    setDataNoti(noti.data);
+                  }
+                }
+              }
+            }}
+            seeAll={async () => {
+              await seeAllNoti();
+              const noti: any = await getNotification();
+              if (noti.status === true) {
+                setDataNoti(noti.data);
+              }
+              toast.success(t("Toast.toastSeeAll"));
+            }}
+          />
           <main>{children}</main>
           {path === "/login/" || path === "/signup/" ? "" : <FooterPage />}
 

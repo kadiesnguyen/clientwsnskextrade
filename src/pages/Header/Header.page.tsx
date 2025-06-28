@@ -11,6 +11,7 @@ import { getMe, getNotification } from "@/services/User.service";
 import {
   alpha,
   Avatar,
+  Badge,
   Box,
   Button,
   Dialog,
@@ -355,7 +356,13 @@ export default function HeaderPage(props: propUser) {
                     cursor: "pointer",
                   }}
                 >
-                  <NotiIcon />
+                  <Badge
+                    badgeContent={dataNoti?.unread_count || 0} // số thông báo
+                    color="error" // màu đỏ
+                    overlap="circular" // căn chỉnh cho icon tròn
+                  >
+                    <NotiIcon />
+                  </Badge>
                 </button>
                 <StyledMenu
                   id="language-menu"
@@ -393,37 +400,41 @@ export default function HeaderPage(props: propUser) {
                     }}
                   >
                     {dataNoti ? (
-                      dataNoti.map((announcement: any, index: number) => (
-                        <Box key={index}>
-                          {/* <Divider sx={{ my: 1 }} /> */}
-                          <Box
-                            sx={{
-                              width: "100%",
-                              padding: "15px 0px",
-                              borderTop:
-                                index !== 0 ? "1px solid gray" : "none",
-                              display: "flex",
-                              flexDirection: "column",
-                              gap: "5px",
-                              color: "black",
-                            }}
-                          >
-                            <Typography variant="body2" color="black">
-                              {announcement.title}
-                            </Typography>
-                            <Typography variant="body2" color="black">
-                              {new Date(announcement.addtime).toLocaleString()}
-                            </Typography>
-
-                            <Typography
-                              color="black"
-                              sx={{ fontSize: "14px", fontWeight: "400" }}
+                      dataNoti.notices.map(
+                        (announcement: any, index: number) => (
+                          <Box key={index}>
+                            {/* <Divider sx={{ my: 1 }} /> */}
+                            <Box
+                              sx={{
+                                width: "100%",
+                                padding: "15px 0px",
+                                borderTop:
+                                  index !== 0 ? "1px solid gray" : "none",
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: "5px",
+                                color: "black",
+                              }}
                             >
-                              {announcement.content}
-                            </Typography>
+                              <Typography variant="body2" color="black">
+                                {announcement.title}
+                              </Typography>
+                              <Typography variant="body2" color="black">
+                                {new Date(
+                                  announcement.addtime
+                                ).toLocaleString()}
+                              </Typography>
+
+                              <Typography
+                                color="black"
+                                sx={{ fontSize: "14px", fontWeight: "400" }}
+                              >
+                                {announcement.content}
+                              </Typography>
+                            </Box>
                           </Box>
-                        </Box>
-                      ))
+                        )
+                      )
                     ) : (
                       <Box sx={{ width: "100%" }}>
                         <Box

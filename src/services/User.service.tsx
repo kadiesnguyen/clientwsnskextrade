@@ -167,6 +167,12 @@ const postDaily = () => {
 const getProgressContract = () => {
   return contentInstance.get("/api/contract/progress-contract");
 };
+const getNotiDetail = (id: string) => {
+  return contentInstance.get("/api/user/notices/" + id);
+};
+const seeAllNoti = () => {
+  return contentInstance.post("/api/user/notices/mark-all-read");
+};
 export {
   loginUser,
   signupUser,
@@ -201,4 +207,6 @@ export {
   postDaily,
   getProgressContract,
   updateBank,
+  getNotiDetail,
+  seeAllNoti,
 };

@@ -59,10 +59,13 @@ import TranslateGoogle from "../GgTranstale/TranslateContext.component";
 import LanguageSwitcher from "../Language/LanguageSwitcher";
 import { useTranslation } from "react-i18next";
 import AddToHomeScreenButton from "../Button/AddToHomeScreenButton";
+import { Visibility } from "@mui/icons-material";
 
 export interface userProps {
   user: userResponse | null;
   noti: any | null;
+  notiSee?: (noti: any) => void;
+  seeAll?: (noti: any) => void;
 }
 
 export default function MenuProfileMobile(data: userProps) {
@@ -476,6 +479,33 @@ export default function MenuProfileMobile(data: userProps) {
           textAlign: "center",
         }}
       >
+        <Button
+          disabled={data.noti.unread_count === 0}
+          sx={{
+            position: "absolute",
+            left: "10px",
+            fontSize: "10px",
+            color: "black",
+            background: "#fff",
+            display: "flex",
+            gap: "2px",
+            textTransform: "capitalize",
+            "&:hover": {
+              background: "#fff",
+            },
+            "&:disabled": {
+              color: "lightgray",
+              background: "#909090",
+            },
+          }}
+          onClick={() => {
+            if (data.seeAll) data.seeAll(true);
+          }}
+        >
+          <Visibility sx={{ fontSize: "13px" }} />
+          {t("Toast.seeAll")}
+        </Button>
+
         <Typography
           sx={{ fontSize: "16px", fontWeight: "bold", color: "white" }}
         >
@@ -503,7 +533,7 @@ export default function MenuProfileMobile(data: userProps) {
         sx={{ width: "90%", height: "90%", margin: "auto", padding: "10px 0" }}
       >
         {data.noti ? (
-          data.noti.map((announcement: any, index: number) => (
+          data.noti.notices.map((announcement: any, index: number) => (
             <Box key={index}>
               {/* <Divider sx={{ my: 1 }} /> */}
               <Box
@@ -513,8 +543,28 @@ export default function MenuProfileMobile(data: userProps) {
                   display: "flex",
                   flexDirection: "column",
                   gap: "5px",
+                  position: "relative",
+                  cursor: "pointer",
+                }}
+                onClick={() => {
+                  if (announcement && data.notiSee) data.notiSee(announcement);
                 }}
               >
+                {announcement.user_view === 1 && (
+                  <Typography
+                    sx={{
+                      position: "absolute",
+                      right: "10px",
+                      padding: "2px 10px",
+                      background: "red",
+                      color: "white",
+                      borderRadius: "10px",
+                      fontSize: "12px",
+                    }}
+                  >
+                    {t("Toast.hot")}
+                  </Typography>
+                )}
                 <Typography variant="body2" color="white">
                   {announcement.title}
                 </Typography>
@@ -633,7 +683,13 @@ export default function MenuProfileMobile(data: userProps) {
                 aria-haspopup="true"
                 aria-expanded={popupOpen ? "true" : undefined}
               >
-                <NotiIcon fill="#fff" width="25px" height="25px" />
+                <Badge
+                  badgeContent={data.noti?.unread_count || 0}
+                  color="error" // màu đỏ
+                  overlap="circular" // căn chỉnh cho icon tròn
+                >
+                  <NotiIcon fill="#fff" width="25px" height="25px" />
+                </Badge>
               </IconButton>
             </Tooltip>
             <Tooltip

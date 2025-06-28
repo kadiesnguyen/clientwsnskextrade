@@ -35,7 +35,10 @@
     "change_pass9": "Update bank changed successfully!.",
     "verifide1": "Verification submitted successfully!",
     "verifide2": "Failed to submit verification. Please try again.",
-    "file": "Download app"
+    "file": "Download app",
+    "hot": "New",
+    "seeAll": "See all",
+    "toastSeeAll": "You have read all the new messages."
   },
   "MenuWebsite": {
     "menu1": "Buy & Sell",
