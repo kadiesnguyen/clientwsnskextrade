@@ -480,7 +480,7 @@ export default function MenuProfileMobile(data: userProps) {
         }}
       >
         <Button
-          disabled={data.noti.unread_count === 0}
+          disabled={data.noti?.unread_count === 0}
           sx={{
             position: "absolute",
             left: "10px",
@@ -533,7 +533,7 @@ export default function MenuProfileMobile(data: userProps) {
         sx={{ width: "90%", height: "90%", margin: "auto", padding: "10px 0" }}
       >
         {data.noti ? (
-          data.noti.notices.map((announcement: any, index: number) => (
+          data.noti?.notices.map((announcement: any, index: number) => (
             <Box key={index}>
               {/* <Divider sx={{ my: 1 }} /> */}
               <Box
