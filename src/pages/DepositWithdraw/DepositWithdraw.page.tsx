@@ -51,6 +51,9 @@ interface CountryType {
   title: string;
   addresss: string;
   bank: number;
+  deposit_min: number;
+  withdraw_min: number;
+  withdraw_max: number;
   suggested?: boolean;
 }
 
@@ -101,6 +104,9 @@ export default function DepositWithdrawPage(props: TabProps) {
   const [coin, setCoin] = useState<string>();
   const [bank, setbank] = useState(0);
   const [method, setMethod] = useState(0);
+  const [depositMin, setDepositMin] = useState(0);
+  const [withdrawMin, setWithdrawMin] = useState(0);
+  const [withdrawMax, setWithdrawMax] = useState(0);
   const [value, setValue] = useState(props.value || 0);
   const [wallet, setWallet] = useState<CountryType[] | []>([]);
   const [configs, setConfigs] = useState<any>();
@@ -154,7 +160,10 @@ export default function DepositWithdrawPage(props: TabProps) {
       toast.warning(t("Toast.Desposit2"));
       return;
     }
-
+    if (Number(amount) < depositMin) {
+      toast.warning(t("Toast.Desposit11") + depositMin);
+      return;
+    }
     try {
       const formData = new FormData();
       formData.append("cid", coin);
@@ -198,18 +207,27 @@ export default function DepositWithdrawPage(props: TabProps) {
       toast.warning(t("Toast.Desposit8"));
       return;
     }
-    try {
-      const formData = new FormData();
-      formData.append("cid", coin);
-      formData.append("amount", amount);
-      formData.append("method", method.toString());
-      formData.append("paypassword", password);
-
-      await sellCoins(formData);
-      toast.success(t("Toast.Desposit6"));
-    } catch (error: any) {
-      toast.error(error.message || t("Toast.Desposit7"));
+    if (Number(amount) < withdrawMin) {
+      toast.warning(t("Toast.Desposit9") + withdrawMin);
+      return;
     }
+    if (Number(amount) > withdrawMax) {
+      toast.warning(t("Toast.Desposit10") + withdrawMax);
+      return;
+    }
+    if (wallet[0])
+      try {
+        const formData = new FormData();
+        formData.append("cid", coin);
+        formData.append("amount", amount);
+        formData.append("method", method.toString());
+        formData.append("paypassword", password);
+
+        await sellCoins(formData);
+        toast.success(t("Toast.Desposit6"));
+      } catch (error: any) {
+        toast.error(error.message || t("Toast.Desposit7"));
+      }
   };
   return (
     <Box
@@ -726,6 +744,9 @@ export default function DepositWithdrawPage(props: TabProps) {
                       setCoin(newValue?.id?.toString() || "2");
                       setbank(newValue?.bank || 0);
                       setAddress(newValue?.addresss || "");
+                      setWithdrawMin(newValue?.withdraw_min || 0);
+                      setWithdrawMax(newValue?.withdraw_max || 0);
+                      setDepositMin(newValue?.deposit_min || 0);
                     }}
                     renderOption={(props, option) => {
                       const { ...optionProps } = props;
@@ -978,6 +999,12 @@ export default function DepositWithdrawPage(props: TabProps) {
                     placeholder={t("DepositWithdrawPage.amount_name")}
                     variant="outlined"
                     onChange={(e) => setAmount(e.target.value)}
+                    helperText={
+                      depositMin != 0 ? t("Toast.Desposit11") + depositMin : ""
+                    }
+                    FormHelperTextProps={{
+                      sx: { color: "#fff" }, // HelperText màu trắng
+                    }}
                     sx={{
                       width: "100%",
                       "& .MuiOutlinedInput-root": {
@@ -1451,6 +1478,9 @@ export default function DepositWithdrawPage(props: TabProps) {
                       setCoin(newValue?.id?.toString() || "2");
                       setbank(newValue?.bank || 0);
                       setAddress(newValue?.addresss || "");
+                      setWithdrawMin(newValue?.withdraw_min || 0);
+                      setWithdrawMax(newValue?.withdraw_max || 0);
+                      setDepositMin(newValue?.deposit_min || 0);
                     }}
                     renderOption={(props, option) => {
                       const { ...optionProps } = props;
@@ -1672,7 +1702,7 @@ export default function DepositWithdrawPage(props: TabProps) {
                       label={t("DepositWithdrawPage.back_acc")}
                       variant="outlined"
                       value={user.bank_acc_no}
-                      disabled={true} // hoặc condition
+                      disabled={true}
                       sx={{
                         width: "100%",
                         "& .MuiInputBase-input": {
@@ -1755,6 +1785,12 @@ export default function DepositWithdrawPage(props: TabProps) {
                     label={t("DepositWithdrawPage.amount_name")}
                     variant="outlined"
                     onChange={(e) => setAmount(e.target.value)}
+                    helperText={
+                      withdrawMin != 0 ? t("Toast.Desposit9") + withdrawMin : ""
+                    }
+                    FormHelperTextProps={{
+                      sx: { color: "#fff" }, // HelperText màu trắng
+                    }}
                     sx={{
                       width: "100%",
                       "& .MuiInputBase-input": {
