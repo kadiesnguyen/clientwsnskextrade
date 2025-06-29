@@ -25,7 +25,7 @@ export default function SellComponent(progs: TabProps) {
   const { t } = useTranslation();
   const [valueAmount, setValueAmount] = useState<any>(null);
   const [amount, setAmount] = useState<any>(null);
-  const [price, setPrice] = useState<Number | null>(null);
+  const [price, setPrice] = useState<any>(null);
   const [type, setType] = useState(0);
   const [hytime, setHytime] = useState<any>(null);
   const [hyykbl, setHyykbl] = useState<any>(null);
@@ -101,7 +101,7 @@ export default function SellComponent(progs: TabProps) {
     try {
       const formData = new FormData();
       formData.append("ctime", hytime);
-      formData.append("amount", amount);
+      formData.append("amount", price);
       formData.append("coinname", progs.value);
       formData.append("method", "2");
       formData.append("uprate", hyykbl);

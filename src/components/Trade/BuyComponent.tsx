@@ -26,7 +26,7 @@ export default function BuyComponent(progs: TabProps) {
   const { t } = useTranslation();
   const [valueAmount, setValueAmount] = useState<any>(null);
   const [amount, setAmount] = useState<any>(null);
-  const [price, setPrice] = useState<Number | null>(null);
+  const [price, setPrice] = useState<any>(null);
   const [type, setType] = useState<any>(null);
   const [hytime, setHytime] = useState<any>(null);
   const [hyykbl, setHyykbl] = useState<any>(null);
@@ -105,7 +105,7 @@ export default function BuyComponent(progs: TabProps) {
     try {
       const formData = new FormData();
       formData.append("ctime", hytime);
-      formData.append("amount", amount);
+      formData.append("amount", price);
       formData.append("coinname", progs.value);
       formData.append("method", "1");
       formData.append("uprate", hyykbl);
@@ -120,6 +120,7 @@ export default function BuyComponent(progs: TabProps) {
       toast.error(t("Toast.buysell4"));
     }
   };
+
   return (
     <div>
       {progs.user ? (
