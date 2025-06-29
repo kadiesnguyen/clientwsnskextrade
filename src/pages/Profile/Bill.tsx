@@ -6,6 +6,7 @@ import {
   VerifiedIcon,
   WarningIcon,
 } from "@/shared/Svgs/Svg.component";
+import { formatDateTime } from "@/utils/formatDateTime";
 import {
   Avatar,
   Box,
@@ -313,7 +314,7 @@ export default function BillPage() {
                           {row.afternum}
                         </TableCell>
                         <TableCell sx={{ color: "#fff" }}>
-                          {new Date(row?.addtime).toLocaleDateString()}
+                          {formatDateTime(row?.addtime)}
                         </TableCell>
                       </TableRow>
                     ))}

@@ -10,6 +10,7 @@ import {
   VerifiedIcon,
   WarningIcon,
 } from "@/shared/Svgs/Svg.component";
+import { formatDateTime } from "@/utils/formatDateTime";
 import {
   Box,
   Button,
@@ -388,7 +389,7 @@ export default function OverviewPage() {
                       }}
                     >
                       <Typography variant="body2" color="white">
-                        {new Date(announcement.addtime).toLocaleString()}
+                        {formatDateTime(announcement.addtime)}
                       </Typography>
                       <Typography variant="body2" color="white">
                         {announcement.title}

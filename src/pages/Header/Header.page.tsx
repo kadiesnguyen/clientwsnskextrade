@@ -44,6 +44,7 @@ import {
 import TranslateGoogle from "../../components/GgTranstale/TranslateContext.component";
 import LanguageSwitcher from "@/components/Language/LanguageSwitcher";
 import { useTranslation } from "react-i18next";
+import { formatDateTime } from "@/utils/formatDateTime";
 
 interface propUser {
   user: userResponse | null;
@@ -420,9 +421,7 @@ export default function HeaderPage(props: propUser) {
                                 {announcement.title}
                               </Typography>
                               <Typography variant="body2" color="black">
-                                {new Date(
-                                  announcement.addtime
-                                ).toLocaleString()}
+                                {formatDateTime(announcement.addtime)}
                               </Typography>
 
                               <Typography

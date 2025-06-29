@@ -7,6 +7,7 @@ import {
   VerifiedIcon,
   WarningIcon,
 } from "@/shared/Svgs/Svg.component";
+import { formatDateTime } from "@/utils/formatDateTime";
 import {
   Avatar,
   Box,
@@ -297,7 +298,7 @@ export default function NormalIssue() {
                           <TableCell sx={{ color: "#fff" }}></TableCell>
                           <TableCell sx={{ color: "#fff" }}></TableCell>
                           <TableCell sx={{ color: "#fff" }}>
-                            {new Date(row.buytime).toLocaleDateString()}
+                            {formatDateTime(row.buytime)}
                           </TableCell>
                         </TableRow>
                       ))

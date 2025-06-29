@@ -60,6 +60,7 @@ import LanguageSwitcher from "../Language/LanguageSwitcher";
 import { useTranslation } from "react-i18next";
 import AddToHomeScreenButton from "../Button/AddToHomeScreenButton";
 import { Visibility } from "@mui/icons-material";
+import { formatDateTime } from "@/utils/formatDateTime";
 /** fixx them thong bao **/
 export interface userProps {
   user: userResponse | null;
@@ -569,7 +570,7 @@ export default function MenuProfileMobile(data: userProps) {
                   {announcement.title}
                 </Typography>
                 <Typography variant="body2" color="white">
-                  {new Date(announcement.addtime).toLocaleString()}
+                  {formatDateTime(announcement.addtime)}
                 </Typography>
 
                 <Typography
