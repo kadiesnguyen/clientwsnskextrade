@@ -695,7 +695,7 @@ export default function MenuProfileMobile(data: userProps) {
             </Tooltip>
             <Tooltip
               title="Notification"
-              onClick={() => router.push("https://direct.lc.chat/19194779/")}
+              onClick={() => router.push("https://vm.providesupport.com/0orwsq707deii1soz8ku1g0wmb")}
             >
               <img src="/images/live-chat.png" width="24px" height="24px" />
             </Tooltip>
