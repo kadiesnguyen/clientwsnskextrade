@@ -21,6 +21,7 @@ import {
 import { toast } from "react-toastify";
 import {
   getBills,
+  getContractjc,
   getContractpc,
   getMyWallet,
   getWebsiteConfig,
@@ -96,6 +97,7 @@ export default function AssetPage() {
   const { user } = useAuth();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(7);
+  const [history, setHisstory] = useState<any>(null);
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
   };
@@ -113,6 +115,10 @@ export default function AssetPage() {
         const res: any = await getContractpc();
         if (res.status === true) {
           setBill(res.data);
+        }
+        const his: any = await getContractjc();
+        if (his.status === true) {
+          setHisstory(his.data);
         }
       } catch (errors: any) {
         console.log(errors?.message);
@@ -404,6 +410,90 @@ export default function AssetPage() {
               >
                 {t("AssetPage.recent")}
               </Typography>
+              {history && (
+                <Box>
+                  {history.map((item: any, index: number) => (
+                    <Box key={index} sx={{ padding: "10px 0" }}>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Box>
+                          <Typography
+                            sx={{
+                              color: "white",
+                              fontSize: "14px",
+                              fontWeight: 600,
+                            }}
+                          >
+                            {item.hyzd === 1
+                              ? t("BuySellPage.buy")
+                              : t("BuySellPage.sell")}{" "}
+                            {item.coinname}
+                          </Typography>
+                          <Typography
+                            sx={{
+                              color: "#909090",
+                              fontSize: "12px",
+                              fontWeight: 600,
+                            }}
+                          >
+                            {t("HistoryPage.status")}: {t("BuySellPage.result")}
+                          </Typography>
+                          <Typography
+                            sx={{
+                              color: "#909090",
+                              fontSize: "12px",
+                              fontWeight: 600,
+                            }}
+                          >
+                            {formatDateTime(item.buytime)}
+                          </Typography>
+                          <Typography
+                            sx={{
+                              color: "#909090",
+                              fontSize: "12px",
+                              fontWeight: 600,
+                            }}
+                          >
+                            {formatDateTime(item.selltime)}
+                          </Typography>
+                        </Box>
+                        <Box>
+                          {item.hyzd === 1 ? (
+                            <Typography
+                              sx={{
+                                textAlign: "left",
+                                color: "green",
+                                fontSize: "14px",
+                                fontWeight: 600,
+                              }}
+                            >
+                              {t("BuySellPage.buy")}{" "}
+                              {formatCurrency(item.ploss, "en", "USD")}
+                            </Typography>
+                          ) : (
+                            <Typography
+                              sx={{
+                                textAlign: "left",
+                                color: "green",
+                                fontSize: "14px",
+                                fontWeight: 600,
+                              }}
+                            >
+                              {t("BuySellPage.sell")}{" "}
+                              {formatCurrency(item.ploss, "en", "USD")}
+                            </Typography>
+                          )}
+                        </Box>
+                      </Box>
+                    </Box>
+                  ))}
+                </Box>
+              )}
               {bill ? (
                 <Box>
                   {bill
@@ -425,7 +515,10 @@ export default function AssetPage() {
                                 fontWeight: 600,
                               }}
                             >
-                              {item.hyzd === 1 ? "Buy" : "Sell"} {item.coinname}
+                              {item.hyzd === 1
+                                ? t("BuySellPage.buy")
+                                : t("BuySellPage.sell")}{" "}
+                              {item.coinname}
                             </Typography>
                             <Typography
                               sx={{
