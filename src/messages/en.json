@@ -159,7 +159,7 @@
     "staking_Consignment2": "15-day Consignment: Deposit 5,000 Pi to 9,999 Pi for a 6% interest rate.",
     "staking_Consignment3": "30-day Consignment: Deposit 10,000 Pi to 99,999 Pi for a 15% interest rate.",
     "staking_Consignment4": "45-day Consignment: Deposit 100,000 Pi to 999,999 Pi for a 25% interest rate.",
-     "decription": "Earn passive income with your crypto",
+    "decription": "Earn passive income with your crypto",
     "note": "Turn your idle crypto into a steady source of income with just a few simple steps. Staking allows you to lock tokens to support the operation of the blockchain network and receive periodic rewards."
   },
   "BuySellPage": {
@@ -196,6 +196,7 @@
     "methodValue": "Automatic",
     "type2": "Personal",
     "type3": "Share",
+    "type4": "Cycle",
     "day": "Day",
     "content": "coin free is produced every day"
   },

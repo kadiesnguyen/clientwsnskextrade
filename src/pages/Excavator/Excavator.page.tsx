@@ -311,6 +311,9 @@ export default function ExcavatorPage() {
                           sx={{ color: "#666", fontSize: "14px" }}
                         >
                           {t("MiningPage.type1")}: {item.outcoin}
+                          <br />
+                          {t("MiningPage.type4")}: {item.cycle}{" "}
+                          {t("MiningPage.day")}
                         </Typography>
                         <Typography
                           variant="body1"
@@ -433,6 +436,9 @@ export default function ExcavatorPage() {
                           sx={{ color: "#666", fontSize: "14px" }}
                         >
                           {t("MiningPage.type1")}: {item.outcoin}
+                          <br />
+                          {t("MiningPage.type4")}: {item.cycle}{" "}
+                          {t("MiningPage.day")}
                         </Typography>
                         <Typography
                           variant="body1"
@@ -555,6 +561,9 @@ export default function ExcavatorPage() {
                           sx={{ color: "#666", fontSize: "14px" }}
                         >
                           {t("MiningPage.type1")}: {item.outcoin}
+                          <br />
+                          {t("MiningPage.type4")}: {item.cycle}{" "}
+                          {t("MiningPage.day")}
                         </Typography>
                         <Typography
                           variant="body1"

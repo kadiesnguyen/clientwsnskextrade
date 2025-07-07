@@ -330,7 +330,8 @@ export default function NormalMin() {
                             variant="body1"
                             sx={{ color: "#666", fontSize: "10px" }}
                           >
-                            {t("HistoryPage.cycle")}: {item.cycle}
+                            {t("HistoryPage.cycle")}: {item.cycle}{" "}
+                            {t("MiningPage.day")}
                           </Typography>
                           <Typography
                             variant="body1"
