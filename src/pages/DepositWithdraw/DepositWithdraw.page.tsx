@@ -177,6 +177,8 @@ export default function DepositWithdrawPage(props: TabProps) {
       toast.error(t("Toast.Desposit4"));
     }
   };
+  console.log("user?.balance.usdt", user?.balance.usdt);
+  console.log("coin", coin);
 
   const handleSubmitSell = async () => {
     if (!amount || !method || !coin || !password) {
@@ -199,11 +201,11 @@ export default function DepositWithdrawPage(props: TabProps) {
       router.push("/addwallet");
       return;
     }
-    if (method === 1 && Number(user?.balance.usdt) < Number(amount)) {
+    if (coin == "2" && Number(user?.balance.usdt) < Number(amount)) {
       toast.warning(t("Toast.Desposit8"));
       return;
     }
-    if (method === 2 && Number(user?.balance.pi) < Number(amount)) {
+    if (coin == "1" && Number(user?.balance.pi) < Number(amount)) {
       toast.warning(t("Toast.Desposit8"));
       return;
     }
@@ -1481,6 +1483,7 @@ export default function DepositWithdrawPage(props: TabProps) {
                       setWithdrawMin(newValue?.withdraw_min || 0);
                       setWithdrawMax(newValue?.withdraw_max || 0);
                       setDepositMin(newValue?.deposit_min || 0);
+                      console.log("newValue", newValue);
                     }}
                     renderOption={(props, option) => {
                       const { ...optionProps } = props;
