@@ -651,7 +651,7 @@ export default function HomePage() {
                   </AccordionDetails>
                 </Accordion>
               </Box>
-              {!showPopup && (
+              {showPopup && (
                 <Box
                   sx={{
                     position: "fixed",
