@@ -245,6 +245,7 @@ export default function SellComponent(progs: TabProps) {
               color: "black",
               width: "100%",
               height: "40px",
+              mt: "10px",
               borderRadius: "15px",
               fontSize: { xs: "14px", sm: "14px" },
               textTransform: "capitalize",
