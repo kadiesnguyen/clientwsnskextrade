@@ -575,7 +575,6 @@ export default function HomePage() {
                 <Accordion
                   sx={{
                     backgroundColor: "#000",
-                    borderBottom: "1px solid gray",
                     color: "white",
                     "& .MuiAccordionSummary-root": { color: "white" },
                     "& .MuiAccordionDetails-root": { color: "grwhiteay" },
