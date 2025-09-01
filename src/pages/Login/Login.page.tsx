@@ -223,10 +223,10 @@ export default function LoginPage() {
               onClick={login}
               sx={{
                 mb: 2,
-                backgroundColor: "#000",
+                backgroundColor: "#fcd534",
                 borderRadius: "15px",
-                color: "white",
-                "&:hover": { backgroundColor: "#000", color: "white" },
+                color: "black",
+                "&:hover": { backgroundColor: "#fcd534", color: "black" },
               }}
             >
               {t("HomePage.mobile_login")}
@@ -237,68 +237,6 @@ export default function LoginPage() {
                 {t("HomePage.mobile_signup")}
               </a>
             </Typography>
-            {/* <Grid container spacing={2} justifyContent="center" sx={{ mb: 2 }}>
-              <Grid item>
-                <Button
-                  variant="outlined"
-                  style={{
-                    borderRadius: "50%",
-                    minWidth: "50px",
-                    height: "50px",
-                    border: "0.5px solid #000",
-                  }}
-                >
-                  <img
-                    src="/images/google.webp"
-                    alt="Google"
-                    style={{ width: "24px", height: "24px" }}
-                  />{" "}
-                </Button>
-              </Grid>
-              <Grid item>
-                <Button
-                  variant="outlined"
-                  style={{
-                    borderRadius: "50%",
-                    minWidth: "50px",
-                    height: "50px",
-                    border: "0.5px solid #000",
-                  }}
-                >
-                  <img
-                    src="/images/apple.webp"
-                    alt="Apple"
-                    style={{ width: "24px", height: "24px" }}
-                  />{" "}
-                  
-                </Button>
-              </Grid>
-              <Grid item>
-                <Button
-                  variant="outlined"
-                  style={{
-                    borderRadius: "50%",
-                    minWidth: "50px",
-                    height: "50px",
-                    border: "0.5px solid #000",
-                  }}
-                >
-                  <img
-                    src="/images/wallet.webp"
-                    alt="Wallet"
-                    style={{ width: "24px", height: "24px" }}
-                  />{" "}
-                 
-                </Button>
-              </Grid>
-            </Grid>
-            <Typography variant="body2" align="center" color="textSecondary">
-              This site is protected by Google reCAPTCHA to ensure you’re not a
-              bot.{" "}
-              <a href="#" style={{ color: "#1976d2" }}>
-                Learn more
-              </a>
-            </Typography> */}
           </form>
         </Box>
       </Box>

@@ -219,10 +219,10 @@ export default function SignupPage() {
               fullWidth
               sx={{
                 mb: 2,
-                backgroundColor: "#000",
+                backgroundColor: "#fcd534",
                 borderRadius: "15px",
-                color: "white",
-                "&:hover": { backgroundColor: "#000", color: "white" },
+                color: "black",
+                "&:hover": { backgroundColor: "#fcd534", color: "black" },
               }}
               onClick={signup}
             >
