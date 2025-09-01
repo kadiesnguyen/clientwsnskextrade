@@ -481,20 +481,7 @@ export default function HomePage() {
                 >
                   {t("HomePage.mobile_deposit")}
                 </Button>
-                <Button
-                  href="/deposit"
-                  sx={{
-                    width: "35%",
-                    height: "35px",
-                    borderRadius: "15px",
-                    background: "#fcd534",
-                    color: "black",
-                    textTransform: "capitalize",
-                    "&:hover": { background: "#fcd534" },
-                  }}
-                >
-                  {t("BuySellPage.trade")}
-                </Button>
+
                 <Button
                   href="/withdraw"
                   sx={{
@@ -508,6 +495,21 @@ export default function HomePage() {
                   }}
                 >
                   {t("HomePage.mobile_withdraw")}
+                </Button>
+
+                <Button
+                  href="/deposit"
+                  sx={{
+                    width: "35%",
+                    height: "35px",
+                    borderRadius: "15px",
+                    background: "#fcd534",
+                    color: "black",
+                    textTransform: "capitalize",
+                    "&:hover": { background: "#fcd534" },
+                  }}
+                >
+                  {t("BuySellPage.trade")}
                 </Button>
               </Box>
               <Box

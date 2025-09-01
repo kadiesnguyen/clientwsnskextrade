@@ -8,7 +8,7 @@ export default function LoadingComponent() {
       <div className="item">
         <div className="banner-loading">
           <Image
-            src={"/images/photo_2025-06-18_15-01-46-removebg-preview.png"}
+            src={"/images/logo2.png"}
             width="100"
             height={100}
             alt=""

@@ -85,10 +85,6 @@ export default function BuySellPage() {
   const [showPopup, setShowPopup] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [loading, setLoading] = useState(false);
-
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
-  };
   useEffect(() => {
     const fetchData = async () => {
       const resCoin: any = await getListCoin();
@@ -100,137 +96,11 @@ export default function BuySellPage() {
     };
     fetchData();
   }, []);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Gọi API lấy danh sách coin và cấu hình mua bán
-        const [buySellConfig, result] = await Promise.all([
-          getBuySellConfig(),
-          getProgressContract(),
-        ]);
-
-        // Xử lý progress contract
-        if (result && result.data) {
-          const fixedSellTimeStr = result.data.selltime.replace(
-            /\.\d{6}Z$/,
-            "Z"
-          );
-          const sellTime = new Date(fixedSellTimeStr).getTime();
-          const now = Date.now();
-          const remainingSeconds = Math.floor((sellTime - now) / 1000);
-
-          if (remainingSeconds > 0) {
-            setProgressContract(result.data);
-            setCountdown(remainingSeconds);
-          } else {
-            setProgressContract(null);
-            setCountdown(null);
-          }
-        } else {
-          setProgressContract(null);
-          setCountdown(null);
-        }
-      } catch (error: any) {
-        // console.error("Error fetching data:", error);
-        // toast.error(error?.message || "Failed to fetch data");
-      }
-    };
-
-    fetchData();
-  }, []);
   const handleClick = (coin: any) => {
     if (coin) {
       setCoinTitle(coin);
       const [base, quote] = coin.split("/");
       setCoin(base + quote);
-    }
-  };
-  useEffect(() => {
-    if (countdown === null || countdown <= 0) return;
-
-    const interval = setInterval(() => {
-      setCountdown((prev) => {
-        if (prev && prev <= 1) {
-          clearInterval(interval);
-          setProgressContract(null);
-
-          setTimeout(() => {
-            fetchResult();
-          }, 4000);
-
-          return 0;
-        }
-        return (prev ?? 0) - 1;
-      });
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [countdown]);
-
-  const preloadImage = (src: string): Promise<void> => {
-    return new Promise((resolve, reject) => {
-      const img = new Image();
-      img.src = src;
-      img.onload = () => resolve();
-      img.onerror = () => {
-        resolve(); // Tiếp tục thực thi thay vì reject
-      };
-    });
-  };
-
-  const fetchResult = async () => {
-    try {
-      const tradeId = window.localStorage.getItem("tradeId");
-
-      if (!tradeId || !progressContract?.id) {
-        throw new Error("Missing trade ID or progress contract ID");
-      }
-
-      const res = await getOrderResult(progressContract.id);
-
-      setResult(res.data);
-      setCountdown(null);
-      setTrade(null);
-      await preloadImage("/images/thongbao.png");
-      setShowPopup(true);
-    } catch (error: any) {
-      toast.error(t("Toast.buysell"));
-    }
-  };
-  useEffect(() => {
-    if (showPopup) {
-      const timeout = setTimeout(() => {
-        setShowPopup(false); // Ẩn popup sau 5 giây
-        setResult(null); // Reset kết quả nếu cần
-      }, 5000);
-
-      return () => clearTimeout(timeout); // Clear khi component unmount hoặc showPopup thay đổi
-    }
-  }, [showPopup]);
-
-  const fetchProgressContract = async () => {
-    try {
-      const res: any = await getProgressContract();
-      if (res.data) {
-        const fixedSellTimeStr = res.data.selltime.replace(/\.\d{6}Z$/, "Z");
-        const sellTime = new Date(fixedSellTimeStr).getTime();
-        const now = Date.now();
-        const remainingSeconds = Math.floor((sellTime - now) / 1000);
-
-        if (remainingSeconds > 0) {
-          setProgressContract(res.data);
-          setCountdown(remainingSeconds);
-        } else {
-          setProgressContract(null);
-          setCountdown(null);
-        }
-      } else {
-        setProgressContract(null);
-        setCountdown(null);
-      }
-    } catch (error) {
-      console.error("Error fetching progress contract:", error);
-      setProgressContract(null);
     }
   };
   return (
@@ -327,7 +197,6 @@ export default function BuySellPage() {
             <Box sx={{ width: "100%", padding: "10px" }}>
               <Tabs
                 value={value}
-                onChange={handleChange}
                 aria-label="basic tabs example"
                 TabIndicatorProps={{ style: { display: "none" } }}
                 sx={{
@@ -471,7 +340,6 @@ export default function BuySellPage() {
                       setTrade(orderData);
                       window.localStorage.setItem("tradeId", orderData.id);
                       setCountdown(orderData.time);
-                      await fetchProgressContract();
                       // setCountdown(30);
                     }
                   }}
@@ -487,7 +355,6 @@ export default function BuySellPage() {
                       setTrade(orderData);
                       window.localStorage.setItem("tradeId", orderData.id);
                       setCountdown(orderData.time);
-                      await fetchProgressContract();
                       // setCountdown(30);
                     }
                   }}
@@ -531,7 +398,6 @@ export default function BuySellPage() {
           >
             <Tabs
               value={value}
-              onChange={handleChange}
               aria-label="basic tabs example"
               TabIndicatorProps={{ style: { display: "none" } }} // ẩn gạch dưới
               sx={{
@@ -677,7 +543,6 @@ export default function BuySellPage() {
                     setTrade(orderData);
                     window.localStorage.setItem("tradeId", orderData.id);
                     setCountdown(orderData.time);
-                    await fetchProgressContract();
                     // setCountdown(30);
                   }
                 }}
@@ -693,80 +558,12 @@ export default function BuySellPage() {
                     setTrade(orderData);
                     window.localStorage.setItem("tradeId", orderData.id);
                     setCountdown(orderData.time);
-                    await fetchProgressContract();
                     // setCountdown(30);
                   }
                 }}
               />
             </CustomTabPanel>
           </Box>
-          {showPopup && (
-            <Box
-              sx={{
-                position: "fixed",
-                top: 0,
-                left: 0,
-                width: "100vw",
-                height: "100vh",
-                background: "rgba(53, 53, 53, 0.5)",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                zIndex: 1000,
-              }}
-            >
-              <Box
-                sx={{
-                  position: "relative",
-                  width: "90%",
-                  maxWidth: "300px",
-                  borderRadius: "10px",
-                  marginTop: "-20%",
-                }}
-              >
-                {/* Ảnh nền */}
-                <Box
-                  component="img"
-                  src="/images/thongbao.png"
-                  alt="Thông báo"
-                  onLoad={() => setImageLoaded(true)}
-                  sx={{
-                    width: "100%",
-                    height: "auto",
-                    display: "block",
-                    borderRadius: "10px",
-                  }}
-                />
-                {imageLoaded && (
-                  <Box
-                    sx={{
-                      position: "absolute",
-                      top: "50%",
-                      left: "50%",
-                      transform: "translate(-50%, -50%)",
-                      textAlign: "center",
-                      width: "100%",
-                      px: 2,
-                    }}
-                  >
-                    <Typography
-                      variant="h6"
-                      sx={{
-                        fontSize: "35px",
-                        fontWeight: "bold",
-                        color: result?.is_win === 1 ? "#00c853" : "red",
-                      }}
-                    >
-                      {result?.is_win === 1 ? "+" : "-"}
-                      {result
-                        ? formatCurrency(Number(result?.ploss), "en", "USD")
-                        : 0}
-                    </Typography>
-                  </Box>
-                )}
-              </Box>
-            </Box>
-          )}
         </Box>
       </Box>
     </Box>
