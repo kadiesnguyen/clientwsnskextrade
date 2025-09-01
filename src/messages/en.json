@@ -49,14 +49,14 @@
       "menu1": "Buy & Sell Crypto",
       "note1": "Buying and selling without transaction fees through more than 100 payment methods."
     },
-    "menu2": "Staking",
+    "menu2": "Market",
     "sub_menu2": {
-      "menu1": "Staking Buy",
+      "menu1": "Trading market",
       "note1": "View the latest market trends and prices, volume, and data.",
       "menu2": "Opportunities",
       "note2": "Discover hot and new crypto"
     },
-    "menu4": "Mining",
+    "menu4": "Safe",
     "sub_menu4": {
       "menu1": "Earn",
       "note1": "Don't just hold earn.",
@@ -75,9 +75,9 @@
   },
   "MenuMobile": {
     "menu1": "Home",
-    "menu2": "Staking",
+    "menu2": "Market",
     "menu3": "Trade",
-    "menu4": "Mining",
+    "menu4": "Safe",
     "menu5": "Assets",
     "title1": "Profile and settings",
     "title2": "Shortcuts",
@@ -163,10 +163,10 @@
     "note": "Turn your idle crypto into a steady source of income with just a few simple steps. Staking allows you to lock tokens to support the operation of the blockchain network and receive periodic rewards."
   },
   "BuySellPage": {
-    "buy": "Buy",
-    "sell": "Sell",
+    "buy": "Deposit",
+    "sell": "Withdraw",
     "result": "Result watting",
-    "trade": "Place the order",
+    "trade": "Transfer",
     "history": "History",
     "type": "Type",
     "minute": "minute",

@@ -30,12 +30,12 @@ const LanguageSwitcher = ({ onLanguageChange }: LanguageSwitcherProps) => {
       >
         Việt Nam
       </li>
-      <li
+      {/* <li
         style={{ width: "100px", cursor: "pointer", padding: "5px 0" }}
         onClick={() => changeLanguage("zh")}
       >
         简体中文
-      </li>
+      </li> */}
     </ul>
   );
 };

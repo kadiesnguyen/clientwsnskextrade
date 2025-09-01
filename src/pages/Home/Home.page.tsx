@@ -375,7 +375,7 @@ export default function HomePage() {
                 <Button
                   sx={{
                     width: "150px",
-                    backgroundColor: "white",
+                    backgroundColor: "#fcd534",
                     color: "#000",
                     borderRadius: "20px",
                     textTransform: "capitalize",
@@ -472,10 +472,10 @@ export default function HomePage() {
                     width: "45%",
                     height: "35px",
                     borderRadius: "15px",
-                    background: "#bafc42",
+                    background: "#fcd534",
                     color: "black",
                     textTransform: "capitalize",
-                    "&:hover": { background: "#bafc42" },
+                    "&:hover": { background: "#fcd534" },
                   }}
                 >
                   {t("HomePage.mobile_deposit")}
@@ -486,10 +486,10 @@ export default function HomePage() {
                     width: "45%",
                     height: "35px",
                     borderRadius: "15px",
-                    background: "#bafc42",
+                    background: "#fcd534",
                     textTransform: "capitalize",
                     color: "black",
-                    "&:hover": { background: "#bafc42" },
+                    "&:hover": { background: "#fcd534" },
                   }}
                 >
                   {t("HomePage.mobile_withdraw")}

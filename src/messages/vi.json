@@ -49,14 +49,14 @@
       "menu1": "Mua và bán crypto",
       "note1": "Mua bán không phí giao dịch thông qua nhiều phương thức thanh toán."
     },
-    "menu2": "Ký gửi",
+    "menu2": "Thị trường",
     "sub_menu2": {
-      "menu1": "Ký gửi mới",
-      "note1": "Tham gia ký gửi tăng thêm thu nhập",
+      "menu1": "Thị trường giao dịch",
+      "note1": "Tham gia giao dịch tăng thêm thu nhập",
       "menu2": "Cơ hội",
       "note2": "Cơ hội tăng tiền tự động"
     },
-    "menu4": "Máy đào",
+    "menu4": "Két sắt",
     "sub_menu4": {
       "menu1": "Máy đào nổi",
       "note1": "Mua máy đào để tăng tốc đào coin",
@@ -75,9 +75,9 @@
   },
   "MenuMobile": {
     "menu1": "Trang chủ",
-    "menu2": "Ký gửi",
+    "menu2": "Thị trường",
     "menu3": "Giao dịch",
-    "menu4": "Máy đào",
+    "menu4": "Két sắt",
     "menu5": "Tài sản",
     "title1": "Hồ sơ và cài đặt",
     "title2": "Tiện ích",
@@ -162,10 +162,10 @@
     "note": "Biến tiền điện tử không hoạt động của bạn thành một nguồn thu nhập ổn định chỉ với vài bước đơn giản. Staking cho phép bạn khóa các token để hỗ trợ hoạt động của mạng lưới blockchain và nhận phần thưởng định kỳ."
   },
   "BuySellPage": {
-    "buy": "Mua",
-    "sell": "Bán",
+    "buy": "Nạp",
+    "sell": "Rút",
     "result": "Chờ kết quả",
-    "trade": "Hãy đặt lệnh",
+    "trade": "Chuyển đổi",
     "history": "Lịch sử",
     "type": "Loại",
     "minute": "Phút",
@@ -200,9 +200,9 @@
     "content": "coin free được sản xuất mỗi ngày"
   },
   "AssetPage": {
-    "menu2": "Nạp tiền",
-    "menu3": "Rút tiền",
-    "menu4": "Chuyển tiền",
+    "menu2": "Nạp",
+    "menu3": "Rút",
+    "menu4": "Chuyển đổi",
     "log_title": "Bạn đang không đăng nhập",
     "recent": "Lịch sử giao dịch",
     "quantity": "Số lượng",

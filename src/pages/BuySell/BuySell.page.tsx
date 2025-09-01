@@ -38,6 +38,7 @@ import {
   ArrowTrendDownIcon,
   ArrowTrendUpIcon,
   HistoryIcon,
+  TransferIcon,
 } from "@/shared/Svgs/Svg.component";
 import { useTranslation } from "react-i18next";
 
@@ -395,45 +396,19 @@ export default function BuySellPage() {
                     {t("BuySellPage.buy")} <ArrowTrendUpIcon fill="white" />
                   </Button>
 
-                  {countdown ? (
-                    <Box
-                      sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "1px",
-                      }}
-                    >
-                      <Typography
-                        sx={{
-                          color: "#909090",
-                          textAlign: "center",
-                          fontSize: "10px",
-                        }}
-                      >
-                        {t("BuySellPage.result")}
-                      </Typography>
-                      <Typography
-                        sx={{
-                          color: "white",
-                          textAlign: "center",
-                          fontSize: "13px",
-                          fontWeight: "bold",
-                        }}
-                      >
-                        {countdown}s
-                      </Typography>
-                    </Box>
-                  ) : (
-                    <Typography
-                      sx={{
-                        color: "white",
-                        textAlign: "center",
-                        fontSize: "10px",
-                      }}
-                    >
-                      {t("BuySellPage.trade")}
-                    </Typography>
-                  )}
+                  <Button
+                    sx={{
+                      color: "white",
+                      textAlign: "center",
+                      fontSize: "10px",
+                      background: "none",
+                      border: "none",
+                    }}
+                  >
+                    <TransferIcon width="18px" height="18px" />
+                    {t("BuySellPage.trade")}
+                  </Button>
+
                   <Divider
                     orientation="vertical"
                     variant="middle"
@@ -625,45 +600,21 @@ export default function BuySellPage() {
                 >
                   {t("BuySellPage.buy")} <ArrowTrendUpIcon fill="white" />
                 </Button>
-                {countdown ? (
-                  <Box
-                    sx={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "1px",
-                    }}
-                  >
-                    <Typography
-                      sx={{
-                        color: "#909090",
-                        textAlign: "center",
-                        fontSize: "10px",
-                      }}
-                    >
-                      {t("BuySellPage.result")}
-                    </Typography>
-                    <Typography
-                      sx={{
-                        color: "white",
-                        textAlign: "center",
-                        fontSize: "12px",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      {countdown}s
-                    </Typography>
-                  </Box>
-                ) : (
-                  <Typography
-                    sx={{
-                      color: "white",
-                      textAlign: "center",
-                      fontSize: "10px",
-                    }}
-                  >
-                    {t("BuySellPage.trade")}
-                  </Typography>
-                )}
+
+                <Button
+                  sx={{
+                    color: "white",
+                    textAlign: "center",
+                    fontSize: "10px",
+                    background: "none",
+                    border: "none",
+                    textTransform: "capitalize",
+                    padding: 0,
+                  }}
+                >
+                  <TransferIcon width="18px" height="18px" fill="white" />
+                  {t("BuySellPage.trade")}
+                </Button>
                 <Divider
                   orientation="vertical"
                   variant="middle"

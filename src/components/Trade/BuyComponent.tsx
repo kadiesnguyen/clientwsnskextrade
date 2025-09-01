@@ -129,87 +129,6 @@ export default function BuyComponent(progs: TabProps) {
             sx={{
               color: "white",
               fontSize: { xs: "14px", sm: "14px" },
-              // marginTop: "10px",
-            }}
-          >
-            {t("BuySellPage.type")}
-          </Typography>
-          <Box
-            sx={{
-              width: "100%",
-              display: "flex",
-              gap: "5px",
-              overflowX: "auto",
-              scrollbarWidth: "none", // Firefox
-              msOverflowStyle: "none", // IE/Edge
-              "&::-webkit-scrollbar": {
-                display: "none", // Chrome, Safari, Opera
-              },
-            }}
-          >
-            {buySellConfig &&
-              buySellConfig.hy_time.map((item: string, index: number) => (
-                <Button
-                  key={index}
-                  ref={(el) => (timeButtonRefs.current[index] = el)}
-                  sx={{
-                    background: type === index ? "#fff" : "#909090",
-                    color: "black",
-                    minWidth: { xs: "95px", sm: "130px" },
-                    padding: "2px",
-                    borderRadius: "10px",
-                    fontWeight: 600,
-                    fontSize: { xs: "10px", sm: "14px" },
-                    "&:hover": {
-                      background: type === index ? "#fff" : "#909090",
-                    },
-                    display: "flex",
-                    flexDirection: "column",
-                    // gap: "1px",
-                  }}
-                  onClick={() => {
-                    setType(index);
-                    setHytime(item);
-                    setHyykbl(buySellConfig.hy_ykbl?.[index] || "0");
-                    setValueAmount(index);
-                    setAmount(buySellConfig.hy_tzed?.[index] || "200");
-                    setPrice(Number(buySellConfig.hy_tzed?.[index]) || 100);
-                  }}
-                >
-                  <Typography
-                    sx={{
-                      fontSize: { xs: "13px", sm: "16px" },
-                      fontWeight: 800,
-                      textTransform: "capitalize",
-                    }}
-                  >
-                    {item} {t("BuySellPage.minute")}
-                  </Typography>
-                  <Typography
-                    sx={{
-                      fontSize: { xs: "10px", sm: "14px" },
-                      fontWeight: 500,
-                      textTransform: "capitalize",
-                    }}
-                  >
-                    {t("BuySellPage.profit")}
-                  </Typography>
-                  <Typography
-                    sx={{
-                      fontSize: { xs: "13px", sm: "16px" },
-                      fontWeight: 600,
-                      textTransform: "capitalize",
-                    }}
-                  >
-                    {buySellConfig.hy_ykbl?.[index]}%
-                  </Typography>
-                </Button>
-              ))}
-          </Box>
-          <Typography
-            sx={{
-              color: "white",
-              fontSize: { xs: "14px", sm: "14px" },
               marginTop: "10px",
             }}
           >
@@ -320,21 +239,7 @@ export default function BuyComponent(progs: TabProps) {
               },
             }}
           />
-          <Typography
-            sx={{
-              color: "white",
-              padding: "10px 0",
-              fontSize: {
-                xs: "13px",
-                sm: "14px",
-              },
-            }}
-          >
-            {t("BuySellPage.balance")}:{" "}
-            {progs.user?.balance.usdt
-              ? `${parseFloat(progs.user?.balance.usdt).toLocaleString()} USDT`
-              : "0 "}
-          </Typography>
+
           <Button
             type="button"
             disabled={progs.dataProcess}
@@ -342,6 +247,7 @@ export default function BuyComponent(progs: TabProps) {
               background: "#fff",
               color: "black",
               width: "100%",
+              mt: "10px",
               height: "45px",
               borderRadius: "15px",
               fontSize: { xs: "14px", sm: "14px" },

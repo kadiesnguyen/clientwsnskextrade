@@ -63,7 +63,7 @@ export default function PrimaryLayoutComponent({
         router.replace("/");
         break;
       case 2:
-        router.replace("/staking");
+        router.replace("/trade");
         break;
       case 3:
         router.replace("/buysell");
@@ -167,7 +167,7 @@ export default function PrimaryLayoutComponent({
                   <HomeIcon
                     width="25px"
                     height="25px"
-                    fill={menu === 1 ? "#fff" : "#909090"}
+                    fill={menu === 1 ? "#fcd534" : "#909090"}
                   />
                   <p className={menu === 1 ? "mobile-active" : "mobile-p"}>
                     {t("MenuMobile.menu1")}
@@ -179,7 +179,7 @@ export default function PrimaryLayoutComponent({
                   <MarketIcon
                     width="25px"
                     height="25px"
-                    fill={menu === 2 ? "#fff" : "#909090"}
+                    fill={menu === 2 ? "#fcd534" : "#909090"}
                   />
                   <p className={menu === 2 ? "mobile-active" : "mobile-p"}>
                     {t("MenuMobile.menu2")}
@@ -213,7 +213,7 @@ export default function PrimaryLayoutComponent({
                   <ExploreIcon
                     width="25px"
                     height="25px"
-                    fill={menu === 4 ? "#fff" : "#909090"}
+                    fill={menu === 4 ? "#fcd534" : "#909090"}
                   />
                   <p className={menu === 4 ? "mobile-active" : "mobile-p"}>
                     {t("MenuMobile.menu4")}
@@ -225,7 +225,7 @@ export default function PrimaryLayoutComponent({
                   <AssetsIcon
                     width="25px"
                     height="25px"
-                    fill={menu === 5 ? "#fff" : "#909090"}
+                    fill={menu === 5 ? "#fcd534" : "#909090"}
                   />
                   <p className={menu === 5 ? "mobile-active" : "mobile-p"}>
                     {t("MenuMobile.menu5")}
