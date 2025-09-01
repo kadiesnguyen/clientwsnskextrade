@@ -503,7 +503,7 @@ export default function BuySellPage() {
             >
               <TradingViewSymbolInfo
                 width="100%"
-                height={"360"}
+                height={"300"}
                 symbol={coin}
               />
             </Box>
