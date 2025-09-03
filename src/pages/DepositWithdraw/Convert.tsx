@@ -47,6 +47,11 @@ export default function Convert() {
         flexWrap: "wrap",
         gap: 1,
         alignItems: "flex-start",
+        width: {
+          xs: "100%",
+          sm: "70%",
+        },
+        margin: "0 auto",
       }}
     >
       <TextField
