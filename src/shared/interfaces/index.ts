@@ -88,7 +88,7 @@ export interface IUser {
   btc: string;
   balance: {
     usdt: string;
-    pi: string;
+    vnd: string;
   };
 }
 

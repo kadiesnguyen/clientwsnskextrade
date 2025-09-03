@@ -173,6 +173,12 @@ const getNotiDetail = (id: string) => {
 const getSafeActive = (id: string) => {
   return contentInstance.get("/api/orepool/working?coin=" + id);
 };
+const getDepositHistory = () => {
+  return contentInstance.get("/api/finance/deposit/history");
+};
+const getWithdrawHistory = () => {
+  return contentInstance.get("/api/finance/withdraw/history");
+};
 const seeAllNoti = () => {
   return contentInstance.post("/api/user/notices/mark-all-read");
 };
@@ -241,4 +247,6 @@ export {
   getSafeActive,
   WithdrawSafe,
   SendSafe,
+  getDepositHistory,
+  getWithdrawHistory,
 };

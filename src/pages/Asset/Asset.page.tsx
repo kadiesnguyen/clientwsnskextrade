@@ -23,8 +23,10 @@ import {
   getBills,
   getContractjc,
   getContractpc,
+  getDepositHistory,
   getMyWallet,
   getWebsiteConfig,
+  getWithdrawHistory,
   sellCoins,
   topUpCoins,
 } from "@/services/User.service";
@@ -112,13 +114,9 @@ export default function AssetPage() {
   useEffect(() => {
     const referral = async () => {
       try {
-        const res: any = await getContractpc();
+        const res: any = await getWithdrawHistory();
         if (res.status === true) {
           setBill(res.data);
-        }
-        const his: any = await getContractjc();
-        if (his.status === true) {
-          setHisstory(his.data);
         }
       } catch (errors: any) {
         console.log(errors?.message);
@@ -384,13 +382,9 @@ export default function AssetPage() {
                     alignItems: "Center",
                   }}
                 >
-                  <img
-                    src="/images/4f8f27a4de61fca0faca95298f6714c81fcfc22929d68e1062e396c4026452f9_200.webp"
-                    width={30}
-                    height={30}
-                  />
+                  <img src="/images/usdt.png" width={30} height={30} />
                   <Typography sx={{ fontSize: "14px", color: "white" }}>
-                    Pi
+                    USDT
                   </Typography>
                 </Box>
                 <Typography
@@ -400,7 +394,38 @@ export default function AssetPage() {
                     textAlign: "right",
                   }}
                 >
-                  {parseFloat(user.balance.pi).toLocaleString()} Pi
+                  {parseFloat(user.balance.usdt).toLocaleString()} USDT
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  width: "90%",
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                  margin: "auto",
+                  paddingTop: "10px",
+                }}
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    gap: "10px",
+                    alignItems: "Center",
+                  }}
+                >
+                  <img src="/images/business.png" width={30} height={30} />
+                  <Typography sx={{ fontSize: "14px", color: "white" }}>
+                    VND
+                  </Typography>
+                </Box>
+                <Typography
+                  sx={{
+                    fontSize: "14px",
+                    color: "white",
+                    textAlign: "right",
+                  }}
+                >
+                  {parseFloat(user.balance.vnd).toLocaleString()} VND
                 </Typography>
               </Box>
             </Box>
@@ -410,90 +435,7 @@ export default function AssetPage() {
               >
                 {t("AssetPage.recent")}
               </Typography>
-              {history && (
-                <Box>
-                  {history.map((item: any, index: number) => (
-                    <Box key={index} sx={{ padding: "10px 0" }}>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "center",
-                        }}
-                      >
-                        <Box>
-                          <Typography
-                            sx={{
-                              color: "white",
-                              fontSize: "14px",
-                              fontWeight: 600,
-                            }}
-                          >
-                            {item.hyzd === 1
-                              ? t("BuySellPage.buy")
-                              : t("BuySellPage.sell")}{" "}
-                            {item.coinname}
-                          </Typography>
-                          <Typography
-                            sx={{
-                              color: "#909090",
-                              fontSize: "12px",
-                              fontWeight: 600,
-                            }}
-                          >
-                            {t("HistoryPage.status")}: {t("BuySellPage.result")}
-                          </Typography>
-                          <Typography
-                            sx={{
-                              color: "#909090",
-                              fontSize: "12px",
-                              fontWeight: 600,
-                            }}
-                          >
-                            {formatDateTime(item.buytime)}
-                          </Typography>
-                          <Typography
-                            sx={{
-                              color: "#909090",
-                              fontSize: "12px",
-                              fontWeight: 600,
-                            }}
-                          >
-                            {formatDateTime(item.selltime)}
-                          </Typography>
-                        </Box>
-                        <Box>
-                          {item.hyzd === 1 ? (
-                            <Typography
-                              sx={{
-                                textAlign: "left",
-                                color: "green",
-                                fontSize: "14px",
-                                fontWeight: 600,
-                              }}
-                            >
-                              {t("BuySellPage.buy")}{" "}
-                              {formatCurrency(item.ploss, "en", "USD")}
-                            </Typography>
-                          ) : (
-                            <Typography
-                              sx={{
-                                textAlign: "left",
-                                color: "green",
-                                fontSize: "14px",
-                                fontWeight: 600,
-                              }}
-                            >
-                              {t("BuySellPage.sell")}{" "}
-                              {formatCurrency(item.ploss, "en", "USD")}
-                            </Typography>
-                          )}
-                        </Box>
-                      </Box>
-                    </Box>
-                  ))}
-                </Box>
-              )}
+
               {bill ? (
                 <Box>
                   {bill
@@ -527,33 +469,20 @@ export default function AssetPage() {
                                 fontWeight: 600,
                               }}
                             >
-                              {formatDateTime(item.buytime)}
+                              {formatDateTime(item.endtime)}
                             </Typography>
                           </Box>
                           <Box>
-                            {item.is_win === 1 ? (
-                              <Typography
-                                sx={{
-                                  textAlign: "left",
-                                  color: "green",
-                                  fontSize: "14px",
-                                  fontWeight: 600,
-                                }}
-                              >
-                                + {formatCurrency(item.ploss, "en", "USD")}
-                              </Typography>
-                            ) : (
-                              <Typography
-                                sx={{
-                                  textAlign: "left",
-                                  color: "red",
-                                  fontSize: "14px",
-                                  fontWeight: 600,
-                                }}
-                              >
-                                - {formatCurrency(item.ploss, "en", "USD")}
-                              </Typography>
-                            )}
+                            <Typography
+                              sx={{
+                                textAlign: "left",
+                                color: "red",
+                                fontSize: "14px",
+                                fontWeight: 600,
+                              }}
+                            >
+                              - {Number(item.num).toLocaleString()}
+                            </Typography>
                           </Box>
                         </Box>
                       </Box>

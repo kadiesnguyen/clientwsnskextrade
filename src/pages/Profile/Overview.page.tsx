@@ -303,7 +303,7 @@ export default function OverviewPage() {
                       fontWeight: "500",
                     }}
                   >
-                    {parseFloat(user.balance.pi).toLocaleString()} Pi
+                    {parseFloat(user.balance.vnd).toLocaleString()} VND
                   </Typography>
                 </Box>
               </StyledPaper>
