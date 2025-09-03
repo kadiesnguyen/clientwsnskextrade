@@ -1,6 +1,5 @@
 "use client";
 import LinearWithValueLabel from "@/components/Input/LinearWithValueLabel";
-import Stakingdetail from "@/components/subMenu/Stakingdetail";
 import { getStore } from "@/configs/client-store";
 import useAuth from "@/hook/useAuth";
 import {
@@ -391,7 +390,6 @@ export default function StakingPage() {
                       ? `${parseFloat(item.max).toLocaleString()} Pi`
                       : "0 "}
                   </Typography>
-                  {user ? <Stakingdetail staking={item} /> : ""}
                 </Box>
               </Box>
             </Box>

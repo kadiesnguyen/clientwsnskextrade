@@ -96,8 +96,8 @@
       "menu6": "Log out"
     },
     "assets": {
-      "menu0": "Open command",
-      "menu1": "Close command",
+      "menu0": "VND safe",
+      "menu1": "USDT safe",
       "menu2": "Mining activity",
       "menu3": "Mining expired",
       "menu4": "My Staking",
@@ -144,13 +144,13 @@
   },
   "StakingPage": {
     "title": "Staking",
-    "amount": "DoiUSDTAmount",
+    "amount": "Amount",
     "amont_min": "Amount Buy Min",
     "amont_max": "Amount Buy Max",
     "opent_time": "Opening time from to finish",
     "rate": "Achievement rate",
     "button": "Read more",
-    "staking_list": "DoiUSDTlist",
+    "staking_list": "DoiUSDT list",
     "staking_list1": "Minimum purchase:",
     "staking_list2": "Maximum purchase:",
     "button_join": "Join now",

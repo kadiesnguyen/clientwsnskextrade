@@ -27,6 +27,8 @@ import {
   ProfileIcon,
   QuaySoMenuIcon,
   RutIcon,
+  SafeBoxIcon,
+  SafeIcon,
   SlotsIcon,
   SportIcon,
   TradeIcon,
@@ -397,52 +399,16 @@ export const menuItemMobile2 = [
   },
 ];
 export const MenuAset2 = [
-  // {
-  //   id: "1",
-  //   link: "/history",
-  //   title: "History",
-  //   icon: <HistoryIcon fill="#fff" />,
-  // },
-  // {
-  //   id: "2",
-  //   link: "/mystaking",
-  //   title: "My Staking",
-  //   icon: <ExperimentIcon fill="#fff" />,
-  // },
   {
-    id: "3",
-    link: "/opencommand",
-    title: "Open command",
-    icon: <HistoryIcon fill="#fff" />,
+    id: "1",
+    link: "/history",
+    title: "History",
+    icon: <SafeBoxIcon width="26px" height="26px" fill="#fff" />,
   },
   {
-    id: "4",
-    link: "/closecommand",
-    title: "Close command",
-    icon: <TradeIcon fill="#fff" />,
-  },
-  {
-    id: "5",
-    link: "/excavatoroperating",
-    title: "Mining activity",
-    icon: <CpuStartIcon fill="#fff" />,
-  },
-  {
-    id: "6",
-    link: "/excavatorexpired",
-    title: "Mining expired",
-    icon: <CpuStopIcon fill="#fff" />,
-  },
-  {
-    id: "7",
+    id: "2",
     link: "/mystaking",
     title: "My Staking",
-    icon: <ExperimentIcon fill="#fff" />,
-  },
-  {
-    id: "8",
-    link: "/dailyrewards",
-    title: "Daily Rewards",
-    icon: <CalendarIcon width="25px" height="25px" fill="#fff" />,
+    icon: <SafeBoxIcon width="26px" height="26px" fill="#fff" />,
   },
 ];

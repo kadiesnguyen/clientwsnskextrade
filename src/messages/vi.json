@@ -96,8 +96,8 @@
       "menu6": "Đăng xuất"
     },
     "assets": {
-      "menu0": "Lệnh mở",
-      "menu1": "Lệnh đóng",
+      "menu0": "Két Sắt VND",
+      "menu1": "Két Sắt USDT",
       "menu2": "Máy đào đang hoạt động",
       "menu3": "Máy đào hết hạn",
       "menu4": "Danh sách ký gửi",
@@ -143,7 +143,7 @@
   },
   "StakingPage": {
     "title": "Ký gửi",
-    "amount": "Số lượng ký gửi",
+    "amount": "Số tiền gửi",
     "amont_min": "Mua tối thiểu",
     "amont_max": "Mua tối đa",
     "opent_time": "Giờ mở cửa - kết thúc",

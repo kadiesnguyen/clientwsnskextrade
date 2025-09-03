@@ -29,41 +29,16 @@ import { Badge, Button, TextField } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { formatCurrency } from "@/utils/formatMoney";
 import Image from "next/image";
-import {
-  BankMenuIcon,
-  CoinIcon,
-  DashboardIcon,
-  GiftMenuIcon,
-  HistoryBetMenuIcon,
-  HistoryMenuIcon,
-  InternetIcon,
-  LiveChatMenuIcon,
-  LogoutMenuIcon,
-  MessageIcon,
-  NapMenuIcon,
-  P2PMenuIcon,
-  ProfileIcon,
-  RutMenuIcon,
-  StarIcon,
-  WarningIcon,
-} from "@/shared/Svgs/Svg.component";
-import NavigationGame from "@/hook/NavigationGame";
-import {
-  MenuAset,
-  MenuAset2,
-  menuItemMobile,
-  menuItemMobile2,
-  menuItems,
-} from "@/datafake/Menu";
+import { CoinIcon } from "@/shared/Svgs/Svg.component";
 import { toast } from "react-toastify";
 import { buySubscribe } from "@/services/User.service";
 import { useTranslation } from "react-i18next";
 
-export interface userProps {
-  staking: any | null;
+export interface props {
+  type: any | null;
 }
 
-export default function Stakingdetail(data: userProps) {
+export default function Safedetail(type: props) {
   const { t } = useTranslation();
   const [anchorEl1, setAnchorEl1] = React.useState<null | HTMLElement>(null);
   const [drawerOpen, setDrawerOpen] = React.useState(false);
@@ -79,39 +54,11 @@ export default function Stakingdetail(data: userProps) {
     setDrawerOpen(false);
   };
 
-  const handleClick1 = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl1(event.currentTarget);
-  };
-
-  const handleClose1 = () => {
-    setAnchorEl1(null);
-  };
-
-  const handleMenuItemClick = (onClick: () => void) => {
-    onClick();
-    handleDrawerClose();
-  };
-
   const handleSubmit = async () => {
     if (!amount) {
       console.log("Submit Clicked1");
       toast.error(t("Toast.staking1"));
       return;
-    }
-    if (Number(amount) < data.staking.min) {
-      console.log("Submit Clicked2");
-      toast.warning(t("Toast.staking2"));
-      return;
-    }
-    try {
-      const formData = new FormData();
-      formData.append("pid", data.staking.id);
-      formData.append("amount", amount.toString());
-      await buySubscribe(formData);
-      toast.success(t("Toast.staking3"));
-      setDrawerOpen(false);
-    } catch (error: any) {
-      toast.error(t("Toast.staking4"));
     }
   };
 
@@ -187,9 +134,8 @@ export default function Stakingdetail(data: userProps) {
         />
         <Button
           type="button"
-          disabled={!data.staking}
           sx={{
-            background: "#fff",
+            background: "#fcd534",
             color: "black",
             width: "90%",
             margin: "16px auto",
@@ -199,83 +145,13 @@ export default function Stakingdetail(data: userProps) {
             textTransform: "capitalize",
             fontWeight: "bold",
             "&:hover": {
-              background: "#fff",
+              background: "#fcd534",
             },
           }}
           onClick={handleSubmit}
         >
-          {t("StakingPage.title")}
+          {t("MiningPage.button")}
         </Button>
-        <Box
-          sx={{
-            width: "90%",
-            margin: "16px auto",
-            height: "500px",
-            overflowY: "auto",
-            "&::-webkit-scrollbar": {
-              width: "0px",
-            },
-            background: "#909090",
-            padding: "10px",
-            borderRadius: "10px",
-          }}
-        >
-          <Box
-            sx={{ display: "grid", justifyContent: "center", margin: "auto" }}
-          >
-            <Box
-              sx={{ width: "100%", display: "flex", justifyContent: "center" }}
-            >
-              <img src={data.staking?.imgs || ""} height={60} />
-            </Box>
-            <Typography
-              sx={{ fontSize: "30px", color: "black", textAlign: "center" }}
-            >
-              {data.staking.name}
-            </Typography>
-            <Box
-              sx={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "space-around",
-              }}
-            >
-              <Typography
-                sx={{ fontSize: "16px", fontWeight: "600", color: "black" }}
-              >
-                {t("StakingPage.amont_min")}:
-                {parseFloat(data.staking.min).toLocaleString()}
-              </Typography>
-              <Typography
-                sx={{ fontSize: "16px", fontWeight: "600", color: "black" }}
-              >
-                {t("StakingPage.amont_max")}:{" "}
-                {parseFloat(data.staking.max).toLocaleString()}
-              </Typography>
-            </Box>
-            <Box
-              sx={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "space-around",
-              }}
-            >
-              <Typography
-                sx={{ fontSize: "16px", fontWeight: "600", color: "black" }}
-              >
-                {t("StakingPage.opent_time")}:{data.staking.open}
-              </Typography>
-              <Typography
-                sx={{ fontSize: "16px", fontWeight: "600", color: "black" }}
-              >
-                {t("StakingPage.rate")}: {data.staking.percent}%
-              </Typography>
-            </Box>
-            <Typography sx={{ fontSize: "16px", color: "black" }}>
-              {data.staking.content}
-            </Typography>
-          </Box>
-        </Box>
       </Box>
     );
   };
@@ -288,22 +164,23 @@ export default function Stakingdetail(data: userProps) {
           sx={{
             width: "100%",
             height: "40px",
-            background: "#fff",
+            background: "#fcd534",
             color: "black",
             borderRadius: "10px",
             fontSize: "14px",
+            mt: "5px",
             textTransform: "capitalize",
             "&:hover": {
-              backgroundColor: "#fff",
+              backgroundColor: "#fcd534",
             },
           }}
           onClick={handleClick}
         >
-          {t("StakingPage.button_join")}
+          {t("MiningPage.button")}
         </Button>
       </Box>
       <Drawer
-        anchor="left"
+        anchor="right"
         open={drawerOpen}
         onClose={handleDrawerClose}
         sx={{
