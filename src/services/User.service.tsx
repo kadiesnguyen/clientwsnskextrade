@@ -170,9 +170,21 @@ const getProgressContract = () => {
 const getNotiDetail = (id: string) => {
   return contentInstance.get("/api/user/notices/" + id);
 };
+const getSafeActive = (id: string) => {
+  return contentInstance.get("/api/orepool/working?coin=" + id);
+};
 const seeAllNoti = () => {
   return contentInstance.post("/api/user/notices/mark-all-read");
 };
+
+const ConvertUSDT = (formData: FormData) => {
+  return contentInstance.post("/api/finance/convert-usdt", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};
+
 export {
   loginUser,
   signupUser,
@@ -209,4 +221,6 @@ export {
   updateBank,
   getNotiDetail,
   seeAllNoti,
+  ConvertUSDT,
+  getSafeActive,
 };

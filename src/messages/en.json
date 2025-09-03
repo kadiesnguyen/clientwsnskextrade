@@ -41,7 +41,10 @@
     "file": "Download app",
     "hot": "New",
     "seeAll": "See all",
-    "toastSeeAll": "You have read all the new messages."
+    "toastSeeAll": "You have read all the new messages.",
+    "convert1": "Please select the currency to convert.",
+    "convert2": "Successfully converted to USDT",
+    "convert3": "Failed to convert to USDT"
   },
   "MenuWebsite": {
     "menu1": "Buy & Sell",
@@ -207,6 +210,7 @@
     "decription": "Bitcoin, Ethereum, Tether, Solana, and more popular crypto",
     "tab1": "Deposit",
     "tab2": "Withdraw",
+    "tab3": "Convert",
     "h2": "Top-up information",
     "bank_name": "Bank name",
     "back_acc": "Account number",
@@ -229,7 +233,8 @@
     "bankTransfer": "Please log in to Deposit / Withdraw coins",
     "wallet_link": "Wallet link",
     "bank_link": "Bank link",
-    "copy": "Copied"
+    "copy": "Copied",
+    "convert": "Convert to USDT"
   },
   "DailyRewardsPage": {
     "title": " Daily Check-in Rewards",

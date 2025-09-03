@@ -41,7 +41,10 @@
     "file": "Tải app",
     "hot": "Mới",
     "seeAll": "Xem tất cả",
-    "toastSeeAll": "Bạn đã đọc hết tin nhắn mới"
+    "toastSeeAll": "Bạn đã đọc hết tin nhắn mới",
+    "convert1": " Vui lòng nhập số tiền hợp lệ",
+    "convert2": "Chuyển đổi sang USDT thành công",
+    "convert3": "Chuyển đổi sang USDT thất bại"
   },
   "MenuWebsite": {
     "menu1": "Mua và bán",
@@ -206,6 +209,7 @@
     "decription": "Bitcoin, Ethereum, Tether, Solana và nhiều đồng tiền điện tử phổ biến khác",
     "tab1": "Nạp Tiền",
     "tab2": "Rút tiền",
+    "tab3": "Chuyển đổi",
     "h2": "Thông tin nạp tiền",
     "bank_name": "Tên ngân hàng",
     "back_acc": "Số Tài khoản",
@@ -228,7 +232,8 @@
     "bankTransfer": "Vui lòng đăng nhập để Nạp / Rút coin",
     "wallet_link": "Liên kết ví",
     "bank_link": "Liên kết ngân hàng",
-    "copy": "Đã copy"
+    "copy": "Đã copy",
+    "convert": "Chuyển đổi sang USDT"
   },
   "DailyRewardsPage": {
     "title": "Điểm danh nhận thưởng",
