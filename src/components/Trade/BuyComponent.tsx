@@ -40,7 +40,7 @@ export default function BuyComponent(progs: TabProps) {
     }
   };
   const formatNumber = (value: number) => {
-    return value.toLocaleString(); // 100000000 => "100,000,000"
+    return value.toLocaleString("vi-VN");
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
