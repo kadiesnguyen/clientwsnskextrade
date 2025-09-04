@@ -40,7 +40,8 @@ export default function SellComponent(progs: TabProps) {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const rawValue = e.target.value.replace(/./g, ""); // bỏ dấu phẩy
+    const rawValue = e.target.value.replace(/[,.]/g, "");
+
     const num = parseFloat(rawValue);
 
     if (!isNaN(num)) {
