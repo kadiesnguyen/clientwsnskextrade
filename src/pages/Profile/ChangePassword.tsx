@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Box, TextField, Button, Typography, Tabs, Tab } from "@mui/material";
 import {
   updateBank,
@@ -56,11 +56,19 @@ export default function ChangePassword(props: Tab) {
   const [bankAccNo, setbankAccNo] = useState<string | null>(null);
   const [bankAccName, setbankAccName] = useState<string | null>(null);
   const [wallet, setWallet] = useState<string | null>(null);
+  const [walletNetwork, setWalletNetwork] = useState<string | null>(null);
   const [newPaymentPassword, setNewPaymentPassword] = useState("");
   const [confirmPaymentPassword, setConfirmPaymentPassword] = useState("");
   const [value, setValue] = useState(props.tab || 0);
   const [subTab, setSubTab] = useState(props.subTab || 0);
-
+  const frontFileInput = useRef<HTMLInputElement>(null);
+  const [frontImage, setFrontImage] = useState<File>();
+  const handleFrontChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setFrontImage(file);
+    }
+  };
   useEffect(() => {
     if (user) {
       setBankName(user.bank_name);
@@ -145,6 +153,7 @@ export default function ChangePassword(props: Tab) {
         formData.append("bank_name", bankName);
         formData.append("bank_acc_no", bankAccNo);
         formData.append("bank_acc_name", bankAccName);
+        if (frontImage) formData.append("bank_qr", frontImage);
         await updateBank(formData)
           .then((response: any) => {
             if (response.status === true) {
@@ -160,9 +169,11 @@ export default function ChangePassword(props: Tab) {
         toast.error(t("Toast.Desposit5"));
       }
     } else {
-      if (wallet) {
+      if (wallet && walletNetwork) {
         const formData = new FormData();
+        formData.append("wallet_network", walletNetwork);
         formData.append("wallet", wallet);
+        if (frontImage) formData.append("wallet_qr", frontImage);
         await updateBank(formData)
           .then((response: any) => {
             if (response.status === true) {
@@ -640,203 +651,6 @@ export default function ChangePassword(props: Tab) {
               mt: 4,
             }}
           >
-            {/* <Typography
-              variant="h4"
-              gutterBottom
-              sx={{ fontWeight: "bold", color: "#fff" }}
-            >
-              {t("ProfilePage.add_bank")}
-            </Typography>
-
-            <form onSubmit={handleSubmitBank}>
-              <TextField
-                fullWidth
-                label={t("ProfilePage.change_label4")}
-                type="text"
-                value={user?.bank_name || bankName}
-                onChange={(e) => setBankName(e.target.value)}
-                margin="normal"
-                required
-                helperText={t("ProfilePage.helper_text4")}
-                InputLabelProps={{
-                  sx: {
-                    color: "#fff",
-                    "&.Mui-focused": {
-                      color: "#fff", // giữ màu trắng khi label floating
-                    },
-                  }, // Label màu trắng
-                }}
-                InputProps={{
-                  sx: {
-                    color: "#fff", // Chữ nhập vào màu trắng
-                    "& .MuiInputBase-input::placeholder": {
-                      color: "#fff", // Placeholder màu trắng
-                      opacity: 1,
-                    },
-                  },
-                }}
-                FormHelperTextProps={{
-                  sx: { color: "#fff" }, // HelperText màu trắng
-                }}
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    "& fieldset": {
-                      borderColor: "#fff",
-                    },
-                    "&:hover fieldset": {
-                      borderColor: "#fff",
-                    },
-                    "&.Mui-focused fieldset": {
-                      borderColor: "#fff",
-                    },
-                  },
-                }}
-              />
-              <TextField
-                fullWidth
-                label={t("ProfilePage.change_label5")}
-                type="text"
-                value={user?.bank_acc_no || bankAccNo}
-                onChange={(e) => setbankAccNo(e.target.value)}
-                margin="normal"
-                required
-                helperText={t("ProfilePage.helper_text5")}
-                InputLabelProps={{
-                  sx: {
-                    color: "#fff",
-                    "&.Mui-focused": {
-                      color: "#fff", // giữ màu trắng khi label floating
-                    },
-                  }, // Label màu trắng
-                }}
-                InputProps={{
-                  sx: {
-                    color: "#fff", // Chữ nhập vào màu trắng
-                    "& .MuiInputBase-input::placeholder": {
-                      color: "#fff", // Placeholder màu trắng
-                      opacity: 1,
-                    },
-                  },
-                }}
-                FormHelperTextProps={{
-                  sx: { color: "#fff" }, // HelperText màu trắng
-                }}
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    "& fieldset": {
-                      borderColor: "#fff",
-                    },
-                    "&:hover fieldset": {
-                      borderColor: "#fff",
-                    },
-                    "&.Mui-focused fieldset": {
-                      borderColor: "#fff",
-                    },
-                  },
-                }}
-              />
-              <TextField
-                fullWidth
-                label={t("ProfilePage.change_label6")}
-                type="text"
-                value={user?.bank_acc_name || bankAccName}
-                onChange={(e) => setbankAccName(e.target.value)}
-                margin="normal"
-                required
-                helperText={t("ProfilePage.helper_text6")}
-                InputLabelProps={{
-                  sx: {
-                    color: "#fff",
-                    "&.Mui-focused": {
-                      color: "#fff", // giữ màu trắng khi label floating
-                    },
-                  }, // Label màu trắng
-                }}
-                InputProps={{
-                  sx: {
-                    color: "#fff", // Chữ nhập vào màu trắng
-                    "& .MuiInputBase-input::placeholder": {
-                      color: "#fff", // Placeholder màu trắng
-                      opacity: 1,
-                    },
-                  },
-                }}
-                FormHelperTextProps={{
-                  sx: { color: "#fff" }, // HelperText màu trắng
-                }}
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    "& fieldset": {
-                      borderColor: "#fff",
-                    },
-                    "&:hover fieldset": {
-                      borderColor: "#fff",
-                    },
-                    "&.Mui-focused fieldset": {
-                      borderColor: "#fff",
-                    },
-                  },
-                }}
-              />
-              <TextField
-                fullWidth
-                label={t("ProfilePage.change_label7")}
-                type="text"
-                value={user?.wallet || wallet}
-                onChange={(e) => setWallet(e.target.value)}
-                margin="normal"
-                required
-                helperText={t("ProfilePage.helper_text7")}
-                InputLabelProps={{
-                  sx: {
-                    color: "#fff",
-                    "&.Mui-focused": {
-                      color: "#fff", // giữ màu trắng khi label floating
-                    },
-                  }, // Label màu trắng
-                }}
-                InputProps={{
-                  sx: {
-                    color: "#fff", // Chữ nhập vào màu trắng
-                    "& .MuiInputBase-input::placeholder": {
-                      color: "#fff", // Placeholder màu trắng
-                      opacity: 1,
-                    },
-                  },
-                }}
-                FormHelperTextProps={{
-                  sx: { color: "#fff" }, // HelperText màu trắng
-                }}
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    "& fieldset": {
-                      borderColor: "#fff",
-                    },
-                    "&:hover fieldset": {
-                      borderColor: "#fff",
-                    },
-                    "&.Mui-focused fieldset": {
-                      borderColor: "#fff",
-                    },
-                  },
-                }}
-              />
-              <Button
-                type="submit"
-                sx={{
-                  mt: 2,
-                  backgroundColor: "#fff",
-                  color: "black",
-                  width: "250px",
-                  height: "50px",
-                  borderRadius: "15px",
-                  textTransform: "capitalize",
-                }}
-              >
-                {t("ProfilePage.button_save")}
-              </Button>
-            </form> */}
-
             {subTab === 0 && (
               <form onSubmit={handleSubmitBank}>
                 {/* --- Các field ngân hàng --- */}
@@ -969,6 +783,71 @@ export default function ChangePassword(props: Tab) {
                     },
                   }}
                 />
+                <Typography
+                  sx={{
+                    color: "white",
+                    marginTop: "10px",
+                    marginBottom: "10px",
+                    textAlign: "left",
+                  }}
+                >
+                  {t("ProfilePage.change_label8")}
+                </Typography>
+                <TextField
+                  id="outlined-basic"
+                  variant="outlined"
+                  type="file"
+                  ref={frontFileInput}
+                  onChange={handleFrontChange}
+                  InputProps={{
+                    sx: {
+                      color: "#fff", // Chữ nhập vào màu trắng
+                      "& .MuiInputBase-input::placeholder": {
+                        color: "#fff", // Placeholder màu trắng
+                        opacity: 1,
+                      },
+                    },
+                  }}
+                  FormHelperTextProps={{
+                    sx: { color: "#fff" }, // HelperText màu trắng
+                  }}
+                  sx={{
+                    width: "100%",
+                    "& .MuiOutlinedInput-root": {
+                      color: "white",
+                      width: "100%",
+                      height: {
+                        xs: "52px",
+                        sm: "45px",
+                      },
+                      fontSize: { xs: "16px", sm: "14px" },
+                      lineHeight: {
+                        xs: "35px",
+                        sm: "45px",
+                      },
+                      "& fieldset": {
+                        borderColor: "white",
+                      },
+                      "&:hover fieldset": {
+                        borderColor: "white",
+                      },
+                      "&.Mui-focused fieldset": {
+                        borderColor: "white",
+                      },
+                    },
+                    "& .MuiInputBase-input": {
+                      padding: "0 14px", // chỉnh padding trái phải
+                      display: "flex",
+                      alignItems: "center", // quan trọng để căn giữa
+                      height: "90%", // full chiều cao TextField
+                      boxSizing: "border-box",
+                    },
+                    "& .MuiInputBase-input::placeholder": {
+                      color: "white",
+                      opacity: 1, // để không bị mờ
+                    },
+                  }}
+                />
                 <Button
                   type="submit"
                   sx={{
@@ -991,7 +870,50 @@ export default function ChangePassword(props: Tab) {
 
             {subTab === 1 && (
               <form onSubmit={handleSubmitBank}>
-                {/* --- Field ví --- */}
+                {/* --- Field {t("Toast.Wallet")} --- */}
+                <TextField
+                  fullWidth
+                  label={t("ProfilePage.change_label9")}
+                  type="text"
+                  value={walletNetwork}
+                  onChange={(e) => setWalletNetwork(e.target.value)}
+                  margin="normal"
+                  required
+                  helperText={t("ProfilePage.helper_text9")}
+                  InputLabelProps={{
+                    sx: {
+                      color: "#fff",
+                      "&.Mui-focused": {
+                        color: "#fff", // giữ màu trắng khi label floating
+                      },
+                    }, // Label màu trắng
+                  }}
+                  InputProps={{
+                    sx: {
+                      color: "#fff", // Chữ nhập vào màu trắng
+                      "& .MuiInputBase-input::placeholder": {
+                        color: "#fff", // Placeholder màu trắng
+                        opacity: 1,
+                      },
+                    },
+                  }}
+                  FormHelperTextProps={{
+                    sx: { color: "#fff" }, // HelperText màu trắng
+                  }}
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      "& fieldset": {
+                        borderColor: "#fff",
+                      },
+                      "&:hover fieldset": {
+                        borderColor: "#fff",
+                      },
+                      "&.Mui-focused fieldset": {
+                        borderColor: "#fff",
+                      },
+                    },
+                  }}
+                />
                 <TextField
                   fullWidth
                   label={t("ProfilePage.change_label7")}
@@ -1032,6 +954,71 @@ export default function ChangePassword(props: Tab) {
                       "&.Mui-focused fieldset": {
                         borderColor: "#fff",
                       },
+                    },
+                  }}
+                />
+                <Typography
+                  sx={{
+                    color: "white",
+                    marginTop: "10px",
+                    marginBottom: "10px",
+                    textAlign: "left",
+                  }}
+                >
+                  {t("ProfilePage.change_label10")}
+                </Typography>
+                <TextField
+                  id="outlined-basic"
+                  variant="outlined"
+                  type="file"
+                  ref={frontFileInput}
+                  onChange={handleFrontChange}
+                  InputProps={{
+                    sx: {
+                      color: "#fff", // Chữ nhập vào màu trắng
+                      "& .MuiInputBase-input::placeholder": {
+                        color: "#fff", // Placeholder màu trắng
+                        opacity: 1,
+                      },
+                    },
+                  }}
+                  FormHelperTextProps={{
+                    sx: { color: "#fff" }, // HelperText màu trắng
+                  }}
+                  sx={{
+                    width: "100%",
+                    "& .MuiOutlinedInput-root": {
+                      color: "white",
+                      width: "100%",
+                      height: {
+                        xs: "52px",
+                        sm: "45px",
+                      },
+                      fontSize: { xs: "16px", sm: "14px" },
+                      lineHeight: {
+                        xs: "35px",
+                        sm: "45px",
+                      },
+                      "& fieldset": {
+                        borderColor: "white",
+                      },
+                      "&:hover fieldset": {
+                        borderColor: "white",
+                      },
+                      "&.Mui-focused fieldset": {
+                        borderColor: "white",
+                      },
+                    },
+                    "& .MuiInputBase-input": {
+                      padding: "0 14px", // chỉnh padding trái phải
+                      display: "flex",
+                      alignItems: "center", // quan trọng để căn giữa
+                      height: "90%", // full chiều cao TextField
+                      boxSizing: "border-box",
+                    },
+                    "& .MuiInputBase-input::placeholder": {
+                      color: "white",
+                      opacity: 1, // để không bị mờ
                     },
                   }}
                 />

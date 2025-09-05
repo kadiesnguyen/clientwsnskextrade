@@ -314,7 +314,8 @@ export default function DepositWithdrawPage(props: TabProps) {
                 >
                   <img src="/images/business.png" width={30} height={30} />
                   <Typography sx={{ fontSize: "14px", color: "white" }}>
-                    Ví VND: {parseFloat(user.balance.vnd).toLocaleString()} VND
+                    {t("Toast.Wallet")} VND:{" "}
+                    {parseFloat(user.balance.vnd).toLocaleString()} VND
                   </Typography>
                 </Box>
               </Box>
@@ -328,8 +329,8 @@ export default function DepositWithdrawPage(props: TabProps) {
                 >
                   <img src="/images/usdt.png" width={30} height={30} />
                   <Typography sx={{ fontSize: "14px", color: "white" }}>
-                    Ví USDT: {parseFloat(user.balance.usdt).toLocaleString()}{" "}
-                    USDT
+                    {t("Toast.Wallet")} USDT:{" "}
+                    {parseFloat(user.balance.usdt).toLocaleString()} USDT
                   </Typography>
                 </Box>
               </Box>

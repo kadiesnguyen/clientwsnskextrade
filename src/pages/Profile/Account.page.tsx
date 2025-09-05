@@ -102,6 +102,29 @@ export default function AccountPage() {
             variant="h3"
             sx={{ fontSize: "25px", fontWeight: "600", color: "#fff" }}
           >
+            {t("ProfilePage.Wallet")}
+          </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              gap: 4,
+              padding: "10px 0px",
+            }}
+          >
+            <Typography sx={{ fontSize: "16px", color: "#fff" }}>
+              {t("Toast.Wallet")} VND:{" "}
+              {Number(user?.balance.vnd).toLocaleString()} VND
+            </Typography>
+            <Typography sx={{ fontSize: "16px", color: "#fff" }}>
+              {t("Toast.Wallet")} USDT:{" "}
+              {Number(user?.balance?.usdt).toLocaleString()} USDT
+            </Typography>
+          </Box>
+
+          <Typography
+            variant="h3"
+            sx={{ fontSize: "25px", fontWeight: "600", color: "#fff" }}
+          >
             {t("ProfilePage.Verification")}
           </Typography>
           <Box

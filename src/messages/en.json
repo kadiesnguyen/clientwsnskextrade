@@ -49,7 +49,8 @@
     "safe2": "Failed to withdraw money from the safe",
     "Safe3": "Money withdrawal from the safe has been cancelled.",
     "Safe4": "Deposit money into the safe successfully",
-    "Safe5": "Failed to deposit money into the safe."
+    "Safe5": "Failed to deposit money into the safe.",
+    "Wallet": "Wallet"
   },
   "MenuWebsite": {
     "menu1": "Buy & Sell",
@@ -243,6 +244,7 @@
     "currency": "Select currency",
     "method": "Bank",
     "amount_name": "Amount",
+    "amount_receive": "Actual amount received",
     "upload": "Upload transaction images",
     "Password": "Payment Password",
     "log_is": "You have not created a payment password.",
@@ -302,6 +304,7 @@
     "verified_title2": "Enter phone number",
     "verified_button": "Submit",
     "Personal": "Personal info",
+    "Wallet": "Wallet info",
     "Nickname": "Nickname",
     "Phone": "Phone",
     "Verification": "Verification info",
@@ -324,6 +327,10 @@
     "helper_text6": "ex: Nguyen Van A",
     "change_label7": "Wallet address",
     "helper_text7": "ex: AGBAHJJ1",
+    "change_label8": "Bank QR code",
+    "change_label9": "Enter the network",
+    "helper_text9": "ex: TRC20",
+    "change_label10": "Wallet QR code",
     "button_save": "Submit",
     "button_change": "Change Password",
     "change_pay_title": "Change payment password",

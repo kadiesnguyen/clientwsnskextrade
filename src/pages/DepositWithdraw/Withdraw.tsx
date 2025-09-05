@@ -1,4 +1,4 @@
-import { sellCoins, topUpCoins } from "@/services/User.service";
+import { getMyWallet, sellCoins, topUpCoins } from "@/services/User.service";
 import { formatCurrency } from "@/utils/formatMoney";
 import {
   CopyAllOutlined,
@@ -47,6 +47,7 @@ interface CountryType {
   deposit_min: number;
   withdraw_min: number;
   withdraw_max: number;
+  withdraw_fee: number;
   suggested?: boolean;
 }
 export default function Withdraw({ wallet, user }: props) {
@@ -54,11 +55,13 @@ export default function Withdraw({ wallet, user }: props) {
 
   const [amount, setAmount] = useState<number | null>(null);
   const [displayValue, setDisplayValue] = useState<string>("");
+  const [amountReceive, setAmountReceive] = useState<string>("");
   const [address, setAddress] = useState("");
 
   const [depositMin, setDepositMin] = useState(0);
   const [coin, setCoin] = useState<string | null>(null);
   const [bank, setbank] = useState(0);
+  const [withdrawFee, setWithdrawFee] = useState(0);
   const [method, setMethod] = useState(0);
   const [withdrawMin, setWithdrawMin] = useState(0);
   const [withdrawMax, setWithdrawMax] = useState(0);
@@ -69,7 +72,6 @@ export default function Withdraw({ wallet, user }: props) {
   const formatNumber = (value: number) => {
     return value.toLocaleString("vi-VN");
   };
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const rawValue = e.target.value.replace(/[,.]/g, "");
 
@@ -77,7 +79,8 @@ export default function Withdraw({ wallet, user }: props) {
 
     if (!isNaN(num)) {
       setAmount(num); // state lưu số
-      setDisplayValue(formatNumber(num)); // state hiển thị chuỗi có dấu phẩy
+      setDisplayValue(formatNumber(num));
+      setAmountReceive(formatNumber(num - withdrawFee));
     } else {
       setAmount(null);
       setDisplayValue("");
@@ -164,12 +167,20 @@ export default function Withdraw({ wallet, user }: props) {
             getOptionLabel={(option) => option.title}
             onChange={(event, newValue) => {
               setCoin(newValue?.id?.toString() || "2");
+              setWithdrawFee(newValue?.withdraw_fee || 0);
               setbank(newValue?.bank || 0);
               setAddress(newValue?.addresss || "");
               setWithdrawMin(newValue?.withdraw_min || 0);
               setWithdrawMax(newValue?.withdraw_max || 0);
               setDepositMin(newValue?.deposit_min || 0);
-              console.log("newValue", newValue);
+              if (amount && amount > 0) {
+                console.log("amount ", amount);
+                console.log(" withdrawFee", newValue?.withdraw_fee);
+
+                setAmountReceive(
+                  formatNumber(amount - Number(newValue?.withdraw_fee || 0))
+                );
+              }
             }}
             renderOption={(props, option) => {
               const { ...optionProps } = props;
@@ -516,7 +527,46 @@ export default function Withdraw({ wallet, user }: props) {
               },
             }}
           />
-
+          <TextField
+            id="outlined-basic"
+            label={t("DepositWithdrawPage.amount_receive")}
+            variant="outlined"
+            value={amountReceive}
+            sx={{
+              width: "100%",
+              "& .MuiInputBase-input": {
+                color: "white",
+              },
+              marginBottom: "20px",
+              "& .MuiInputBase-input.Mui-disabled": {
+                color: "white",
+                WebkitTextFillColor: "white", // fix Chrome override
+              },
+              "& .MuiInputLabel-root": {
+                color: "white",
+              },
+              "& .MuiInputLabel-root.Mui-focused": {
+                color: "white",
+              },
+              "& .MuiInputLabel-root.Mui-disabled": {
+                color: "white",
+              },
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: "white",
+                },
+                "&:hover fieldset": {
+                  borderColor: "white",
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: "white",
+                },
+                "&.Mui-disabled fieldset": {
+                  borderColor: "white",
+                },
+              },
+            }}
+          />
           <TextField
             id="outlined-basic"
             label={t("DepositWithdrawPage.Password")}
