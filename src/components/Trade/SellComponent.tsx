@@ -94,11 +94,11 @@ export default function SellComponent(progs: TabProps) {
                   sx={{
                     background: valueAmount === index ? "#fff" : "#909090",
                     color: "black",
-                    minWidth: "80px",
+                    minWidth: "90px",
                     height: "30px",
                     borderRadius: "15px",
                     fontWeight: 600,
-                    fontSize: { xs: "12px", sm: "16px" },
+                    fontSize: { xs: "12px", sm: "14px" },
                     "&:hover": {
                       background: valueAmount === index ? "#fff" : "#909090",
                     },

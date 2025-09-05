@@ -92,6 +92,7 @@ export default function DepositWithdrawPage(props: TabProps) {
   const [method, setMethod] = useState(0);
   const [value, setValue] = useState(props.value || 0);
   const [wallet, setWallet] = useState<CountryType[] | []>([]);
+  const [walletBuy, setWalletBuy] = useState<CountryType>();
   const [configs, setConfigs] = useState<any>();
   const { user } = useAuth();
 
@@ -110,6 +111,8 @@ export default function DepositWithdrawPage(props: TabProps) {
         const res: any = await getMyWallet();
         const config: any = await getWebsiteConfig();
         if (res.status === true) {
+          const findVND = res.data.find((res: any) => res.name == "vnd");
+          setWalletBuy(findVND);
           setWallet(res.data);
         }
         if (config.status === true) {
@@ -121,6 +124,7 @@ export default function DepositWithdrawPage(props: TabProps) {
     };
     referral();
   }, []);
+  console.log("walletBuy", walletBuy);
 
   return (
     <Box
@@ -156,7 +160,7 @@ export default function DepositWithdrawPage(props: TabProps) {
       >
         <Box
           sx={{
-            width: { xs: "100%", sm: "35%" },
+            width: { xs: "100%", sm: "23%" },
             display: {
               xs: "none",
               sm: "block",
@@ -193,7 +197,7 @@ export default function DepositWithdrawPage(props: TabProps) {
         {user ? (
           <Box
             sx={{
-              width: { xs: "100%", sm: "55%" },
+              width: { xs: "100%", sm: "70%" },
               border: {
                 xs: "none",
                 sm: "1px solid rgba(203, 203, 203, 0.46)",
@@ -283,8 +287,55 @@ export default function DepositWithdrawPage(props: TabProps) {
                 />
               </Tabs>
             </Box>
+            <Box
+              sx={{
+                width: {
+                  xs: "100%",
+                  sm: "90%",
+                },
+                display: "flex",
+                flexWrap: "wrap",
+                margin: "auto",
+                paddingTop: "10px",
+                justifyContent: "space-around",
+                p: {
+                  xs: "15px 0px",
+                  sm: "15px 0px",
+                },
+              }}
+            >
+              <Box>
+                <Box
+                  sx={{
+                    display: "flex",
+                    gap: "10px",
+                    alignItems: "Center",
+                  }}
+                >
+                  <img src="/images/business.png" width={30} height={30} />
+                  <Typography sx={{ fontSize: "14px", color: "white" }}>
+                    Ví VND: {parseFloat(user.balance.vnd).toLocaleString()} VND
+                  </Typography>
+                </Box>
+              </Box>
+              <Box>
+                <Box
+                  sx={{
+                    display: "flex",
+                    gap: "10px",
+                    alignItems: "Center",
+                  }}
+                >
+                  <img src="/images/usdt.png" width={30} height={30} />
+                  <Typography sx={{ fontSize: "14px", color: "white" }}>
+                    Ví USDT: {parseFloat(user.balance.usdt).toLocaleString()}{" "}
+                    USDT
+                  </Typography>
+                </Box>
+              </Box>
+            </Box>
             <CustomTabPanel value={value} index={0}>
-              <Deposit configs={configs} wallet={wallet} />
+              {walletBuy && <Deposit configs={configs} wallet={walletBuy} />}
             </CustomTabPanel>
             <CustomTabPanel value={value} index={1}>
               <Convert />

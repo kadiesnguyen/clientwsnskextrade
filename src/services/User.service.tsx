@@ -9,11 +9,10 @@ const loginUser = (email: string, password: string) => {
 };
 
 // Đăng ký
-const signupUser = (email: string, password: string, invit: string) => {
+const signupUser = (email: string, password: string) => {
   return authInstance.post("/api/register", {
     email,
     password,
-    invit,
   });
 };
 

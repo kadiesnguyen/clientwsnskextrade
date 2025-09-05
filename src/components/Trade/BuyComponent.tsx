@@ -10,10 +10,6 @@ import { IUser } from "@/shared/interfaces";
 import { Box, Button, Divider, TextField, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
-import { toast } from "react-toastify";
-import { CircleCountdown } from "../CountdownCircle/CountdownCircle";
-import { formatCurrency } from "@/utils/formatMoney";
-import { CloseOutlined } from "@mui/icons-material";
 import { useTranslation } from "react-i18next";
 interface TabProps {
   user: IUser | null;
@@ -97,11 +93,11 @@ export default function BuyComponent(progs: TabProps) {
                   sx={{
                     background: valueAmount === index ? "#fff" : "#909090",
                     color: "black",
-                    minWidth: "80px",
+                    minWidth: "90px",
                     height: "30px",
                     borderRadius: "15px",
                     fontWeight: 600,
-                    fontSize: { xs: "12px", sm: "16px" },
+                    fontSize: { xs: "12px", sm: "14px" },
                     "&:hover": {
                       background: valueAmount === index ? "#fff" : "#909090",
                     },

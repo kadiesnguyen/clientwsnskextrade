@@ -26,13 +26,12 @@ export default function SignupPage() {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const handlePassword = (e: any) => setPassword(e.target.value);
   const handleUsername = (e: any) => setEmail(e.target.value);
-  const handleinvit = (e: any) => setInvit(e.target.value);
   const toggleShowPassword = () => setShowPassword(!showPassword);
   const signup = (e: React.FormEvent) => {
     // e.preventDefault();
     if (email !== "" && password !== "") {
       setLoadding(true);
-      signupUser(email, password, invit)
+      signupUser(email, password)
         .then((res: any) => {
           console.log(res.message);
 
@@ -205,20 +204,13 @@ export default function SignupPage() {
                 )}
               </IconButton>
             </Box>
-            <InputLabel>{t("LoginPage.Referral")}* </InputLabel>
-            <TextField
-              fullWidth
-              variant="outlined"
-              type="text"
-              value={invit}
-              onChange={handleinvit}
-              sx={{ mb: 2, borderRadius: "15px", mt: 1 }}
-            />
+
             <Button
               type="button"
               fullWidth
               sx={{
                 mb: 2,
+                mt: 2,
                 backgroundColor: "#fcd534",
                 borderRadius: "15px",
                 color: "black",

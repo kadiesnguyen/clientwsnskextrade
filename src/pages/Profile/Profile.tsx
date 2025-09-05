@@ -103,9 +103,8 @@ export default function ProfilePage(props: TabProps) {
           <Tab label={t("ProfilePage.menu0")} {...a11yProps(0)} />
           <Tab label={t("ProfilePage.menu1")} {...a11yProps(1)} />
           <Tab label={t("ProfilePage.menu2")} {...a11yProps(2)} />
-          <Tab label={t("ProfilePage.menu3")} {...a11yProps(3)} />
-          <Tab label={t("ProfilePage.menu4")} {...a11yProps(4)} />
-          <Tab label={t("ProfilePage.menu5")} {...a11yProps(5)} />
+          <Tab label={t("ProfilePage.menu4")} {...a11yProps(3)} />
+          <Tab label={t("ProfilePage.menu5")} {...a11yProps(4)} />
         </Tabs>
       </Box>
 
@@ -119,13 +118,13 @@ export default function ProfilePage(props: TabProps) {
       <CustomTabPanel value={value} index={2}>
         <ChangePassword tab={props.tab || 0} subTab={props.subTab || 0} />
       </CustomTabPanel>
-      <CustomTabPanel value={value} index={3}>
+      {/* <CustomTabPanel value={value} index={3}>
         <VerifiedPage />
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={4}>
+      </CustomTabPanel> */}
+      <CustomTabPanel value={value} index={3}>
         <InvitationPage />
       </CustomTabPanel>
-      <CustomTabPanel value={value} index={5}>
+      <CustomTabPanel value={value} index={4}>
         <BillPage />
       </CustomTabPanel>
     </Box>

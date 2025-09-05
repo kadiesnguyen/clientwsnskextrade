@@ -40,47 +40,41 @@ export const MenuAset = [
     title: "Asset",
     item: [
       {
-        id: 6,
-        link: "/asset",
-        title: "Assets",
-        icon: <AssetsIcon width="25px" height="25px" />,
-      },
-      {
         id: 0,
         link: "/opencommand",
         title: "Open command",
-        icon: <HistoryIcon />,
+        icon: <SafeBoxIcon width="30px" height="30px" fill="black" />,
       },
       {
         id: 1,
         link: "/closecommand",
         title: "Close command",
-        icon: <TradeIcon />,
+        icon: <SafeBoxIcon width="30px" height="30px" fill="black" />,
       },
-      {
-        id: 2,
-        link: "/excavatoroperating",
-        title: "Mining activity",
-        icon: <CpuStartIcon />,
-      },
-      {
-        id: 3,
-        link: "/excavatorexpired",
-        title: "Mining expired",
-        icon: <CpuStopIcon />,
-      },
-      {
-        id: 4,
-        link: "/mystaking",
-        title: "My Staking",
-        icon: <ExperimentIcon fill="#000" />,
-      },
-      {
-        id: 5,
-        link: "/dailyrewards",
-        title: "Daily Rewards",
-        icon: <CalendarIcon fill="#000" />,
-      },
+      // {
+      //   id: 2,
+      //   link: "/excavatoroperating",
+      //   title: "Mining activity",
+      //   icon: <CpuStartIcon />,
+      // },
+      // {
+      //   id: 3,
+      //   link: "/excavatorexpired",
+      //   title: "Mining expired",
+      //   icon: <CpuStopIcon />,
+      // },
+      // {
+      //   id: 4,
+      //   link: "/mystaking",
+      //   title: "My Staking",
+      //   icon: <ExperimentIcon fill="#000" />,
+      // },
+      // {
+      //   id: 5,
+      //   link: "/dailyrewards",
+      //   title: "Daily Rewards",
+      //   icon: <CalendarIcon fill="#000" />,
+      // },
     ],
   },
 ];
@@ -294,22 +288,13 @@ export const menuItems = [
     icon: <NapIcon />,
     link: "/security",
   },
-  {
-    text: "Verified",
-    icon: <RutIcon />,
-    link: "/verified",
-  },
+
   {
     text: "Referral",
     icon: <GiftMenuIcon />,
     link: "/referral",
   },
 
-  // {
-  //   text: "Live chat 24/7",
-  //   icon: <LiveChatMenuIcon />,
-  //   link: "/livechat",
-  // },
   {
     text: "My invoice",
     icon: <InvoiceMenuIcon />,
@@ -337,11 +322,7 @@ export const menuItemMobile = [
     icon: <NapIcon />,
     link: "/security",
   },
-  {
-    text: "Verified",
-    icon: <RutIcon />,
-    link: "/verified",
-  },
+
   {
     text: "Referral",
     icon: <GiftMenuIcon />,
@@ -376,11 +357,11 @@ export const menuItemMobile2 = [
     icon: <NapIcon fill="#fff" />,
     link: "/security",
   },
-  {
-    text: "Verified",
-    icon: <RutIcon fill="#fff" />,
-    link: "/verified",
-  },
+  // {
+  //   text: "Verified",
+  //   icon: <RutIcon fill="#fff" />,
+  //   link: "/verified",
+  // },
   {
     text: "Referral",
     icon: <GiftMenuIcon fill="#fff" />,
