@@ -57,6 +57,7 @@ interface CountryType {
   deposit_min: number;
   withdraw_min: number;
   withdraw_max: number;
+  withdraw_fee: number;
   suggested?: boolean;
 }
 
