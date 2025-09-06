@@ -388,6 +388,10 @@ export default function Withdraw({ wallet, user }: props) {
               }}
             />
           ) : (
+            ""
+          )}
+
+          {method && method === 2 && walletNetwork == "BEP20" ? (
             <TextField
               id="outlined-basic"
               label={t("ProfilePage.change_label7")}
@@ -435,6 +439,8 @@ export default function Withdraw({ wallet, user }: props) {
                 },
               }}
             />
+          ) : (
+            ""
           )}
           <TextField
             id="outlined-basic"
