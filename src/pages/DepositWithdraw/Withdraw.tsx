@@ -716,8 +716,8 @@ export default function Withdraw({ wallet, user, refetchUser }: props) {
           )}
 
           {walletNetwork &&
-            (user?.[walletNetwork].wallet_qr == "" ||
-              user?.[walletNetwork].wallet_qr == null) && (
+            (user?.[walletNetwork]?.wallet_qr == "" ||
+              user?.[walletNetwork]?.wallet_qr == null) && (
               <Box>
                 {" "}
                 <Typography
