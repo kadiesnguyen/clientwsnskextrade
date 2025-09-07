@@ -392,7 +392,10 @@ export default function Withdraw({ wallet, user, refetchUser }: props) {
           ) : (
             ""
           )}
-          {method && method === 2 && walletNetwork == "TRC20" ? (
+          {method &&
+          method === 2 &&
+          walletNetwork == "TRC20" &&
+          user?.[walletNetwork]?.wallet ? (
             <TextField
               id="outlined-basic"
               label={t("ProfilePage.change_label7")}
@@ -444,7 +447,10 @@ export default function Withdraw({ wallet, user, refetchUser }: props) {
             ""
           )}
 
-          {method && method === 2 && walletNetwork == "BEP20" ? (
+          {method &&
+          method === 2 &&
+          walletNetwork == "BEP20" &&
+          user?.[walletNetwork]?.wallet ? (
             <TextField
               id="outlined-basic"
               label={t("ProfilePage.change_label7")}
@@ -495,205 +501,137 @@ export default function Withdraw({ wallet, user, refetchUser }: props) {
           ) : (
             ""
           )}
-          <TextField
-            id="outlined-basic"
-            label={t("DepositWithdrawPage.amount_name")}
-            variant="outlined"
-            value={displayValue}
-            onChange={handleChange}
-            helperText={
-              withdrawMin != 0 ? t("Toast.Desposit9") + withdrawMin : ""
-            }
-            FormHelperTextProps={{
-              sx: { color: "#fff" }, // HelperText màu trắng
-            }}
-            sx={{
-              width: "100%",
-              mt: "20px",
-              "& .MuiInputBase-input": {
-                color: "white",
-                background: "transparent",
-                // Fix autofill background
-                "&:-webkit-autofill": {
-                  WebkitBoxShadow: "0 0 0 1000px black inset", // chỉnh màu nền
-                  WebkitTextFillColor: "white",
-                  transition: "background-color 5000s ease-in-out 0s",
-                },
-              },
-              marginBottom: "20px",
-              "& .MuiInputBase-input.Mui-disabled": {
-                color: "white",
-                WebkitTextFillColor: "white", // fix Chrome override
-              },
-              "& .MuiInputLabel-root": {
-                color: "white",
-              },
-              "& .MuiInputLabel-root.Mui-focused": {
-                color: "white",
-              },
-              "& .MuiInputLabel-root.Mui-disabled": {
-                color: "white",
-              },
-              "& .MuiOutlinedInput-root": {
-                "& fieldset": {
-                  borderColor: "white",
-                },
-                "&:hover fieldset": {
-                  borderColor: "white",
-                },
-                "&.Mui-focused fieldset": {
-                  borderColor: "white",
-                },
-                "&.Mui-disabled fieldset": {
-                  borderColor: "white",
-                },
-              },
-            }}
-          />
-          <TextField
-            id="outlined-basic"
-            label={t("DepositWithdrawPage.amount_receive")}
-            variant="outlined"
-            value={amountReceive}
-            sx={{
-              width: "100%",
-              "& .MuiInputBase-input": {
-                color: "white",
-                background: "transparent",
-                // Fix autofill background
-                "&:-webkit-autofill": {
-                  WebkitBoxShadow: "0 0 0 1000px black inset", // chỉnh màu nền
-                  WebkitTextFillColor: "white",
-                  transition: "background-color 5000s ease-in-out 0s",
-                },
-              },
-              marginBottom: "20px",
-              "& .MuiInputBase-input.Mui-disabled": {
-                color: "white",
-                WebkitTextFillColor: "white", // fix Chrome override
-              },
-              "& .MuiInputLabel-root": {
-                color: "white",
-              },
-              "& .MuiInputLabel-root.Mui-focused": {
-                color: "white",
-              },
-              "& .MuiInputLabel-root.Mui-disabled": {
-                color: "white",
-              },
-              "& .MuiOutlinedInput-root": {
-                "& fieldset": {
-                  borderColor: "white",
-                },
-                "&:hover fieldset": {
-                  borderColor: "white",
-                },
-                "&.Mui-focused fieldset": {
-                  borderColor: "white",
-                },
-                "&.Mui-disabled fieldset": {
-                  borderColor: "white",
-                },
-              },
-            }}
-          />
-          <TextField
-            id="outlined-basic"
-            label={t("DepositWithdrawPage.Password")}
-            variant="outlined"
-            type={showPassword ? "text" : "password"}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            sx={{
-              width: "100%",
-              "& .MuiInputBase-input": {
-                color: "white",
-                background: "transparent",
-                // Fix autofill background
-                "&:-webkit-autofill": {
-                  WebkitBoxShadow: "0 0 0 1000px black inset", // chỉnh màu nền
-                  WebkitTextFillColor: "white",
-                  transition: "background-color 5000s ease-in-out 0s",
-                },
-              },
-              "& .MuiInputLabel-root": {
-                color: "white",
-              },
-              "& .MuiInputLabel-root.Mui-focused": {
-                color: "white",
-              },
-              marginBottom: "20px",
-              "& .MuiOutlinedInput-root": {
-                "& fieldset": {
-                  borderColor: "white",
-                },
-                "&:hover fieldset": {
-                  borderColor: "white",
-                },
-                "&.Mui-focused fieldset": {
-                  borderColor: "white",
-                },
-              },
-            }}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    onClick={handleClickShowPassword}
-                    edge="end"
-                    sx={{ color: "white" }}
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          />
-          {(user.bank_qr == "" || user.bank_qr == null) && (
-            <Box>
-              {" "}
-              <Typography
-                sx={{
-                  color: "white",
-                  marginTop: "10px",
-                  marginBottom: "10px",
-                  textAlign: "left",
-                }}
-              >
-                {t("ProfilePage.change_label10")}
-              </Typography>
+          {walletNetwork && user?.[walletNetwork]?.wallet && (
+            <>
               <TextField
                 id="outlined-basic"
+                label={t("DepositWithdrawPage.amount_name")}
                 variant="outlined"
-                type="file"
-                ref={frontFileInput}
-                onChange={handleFrontChange}
-                InputProps={{
-                  sx: {
-                    color: "#fff", // Chữ nhập vào màu trắng
-                    "& .MuiInputBase-input::placeholder": {
-                      color: "#fff", // Placeholder màu trắng
-                      opacity: 1,
-                    },
-                  },
-                }}
+                value={displayValue}
+                onChange={handleChange}
+                helperText={
+                  withdrawMin != 0 ? t("Toast.Desposit9") + withdrawMin : ""
+                }
                 FormHelperTextProps={{
                   sx: { color: "#fff" }, // HelperText màu trắng
                 }}
                 sx={{
                   width: "100%",
-                  "& .MuiOutlinedInput-root": {
+                  mt: "20px",
+                  "& .MuiInputBase-input": {
                     color: "white",
-                    width: "100%",
-                    height: {
-                      xs: "52px",
-                      sm: "45px",
+                    background: "transparent",
+                    // Fix autofill background
+                    "&:-webkit-autofill": {
+                      WebkitBoxShadow: "0 0 0 1000px black inset", // chỉnh màu nền
+                      WebkitTextFillColor: "white",
+                      transition: "background-color 5000s ease-in-out 0s",
                     },
-                    fontSize: { xs: "16px", sm: "14px" },
-                    lineHeight: {
-                      xs: "35px",
-                      sm: "45px",
+                  },
+                  marginBottom: "20px",
+                  "& .MuiInputBase-input.Mui-disabled": {
+                    color: "white",
+                    WebkitTextFillColor: "white", // fix Chrome override
+                  },
+                  "& .MuiInputLabel-root": {
+                    color: "white",
+                  },
+                  "& .MuiInputLabel-root.Mui-focused": {
+                    color: "white",
+                  },
+                  "& .MuiInputLabel-root.Mui-disabled": {
+                    color: "white",
+                  },
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": {
+                      borderColor: "white",
                     },
+                    "&:hover fieldset": {
+                      borderColor: "white",
+                    },
+                    "&.Mui-focused fieldset": {
+                      borderColor: "white",
+                    },
+                    "&.Mui-disabled fieldset": {
+                      borderColor: "white",
+                    },
+                  },
+                }}
+              />
+              <TextField
+                id="outlined-basic"
+                label={t("DepositWithdrawPage.amount_receive")}
+                variant="outlined"
+                value={amountReceive}
+                sx={{
+                  width: "100%",
+                  "& .MuiInputBase-input": {
+                    color: "white",
+                    background: "transparent",
+                    // Fix autofill background
+                    "&:-webkit-autofill": {
+                      WebkitBoxShadow: "0 0 0 1000px black inset", // chỉnh màu nền
+                      WebkitTextFillColor: "white",
+                      transition: "background-color 5000s ease-in-out 0s",
+                    },
+                  },
+                  marginBottom: "20px",
+                  "& .MuiInputBase-input.Mui-disabled": {
+                    color: "white",
+                    WebkitTextFillColor: "white", // fix Chrome override
+                  },
+                  "& .MuiInputLabel-root": {
+                    color: "white",
+                  },
+                  "& .MuiInputLabel-root.Mui-focused": {
+                    color: "white",
+                  },
+                  "& .MuiInputLabel-root.Mui-disabled": {
+                    color: "white",
+                  },
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": {
+                      borderColor: "white",
+                    },
+                    "&:hover fieldset": {
+                      borderColor: "white",
+                    },
+                    "&.Mui-focused fieldset": {
+                      borderColor: "white",
+                    },
+                    "&.Mui-disabled fieldset": {
+                      borderColor: "white",
+                    },
+                  },
+                }}
+              />
+              <TextField
+                id="outlined-basic"
+                label={t("DepositWithdrawPage.Password")}
+                variant="outlined"
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                sx={{
+                  width: "100%",
+                  "& .MuiInputBase-input": {
+                    color: "white",
+                    background: "transparent",
+                    // Fix autofill background
+                    "&:-webkit-autofill": {
+                      WebkitBoxShadow: "0 0 0 1000px black inset", // chỉnh màu nền
+                      WebkitTextFillColor: "white",
+                      transition: "background-color 5000s ease-in-out 0s",
+                    },
+                  },
+                  "& .MuiInputLabel-root": {
+                    color: "white",
+                  },
+                  "& .MuiInputLabel-root.Mui-focused": {
+                    color: "white",
+                  },
+                  marginBottom: "20px",
+                  "& .MuiOutlinedInput-root": {
                     "& fieldset": {
                       borderColor: "white",
                     },
@@ -704,23 +642,262 @@ export default function Withdraw({ wallet, user, refetchUser }: props) {
                       borderColor: "white",
                     },
                   },
-                  "& .MuiInputBase-input": {
-                    padding: "0 14px", // chỉnh padding trái phải
-                    display: "flex",
-                    alignItems: "center", // quan trọng để căn giữa
-                    height: "90%", // full chiều cao TextField
-                    boxSizing: "border-box",
-                  },
-                  "& .MuiInputBase-input::placeholder": {
-                    color: "white",
-                    opacity: 1, // để không bị mờ
-                  },
+                }}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={handleClickShowPassword}
+                        edge="end"
+                        sx={{ color: "white" }}
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
                 }}
               />
-            </Box>
+            </>
           )}
 
+          {method === 1 &&
+            !walletNetwork &&
+            user.bank_acc_no &&
+            user.bank_acc_no !== "" && (
+              <>
+                <TextField
+                  id="outlined-basic"
+                  label={t("DepositWithdrawPage.amount_name")}
+                  variant="outlined"
+                  value={displayValue}
+                  onChange={handleChange}
+                  helperText={
+                    withdrawMin != 0 ? t("Toast.Desposit9") + withdrawMin : ""
+                  }
+                  FormHelperTextProps={{
+                    sx: { color: "#fff" }, // HelperText màu trắng
+                  }}
+                  sx={{
+                    width: "100%",
+                    mt: "20px",
+                    "& .MuiInputBase-input": {
+                      color: "white",
+                      background: "transparent",
+                      // Fix autofill background
+                      "&:-webkit-autofill": {
+                        WebkitBoxShadow: "0 0 0 1000px black inset", // chỉnh màu nền
+                        WebkitTextFillColor: "white",
+                        transition: "background-color 5000s ease-in-out 0s",
+                      },
+                    },
+                    marginBottom: "20px",
+                    "& .MuiInputBase-input.Mui-disabled": {
+                      color: "white",
+                      WebkitTextFillColor: "white", // fix Chrome override
+                    },
+                    "& .MuiInputLabel-root": {
+                      color: "white",
+                    },
+                    "& .MuiInputLabel-root.Mui-focused": {
+                      color: "white",
+                    },
+                    "& .MuiInputLabel-root.Mui-disabled": {
+                      color: "white",
+                    },
+                    "& .MuiOutlinedInput-root": {
+                      "& fieldset": {
+                        borderColor: "white",
+                      },
+                      "&:hover fieldset": {
+                        borderColor: "white",
+                      },
+                      "&.Mui-focused fieldset": {
+                        borderColor: "white",
+                      },
+                      "&.Mui-disabled fieldset": {
+                        borderColor: "white",
+                      },
+                    },
+                  }}
+                />
+                <TextField
+                  id="outlined-basic"
+                  label={t("DepositWithdrawPage.amount_receive")}
+                  variant="outlined"
+                  value={amountReceive}
+                  sx={{
+                    width: "100%",
+                    "& .MuiInputBase-input": {
+                      color: "white",
+                      background: "transparent",
+                      // Fix autofill background
+                      "&:-webkit-autofill": {
+                        WebkitBoxShadow: "0 0 0 1000px black inset", // chỉnh màu nền
+                        WebkitTextFillColor: "white",
+                        transition: "background-color 5000s ease-in-out 0s",
+                      },
+                    },
+                    marginBottom: "20px",
+                    "& .MuiInputBase-input.Mui-disabled": {
+                      color: "white",
+                      WebkitTextFillColor: "white", // fix Chrome override
+                    },
+                    "& .MuiInputLabel-root": {
+                      color: "white",
+                    },
+                    "& .MuiInputLabel-root.Mui-focused": {
+                      color: "white",
+                    },
+                    "& .MuiInputLabel-root.Mui-disabled": {
+                      color: "white",
+                    },
+                    "& .MuiOutlinedInput-root": {
+                      "& fieldset": {
+                        borderColor: "white",
+                      },
+                      "&:hover fieldset": {
+                        borderColor: "white",
+                      },
+                      "&.Mui-focused fieldset": {
+                        borderColor: "white",
+                      },
+                      "&.Mui-disabled fieldset": {
+                        borderColor: "white",
+                      },
+                    },
+                  }}
+                />
+                <TextField
+                  id="outlined-basic"
+                  label={t("DepositWithdrawPage.Password")}
+                  variant="outlined"
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  sx={{
+                    width: "100%",
+                    "& .MuiInputBase-input": {
+                      color: "white",
+                      background: "transparent",
+                      // Fix autofill background
+                      "&:-webkit-autofill": {
+                        WebkitBoxShadow: "0 0 0 1000px black inset", // chỉnh màu nền
+                        WebkitTextFillColor: "white",
+                        transition: "background-color 5000s ease-in-out 0s",
+                      },
+                    },
+                    "& .MuiInputLabel-root": {
+                      color: "white",
+                    },
+                    "& .MuiInputLabel-root.Mui-focused": {
+                      color: "white",
+                    },
+                    marginBottom: "20px",
+                    "& .MuiOutlinedInput-root": {
+                      "& fieldset": {
+                        borderColor: "white",
+                      },
+                      "&:hover fieldset": {
+                        borderColor: "white",
+                      },
+                      "&.Mui-focused fieldset": {
+                        borderColor: "white",
+                      },
+                    },
+                  }}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          onClick={handleClickShowPassword}
+                          edge="end"
+                          sx={{ color: "white" }}
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </>
+            )}
+
+          {method === 1 &&
+            !walletNetwork &&
+            user.bank_acc_no &&
+            (user.bank_qr == "" || user.bank_qr == null) && (
+              <Box>
+                {" "}
+                <Typography
+                  sx={{
+                    color: "white",
+                    marginTop: "10px",
+                    marginBottom: "10px",
+                    textAlign: "left",
+                  }}
+                >
+                  {t("ProfilePage.change_label10")}
+                </Typography>
+                <TextField
+                  id="outlined-basic"
+                  variant="outlined"
+                  type="file"
+                  ref={frontFileInput}
+                  onChange={handleFrontChange}
+                  InputProps={{
+                    sx: {
+                      color: "#fff", // Chữ nhập vào màu trắng
+                      "& .MuiInputBase-input::placeholder": {
+                        color: "#fff", // Placeholder màu trắng
+                        opacity: 1,
+                      },
+                    },
+                  }}
+                  FormHelperTextProps={{
+                    sx: { color: "#fff" }, // HelperText màu trắng
+                  }}
+                  sx={{
+                    width: "100%",
+                    "& .MuiOutlinedInput-root": {
+                      color: "white",
+                      width: "100%",
+                      height: {
+                        xs: "52px",
+                        sm: "45px",
+                      },
+                      fontSize: { xs: "16px", sm: "14px" },
+                      lineHeight: {
+                        xs: "35px",
+                        sm: "45px",
+                      },
+                      "& fieldset": {
+                        borderColor: "white",
+                      },
+                      "&:hover fieldset": {
+                        borderColor: "white",
+                      },
+                      "&.Mui-focused fieldset": {
+                        borderColor: "white",
+                      },
+                    },
+                    "& .MuiInputBase-input": {
+                      padding: "0 14px", // chỉnh padding trái phải
+                      display: "flex",
+                      alignItems: "center", // quan trọng để căn giữa
+                      height: "90%", // full chiều cao TextField
+                      boxSizing: "border-box",
+                    },
+                    "& .MuiInputBase-input::placeholder": {
+                      color: "white",
+                      opacity: 1, // để không bị mờ
+                    },
+                  }}
+                />
+              </Box>
+            )}
+
           {walletNetwork &&
+            user?.[walletNetwork]?.wallet &&
             (user?.[walletNetwork]?.wallet_qr == "" ||
               user?.[walletNetwork]?.wallet_qr == null) && (
               <Box>
