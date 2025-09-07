@@ -41,13 +41,13 @@ export const MenuAset = [
     item: [
       {
         id: 0,
-        link: "/opencommand",
+        link: "/safevnd",
         title: "Open command",
         icon: <SafeBoxIcon width="30px" height="30px" fill="black" />,
       },
       {
         id: 1,
-        link: "/closecommand",
+        link: "/safeusdt",
         title: "Close command",
         icon: <SafeBoxIcon width="30px" height="30px" fill="black" />,
       },

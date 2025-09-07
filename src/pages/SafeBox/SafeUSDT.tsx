@@ -31,7 +31,19 @@ export default function SafeUSDT() {
     }
   };
   return (
-    <Box sx={{ pt: "10px" }}>
+    <Box
+      sx={{
+        pt: "10px",
+        display: {
+          xs: "block",
+          sm: "flex",
+        },
+        gap: "10px",
+        flexWrap: "wrap",
+        margin: "0 auto",
+        justifyContent: "center",
+      }}
+    >
       {listSafe && listSafe.length > 0 ? (
         listSafe?.map((item: any, index: number) => (
           <Box
@@ -40,7 +52,7 @@ export default function SafeUSDT() {
               borderRadius: "10px",
               width: {
                 xs: "100%",
-                sm: "30%",
+                sm: "40%",
               },
               border: "1px solid gray",
               p: 1,

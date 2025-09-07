@@ -66,7 +66,7 @@ export default function SafeBoxPage(props: TabProps) {
         sx={{
           width: {
             xs: "100%",
-            sm: "80%",
+            sm: "100%",
           },
           display: {
             xs: "block",
