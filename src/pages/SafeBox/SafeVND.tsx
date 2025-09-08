@@ -52,7 +52,7 @@ export default function SafeVND() {
               borderRadius: "10px",
               width: {
                 xs: "100%",
-                sm: "40%",
+                sm: "45%",
               },
               border: "1px solid gray",
               p: 1,
@@ -122,7 +122,31 @@ export default function SafeVND() {
                   },
                 }}
               >
+                {t("MiningPage.amount_send")}:{" "}
+                {Number(item.amount).toLocaleString()}
+              </Typography>
+              <Typography
+                sx={{
+                  color: "white",
+                  fontSize: {
+                    xs: "14px",
+                    sm: "18px",
+                  },
+                }}
+              >
                 {t("MiningPage.amount")}:{" "}
+                {(Number(item.cashout) - Number(item.amount)).toLocaleString()}
+              </Typography>
+              <Typography
+                sx={{
+                  color: "white",
+                  fontSize: {
+                    xs: "14px",
+                    sm: "18px",
+                  },
+                }}
+              >
+                {t("MiningPage.total_amount")}:{" "}
                 {Number(item.cashout).toLocaleString()}
               </Typography>
               {item.status == 1 ? (

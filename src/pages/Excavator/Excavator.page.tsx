@@ -182,7 +182,7 @@ export default function ExcavatorPage() {
                   {t("MiningPage.note")}
                 </Typography>
 
-                {user ? <Safedetail safe={item} /> : ""}
+                {user ? <Safedetail safe={item} user={user} /> : ""}
               </Box>
             </Box>
           ))}

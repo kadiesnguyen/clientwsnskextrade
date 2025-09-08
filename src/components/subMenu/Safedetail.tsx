@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import {
   buySubscribe,
   getSafeActive,
+  getWebsiteConfig,
   SendSafe,
   WithdrawSafe,
 } from "@/services/User.service";
@@ -18,19 +19,19 @@ import Image from "next/image";
 
 export interface props {
   safe: any | null;
+  user: any;
 }
 
-export default function Safedetail({ safe }: props) {
+export default function Safedetail({ safe, user }: props) {
   const { t } = useTranslation();
   const [anchorEl1, setAnchorEl1] = React.useState<null | HTMLElement>(null);
   const [drawerOpen, setDrawerOpen] = React.useState(false);
 
+  const [websiteConfig, setWebsiteConfig] = React.useState<any>(null);
   const [amount, setAmount] = React.useState<number | null>(null);
 
   const [displayValue, setDisplayValue] = React.useState<string>("");
   const [listSafe, setListSafe] = React.useState<any>(null);
-  const open1 = Boolean(anchorEl1);
-  const router = useRouter();
 
   const formatNumber = (value: number) => {
     return value.toLocaleString("vi-VN");
@@ -52,6 +53,17 @@ export default function Safedetail({ safe }: props) {
 
   React.useEffect(() => {
     getlistSafe();
+    const referral = async () => {
+      try {
+        const buySellConfig: any = await getWebsiteConfig();
+        if (buySellConfig) {
+          setWebsiteConfig(buySellConfig.data);
+        }
+      } catch (errors: any) {
+        toast.error(errors?.message);
+      }
+    };
+    referral();
   }, []);
 
   const getlistSafe = async () => {
@@ -171,6 +183,25 @@ export default function Safedetail({ safe }: props) {
             startAdornment: <IconButton>{<CoinIcon />}</IconButton>,
           }}
         />
+        {safe.jlcoin == "vnd" ? (
+          <Box sx={{ display: "flex", gap: "10px", pl: "10%" }}>
+            <Typography sx={{ color: "white" }}>
+              {t("StakingPage.amont_VND")}
+            </Typography>
+            <Typography sx={{ color: "#fcd534" }}>
+              {Number(user?.balance?.vnd || 0).toLocaleString()} VND
+            </Typography>
+          </Box>
+        ) : (
+          <Box sx={{ display: "flex", gap: "10px", pl: "10%" }}>
+            <Typography sx={{ color: "white" }}>
+              {t("StakingPage.amont_USDT")}
+            </Typography>
+            <Typography sx={{ color: "#fcd534" }}>
+              {Number(user?.balance?.usdt || 0).toLocaleString()} USDT
+            </Typography>
+          </Box>
+        )}
         <Button
           type="button"
           sx={{
@@ -218,7 +249,7 @@ export default function Safedetail({ safe }: props) {
                     borderRadius: "10px",
                     width: {
                       xs: "100%",
-                      sm: "30%",
+                      sm: "100%",
                     },
                     border: "1px solid gray",
                     p: 1,
@@ -288,7 +319,33 @@ export default function Safedetail({ safe }: props) {
                         },
                       }}
                     >
+                      {t("MiningPage.amount_send")}:{" "}
+                      {Number(item.amount).toLocaleString()}
+                    </Typography>
+                    <Typography
+                      sx={{
+                        color: "white",
+                        fontSize: {
+                          xs: "14px",
+                          sm: "18px",
+                        },
+                      }}
+                    >
                       {t("MiningPage.amount")}:{" "}
+                      {(
+                        Number(item.cashout) - Number(item.amount)
+                      ).toLocaleString()}
+                    </Typography>
+                    <Typography
+                      sx={{
+                        color: "white",
+                        fontSize: {
+                          xs: "14px",
+                          sm: "18px",
+                        },
+                      }}
+                    >
+                      {t("MiningPage.total_amount")}:{" "}
                       {Number(item.cashout).toLocaleString()}
                     </Typography>
                     {item.status == 1 ? (
