@@ -362,8 +362,8 @@
     "tab_wallet": "Add/update Wallet",
     "lan": "Network",
     "type_wallet": "Choose type",
-    "NORMAL": "Normal wallet",
-    "TRUST": "Ví TRUST"
+    "NORMAL": "Normal Wallet",
+    "TRUST": "Trust Wallet"
   },
   "HistoryPage": {
     "tab1": "Open command",
