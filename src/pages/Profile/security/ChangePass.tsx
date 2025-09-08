@@ -42,13 +42,13 @@ export default function ChangePass() {
           xs: "Center",
           sm: "left",
         },
-        mt: 4,
+        mt: 3,
       }}
     >
       <Typography
         variant="h4"
         gutterBottom
-        sx={{ fontWeight: "bold", color: "#fff", fontSize: "18px" }}
+        sx={{ fontWeight: "bold", color: "#fff", fontSize: "20px" }}
       >
         {t("ProfilePage.title_change")}
       </Typography>
