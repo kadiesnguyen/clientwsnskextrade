@@ -195,6 +195,7 @@ export default function Withdraw({ wallet, user, refetchUser }: props) {
         setPassword("");
         setCoin(null);
         setMethod(0);
+        setWalletType(null);
         setSelectedWallet(null);
         setAmountReceive("");
         window.localStorage.removeItem("amountSell");
