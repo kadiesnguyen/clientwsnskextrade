@@ -61,6 +61,7 @@ import { useTranslation } from "react-i18next";
 import AddToHomeScreenButton from "../Button/AddToHomeScreenButton";
 import { Visibility } from "@mui/icons-material";
 import { formatDateTime } from "@/utils/formatDateTime";
+import { getWebsiteConfig } from "@/services/User.service";
 /** fixx them thong bao **/
 export interface userProps {
   user: userResponse | null;
@@ -82,6 +83,7 @@ export default function MenuProfileMobile(data: userProps) {
   const router = useRouter();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const [configs, setConfigs] = React.useState<any>();
   const handleClickLang = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -123,6 +125,20 @@ export default function MenuProfileMobile(data: userProps) {
     onClick();
     handleDrawerClose();
   };
+  React.useEffect(() => {
+    const referral = async () => {
+      try {
+        const config: any = await getWebsiteConfig();
+
+        if (config.status === true) {
+          setConfigs(config.data);
+        }
+      } catch (errors: any) {
+        console.log(errors?.message);
+      }
+    };
+    referral();
+  }, []);
 
   const drawerList = () => (
     <Box
@@ -695,7 +711,7 @@ export default function MenuProfileMobile(data: userProps) {
             </Tooltip>
             <Tooltip
               title="Notification"
-              onClick={() => router.push("https://vm.providesupport.com/0orwsq707deii1soz8ku1g0wmb")}
+              onClick={() => router.push(configs?.cskh)}
             >
               <img src="/images/live-chat.png" width="24px" height="24px" />
             </Tooltip>
