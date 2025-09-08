@@ -63,6 +63,15 @@ export default function BuyComponent(progs: TabProps) {
             margin: "0 auto",
           }}
         >
+          <Typography sx={{ fontSize: "11px", color: "white" }}>
+            Lưu ý:
+          </Typography>
+          <Typography sx={{ fontSize: "11px", color: "red", pl: "5px" }}>
+            Hệ thống không nhận tiền bẩn và các nguồn tiền không chính chủ, tài
+            khoản nạp tiền phải trùng với thông tin đã xác minh khi đăng ký tài
+            khoản
+          </Typography>
+
           <Typography
             sx={{
               color: "white",
