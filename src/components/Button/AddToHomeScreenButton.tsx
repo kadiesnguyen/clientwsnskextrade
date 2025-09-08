@@ -21,9 +21,9 @@ const AddToHomeScreenButton = () => {
       script.async = true;
       script.onload = () => {
         window.AddToHomeScreenInstance = window.AddToHomeScreen({
-          appName: "Staking",
-          appNameDisplay: "Staking",
-          appIconUrl: "/images/tronvuongtron.png",
+          appName: "DOIUSDT",
+          appNameDisplay: "DOIUSDT",
+          appIconUrl: "/images/logo2.png",
           assetUrl:
             "https://cdn.jsdelivr.net/gh/philfung/add-to-homescreen@3.2/dist/assets/img/",
           maxModalDisplayCount: -1,

@@ -196,101 +196,6 @@ export default function Withdraw({ wallet, user, refetchUser }: props) {
     <>
       {user && user.wdstatus === 1 ? (
         <Box sx={{ width: { xs: "100%", sm: "80%" }, margin: "0 auto" }}>
-          {/* <Autocomplete
-            id="country-select-demo"
-            sx={{
-              padding: {
-                xs: "0px 0px",
-                sm: "20px 0px",
-              },
-            }}
-            value={selectedWallet}
-            options={wallet}
-            autoHighlight
-            getOptionLabel={(option) => option.title}
-            onChange={(event, newValue) => {
-              setSelectedWallet(newValue);
-              setCoin(newValue?.id?.toString() || "2");
-              setWithdrawFee(newValue?.withdraw_fee || 0);
-              setbank(newValue?.bank || 0);
-              setAddress(newValue?.addresss || "");
-              setWithdrawMin(newValue?.withdraw_min || 0);
-              setWithdrawMax(newValue?.withdraw_max || 0);
-              setDepositMin(newValue?.deposit_min || 0);
-              if (amount && amount > 0) {
-                const fee = amount * Number(newValue?.withdraw_fee || 0); // withdrawFee = 0.05 => 5%
-                const receive = amount - fee;
-                setAmountReceive(formatNumber(receive));
-              }
-              if (newValue?.id == 1) {
-                setMethod(1);
-              } else {
-                setMethod(2);
-              }
-            }}
-            renderOption={(props, option) => {
-              const { ...optionProps } = props;
-              return (
-                <Box
-                  key={option.id}
-                  component="li"
-                  sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
-                  {...optionProps}
-                >
-                  {option.name === "vnd" ? (
-                    <img
-                      loading="lazy"
-                      width="20"
-                      srcSet={`/images/vietnam.png`}
-                      src="/images/vietnam.png"
-                      alt=""
-                    />
-                  ) : (
-                    <img
-                      loading="lazy"
-                      width="20"
-                      srcSet={`/images/usdt.png`}
-                      src="/images/usdt.png"
-                      alt=""
-                    />
-                  )}
-                  {option.title}
-                </Box>
-              );
-            }}
-            renderInput={(params: any) => (
-              <TextField
-                {...params}
-                label={t("DepositWithdrawPage.currency")}
-                variant="outlined"
-                InputLabelProps={{ style: { color: "white" } }}
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    color: "white",
-                    "& fieldset": {
-                      borderColor: "white",
-                    },
-                    "&:hover fieldset": {
-                      borderColor: "white",
-                    },
-                    "&.Mui-focused fieldset": {
-                      borderColor: "white",
-                    },
-                  },
-
-                  "& .MuiInputLabel-root": {
-                    color: "white",
-                  },
-                }}
-                slotProps={{
-                  htmlInput: {
-                    ...params.inputProps,
-                    autoComplete: "new-password",
-                  },
-                }}
-              />
-            )}
-          /> */}
           <FormControl fullWidth variant="standard" sx={{ color: "white" }}>
             <InputLabel
               id="demo-simple-select-standard-label"
@@ -441,64 +346,72 @@ export default function Withdraw({ wallet, user, refetchUser }: props) {
             ""
           )}
           {method && method === 2 ? (
-            <Autocomplete
-              id="country-select-demo"
-              sx={{ mt: "20px" }}
-              options={walletType}
-              autoHighlight
-              getOptionLabel={(option) => option.name}
-              onChange={(event, newValue) => {
-                setWalletNetwork(newValue?.name || "TRC20");
-              }}
-              renderOption={(props, option) => {
-                const { ...optionProps } = props;
-                return (
-                  <Box
-                    key={option.id}
-                    component="li"
-                    sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
-                    {...optionProps}
-                  >
-                    {t("ProfilePage.lan") + " " + option.name}
-                  </Box>
-                );
-              }}
-              renderInput={(params: any) => (
-                <TextField
-                  {...params}
-                  label={t("ProfilePage.change_label9")}
-                  variant="outlined"
-                  InputLabelProps={{
-                    shrink: true,
-                    style: { color: "white" },
-                  }}
-                  sx={{
-                    "& .MuiOutlinedInput-root": {
-                      color: "white",
-                      "& fieldset": {
-                        borderColor: "white",
-                      },
-                      "&:hover fieldset": {
-                        borderColor: "white",
-                      },
-                      "&.Mui-focused fieldset": {
-                        borderColor: "white",
-                      },
+            <FormControl fullWidth variant="standard" sx={{ color: "white" }}>
+              <InputLabel
+                id="demo-simple-select-standard-label"
+                sx={{
+                  width: "120px",
+                  height: "30px",
+                  color: "white",
+                  mt: "10px",
+                  ml: "10px",
+                  background: "#000",
+                  zIndex: "1",
+                  "&.Mui-focused": {
+                    color: "white",
+                  },
+                }}
+              >
+                {t("ProfilePage.change_label9")}
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-standard-label"
+                id="demo-simple-select-standard"
+                value={walletNetwork} // Lưu id
+                onChange={(e) => setWalletNetwork(e.target.value)} // Cập nhật id
+                sx={{
+                  color: "white",
+                  width: "100%",
+                  height: "50px",
+                  borderRadius: "5px",
+                  border: "1px solid white",
+                  background: "#000",
+                  "&.MuiInputBase-root": {
+                    "&:before, &:after": {
+                      borderBottom: "none !important",
                     },
-
-                    "& .MuiInputLabel-root": {
-                      color: "white",
-                    },
-                  }}
-                  slotProps={{
-                    htmlInput: {
-                      ...params.inputProps,
-                      autoComplete: "new-password",
-                    },
-                  }}
-                />
-              )}
-            />
+                  },
+                  "& .MuiSvgIcon-root": {
+                    color: "white",
+                  },
+                  "& .MuiSelect-select": {
+                    color: "white",
+                  },
+                }}
+              >
+                {walletType &&
+                  walletType.map((item: any) => (
+                    <MenuItem
+                      key={item.id}
+                      value={item.id} // <-- FIX: đồng bộ value với id
+                      sx={{ color: "black" }}
+                    >
+                      <Box
+                        key={item.id}
+                        component="li"
+                        sx={{
+                          "& > img": { mr: 2, flexShrink: 0 },
+                          display: "flex",
+                          alignItems: "center",
+                          pl: "10px",
+                        }}
+                      >
+                        {t("ProfilePage.lan") + " " + item.name}
+                      </Box>
+                    </MenuItem>
+                  ))}
+              </Select>
+            </FormControl>
           ) : (
             ""
           )}
