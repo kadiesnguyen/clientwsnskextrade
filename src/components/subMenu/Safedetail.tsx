@@ -410,7 +410,7 @@ export default function Safedetail({ safe, user, refetchUser }: props) {
                           },
                         }}
                       >
-                        {t("MiningPage.date_send")}: {item.day_progress}/
+                        {t("MiningPage.date_send")} {item.day_progress}/
                         {item.cycle}
                       </Typography>
                       <Typography
@@ -573,7 +573,7 @@ export default function Safedetail({ safe, user, refetchUser }: props) {
                           },
                         }}
                       >
-                        {t("MiningPage.date_send")}: {item.day_progress}/
+                        {t("MiningPage.date_send")} {item.day_progress}/
                         {item.cycle}
                       </Typography>
                       <Typography
@@ -736,7 +736,7 @@ export default function Safedetail({ safe, user, refetchUser }: props) {
                           },
                         }}
                       >
-                        {t("MiningPage.date_send")}: {item.day_progress}/
+                        {t("MiningPage.date_send")} {item.day_progress}/
                         {item.cycle}
                       </Typography>
                       <Typography
