@@ -33,6 +33,8 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 
+import CloseIcon from "@mui/icons-material/Close";
+
 export interface props {
   user: any | null;
   wallet: CountryType[];
@@ -1192,12 +1194,6 @@ export default function Withdraw({ wallet, user, refetchUser }: props) {
           </Box>
           {showPopup && withdrawId && (
             <Box
-              onClick={() => {
-                setShowPopup(false);
-                setFireworks(false);
-                setWithdrawId(null);
-                setStatus(0);
-              }}
               sx={{
                 position: "fixed",
                 top: "0",
@@ -1254,7 +1250,7 @@ export default function Withdraw({ wallet, user, refetchUser }: props) {
                 <Box
                   sx={{
                     position: "absolute",
-                    top: "50%",
+                    top: "40%",
                     left: "50%",
                     transform: "translate(-50%, -50%)",
                     textAlign: "center",
@@ -1307,6 +1303,25 @@ export default function Withdraw({ wallet, user, refetchUser }: props) {
                     </>
                   )}
                 </Box>
+                <IconButton
+                  onClick={() => {
+                    setShowPopup(false);
+                    setFireworks(false);
+                    setWithdrawId(null);
+                    setStatus(0);
+                  }}
+                  sx={{
+                    color: "white",
+                    background: "hsla(0, 0.00%, 100.00%, 0.00)",
+                    borderRadius: "50%",
+                    ml: "45%",
+                    "&:hover": {
+                      background: "hsla(0, 0.00%, 100.00%, 0.00)",
+                    },
+                  }}
+                >
+                  <CloseIcon sx={{ fontSize: "24px" }} />
+                </IconButton>
               </Box>
             </Box>
           )}
