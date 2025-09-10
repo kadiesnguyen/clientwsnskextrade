@@ -282,7 +282,9 @@
     "wallet_link": "Wallet link",
     "bank_link": "Bank link",
     "copy": "Copied",
-    "convert": "Convert to USDT"
+    "convert": "Convert to USDT",
+    "history_desposit": "Deposit History",
+    "history_withdraw": "Withdraw History"
   },
   "DailyRewardsPage": {
     "title": " Daily Check-in Rewards",

@@ -281,7 +281,9 @@
     "wallet_link": "Liên kết ví",
     "bank_link": "Liên kết ngân hàng",
     "copy": "Đã copy",
-    "convert": "Chuyển đổi sang USDT"
+    "convert": "Chuyển đổi sang USDT",
+    "history_desposit": "Lịch sử nạp tiền",
+    "history_withdraw": "Lịch sử rút tiền"
   },
   "DailyRewardsPage": {
     "title": "Điểm danh nhận thưởng",

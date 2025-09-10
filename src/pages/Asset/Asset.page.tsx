@@ -54,23 +54,6 @@ interface CountryType {
   suggested?: boolean;
 }
 
-const medthod = [
-  {
-    id: 1,
-    name: "Bank Transfer",
-  },
-  {
-    id: 2,
-    name: "Transfer coins to the wallet",
-  },
-];
-const medthodWallet = [
-  {
-    id: 2,
-    name: "Transfer coins to the wallet",
-  },
-];
-
 function CustomTabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
 
@@ -93,17 +76,25 @@ function a11yProps(index: number) {
     "aria-controls": `simple-tabpanel-${index}`,
   };
 }
-
-export default function AssetPage() {
+type TabProps = {
+  values: number;
+};
+export default function AssetPage({ values }: TabProps) {
   const { t } = useTranslation();
   const [bill, setBill] = useState<any>(null);
+  const [deposit, setDeposit] = useState<any>(null);
   const { user } = useAuth();
   const router = useRouter();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(7);
   const [history, setHisstory] = useState<any>(null);
+  const [value, setValue] = useState(values || 0);
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
+  };
+
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue);
   };
 
   const handleChangeRowsPerPage = (
@@ -115,15 +106,18 @@ export default function AssetPage() {
 
   useEffect(() => {
     const referral = async () => {
-      try {
-        const res: any = await getWithdrawHistory();
-        if (res.status === true) {
-          setBill(res.data);
-        }
-      } catch (errors: any) {
-        console.log(errors?.message);
+      const res: any = await getWithdrawHistory();
+      if (res.status === true) {
+        setBill(res.data);
       }
     };
+    const referralDeposit = async () => {
+      const res: any = await getDepositHistory();
+      if (res.status === true) {
+        setDeposit(res.data);
+      }
+    };
+    referralDeposit();
     referral();
   }, []);
 
@@ -432,90 +426,240 @@ export default function AssetPage() {
               </Box>
             </Box>
             <Box sx={{ width: "95%", margin: "auto", paddingTop: "20px" }}>
-              <Typography
-                sx={{ fontSize: "16px", color: "white", fontWeight: "600" }}
+              <Tabs
+                value={value}
+                onChange={handleChange}
+                aria-label="basic tabs example"
+                TabIndicatorProps={{ style: { display: "none" } }}
+                sx={{
+                  backgroundColor: "#2c2c2c",
+                  borderRadius: "999px",
+                  minHeight: "30px",
+                  width: "fit-content",
+                  margin: "auto",
+                  display: "flex",
+                  "& .MuiTab-root": {
+                    textTransform: "none",
+                    borderRadius: "999px",
+                    minHeight: "30px",
+                    minWidth: "80px",
+                    px: 3,
+                    fontWeight: 500,
+                    color: "#ffffff", // màu chữ mặc định
+                    backgroundColor: "transparent",
+                    transition: "0.3s",
+                  },
+                  "& .Mui-selected": {
+                    backgroundColor: "#00c853", // màu nền khi selected
+                    color: "#ffffff", // màu chữ khi selected
+                    fontWeight: 600,
+                  },
+                  "& .MuiTabs-flexContainer": {
+                    color: "#ffffff", // có thể bỏ nếu không cầnn
+                  },
+                }}
               >
-                {t("AssetPage.recent")}
-              </Typography>
-
-              {bill ? (
-                <Box>
-                  {bill
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((item: any, index: number) => (
-                      <Box key={index} sx={{ padding: "10px 0" }}>
-                        <Box
-                          sx={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                          }}
-                        >
-                          <Box>
-                            <Typography
-                              sx={{
-                                color: "white",
-                                fontSize: "14px",
-                                fontWeight: 600,
-                              }}
-                            >
-                              {item.hyzd === 1
-                                ? t("BuySellPage.buy")
-                                : t("BuySellPage.sell")}{" "}
-                              {item.coinname}
-                            </Typography>
-                            <Typography
-                              sx={{
-                                color: "#909090",
-                                fontSize: "12px",
-                                fontWeight: 600,
-                              }}
-                            >
-                              {formatDateTime(item.endtime)}
-                            </Typography>
-                          </Box>
-                          <Box>
-                            <Typography
-                              sx={{
-                                textAlign: "left",
-                                color: "red",
-                                fontSize: "14px",
-                                fontWeight: 600,
-                              }}
-                            >
-                              - {Number(item.num).toLocaleString()}
-                            </Typography>
-                          </Box>
-                        </Box>
-                      </Box>
-                    ))}
-                  <TablePagination
-                    component="div"
-                    count={bill.length}
-                    page={page}
-                    onPageChange={handleChangePage}
-                    rowsPerPage={rowsPerPage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                    rowsPerPageOptions={[5, 10, 25]}
-                    sx={{
-                      width: "100%",
-                      color: "white",
-                      margin: "auto",
-                    }}
-                  />
-                </Box>
-              ) : (
-                <Typography
+                <Tab
+                  label={t("DepositWithdrawPage.history_desposit")}
+                  {...a11yProps(0)}
                   sx={{
                     color: "white",
-                    fontSize: "25px",
-                    fontWeight: 600,
-                    textAlign: "Center",
+                    "&.Mui-selected": {
+                      backgroundColor: "#00c853",
+                      color: "white",
+                      fontWeight: 600,
+                    },
                   }}
-                >
-                  {t("AssetPage.no_tran")}
-                </Typography>
-              )}
+                />
+                <Tab
+                  label={t("DepositWithdrawPage.history_withdraw")}
+                  {...a11yProps(1)}
+                  sx={{
+                    color: "white",
+                    "&.Mui-selected": {
+                      backgroundColor: "#fcd534",
+                      color: "black",
+                      fontWeight: 600,
+                    },
+                  }}
+                />
+              </Tabs>
+              <CustomTabPanel value={value} index={0}>
+                {deposit ? (
+                  <Box sx={{ width: "100%" }}>
+                    {deposit
+                      .slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
+                      .map((item: any, index: number) => (
+                        <Box key={index} sx={{ padding: "10px 0" }}>
+                          <Box
+                            sx={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                              alignItems: "center",
+                              gap: "10px",
+                            }}
+                          >
+                            <Box sx={{ width: "70%" }}>
+                              <Typography
+                                sx={{
+                                  color: "white",
+                                  fontSize: "14px",
+                                  fontWeight: 600,
+                                }}
+                              >
+                                {t("BuySellPage.buy")} {item.coin}
+                              </Typography>
+                              <Typography
+                                sx={{
+                                  color: "white",
+                                  fontSize: "14px",
+                                  fontWeight: 600,
+                                }}
+                              >
+                                {item.address?.length > 10
+                                  ? `${item.address.slice(0, 15)}...`
+                                  : item.address}
+                              </Typography>
+
+                              <Typography
+                                sx={{
+                                  color: "#909090",
+                                  fontSize: "12px",
+                                  fontWeight: 600,
+                                }}
+                              >
+                                {formatDateTime(item.updatetime)}
+                              </Typography>
+                            </Box>
+                            <Box>
+                              <Typography
+                                sx={{
+                                  textAlign: "left",
+                                  color: "green",
+                                  fontSize: "14px",
+                                  fontWeight: 600,
+                                }}
+                              >
+                                + {Number(item.num).toLocaleString()}
+                              </Typography>
+                            </Box>
+                          </Box>
+                        </Box>
+                      ))}
+                    <TablePagination
+                      component="div"
+                      count={bill.length}
+                      page={page}
+                      onPageChange={handleChangePage}
+                      rowsPerPage={rowsPerPage}
+                      onRowsPerPageChange={handleChangeRowsPerPage}
+                      rowsPerPageOptions={[5, 10, 25]}
+                      sx={{
+                        width: "100%",
+                        color: "white",
+                        margin: "auto",
+                      }}
+                    />
+                  </Box>
+                ) : (
+                  <Typography
+                    sx={{
+                      color: "white",
+                      fontSize: "25px",
+                      fontWeight: 600,
+                      textAlign: "Center",
+                    }}
+                  >
+                    {t("AssetPage.no_tran")}
+                  </Typography>
+                )}
+              </CustomTabPanel>
+              <CustomTabPanel value={value} index={1}>
+                {bill ? (
+                  <Box>
+                    {bill
+                      .slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
+                      .map((item: any, index: number) => (
+                        <Box key={index} sx={{ padding: "10px 0" }}>
+                          <Box
+                            sx={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                              alignItems: "center",
+                            }}
+                          >
+                            <Box>
+                              <Typography
+                                sx={{
+                                  color: "white",
+                                  fontSize: "14px",
+                                  fontWeight: 600,
+                                }}
+                              >
+                                {item.hyzd === 1
+                                  ? t("BuySellPage.buy")
+                                  : t("BuySellPage.sell")}{" "}
+                                {item.coinname}
+                              </Typography>
+                              <Typography
+                                sx={{
+                                  color: "#909090",
+                                  fontSize: "12px",
+                                  fontWeight: 600,
+                                }}
+                              >
+                                {formatDateTime(item.endtime)}
+                              </Typography>
+                            </Box>
+                            <Box>
+                              <Typography
+                                sx={{
+                                  textAlign: "left",
+                                  color: "red",
+                                  fontSize: "14px",
+                                  fontWeight: 600,
+                                }}
+                              >
+                                - {Number(item.num).toLocaleString()}
+                              </Typography>
+                            </Box>
+                          </Box>
+                        </Box>
+                      ))}
+                    <TablePagination
+                      component="div"
+                      count={bill.length}
+                      page={page}
+                      onPageChange={handleChangePage}
+                      rowsPerPage={rowsPerPage}
+                      onRowsPerPageChange={handleChangeRowsPerPage}
+                      rowsPerPageOptions={[5, 10, 25]}
+                      sx={{
+                        width: "100%",
+                        color: "white",
+                        margin: "auto",
+                      }}
+                    />
+                  </Box>
+                ) : (
+                  <Typography
+                    sx={{
+                      color: "white",
+                      fontSize: "25px",
+                      fontWeight: 600,
+                      textAlign: "Center",
+                    }}
+                  >
+                    {t("AssetPage.no_tran")}
+                  </Typography>
+                )}
+              </CustomTabPanel>
             </Box>
           </Box>
         ) : (
