@@ -79,7 +79,7 @@ function a11yProps(index: number) {
 type TabProps = {
   values: number;
 };
-export default function AssetPage({ values }: TabProps) {
+export default function AssetPage() {
   const { t } = useTranslation();
   const [bill, setBill] = useState<any>(null);
   const [deposit, setDeposit] = useState<any>(null);
@@ -88,7 +88,7 @@ export default function AssetPage({ values }: TabProps) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(7);
   const [history, setHisstory] = useState<any>(null);
-  const [value, setValue] = useState(values || 0);
+  const [value, setValue] = useState(0);
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
   };
