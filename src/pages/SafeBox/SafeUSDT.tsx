@@ -111,7 +111,7 @@ export default function SafeUSDT() {
                   },
                 }}
               >
-                {t("MiningPage.rateM")}: {Number(item.rate_month)}%
+                {t("MiningPage.rateM")}: {Number(item.rate_day) * 100}%
               </Typography>
               <Typography
                 sx={{
