@@ -12,8 +12,8 @@ i18n.use(initReactI18next).init({
     vi: { translation: vi },
     // zh: { translation: zh },
   },
-  lng: "vi",
-  fallbackLng: "vi",
+  lng: "en",
+  fallbackLng: "en",
   interpolation: {
     escapeValue: false,
   },

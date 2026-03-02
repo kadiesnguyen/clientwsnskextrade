@@ -117,6 +117,11 @@
   },
 
   "HomePage": {
+    "service": "Service",
+    "verified": "Verified",
+    "recharge": "Recharge",
+    "regulatory": "Regulatory Information",
+    "loan": "Loan",
     "join_title": "Join the all-in-one crypto app in Vietnam",
     "trade_like_title": "Trade like a pro",
     "trade_like_description": "Get the lowest fees, fastest transactions, powerful APIs, and more",

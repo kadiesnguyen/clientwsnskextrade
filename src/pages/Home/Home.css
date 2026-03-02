@@ -4,11 +4,13 @@
     padding-bottom: 50px;
 }
 
-.home-webiste {
-    width: 100%;
-    display: block;
-    padding-top: 150px;
-}
+ .home-mobile {
+        max-width: 768px;
+        margin: auto;
+        display: block;
+        background: #111827;
+        /* padding-top: 10px; */
+    }
 
 .home-join-left h2 {
     color: #fff;
@@ -350,19 +352,11 @@
 }
 
 @media (max-width: 768px) {
-    .home-webiste {
-        display: none;
-    }
 
     .home {
         background-color: #000;
         height: 100vh;
     }
 
-    .home-mobile {
-        display: block;
-        width: 100%;
-        background: #000;
-        /* padding-top: 10px; */
-    }
+   
 }

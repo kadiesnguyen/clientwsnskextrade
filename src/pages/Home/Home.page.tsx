@@ -19,6 +19,7 @@ import {
   Avatar,
   Box,
   Button,
+  IconButton,
   TextField,
   Typography,
 } from "@mui/material";
@@ -30,6 +31,7 @@ import { CloseOutlined, Search } from "@mui/icons-material";
 import { formatCurrency } from "@/utils/formatMoney";
 import { getWebsiteConfig } from "@/services/User.service";
 import { useTranslation } from "react-i18next";
+import CoinPage from "@/components/coins/CoinPage";
 
 export default function HomePage() {
   const { t, i18n } = useTranslation();
@@ -72,499 +74,274 @@ export default function HomePage() {
 
   return (
     <div className="home">
-      {loading ? (
-        <LoadingComponent />
-      ) : (
-        <div className="home-mobile">
-          {!user ? (
-            <Box>
-              <Typography
-                variant="h2"
-                sx={{
-                  fontSize: "35px",
-                  fontWeight: "bold",
-                  width: "180px",
-                  margin: "auto",
-                  textAlign: "center",
-                  color: "white",
-                }}
-              >
-                {t("HomePage.mobile_new_alternative")}
-              </Typography>
-              <Typography
-                sx={{
-                  fontSize: "12px",
-                  padding: "10px 0",
-                  textAlign: "center",
-                  color: "white",
-                }}
-              >
-                {t("HomePage.mobile_crypto_journey")}
-              </Typography>
+      <div className="home-mobile">
+        <Box>
+          <Box
+            sx={{
+              width: "100%",
+              marginTop: "20px",
+              display: "flex",
+              justifyContent: "center",
+              justifyItems: "center",
+            }}
+          >
+            <Image
+              src={"/images/banner.jpg"}
+              width={368}
+              height={212}
+              alt=""
+              style={{
+                width: "90%",
+                objectFit: "cover",
+                borderRadius: "20px",
+              }}
+            />
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-around",
+              mt: "20px",
+              alignItems: "center",
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                color: "white",
+                justifyContent: "center",
+                gap: "5px",
+              }}
+            >
               <Box
-                sx={{ width: "100%", textAlign: "center", padding: "20px 0" }}
-              >
-                <img
-                  src="/images/7889D86ACE77574B.png"
-                  style={{ height: "350px", objectFit: "contain" }}
-                />
-              </Box>
-              <Box
                 sx={{
+                  width: "50px",
+                  height: "50px",
+                  border: "1px solid #22b65a",
+                  background: "#1f2937",
+                  borderRadius: "50%",
                   display: "flex",
-                  gap: 2,
                   justifyContent: "center",
-                  justifyItems: "center",
+                  alignItems: "center",
+                  margin: "auto",
                 }}
               >
-                <Button
-                  sx={{
-                    width: "150px",
-                    backgroundColor: "#909090",
-                    color: "white",
-                    borderRadius: "20px",
-                    textTransform: "capitalize",
-                    "&:hover": { backgroundColor: "#909090" },
-                  }}
-                  onClick={() => route.push("/login")}
-                >
-                  {t("HomePage.mobile_login")}
-                </Button>
-                <Button
-                  sx={{
-                    width: "150px",
-                    backgroundColor: "#fcd534",
-                    color: "#000",
-                    borderRadius: "20px",
-                    textTransform: "capitalize",
-                    "&:hover": { backgroundColor: "white" },
-                  }}
-                  onClick={() => route.push("/signup")}
-                >
-                  {t("HomePage.mobile_signup")}
-                </Button>
+                <Image
+                  src={"/images/icon-service.png"}
+                  width={25}
+                  height={25}
+                  alt=""
+                  style={{ objectFit: "cover" }}
+                />
               </Box>
+              <Typography
+                sx={{
+                  fontSize: 12,
+                  color: "white",
+                  textAlign: "center",
+                }}
+              >
+                {t("HomePage.service")}
+              </Typography>
             </Box>
-          ) : (
-            <Box>
-              <Box sx={{ width: "100%", textAlign: "center" }}>
-                <Search
-                  sx={{ color: "white", position: "absolute", margin: "5px" }}
-                />
-                <TextField
-                  placeholder={t("HomePage.mobile_search_placeholder")}
-                  variant="standard"
-                  InputProps={{ disableUnderline: true }}
-                  sx={{
-                    width: "90%",
-                    height: "35px",
-                    borderRadius: "10px",
-                    margin: "auto",
-                    paddingLeft: "20px",
-                    backgroundColor: "rgba(142, 142, 142, 0.34)",
-                    "& .MuiInputBase-root": {
-                      height: "100%",
-                      display: "flex",
-                      alignItems: "center",
-                      padding: "0 14px",
-                    },
-                    "& .MuiInputBase-input": {
-                      color: "white",
-                      padding: 0,
-                      display: "flex",
-                      alignItems: "center",
-                      height: "100%",
-                      boxSizing: "border-box",
-                    },
-                    "& .MuiInputBase-input::placeholder": {
-                      color: "white",
-                      fontSize: { xs: "12px", sm: "14px" },
-                      opacity: 1,
-                    },
-                  }}
-                />
-              </Box>
-              <Box sx={{ width: "100%", display: "flex", padding: "5px 20px" }}>
-                <Box sx={{ width: "100%", textAlign: "left" }}>
-                  <Typography sx={{ color: "#909090", padding: "5px 0" }}>
-                    {t("HomePage.mobile_estimated_value")}
-                  </Typography>
-                  <Box
-                    sx={{
-                      height: "30px",
-                      display: "flex",
-                      gap: "5px",
-                      alignItems: "flex-end",
-                    }}
-                  >
-                    <Typography
-                      sx={{
-                        color: "white",
-                        fontSize: "20px",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      {user?.balance?.usdt
-                        ? `${parseFloat(
-                            user.balance.usdt,
-                          ).toLocaleString()} USDT`
-                        : "0 "}
-                    </Typography>
-                  </Box>
-                </Box>
-              </Box>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                color: "white",
+                justifyContent: "center",
+                gap: "5px",
+              }}
+            >
               <Box
                 sx={{
-                  width: "90%",
+                  width: "50px",
+                  height: "50px",
+                  border: "1px solid #22b65a",
+                  background: "#1f2937",
+                  borderRadius: "50%",
                   display: "flex",
-                  justifyContent: "space-around",
+                  justifyContent: "center",
+                  alignItems: "center",
                   margin: "auto",
-                  gap: "10px",
                 }}
               >
-                <Button
-                  onClick={() => route.push("/deposit")}
-                  sx={{
-                    width: "35%",
-                    height: "35px",
-                    borderRadius: "15px",
-                    background: "#fcd534",
-                    color: "black",
-                    textTransform: "capitalize",
-                    "&:hover": { background: "#fcd534" },
-                  }}
-                >
-                  {t("HomePage.mobile_deposit")}
-                </Button>
-
-                <Button
-                  onClick={() => route.push("/withdraw")}
-                  sx={{
-                    width: "35%",
-                    height: "35px",
-                    borderRadius: "15px",
-                    background: "#fcd534",
-                    textTransform: "capitalize",
-                    color: "black",
-                    "&:hover": { background: "#fcd534" },
-                  }}
-                >
-                  {t("HomePage.mobile_withdraw")}
-                </Button>
-
-                <Button
-                  onClick={() => route.push("/convert")}
-                  sx={{
-                    width: "35%",
-                    height: "35px",
-                    borderRadius: "15px",
-                    background: "#fcd534",
-                    color: "black",
-                    textTransform: "capitalize",
-                    "&:hover": { background: "#fcd534" },
-                  }}
-                >
-                  {t("BuySellPage.trade")}
-                </Button>
+                <Image
+                  src={"/images/verified.png"}
+                  width={25}
+                  height={25}
+                  alt=""
+                  style={{ objectFit: "cover" }}
+                />
               </Box>
-              <Box
-                sx={{
-                  width: "90%",
-                  margin: "auto",
-                  backgroundColor: "rgba(142, 142, 142, 0.34)",
-                  borderRadius: "10px",
-                  marginTop: "20px",
-                  marginBottom: "20px",
-                  p: "10px",
-                }}
+              <Typography
+                sx={{ fontSize: 12, color: "white", textAlign: "center" }}
               >
-                <Box
-                  sx={{
-                    width: {
-                      xs: "100%",
-                      sm: "90%",
-                    },
-                    display: "grid",
-                    gridTemplateColumns: "1fr",
-                    margin: "0 auto",
-                    paddingTop: "10px",
-                    gap: "5px",
-                    p: {
-                      xs: "15px 0px",
-                      sm: "15px 0px",
-                    },
-                  }}
-                >
-                  <Box
-                    sx={{
-                      display: "grid",
-                      gridTemplateColumns: "1fr 1fr",
-                      gap: "10px",
-                      alignItems: "Center",
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        display: "flex",
-                        gap: "10px",
-                        alignItems: "Center",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <img src="/images/vietnam.png" width={30} height={30} />
-                      <Typography sx={{ fontSize: "14px", color: "white" }}>
-                        {t("Toast.Wallet")} VND
-                      </Typography>
-                    </Box>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        gap: "10px",
-                        alignItems: "Center",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <img src="/images/usdt.png" width={30} height={30} />
-                      <Typography sx={{ fontSize: "14px", color: "white" }}>
-                        {t("Toast.Wallet")} USDT
-                      </Typography>
-                    </Box>
-                  </Box>
-                  <Box
-                    sx={{
-                      display: "grid",
-                      gridTemplateColumns: "1fr 1fr",
-                      gap: "10px",
-                      alignItems: "Center",
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        display: "flex",
-                        gap: "10px",
-                        alignItems: "Center",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <Typography
-                        sx={{
-                          fontSize: "15px",
-                          color: "#fcd534",
-                          fontWeight: "bold",
-                        }}
-                      >
-                        {parseFloat(user.balance.vnd).toLocaleString()} VND
-                      </Typography>
-                    </Box>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        gap: "10px",
-                        alignItems: "Center",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <Typography
-                        sx={{
-                          fontSize: "15px",
-                          color: "#fcd534",
-                          fontWeight: "bold",
-                        }}
-                      >
-                        {parseFloat(user.balance.usdt).toLocaleString()} USDT
-                      </Typography>
-                    </Box>
-                  </Box>
-                </Box>
-              </Box>
-              <Box sx={{ width: "90%", margin: "auto" }}>
-                <TradingViewHotlists />
-              </Box>
-              <Box
-                sx={{
-                  paddingTop: "40px",
-                  paddingBottom: "100px",
-                  background: "#000",
-                }}
-              >
-                <h2
-                  style={{
-                    color: "white",
-                    fontSize: "22px",
-                    textAlign: "center",
-                  }}
-                >
-                  {t("HomePage.questions_title")}
-                </h2>
-                <Accordion
-                  sx={{
-                    backgroundColor: "#000",
-                    color: "white",
-                    "& .MuiAccordionSummary-root": { color: "white" },
-                    "& .MuiAccordionDetails-root": { color: "grwhiteay" },
-                  }}
-                >
-                  <AccordionSummary
-                    expandIcon={
-                      <ControlPointIcon
-                        sx={{ color: "white" }}
-                        style={{ fontSize: 20 }}
-                      />
-                    }
-                    aria-controls="panel1-content"
-                    id="panel1-header"
-                  >
-                    <Typography
-                      sx={{
-                        fontSize: "16px",
-                        padding: "10px 0px",
-                        color: "white",
-                      }}
-                    >
-                      {t("HomePage.accordion_1_title")}
-                    </Typography>
-                  </AccordionSummary>
-                  <AccordionDetails sx={{ fontSize: 14, color: "gray" }}>
-                    {t("HomePage.accordion_1_description")}
-                  </AccordionDetails>
-                </Accordion>
-                <Accordion
-                  sx={{
-                    backgroundColor: "#000",
-                    color: "white",
-                    "& .MuiAccordionSummary-root": { color: "white" },
-                    "& .MuiAccordionDetails-root": { color: "gray" },
-                  }}
-                >
-                  <AccordionSummary
-                    expandIcon={
-                      <ControlPointIcon
-                        sx={{ color: "white" }}
-                        style={{ fontSize: 20 }}
-                      />
-                    }
-                    aria-controls="panel2-content"
-                    id="panel2-header"
-                  >
-                    <Typography
-                      sx={{
-                        fontSize: "16px",
-                        padding: "10px 0px",
-                        color: "white",
-                      }}
-                    >
-                      {t("HomePage.accordion_2_title")}
-                    </Typography>
-                  </AccordionSummary>
-                  <AccordionDetails sx={{ fontSize: 14, color: "gray" }}>
-                    {t("HomePage.accordion_2_description")}
-                  </AccordionDetails>
-                </Accordion>
-                <Accordion
-                  sx={{
-                    backgroundColor: "#000",
-                    color: "#000",
-                    "& .MuiAccordionSummary-root": { color: "#000" },
-                    "& .MuiAccordionDetails-root": { color: "gray" },
-                  }}
-                >
-                  <AccordionSummary
-                    expandIcon={
-                      <ControlPointIcon
-                        sx={{ color: "white" }}
-                        style={{ fontSize: 20 }}
-                      />
-                    }
-                    aria-controls="panel2-content"
-                    id="panel2-header"
-                  >
-                    <Typography
-                      sx={{
-                        fontSize: "14px",
-                        padding: "10px 0px",
-                        color: "white",
-                      }}
-                    >
-                      {t("HomePage.accordion_3_title")}
-                    </Typography>
-                  </AccordionSummary>
-                  <AccordionDetails sx={{ fontSize: 14, color: "gray" }}>
-                    {t("HomePage.accordion_3_description")}
-                  </AccordionDetails>
-                </Accordion>
-              </Box>
-              {showPopup && (
-                <Box
-                  sx={{
-                    position: "fixed",
-                    top: "0",
-                    left: "0",
-                    width: "100vw",
-                    height: "100vh",
-                    background: "rgba(0,0,0,0.5)",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    zIndex: 1000,
-                  }}
-                >
-                  <Box
-                    sx={{
-                      background: "white",
-                      borderRadius: "10px",
-                      padding: "20px",
-                      width: {
-                        xs: "90%",
-                        sm: "500px",
-                      },
-                      textAlign: "center",
-                      position: "relative",
-                      marginTop: {
-                        xs: "-20%",
-                        sm: "10px",
-                      },
-                    }}
-                  >
-                    <>
-                      <Typography
-                        variant="h6"
-                        sx={{
-                          fontSize: "25px",
-                          fontWeight: "bold",
-                          padding: "5px",
-                        }}
-                      >
-                        {t("HomePage.popup_notification_title")}
-                      </Typography>
-                      <Typography
-                        variant="h6"
-                        sx={{
-                          fontSize: "16px",
-                          padding: "10px",
-                        }}
-                      >
-                        {t("StakingPage.wellcome")}
-                      </Typography>
-                      <Button
-                        sx={{
-                          position: "absolute",
-                          top: "10px",
-                          right: "5px",
-                          color: "black",
-                          "&:hover": { background: "none" },
-                        }}
-                        onClick={() => setShowPopup(false)}
-                      >
-                        <CloseOutlined style={{ fontSize: "20px" }} />
-                      </Button>
-                    </>
-                  </Box>
-                </Box>
-              )}
+                {t("HomePage.verified")}
+              </Typography>
             </Box>
-          )}
-        </div>
-      )}
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                color: "white",
+                justifyContent: "center",
+                gap: "5px",
+              }}
+            >
+              <Box
+                sx={{
+                  width: "50px",
+                  height: "50px",
+                  border: "1px solid #22b65a",
+                  background: "#1f2937",
+                  borderRadius: "50%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  margin: "auto",
+                }}
+              >
+                <Image
+                  src={"/images/recharge.png"}
+                  width={25}
+                  height={25}
+                  alt=""
+                  style={{ objectFit: "cover" }}
+                />
+              </Box>
+              <Typography
+                sx={{ fontSize: 12, color: "white", textAlign: "center" }}
+              >
+                {t("HomePage.recharge")}
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                color: "white",
+                justifyContent: "center",
+                gap: "5px",
+              }}
+            >
+              <Box
+                sx={{
+                  width: "50px",
+                  height: "50px",
+                  border: "1px solid #22b65a",
+                  background: "#1f2937",
+                  borderRadius: "50%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  margin: "auto",
+                }}
+              >
+                <Image
+                  src={"/images/wallet.png"}
+                  width={25}
+                  height={25}
+                  alt=""
+                  style={{ objectFit: "cover" }}
+                />
+              </Box>
+              <Typography
+                sx={{
+                  fontSize: 12,
+                  color: "white",
+                  width: "70px",
+                  textAlign: "center",
+                  margin: "auto",
+                }}
+              >
+                {t("HomePage.regulatory")}
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                color: "white",
+                justifyContent: "center",
+                gap: "5px",
+              }}
+            >
+              <Box
+                sx={{
+                  width: "50px",
+                  height: "50px",
+                  border: "1px solid #22b65a",
+                  background: "#1f2937",
+                  borderRadius: "50%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  margin: "auto",
+                }}
+              >
+                <Image
+                  src={"/images/loan.png"}
+                  width={25}
+                  height={25}
+                  alt=""
+                  style={{ objectFit: "cover" }}
+                />
+              </Box>
+              <Typography
+                sx={{ fontSize: 12, color: "white", textAlign: "center" }}
+              >
+                {t("HomePage.loan")}
+              </Typography>
+            </Box>
+          </Box>
+          <Box sx={{ width: "100%", margin: "auto" }}>
+            <CoinPage />
+          </Box>
+          <Box sx={{ width: "90%", margin: "20px auto" }}>
+            <Typography
+              variant="h4"
+              sx={{
+                color: "white",
+              }}
+            >
+              About Us
+            </Typography>
+            <Typography variant="body1" sx={{ color: "white", mt: "15px" }}>
+              We are a leading trading platform dedicated to providing safe,
+              efficient and reliable digital asset trading services. Our mission
+              is to provide advanced cryptocurrency trading experiences to
+              global users and promote the development and innovation of the
+              digital asset market.
+            </Typography>
+            <Image
+              src={"./images/about-us.jpg"}
+              width={340}
+              height={340}
+              alt="l"
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "contain",
+                margin: "15px 0px",
+                borderRadius: "20px",
+              }}
+            />
+            <Typography
+              variant="body1"
+              sx={{ color: "white", mt: "15px", pb: "60px" }}
+            >
+              In the field of digital currency, we are committed to becoming a
+              leading innovator and industry benchmark. Our vision is to build a
+              world-leading digital asset trading platform through technological
+              innovation and service excellence, providing users with the best
+              trading experience and the most comprehensive selection of digital
+              assets.
+            </Typography>
+          </Box>
+        </Box>
+      </div>
     </div>
   );
 }
