@@ -19,26 +19,51 @@ import {
   Avatar,
   Box,
   Button,
+  Dialog,
+  Drawer,
   IconButton,
+  Menu,
   TextField,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
 import useAuth from "@/hook/useAuth";
 import TradingViewHotlists from "@/components/ChartView/TradingViewHotlists";
-import { CoinIcon, SearchIcon } from "@/shared/Svgs/Svg.component";
+import {
+  CoinIcon,
+  InternetIcon,
+  SearchIcon,
+  UserIcon,
+} from "@/shared/Svgs/Svg.component";
 import { CloseOutlined, Search } from "@mui/icons-material";
 import { formatCurrency } from "@/utils/formatMoney";
 import { getWebsiteConfig } from "@/services/User.service";
 import { useTranslation } from "react-i18next";
 import CoinPage from "@/components/coins/CoinPage";
+import LanguageSwitcher from "@/components/Language/LanguageSwitcher";
 
 export default function HomePage() {
   const { t, i18n } = useTranslation();
   const { user, loading } = useAuth();
-  const [showPopup, setShowPopup] = useState(false);
+
+  const [langAnchorEl, setLangAnchorEl] = React.useState<null | HTMLElement>(
+    null,
+  );
+  const isLangMenuOpen = Boolean(langAnchorEl);
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClickLang = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   const [websiteConfig, setWebsiteConfig] = useState<any>(null);
   const route = useRouter();
+  const handleLangMenuClose = () => {
+    setLangAnchorEl(null);
+  };
   useEffect(() => {
     const referral = async () => {
       try {
@@ -48,20 +73,6 @@ export default function HomePage() {
         }
 
         const hasShownPopup = sessionStorage.getItem("popupShown");
-
-        if (
-          user &&
-          !hasShownPopup &&
-          buySellConfig.data.checkin_notify_status === 1
-        ) {
-          setShowPopup(true);
-          sessionStorage.setItem("popupShown", "true");
-
-          // Auto close sau 10 giây (tuỳ chỉnh)
-          setTimeout(() => {
-            setShowPopup(false);
-          }, 10000);
-        }
       } catch (errors: any) {
         // toast.error(errors?.message);
       }
@@ -79,10 +90,47 @@ export default function HomePage() {
           <Box
             sx={{
               width: "100%",
-              marginTop: "20px",
+              height: "60px",
+              display: "flex",
+              justifyContent: "space-between",
+              padding: "10px",
+              background: "#111827",
+            }}
+          >
+            <IconButton>
+              <UserIcon width="30px" height="30px" />
+            </IconButton>
+            <Tooltip title="Language">
+              <IconButton
+                aria-controls={open ? "basic-menu" : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? "true" : undefined}
+                onClick={handleClickLang}
+              >
+                <InternetIcon width="30px" height="30px" />
+              </IconButton>
+            </Tooltip>
+            <Menu
+              id="basic-menu"
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              sx={{
+                width: "120px",
+              }}
+            >
+              <LanguageSwitcher onLanguageChange={handleClose} />
+            </Menu>
+          </Box>
+          <Box
+            sx={{
+              width: "100%",
+              paddingTop: "10px",
               display: "flex",
               justifyContent: "center",
               justifyItems: "center",
+              boxShadow:
+                "0 10px 15px -3px rgb(0 0 0 / .1), 0 4px 6px -4px rgb(0 0 0 / .1)",
             }}
           >
             <Image
@@ -330,7 +378,7 @@ export default function HomePage() {
             />
             <Typography
               variant="body1"
-              sx={{ color: "white", mt: "15px", pb: "60px" }}
+              sx={{ color: "white", mt: "15px", pb: "100px" }}
             >
               In the field of digital currency, we are committed to becoming a
               leading innovator and industry benchmark. Our vision is to build a
@@ -341,6 +389,44 @@ export default function HomePage() {
             </Typography>
           </Box>
         </Box>
+
+        <Dialog
+          open={isLangMenuOpen}
+          onClose={handleLangMenuClose}
+          PaperProps={{
+            style: {
+              width: "80%",
+              backgroundColor: "#909090",
+              color: "#fff",
+              borderRadius: "8px",
+              marginTop: "10%",
+            },
+          }}
+        >
+          <Box
+            sx={{
+              width: "100%",
+              background: "#909090",
+              color: "#fff",
+              height: "200px",
+            }}
+          >
+            <Box
+              sx={{
+                width: "100%",
+                height: "200px",
+                padding: "20px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <Typography sx={{ fontSize: "20px", fontWeight: "bold" }}>
+                Select language
+              </Typography>
+            </Box>
+          </Box>
+        </Dialog>
       </div>
     </div>
   );

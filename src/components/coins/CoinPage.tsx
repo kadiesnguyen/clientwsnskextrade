@@ -45,7 +45,7 @@ const iconMap: Record<string, string> = {
   TRX: "https://cdn.jsdelivr.net/gh/simplr-sh/coin-logos/images/tron/small.png",
   XRP: "https://cdn.jsdelivr.net/gh/simplr-sh/coin-logos/images/ripple/small.png",
   TRUMP:
-    "https://cdn.jsdelivr.net/gh/simplr-sh/coin-logos/images/maga/small.png", // nếu không đúng mình sẽ chỉnh lại
+    "https://cdn.jsdelivr.net/gh/simplr-sh/coin-logos/images/maga/small.png",
 };
 export default function CoinPage() {
   const [coins, setCoins] = useState<Record<string, Coin>>({});
@@ -60,7 +60,6 @@ export default function CoinPage() {
       .then((data) => {
         const initial: Record<string, Coin> = {};
         data.forEach((item: any) => {
-          console.log("item", item);
           const base = parseFloat(item.lastPrice);
           initial[item.symbol.toLowerCase()] = {
             symbol: item.symbol,

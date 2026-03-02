@@ -20,14 +20,17 @@ import {
   ArrowSwap2Icon,
   AssetsIcon,
   CasioIcon,
+  ChartIcon,
   DPGameIcon,
   ExploreIcon,
   HomeIcon,
   MarketIcon,
   SearchIcon,
+  SettingsIcon,
   SportsIcon,
+  UserIcon,
 } from "@/shared/Svgs/Svg.component";
-import { Button } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import useAuth from "@/hook/useAuth";
 import { IUser } from "@/shared/interfaces";
 import MenuProfileMobile from "../subMenu/MenuProfileMobile";
@@ -133,106 +136,131 @@ export default function PrimaryLayoutComponent({
         <LoadingComponent />
       ) : (
         <div className="container">
-          <MenuProfileMobile
-            user={user}
-            noti={dataNoti}
-            notiSee={async (e) => {
-              if (e) {
-                if (e.user_view === 1) {
-                  await getNotiDetail(e.id);
-                  const noti: any = await getNotification();
-                  if (noti.status === true) {
-                    setDataNoti(noti.data);
-                  }
-                }
-              }
-            }}
-            seeAll={async () => {
-              await seeAllNoti();
-              const noti: any = await getNotification();
-              if (noti.status === true) {
-                setDataNoti(noti.data);
-              }
-              toast.success(t("Toast.toastSeeAll"));
-            }}
-          />
-          <main>
-            {children}{" "}
-            <nav className="menu-mobile">
-              <ul>
-                <li>
-                  <button type="button" onClick={() => hanldMenu(1)}>
+          <main>{children}</main>
+          <nav className="menu-mobile">
+            <ul>
+              <li>
+                <button type="button" onClick={() => hanldMenu(1)}>
+                  <Box
+                    sx={{
+                      width: "40px",
+                      height: "40px",
+                      borderRadius: "50%",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      background: menu === 1 ? "#22c55e" : "none",
+                    }}
+                  >
                     <HomeIcon
                       width="25px"
                       height="25px"
-                      fill={menu === 1 ? "#fcd534" : "#909090"}
+                      fill={menu === 1 ? "white" : "#909090"}
                     />
-                    <p className={menu === 1 ? "mobile-active" : "mobile-p"}>
-                      {t("MenuMobile.menu1")}
-                    </p>
-                  </button>
-                </li>
-                <li>
-                  <button type="button" onClick={() => hanldMenu(2)}>
+                  </Box>
+                  <p className={menu === 1 ? "mobile-active" : "mobile-p"}>
+                    {t("MenuMobile.menu1")}
+                  </p>
+                </button>
+              </li>
+              <li>
+                <button type="button" onClick={() => hanldMenu(2)}>
+                  <Box
+                    sx={{
+                      width: "40px",
+                      height: "40px",
+                      borderRadius: "50%",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      background: menu === 2 ? "#22c55e" : "none",
+                    }}
+                  >
                     <MarketIcon
                       width="25px"
                       height="25px"
-                      fill={menu === 2 ? "#fcd534" : "#909090"}
+                      fill={menu === 2 ? "white" : "#909090"}
                     />
-                    <p className={menu === 2 ? "mobile-active" : "mobile-p"}>
-                      {t("MenuMobile.menu2")}
-                    </p>
-                  </button>
-                </li>
-                <li>
-                  <button type="button" onClick={() => hanldMenu(3)}>
-                    {menu === 3 ? (
-                      <img
-                        src="/images/swap2.png"
-                        width="25px"
-                        height="25px"
-                        className="icon-home-m"
-                      />
-                    ) : (
-                      <img
-                        src="/images/swap1.png"
-                        width="25px"
-                        height="25px"
-                        className="icon-home-m"
-                      />
-                    )}
-                    <p className={menu === 3 ? "mobile-active" : "mobile-p"}>
-                      {t("MenuMobile.menu3")}
-                    </p>
-                  </button>
-                </li>
-                <li>
-                  <button type="button" onClick={() => hanldMenu(4)}>
-                    <ExploreIcon
+                  </Box>
+                  <p className={menu === 2 ? "mobile-active" : "mobile-p"}>
+                    {t("MenuMobile.menu2")}
+                  </p>
+                </button>
+              </li>
+              <li>
+                <button type="button" onClick={() => hanldMenu(3)}>
+                  <Box
+                    sx={{
+                      width: "40px",
+                      height: "40px",
+                      borderRadius: "50%",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      background: menu === 3 ? "#22c55e" : "none",
+                    }}
+                  >
+                    <SettingsIcon
+                      width="30px"
+                      height="30px"
+                      fill={menu === 3 ? "white" : "#909090"}
+                    />
+                  </Box>
+                  <p className={menu === 3 ? "mobile-active" : "mobile-p"}>
+                    {t("MenuMobile.menu3")}
+                  </p>
+                </button>
+              </li>
+              <li>
+                <button type="button" onClick={() => hanldMenu(4)}>
+                  <Box
+                    sx={{
+                      width: "40px",
+                      height: "40px",
+                      borderRadius: "50%",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      background: menu === 4 ? "#22c55e" : "none",
+                    }}
+                  >
+                    <ChartIcon
                       width="25px"
                       height="25px"
-                      fill={menu === 4 ? "#fcd534" : "#909090"}
+                      fill={menu === 4 ? "white" : "#909090"}
                     />
-                    <p className={menu === 4 ? "mobile-active" : "mobile-p"}>
-                      {t("MenuMobile.menu4")}
-                    </p>
-                  </button>
-                </li>
-                <li>
-                  <button type="button" onClick={() => hanldMenu(5)}>
-                    <AssetsIcon
+                  </Box>
+                  <p className={menu === 4 ? "mobile-active" : "mobile-p"}>
+                    {t("MenuMobile.menu4")}
+                  </p>
+                </button>
+              </li>
+              <li>
+                <button type="button" onClick={() => hanldMenu(5)}>
+                  <Box
+                    sx={{
+                      width: "40px",
+                      height: "40px",
+                      borderRadius: "50%",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      background: menu === 5 ? "#22c55e" : "none",
+                    }}
+                  >
+                    <UserIcon
                       width="25px"
                       height="25px"
-                      fill={menu === 5 ? "#fcd534" : "#909090"}
+                      fill={menu === 5 ? "white" : "#909090"}
                     />
-                    <p className={menu === 5 ? "mobile-active" : "mobile-p"}>
-                      {t("MenuMobile.menu5")}
-                    </p>
-                  </button>
-                </li>
-              </ul>
-            </nav>
-          </main>
+                  </Box>
+                  <p className={menu === 5 ? "mobile-active" : "mobile-p"}>
+                    {t("MenuMobile.menu5")}
+                  </p>
+                </button>
+              </li>
+            </ul>
+          </nav>
 
           {/* <MenuPopupComponent
             open={open}

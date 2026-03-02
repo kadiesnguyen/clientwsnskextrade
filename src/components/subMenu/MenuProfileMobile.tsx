@@ -75,7 +75,7 @@ export default function MenuProfileMobile(data: userProps) {
   const [drawerOpen, setDrawerOpen] = React.useState(false);
   const [popupOpen, setPopupOpen] = React.useState(false);
   const [langAnchorEl, setLangAnchorEl] = React.useState<null | HTMLElement>(
-    null
+    null,
   );
   const isLangMenuOpen = Boolean(langAnchorEl);
   const { t, i18n } = useTranslation();
@@ -656,18 +656,20 @@ export default function MenuProfileMobile(data: userProps) {
       <React.Fragment>
         <Box
           sx={{
-            display: {
-              xs: "flex",
-              sm: "flex",
-              md: "none",
-            },
-            gap: "8px",
-            height: "50px",
-            lineHeight: "50px",
-            padding: "8px 8px",
-            background: "#000",
-            border: "none",
+            maxWidth: "800px",
+            width: "100%",
+            margin: "auto",
+            left: 0,
+            right: 0,
+            position: "fixed",
+            display: "flex",
             justifyContent: "space-between",
+            alignItems: "center",
+            top: 0,
+            textAlign: "center",
+            padding: "0px 20px",
+            background: "#000",
+            boxShadow: "0px -2px 5px rgba(37, 37, 37, 0.1)",
           }}
         >
           <Box sx={{ display: "flex", gap: "15px", alignItems: "center" }}>
