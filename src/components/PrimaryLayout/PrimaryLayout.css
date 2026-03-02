@@ -37,10 +37,10 @@ main {
 }
 
 .menu-mobile {
-    max-width: 800px;
+    max-width: 769px;
     width: 100%;
     margin: auto;
-    left: 0;
+    left: 1%;
     right: 0;
     position: fixed;
     bottom: 0;
