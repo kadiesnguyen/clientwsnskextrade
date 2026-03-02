@@ -133,7 +133,6 @@ export default function PrimaryLayoutComponent({
         <LoadingComponent />
       ) : (
         <div className="container">
-          <HeaderPage user={user} />
           <MenuProfileMobile
             user={user}
             noti={dataNoti}
@@ -158,7 +157,6 @@ export default function PrimaryLayoutComponent({
             }}
           />
           <main>{children}</main>
-          {path === "/login/" || path === "/signup/" ? "" : <FooterPage />}
 
           <nav className="menu-mobile">
             <ul>
