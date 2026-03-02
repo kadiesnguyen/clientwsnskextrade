@@ -115,7 +115,7 @@ export default function CoinPage() {
   }, []);
 
   return (
-    <Box sx={{ minHeight: "100vh", background: "#0f172a", p: 4 }}>
+    <Box sx={{ minHeight: "100vh", background: "#0f172a", p: 2 }}>
       <CoinTickerList coins={coins} />
       <Stack spacing={3} mt={4}>
         {Object.values(coins).map((coin) => (
@@ -213,7 +213,7 @@ function CoinTickerList({ coins }: { coins: Record<string, Coin> }) {
       sx={{
         display: "flex",
         overflowX: "auto",
-        gap: 2,
+        gap: 1,
         pb: 1,
         "&::-webkit-scrollbar": { display: "none" },
         cursor: "pointer",
@@ -226,7 +226,7 @@ function CoinTickerList({ coins }: { coins: Record<string, Coin> }) {
           <Box
             key={coin.symbol}
             sx={{
-              minWidth: 180,
+              minWidth: 150,
               background: "#166534",
               borderRadius: 3,
               p: 2,
@@ -242,7 +242,7 @@ function CoinTickerList({ coins }: { coins: Record<string, Coin> }) {
               >
                 {baseSymbol.charAt(0)}
               </Avatar>
-              <Typography fontSize={13} fontWeight={600}>
+              <Typography fontSize={11} fontWeight={600}>
                 {coin.symbol}
               </Typography>
             </Box>
@@ -251,12 +251,12 @@ function CoinTickerList({ coins }: { coins: Record<string, Coin> }) {
               <MiniSparkline history={coin.history} isDown={isDown} />
             </Box>
 
-            <Typography fontWeight={600}>
+            <Typography fontWeight={600} fontSize={10}>
               {coin.price.toLocaleString()}
             </Typography>
 
             <Typography
-              fontSize={12}
+              fontSize={9}
               sx={{
                 display: "flex",
                 alignItems: "center",
@@ -291,7 +291,7 @@ function MiniSparkline({
   }));
 
   return (
-    <LineChart width={140} height={40} data={data}>
+    <LineChart width={100} height={30} data={data}>
       <YAxis hide domain={["dataMin", "dataMax"]} />
       <Line
         type="monotone"
