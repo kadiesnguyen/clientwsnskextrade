@@ -84,7 +84,7 @@ export default function AccountPage() {
 
       <Card
         sx={{
-          background: "#1f8a3a",
+          background: " linear-gradient(to bottom, #16a34a, #166534 );",
           borderRadius: 3,
           color: "#fff",
           mb: 3,
