@@ -9,12 +9,8 @@ import {
   Avatar,
   Stack,
   Tab,
+  Divider,
 } from "@mui/material";
-import { LineChart, Line, YAxis } from "recharts";
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
-import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-
-import { TabContext, TabList } from "@mui/lab";
 import { DownIcon, UpIcon } from "@/shared/Svgs/Svg.component";
 type Coin = {
   symbol: string;
@@ -111,40 +107,19 @@ export default function CoinMenuMobile({ menu, setMenu }: props) {
 
   return (
     <Box sx={{ minHeight: "100vh", background: "#111827" }}>
-      <TabContext value="1">
-        <TabList
-          variant="scrollable"
-          TabIndicatorProps={{
-            style: {
-              backgroundColor: "#22c55e",
-              height: 3,
-            },
-          }}
+      <Box sx={{ width: "80px", mb: "10px", p: 2 }}>
+        <Typography sx={{ color: "#22c55e", fontSize: "16px" }}>
+          USDT
+        </Typography>
+        <Divider
           sx={{
-            "& .MuiTabs-indicator": {
-              display: "flex",
-              justifyContent: "center",
-            },
-            "& .MuiTabs-indicatorSpan": {
-              maxWidth: 40,
-              width: "100%",
-              backgroundColor: "#22c55e",
-            },
-            marginBottom: 2,
+            width: 40,
+            height: "2px",
+            backgroundColor: "#22c55e",
+            alignSelf: "center", // nếu đang trong flex column
           }}
-        >
-          <Tab
-            value="1"
-            label="USDT"
-            sx={{
-              color: "gray",
-              "&.Mui-selected": {
-                color: "#22c55e",
-              },
-            }}
-          />
-        </TabList>
-      </TabContext>
+        />
+      </Box>
       {Object.values(coins).map((coin) => (
         <CoinCard key={coin.symbol} coin={coin} menu={menu} setMenu={setMenu} />
       ))}
