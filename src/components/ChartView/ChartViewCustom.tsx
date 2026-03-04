@@ -230,23 +230,42 @@ export default function ChartViewCustom({
         </Box>
       </Stack>
 
-      <Stack direction="row" spacing={1} mb={2}>
-        {["1m", "5m", "15m", "30m", "1h"].map((tf) => (
-          <Button
-            key={tf}
-            size="small"
-            onClick={() => setInterval(tf)}
-            variant={tf === interval ? "contained" : "outlined"}
-            sx={{
-              color: "white",
-              borderColor: "#2c3e50",
-              background: tf === interval ? "#00C853" : "transparent",
-            }}
-          >
-            {tf.toUpperCase()}
-          </Button>
-        ))}
-      </Stack>
+      <Box
+        sx={{
+          overflowX: "auto",
+          whiteSpace: "nowrap",
+          scrollbarWidth: "none",
+          msOverflowStyle: "none",
+          "&::-webkit-scrollbar": {
+            display: "none",
+          },
+        }}
+      >
+        <Stack
+          direction="row"
+          spacing={1}
+          sx={{
+            minWidth: "max-content",
+          }}
+        >
+          {["1m", "5m", "15m", "30m", "1h"].map((tf) => (
+            <Button
+              key={tf}
+              size="small"
+              onClick={() => setInterval(tf)}
+              variant={tf === interval ? "contained" : "outlined"}
+              sx={{
+                flexShrink: 0,
+                color: "white",
+                borderColor: "#2c3e50",
+                background: tf === interval ? "#00C853" : "transparent",
+              }}
+            >
+              {tf.toUpperCase()}
+            </Button>
+          ))}
+        </Stack>
+      </Box>
 
       <Box
         ref={chartContainerRef}

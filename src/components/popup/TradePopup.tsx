@@ -123,6 +123,7 @@ export default function TradePopup({
           display: "flex",
           p: 2,
           flexDirection: "column",
+          zIndex: 999999999,
         },
       }}
     >
