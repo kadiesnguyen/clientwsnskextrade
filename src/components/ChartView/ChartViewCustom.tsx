@@ -65,17 +65,14 @@ export default function ChartViewCustom({
         fixLeftEdge: true,
         fixRightEdge: true,
       },
-      handleScroll: {
-        mouseWheel: false,
-        pressedMouseMove: false,
-      },
+
       handleScale: {
         axisPressedMouseMove: true,
         mouseWheel: true,
         pinch: true,
       },
       width: chartContainerRef.current.clientWidth,
-      height: 400,
+      height: 350,
     });
 
     const candleSeries = chart.addSeries(CandlestickSeries, {
