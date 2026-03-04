@@ -300,7 +300,7 @@ export default function TradePage() {
             }}
           />
 
-          <Stack direction="row" justifyContent="space-between" mt={1}>
+          <Box sx={{ display: "flex", justifyContent: "space-around" }}>
             {[0, 25, 50, 75, 100].map((v) => (
               <Button
                 key={v}
@@ -316,7 +316,7 @@ export default function TradePage() {
                 {v}%
               </Button>
             ))}
-          </Stack>
+          </Box>
         </Box>
 
         {/* FOOTER */}
