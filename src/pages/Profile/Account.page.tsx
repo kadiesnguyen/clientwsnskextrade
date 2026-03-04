@@ -112,8 +112,8 @@ export default function AccountPage() {
             }}
           >
             <Typography sx={{ fontSize: "16px", color: "#fff" }}>
-              {t("Toast.Wallet")} VND:{" "}
-              {Number(user?.balance.vnd).toLocaleString()} VND
+              {t("Toast.Wallet")} VND: {Number(user?.money).toLocaleString()}{" "}
+              VND
             </Typography>
             <Typography sx={{ fontSize: "16px", color: "#fff" }}>
               {t("Toast.Wallet")} USDT:{" "}

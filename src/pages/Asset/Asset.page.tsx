@@ -98,7 +98,7 @@ export default function AssetPage() {
   };
 
   const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
@@ -421,7 +421,7 @@ export default function AssetPage() {
                     textAlign: "right",
                   }}
                 >
-                  {parseFloat(user.balance.vnd).toLocaleString()} VND
+                  {parseFloat(user.balance.usdt).toLocaleString()} usdt
                 </Typography>
               </Box>
             </Box>
@@ -490,7 +490,7 @@ export default function AssetPage() {
                     {deposit
                       .slice(
                         page * rowsPerPage,
-                        page * rowsPerPage + rowsPerPage
+                        page * rowsPerPage + rowsPerPage,
                       )
                       .map((item: any, index: number) => (
                         <Box key={index} sx={{ padding: "10px 0" }}>
@@ -583,7 +583,7 @@ export default function AssetPage() {
                     {bill
                       .slice(
                         page * rowsPerPage,
-                        page * rowsPerPage + rowsPerPage
+                        page * rowsPerPage + rowsPerPage,
                       )
                       .map((item: any, index: number) => (
                         <Box key={index} sx={{ padding: "10px 0" }}>

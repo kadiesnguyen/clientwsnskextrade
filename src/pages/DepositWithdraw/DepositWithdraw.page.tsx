@@ -366,7 +366,7 @@ export default function DepositWithdrawPage(props: TabProps) {
                       fontWeight: "bold",
                     }}
                   >
-                    {parseFloat(user.balance.vnd).toLocaleString()} VND
+                    {parseFloat(user?.money).toLocaleString()} VND
                   </Typography>
                 </Box>
 

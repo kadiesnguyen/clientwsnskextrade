@@ -56,20 +56,9 @@ export default function ChangeBank({ subTabs }: iProps) {
     }
   }, [user]);
 
-  useEffect(() => {
-    if (walletNetwork) {
-      if (walletNetwork == "TRC20") {
-        setWallet(user?.TRC20?.wallet || "");
-      } else if (walletNetwork == "BEP20") {
-        setWallet(user?.BEP20?.wallet || "");
-      } else {
-        setWallet(null);
-      }
-    }
-  }, [walletNetwork, user]);
   const handleChangeSubTab = (
     event: React.SyntheticEvent,
-    newValue: number
+    newValue: number,
   ) => {
     setSubTab(newValue);
   };

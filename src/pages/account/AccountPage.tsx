@@ -135,7 +135,7 @@ export default function AccountPage() {
               sx={{ cursor: "pointer" }}
               onClick={() => setHideBalance((prev) => !prev)}
             >
-              {hideBalance ? "***" : user ? user.money : "0.00"}
+              {hideBalance ? "***" : user ? user?.money : "0.00"}
               <ChevronRight sx={{ fontSize: 16, ml: 0.5 }} />
             </Typography>
           </Box>

@@ -158,7 +158,7 @@ export default function Withdraw({ wallet, user, refetchUser }: props) {
       toast.warning(t("Toast.Desposit8"));
       return;
     }
-    if (coin == "1" && Number(user?.balance.vnd) < Number(amount)) {
+    if (coin == "1" && Number(user?.money) < Number(amount)) {
       toast.warning(t("Toast.Desposit8"));
       return;
     }
