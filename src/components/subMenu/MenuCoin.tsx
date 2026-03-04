@@ -131,7 +131,7 @@ export default function MenuCoin({ data }: props) {
             aria-haspopup="true"
             aria-expanded={drawerOpen ? "true" : undefined}
           >
-            <MenuIcon fill="#fff" width="25px" height="25px" />
+            <MenuIcon fill="#fff" width="20px" height="20px" />
           </IconButton>
           <Box sx={{ display: "flex", gap: "10px" }}>
             <Typography fontWeight="500" fontSize={18} color="#fff">
@@ -153,7 +153,7 @@ export default function MenuCoin({ data }: props) {
             </Typography>
           </Box>
           <IconButton size="small" aria-haspopup="true">
-            <DashboardIcon fill="#fff" width="25px" height="25px" />
+            <DashboardIcon fill="#fff" width="20px" height="20px" />
           </IconButton>
         </Box>
         <Drawer

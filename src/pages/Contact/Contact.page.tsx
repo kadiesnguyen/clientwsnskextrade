@@ -62,20 +62,16 @@ export default function ContactPage() {
         pb: "130px",
       }}
     >
-      <Box mb={10}>
+      <Box>
         <React.Fragment>
           <Box
             sx={{
               maxWidth: "768px",
               width: "100%",
               margin: "auto",
-              left: 0,
-              right: 0,
-              position: "fixed",
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
-              top: 0,
               textAlign: "center",
               padding: "0px 20px",
               background: "#111827",
