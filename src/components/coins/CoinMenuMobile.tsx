@@ -93,18 +93,13 @@ export default function CoinMenuMobile({
         const open = Number(k.o);
         const close = Number(k.c);
 
-        const newChange = open > 0 ? ((close - open) / open) * 100 : 0;
-
         const updatedHistory = [...prev[symbol].history.slice(-19), close];
-        if (symbol === menu) {
-          changePercent?.(newChange.toFixed(2));
-        }
+
         return {
           ...prev,
           [symbol]: {
             ...prev[symbol],
             price: close,
-            changePercent: newChange,
             history: updatedHistory,
           },
         };
@@ -113,6 +108,50 @@ export default function CoinMenuMobile({
 
     return () => ws.close();
   }, [interval]);
+
+  const fetch24hChange = async () => {
+    try {
+      const res = await fetch(
+        "https://api.binance.com/api/v3/ticker/24hr?symbols=" +
+          JSON.stringify(symbols.map((s) => s.toUpperCase())),
+      );
+
+      const data = await res.json();
+
+      setCoins((prev) => {
+        const updated = { ...prev };
+
+        data.forEach((item: any) => {
+          const key = item.symbol.toLowerCase();
+          const percent = Number(item.priceChangePercent) || 0;
+
+          if (updated[key]) {
+            updated[key] = {
+              ...updated[key],
+              changePercent: percent,
+            };
+          }
+
+          if (key === menu) {
+            changePercent(item.priceChangePercent);
+          }
+        });
+
+        return updated;
+      });
+    } catch (err) {
+      console.error("24h fetch error", err);
+    }
+  };
+  useEffect(() => {
+    fetch24hChange();
+
+    const intervalId = window.setInterval(() => {
+      fetch24hChange();
+    }, 5000);
+
+    return () => clearInterval(intervalId);
+  }, [menu]);
 
   return (
     <Box sx={{ minHeight: "100vh", background: "#111827" }}>

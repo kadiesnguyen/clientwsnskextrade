@@ -143,6 +143,30 @@ export default function ChartViewCustom({
     loadHistory();
   }, [interval, symbol]);
 
+  useEffect(() => {
+    fetch24hChange();
+
+    const intervalId: number = window.setInterval(() => {
+      fetch24hChange();
+    }, 5000);
+
+    return () => clearInterval(intervalId);
+  }, [symbol]);
+
+  const fetch24hChange = async () => {
+    try {
+      const res = await fetch(
+        `https://api.binance.com/api/v3/ticker/24hr?symbol=${symbol.toUpperCase()}`,
+      );
+
+      const data = await res.json();
+
+      setPercent(parseFloat(data.priceChangePercent));
+    } catch (err) {
+      console.error("24h fetch error", err);
+    }
+  };
+
   // ================= WEBSOCKET REALTIME =================
   useEffect(() => {
     const ws = new WebSocket(
@@ -169,7 +193,7 @@ export default function ChartViewCustom({
       chartRef.current?.timeScale().scrollToRealTime();
       setOpenPrice(open);
       setPrice(close);
-      setPercent(percentValue);
+      // setPercent(percentValue);
       changePrice(close);
       priceLineRef.current?.applyOptions({
         price: close,

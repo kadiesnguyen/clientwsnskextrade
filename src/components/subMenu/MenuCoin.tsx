@@ -144,7 +144,7 @@ export default function MenuCoin({ data }: props) {
                 color: Number(percent) >= 0 ? "#00C853" : "#FF3D00",
               }}
             >
-              {percent}
+              {Number(percent).toFixed(2)}
               {Number(percent) < 0 ? (
                 <DownIcon width="16px" height="16px" fill="#ef4444" />
               ) : (
