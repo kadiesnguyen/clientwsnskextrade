@@ -62,21 +62,18 @@ export default function ContactPage() {
         pb: "130px",
       }}
     >
-      <Box>
+      <Box sx={{ mb: 2 }}>
         <React.Fragment>
           <Box
             sx={{
-              maxWidth: "768px",
               width: "100%",
               margin: "auto",
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
               textAlign: "center",
-              padding: "0px 20px",
               background: "#111827",
               boxShadow: "0px -2px 5px rgba(37, 37, 37, 0.1)",
-              p: 2,
             }}
           >
             <IconButton
@@ -86,7 +83,7 @@ export default function ContactPage() {
               aria-haspopup="true"
               aria-expanded={drawerOpen ? "true" : undefined}
             >
-              <MenuIcon fill="#fff" width="25px" height="25px" />
+              <MenuIcon fill="#fff" width="20px" height="20px" />
             </IconButton>
             <Box sx={{ display: "flex", gap: "10px" }}>
               <Typography fontWeight="500" fontSize={18} color="#fff">
@@ -108,7 +105,7 @@ export default function ContactPage() {
               </Typography>
             </Box>
             <IconButton size="small" aria-haspopup="true">
-              <DashboardIcon fill="#fff" width="25px" height="25px" />
+              <DashboardIcon fill="#fff" width="20px" height="20px" />
             </IconButton>
           </Box>
           <Drawer
