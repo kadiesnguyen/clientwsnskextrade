@@ -307,6 +307,7 @@ export default function TradePage() {
               overflowY: "auto",
               scrollbarWidth: "none",
               msOverflowStyle: "none",
+              gap: "5px",
               "&::-webkit-scrollbar": {
                 display: "none",
               },
