@@ -55,9 +55,10 @@ export default function ChartViewCustom({
       },
       rightPriceScale: {
         borderColor: "#1e2a3a",
+        minimumWidth: 30,
       },
       localization: {
-        priceFormatter: (p: number) => p.toFixed(5),
+        priceFormatter: (p: number) => Number(p.toFixed(5)).toLocaleString(),
       },
       timeScale: {
         borderColor: "#1e2a3a",
