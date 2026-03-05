@@ -5192,7 +5192,7 @@ export const DashboardIcon = ({
         fillRule="evenodd"
       >
         <g
-          id="Dribbble-Light-Preview"
+          id="DribbbleLight-Preview"
           transform="translate(-139.000000, -200.000000)"
           fill={fill || "#1C274C"}
         >
@@ -5941,6 +5941,45 @@ export const MenuIcon = ({
         strokeLinecap="round"
         strokeLinejoin="round"
       ></path>
+    </g>
+  </svg>
+);
+
+export const ExchangeIcon = ({
+  className,
+  width,
+  height,
+  fill,
+}: IIconPropsComponent) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    width={width}
+    height={height}
+  >
+    <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+    <g
+      id="SVGRepo_tracerCarrier"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    ></g>
+    <g id="SVGRepo_iconCarrier">
+      {" "}
+      <path
+        d="M8 10H20L16 6"
+        stroke={fill || "#34d399"}
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      ></path>{" "}
+      <path
+        d="M16 14L4 14L8 18"
+        stroke={fill || "#34d399"}
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      ></path>{" "}
     </g>
   </svg>
 );

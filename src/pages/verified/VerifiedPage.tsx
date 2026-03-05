@@ -1,0 +1,383 @@
+"use client";
+
+import {
+  Box,
+  Button,
+  Typography,
+  Card,
+  CardContent,
+  IconButton,
+  Stack,
+  TextField,
+} from "@mui/material";
+import VisibilityOutlined from "@mui/icons-material/VisibilityOutlined";
+import SyncAlt from "@mui/icons-material/SyncAlt";
+import AccountBalanceWalletOutlined from "@mui/icons-material/AccountBalanceWalletOutlined";
+import SwapHorizOutlined from "@mui/icons-material/SwapHorizOutlined";
+import RefreshOutlined from "@mui/icons-material/RefreshOutlined";
+import ChevronRight from "@mui/icons-material/ChevronRight";
+import LinkIcon from "@mui/icons-material/Link";
+import SecurityOutlined from "@mui/icons-material/SecurityOutlined";
+import LogoutOutlined from "@mui/icons-material/LogoutOutlined";
+import { useRouter } from "next/navigation";
+import { useUserStore } from "@/stores/useUserStore";
+import { useEffect, useRef, useState } from "react";
+import { VisibilityOffOutlined } from "@mui/icons-material";
+import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
+import { verifiUser } from "@/services/User.service";
+
+export default function VerifiedPage() {
+  const [fullName, setFullName] = useState<string | null>(null);
+  const [cardNumber, setCardNumber] = useState<string | null>(null);
+  const [frontImage, setFrontImage] = useState<File>();
+  const [backImage, setBackImage] = useState<File>();
+  const frontFileInput = useRef<HTMLInputElement>(null);
+  const backFileInput = useRef<HTMLInputElement>(null);
+
+  const { t } = useTranslation();
+  const router = useRouter();
+  const { user, fetchUser } = useUserStore();
+  const handleFrontClick = () => {
+    frontFileInput.current?.click();
+  };
+
+  const handleBackClick = () => {
+    backFileInput.current?.click();
+  };
+
+  const handleFrontChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setFrontImage(file);
+    }
+  };
+
+  const handleBackChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setBackImage(file);
+    }
+  };
+
+  const handleSubmit = async () => {
+    if (!frontImage || !backImage || !fullName || !cardNumber) {
+      alert(
+        "Please upload both front and back images and provide a phone number.",
+      );
+      return;
+    }
+
+    try {
+      const formData = new FormData();
+      formData.append("fullname", fullName);
+      formData.append("cccd", cardNumber);
+      formData.append("cardfm", frontImage);
+      formData.append("cardzm", backImage);
+
+      await verifiUser(formData);
+      toast.success(t("Toast.verifide1"));
+      fetchUser();
+    } catch (error) {
+      console.error("Error submitting verification:", error);
+      toast.error(t("Toast.verifide2"));
+    }
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, [fetchUser]);
+  return (
+    <Box
+      sx={{
+        maxWidth: "768px",
+        margin: "auto",
+        minHeight: "100vh",
+        background:
+          "linear-gradient(180deg,#0b1b33 0%,#0b1b33 40%,#091426 100%)",
+        p: 2,
+        pb: "130px",
+      }}
+    >
+      {/* login button */}
+      {!user ? (
+        <Button
+          variant="contained"
+          sx={{
+            background: "#22c55e",
+            borderRadius: "8px",
+            textTransform: "none",
+            mb: 2,
+            "&:hover": {
+              background: "#1da850ff",
+            },
+          }}
+          onClick={() => router.push("/login")}
+        >
+          Go to login
+        </Button>
+      ) : (
+        <>
+          {!user.cccd ? (
+            <Box sx={{ mt: 2 }}>
+              <Typography
+                variant="h6"
+                mb={2}
+                sx={{ color: "#d1d5db", fontSize: "12px" }}
+              >
+                {t("ProfilePage.verified_title1")}
+              </Typography>
+
+              <Box sx={{ mt: 2, textAlign: "center" }}>
+                <Typography
+                  variant="h6"
+                  mb={1}
+                  mt={1}
+                  sx={{ color: "#d1d5db", fontSize: "12px", textAlign: "left" }}
+                >
+                  {t("ProfilePage.verified_title5")}
+                </Typography>
+                <TextField
+                  fullWidth
+                  type="text"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  placeholder={t("ProfilePage.verified_title3")}
+                  sx={{
+                    borderRadius: "8px",
+                    background: "#1f2937",
+                    color: "#fff",
+                    marginBottom: "20px",
+                    "& .MuiOutlinedInput-root": {
+                      color: "white",
+                    },
+                    "& .MuiInputBase-input::placeholder": {
+                      color: "gray",
+                      fontSize: { xs: "16px", sm: "14px" },
+                      opacity: 1, // để không bị mờ
+                    },
+                  }}
+                />
+                <Typography
+                  variant="h6"
+                  mb={1}
+                  mt={1}
+                  sx={{ color: "#d1d5db", fontSize: "12px", textAlign: "left" }}
+                >
+                  {t("ProfilePage.verified_title4")}
+                </Typography>
+                <TextField
+                  fullWidth
+                  type="text"
+                  value={cardNumber}
+                  onChange={(e) => setCardNumber(e.target.value)}
+                  placeholder={t("ProfilePage.verified_title2")}
+                  sx={{
+                    borderRadius: "8px",
+                    background: "#1f2937",
+                    color: "#fff",
+                    marginBottom: "20px",
+                    "& .MuiOutlinedInput-root": {
+                      color: "white",
+                    },
+                    "& .MuiInputBase-input::placeholder": {
+                      color: "gray",
+                      fontSize: { xs: "16px", sm: "14px" },
+                      opacity: 1, // để không bị mờ
+                    },
+                  }}
+                />
+              </Box>
+
+              <Box
+                sx={{
+                  display: {
+                    xs: "block",
+                    sm: "flex",
+                  },
+                  justifyContent: "center",
+                  gap: 2,
+                }}
+              >
+                <Typography
+                  variant="h6"
+                  mb={1}
+                  mt={1}
+                  sx={{
+                    color: "#4ade80",
+                    fontSize: "12px",
+                    textAlign: "center",
+                  }}
+                >
+                  {t("ProfilePage.verified_title6")}
+                </Typography>
+                <Box
+                  sx={{
+                    width: "70%",
+                    textAlign: "center",
+                    margin: "auto",
+                  }}
+                >
+                  <Box
+                    component="img"
+                    src={
+                      frontImage
+                        ? URL.createObjectURL(frontImage)
+                        : "/images/mau_the_can-cuoc_moi.jpg"
+                    }
+                    alt="Mặt trước CCCD"
+                    onClick={handleFrontClick}
+                    sx={{
+                      width: "100%",
+                      borderRadius: "8px",
+                      boxShadow: 2,
+                      cursor: "pointer",
+                      objectFit: "cover",
+                    }}
+                  />
+                  <input
+                    type="file"
+                    accept="image/*"
+                    ref={frontFileInput}
+                    style={{ display: "none" }}
+                    onChange={handleFrontChange}
+                  />
+                  <Typography
+                    sx={{
+                      color: "#fff",
+                      width: "100%",
+                      textAlign: "center",
+                      paddingBottom: "10px",
+                    }}
+                  >
+                    {t("ProfilePage.before")}
+                  </Typography>
+                </Box>
+
+                <Box
+                  sx={{
+                    width: "70%",
+                    textAlign: "center",
+                    margin: "auto",
+                  }}
+                >
+                  <Box
+                    component="img"
+                    src={
+                      backImage
+                        ? URL.createObjectURL(backImage)
+                        : "/images/cccdms.png"
+                    }
+                    alt="Mặt sau CCCD"
+                    onClick={handleBackClick}
+                    sx={{
+                      width: "100%",
+                      borderRadius: "8px",
+                      boxShadow: 2,
+                      cursor: "pointer",
+                      objectFit: "cover",
+                    }}
+                  />
+                  <input
+                    type="file"
+                    accept="image/*"
+                    ref={backFileInput}
+                    style={{ display: "none" }}
+                    onChange={handleBackChange}
+                  />
+                  <Typography align="center" sx={{ color: "#fff" }}>
+                    {t("ProfilePage.after")}
+                  </Typography>
+                </Box>
+
+                <Button
+                  type="button"
+                  sx={{
+                    display: "flex",
+                    background: "#22c55e",
+                    color: "#000",
+                    width: "100%",
+                    height: "50px",
+                    borderRadius: "15px",
+                    margin: "0 auto",
+                    mt: "30px",
+                    "&:hover": {
+                      background: "#22c55e",
+                    },
+                  }}
+                  onClick={handleSubmit}
+                >
+                  {t("ProfilePage.verified_button")}
+                </Button>
+              </Box>
+            </Box>
+          ) : (
+            <Box
+              sx={{
+                mt: 3,
+                background: "#1f2937",
+                borderRadius: "12px",
+                padding: "20px",
+                textAlign: "center",
+              }}
+            >
+              <Typography
+                sx={{
+                  color: "#4ade80",
+                  fontWeight: "bold",
+                  fontSize: "16px",
+                  mb: 2,
+                }}
+              >
+                ✅{t("ProfilePage.verified_success") || "Verified successfully"}
+              </Typography>
+
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 2,
+                  textAlign: "left",
+                }}
+              >
+                <Box>
+                  <Typography sx={{ color: "#9ca3af", fontSize: "12px" }}>
+                    {t("ProfilePage.verified_title4")}
+                  </Typography>
+
+                  <Typography
+                    sx={{
+                      color: "#fff",
+                      background: "#111827",
+                      padding: "10px",
+                      borderRadius: "8px",
+                    }}
+                  >
+                    {user.fullname}
+                  </Typography>
+                </Box>
+
+                <Box>
+                  <Typography sx={{ color: "#9ca3af", fontSize: "12px" }}>
+                    {t("ProfilePage.verified_title5")}
+                  </Typography>
+
+                  <Typography
+                    sx={{
+                      color: "#fff",
+                      background: "#111827",
+                      padding: "10px",
+                      borderRadius: "8px",
+                    }}
+                  >
+                    {user.cccd}
+                  </Typography>
+                </Box>
+              </Box>
+            </Box>
+          )}
+        </>
+      )}
+    </Box>
+  );
+}

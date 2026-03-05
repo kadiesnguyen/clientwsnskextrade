@@ -152,7 +152,7 @@ export default function HomePage() {
               {
                 key: "verified",
                 icon: "/images/verified.png",
-                link: "#",
+                link: "/verified",
               },
               {
                 key: "recharge",

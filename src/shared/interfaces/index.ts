@@ -54,6 +54,8 @@ export interface IUser {
   id: string;
   username: string;
   phone: string;
+  cccd: string;
+  fullname: string;
   cardzm: string;
   cardfm: string;
   rzstatus: number;

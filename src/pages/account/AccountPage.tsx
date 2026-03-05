@@ -148,18 +148,29 @@ export default function AccountPage() {
           {
             label: "Recharge",
             icon: <RefreshOutlined sx={{ color: "white" }} />,
+            link: "#",
           },
           {
             label: "Withdraw",
             icon: <AccountBalanceWalletOutlined sx={{ color: "white" }} />,
+            link: "#",
           },
-          { label: "Transfer", icon: <SyncAlt sx={{ color: "white" }} /> },
+          {
+            label: "Transfer",
+            icon: <SyncAlt sx={{ color: "white" }} />,
+            link: "#",
+          },
           {
             label: "Exchange",
             icon: <SwapHorizOutlined sx={{ color: "white" }} />,
+            link: "/exchange",
           },
         ].map((item) => (
-          <Box key={item.label} textAlign="center">
+          <Box
+            key={item.label}
+            textAlign="center"
+            onClick={() => router.push(item.link)}
+          >
             <IconButton
               sx={{
                 background: "#263244",
