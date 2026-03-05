@@ -128,7 +128,7 @@ export default function ExchangePage() {
           sx={{
             background: "#1e293b",
             color: "white",
-            width: "40%",
+            width: "35%",
             height: "50px",
             borderRadius: "10px",
             "&:hover": {
@@ -159,7 +159,7 @@ export default function ExchangePage() {
           sx={{
             background: "#1e293b",
             color: "white",
-            width: "40%",
+            width: "35%",
             height: "50px",
             borderRadius: "10px",
             "&:hover": {
