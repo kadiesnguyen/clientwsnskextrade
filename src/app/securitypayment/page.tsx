@@ -1,4 +1,3 @@
-import AssetPage from "@/pages/Asset/Asset.page";
 import ProfilePage from "@/pages/Profile/Profile";
 import React from "react";
 
