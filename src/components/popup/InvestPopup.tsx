@@ -17,7 +17,7 @@ interface progs {
   onSubmit: () => void;
   onClose: () => void;
 }
-export default function InvestPopup({ data, onClose, open }: progs) {
+export default function InvestPopup({ data, onClose, open, onSubmit }: progs) {
   const handleInvest = () => {
     console.log("Invest clicked");
     onClose();
