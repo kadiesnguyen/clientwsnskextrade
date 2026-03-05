@@ -204,10 +204,18 @@ export default function ExchangePage() {
           }}
         />
 
-        <Typography sx={{ mr: 2, fontSize: "12px", width: "50px" }}>
-          {fromCoin}
+        <Typography sx={{ fontSize: "12px", width: "30px" }}>
+          {fromCoin.toUpperCase()}
         </Typography>
-
+        <Box
+          sx={{
+            width: "2px",
+            height: "25px",
+            background: "#ffffff26",
+            ml: "8px",
+            mr: "8px",
+          }}
+        />
         <Typography
           sx={{
             color: "#22c55e",
