@@ -119,6 +119,7 @@ export default function ExchangePage() {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
+          gap: "5px",
           mb: 3,
         }}
       >

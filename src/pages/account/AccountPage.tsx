@@ -169,7 +169,13 @@ export default function AccountPage() {
           <Box
             key={item.label}
             textAlign="center"
-            onClick={() => router.push(item.link)}
+            onClick={() => {
+              if (user) {
+                router.push(item.link);
+              } else {
+                router.push("/login");
+              }
+            }}
           >
             <IconButton
               sx={{
