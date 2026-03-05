@@ -89,7 +89,7 @@ export default function HomePage() {
                 route.push("/account");
               }}
             >
-              <UserIcon width="30px" height="30px" />
+              <UserIcon width="20px" height="20px" />
             </IconButton>
             <Tooltip title="Language">
               <IconButton
@@ -98,7 +98,7 @@ export default function HomePage() {
                 aria-expanded={open ? "true" : undefined}
                 onClick={handleClickLang}
               >
-                <InternetIcon width="30px" height="30px" />
+                <InternetIcon width="20px" height="20px" />
               </IconButton>
             </Tooltip>
             <Menu

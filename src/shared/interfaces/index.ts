@@ -112,6 +112,54 @@ export interface IClientStoreSide {
   setStore<T>(key: string, value: T, options?: { expires: number }): void;
 }
 
-// export interface getListUserBank {
+export interface IOrepool {
+  overview: IOrepoolIterm[];
+  exclusive: IOrepoolIterm[];
+  shared: IOrepoolIterm[];
+  mylist: IOrepoolIterm[];
+  webkj: string;
+}
 
-// }
+export interface IOrepoolIterm {
+  id: number;
+  title: string;
+  allnum: number;
+  sellnum: number;
+  pricecoin: string;
+  cycle: number;
+  suanl: number;
+  type: number;
+  rtype: number;
+  sharebl: string;
+  sharecode: string;
+  content: string;
+  imgs: string;
+  outtype: number;
+  dayoutnum: string;
+  outcoin: string;
+  pricenum: string;
+  ycnum: number;
+  jlnum: string;
+  jlcoin: string;
+  buyask: number;
+  asknum: number;
+  djout: number;
+  djday: number;
+  status: number;
+  buymax: number;
+  addtime: Date;
+}
+
+export interface IStaking {
+  id: number;
+  name: string;
+  min: string;
+  max: string;
+  open: number;
+  percent: number;
+  imgs: string;
+  content: string;
+  addtime: Date;
+  status: number;
+  state: number;
+}
