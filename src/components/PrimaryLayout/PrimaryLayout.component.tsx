@@ -57,7 +57,7 @@ export default function PrimaryLayoutComponent({
   const getActiveMenu = () => {
     if (path === "/") return 1;
     if (path?.startsWith("/trade")) return 2;
-    if (path?.startsWith("/buysell")) return 3;
+    if (path?.startsWith("/contact")) return 3;
     if (path?.startsWith("/excavator")) return 4;
     if (path?.startsWith("/account")) return 5;
     return 0;
