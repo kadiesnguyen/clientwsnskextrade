@@ -179,3 +179,13 @@ export interface IHistoryExchange {
   status: number;
   addtime: Date;
 }
+
+export interface IDepositMethod {
+  id: number;
+  name: string;
+  wallet: string;
+  address: string;
+  qrcode_url: string;
+  coin: string;
+  status: number;
+}

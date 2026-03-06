@@ -10,6 +10,9 @@ import {
   TextField,
 } from "@mui/material";
 import { IOrepoolIterm } from "@/shared/interfaces";
+import { buyMining } from "@/services/User.service";
+import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 interface progs {
   open: boolean;
@@ -18,9 +21,25 @@ interface progs {
   onClose: () => void;
 }
 export default function InvestPopup({ data, onClose, open, onSubmit }: progs) {
-  const handleInvest = () => {
-    console.log("Invest clicked");
-    onClose();
+  const { t, i18n } = useTranslation();
+  const handleInvest = async () => {
+    if (data?.id !== undefined) {
+      const formData = new FormData();
+      formData.append("id", String(data.id));
+      await buyMining(formData)
+        .then((res) => {
+          if (res.status) {
+            toast.success(t(`Toast.mining2`));
+          }
+        })
+        .catch((err) => {
+          toast.error(t(`Toast.mining3`));
+        })
+        .finally(() => {
+          onSubmit();
+        });
+      onClose();
+    }
   };
 
   return (
@@ -42,7 +61,7 @@ export default function InvestPopup({ data, onClose, open, onSubmit }: progs) {
             Invest in {data?.title}
           </Typography>
 
-          <Typography fontSize="13px" color="#94a3b8">
+          {/* <Typography fontSize="13px" color="#94a3b8">
             Amount (USDT)
           </Typography>
 
@@ -56,7 +75,7 @@ export default function InvestPopup({ data, onClose, open, onSubmit }: progs) {
                 background: "#0f172a",
               },
             }}
-          />
+          /> */}
 
           <Typography fontSize="12px" color="#94a3b8">
             Price per token: {Number(data?.asknum).toLocaleString()} USDT

@@ -240,6 +240,10 @@ const getHistoryExchange = (from: number, limit: number) => {
   );
 };
 
+const getDepositMethod = () => {
+  return contentInstance.get(`/api/finance/deposit/methods`);
+};
+
 export {
   loginUser,
   signupUser,
@@ -287,4 +291,5 @@ export {
   sendCode,
   apiExchange,
   getHistoryExchange,
+  getDepositMethod,
 };

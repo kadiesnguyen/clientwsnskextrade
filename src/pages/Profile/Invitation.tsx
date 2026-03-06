@@ -1,5 +1,7 @@
 "use client";
-import useAuth from "@/hook/useAuth";
+import LoadingComponent from "@/components/Loading";
+
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { getReferral } from "@/services/User.service";
 import {
   UserIcon,
@@ -8,24 +10,18 @@ import {
 } from "@/shared/Svgs/Svg.component";
 import { formatDateTime } from "@/utils/formatDateTime";
 import {
-  Avatar,
   Box,
   Button,
-  Grid,
+  IconButton,
   Paper,
   styled,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
   Typography,
 } from "@mui/material";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
+import Image from "next/image";
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(2),
@@ -33,363 +29,153 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
 }));
 export default function InvitationPage() {
   const { t } = useTranslation();
-  const { user } = useAuth();
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const [referral, setReferral] = useState<any>(null);
+
   useEffect(() => {
     const referral = async () => {
       try {
+        setLoading(true);
         const res: any = await getReferral();
         if (res.status === true) {
           setReferral(res.data);
         }
+        setLoading(false);
       } catch (errors: any) {
         toast.error(errors?.message);
       }
     };
     referral();
   }, []);
+
+  const copyAddress = () => {
+    if (referral) {
+      navigator.clipboard.writeText(referral?.invit);
+      toast.success(t("DepositWithdrawPage.copy"));
+    }
+  };
+
+  if (loading) {
+    return <LoadingComponent />;
+  }
   return (
-    <Box sx={{ backgroundColor: "#000" }}>
+    <Box
+      sx={{
+        maxWidth: "768px",
+        margin: "auto",
+        minHeight: "100vh",
+        background: "#111827",
+
+        pb: "130px",
+      }}
+    >
       <Box
         sx={{
-          padding: 2,
-          width: {
-            xs: "100%",
-            sm: "80%",
-          },
-          margin: "0 auto",
+          display: "flex",
+          alignItems: "center",
+          mb: 3,
+          p: 1,
         }}
       >
-        {/* Header Section */}
-        <Box
+        <IconButton
+          onClick={() => router.back()}
+          sx={{ background: "#232932" }}
+        >
+          <ArrowBackIosNewIcon
+            sx={{ cursor: "pointer", color: "white", fontSize: "14px" }}
+          />
+        </IconButton>
+
+        <Typography
           sx={{
-            display: {
-              xs: "block",
-              sm: "flex",
-            },
-            alignItems: "center",
-            gap: 2, // Space between elements
-            mb: 2,
+            flex: 1,
+            textAlign: "center",
+            fontWeight: 500,
+            fontSize: 20,
+            color: "white",
           }}
         >
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: {
-                xs: 3,
-                sm: 2,
-              },
-              paddingBottom: {
-                xs: "10px",
-                sm: "0px",
-              },
-            }}
-          >
-            <Avatar
-              src={user?.username} // Replace with actual profile image path
-              alt={user?.username}
-              sx={{
-                width: {
-                  xs: 50,
-                  sm: 80,
-                },
-                height: {
-                  xs: 50,
-                  sm: 80,
-                },
-                borderRadius: "50%",
-              }}
-            />
-            <Box
-              sx={{
-                borderRight: {
-                  xs: "none",
-                  sm: "1px solid #ccc",
-                },
-                paddingRight: 2,
-                marginRight: 2,
-              }}
-            >
-              <Typography
-                variant="h6"
-                sx={{
-                  fontSize: {
-                    xs: "16px",
-                    sm: "25px",
-                  },
-                  color: "#fff",
-                }}
-              >
-                {user?.username}
-              </Typography>
-              <Typography
-                variant="body2"
-                color="text.secondary"
-                sx={{
-                  fontSize: {
-                    xs: "13px",
-                    sm: "18px",
-                  },
-                  color: "lightgrey",
-                }}
-              >
-                {`*******${user?.phone?.slice(-3)}` || "*******727"}
-              </Typography>
-            </Box>
-          </Box>
-          <Box
-            sx={{
-              flexGrow: 1,
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <Box
-              sx={{
-                display: {
-                  xs: "none",
-                  sm: "grid",
-                },
-                alignItems: "center",
-              }}
-            >
-              <Typography sx={{ color: "gray", fontSize: "13px" }}>
-                Email
-              </Typography>
-              <Typography sx={{ color: "#fff" }}>{user?.username} </Typography>
-            </Box>
-            <Box sx={{ display: "grid", alignItems: "center" }}>
-              <Typography sx={{ color: "gray", fontSize: "13px" }}>
-                {t("ProfilePage.Identity")}
-              </Typography>
-              {user?.rzstatus === 0 ? (
-                <Typography
-                  sx={{
-                    fontSize: "14px",
-                    color: "#fff",
-                    display: "flex",
-                    alignItems: "center",
+          {t("ProfilePage.Invite")}
+        </Typography>
+      </Box>
 
-                    gap: "5px",
-                  }}
-                >
-                  <WarningIcon /> {t("ProfilePage.Identity1")}
-                </Typography>
-              ) : user?.rzstatus === 1 ? (
-                <Typography
-                  sx={{
-                    fontSize: "14px",
-                    display: "flex",
-                    alignItems: "center",
-
-                    color: "#fff",
-                    gap: "5px",
-                  }}
-                >
-                  <WarningIcon /> {t("ProfilePage.Identity2")}
-                </Typography>
-              ) : user?.rzstatus === 2 ? (
-                <Typography
-                  sx={{
-                    fontSize: "14px",
-                    display: "flex",
-                    alignItems: "center",
-
-                    color: "#fff",
-                    gap: "5px",
-                  }}
-                >
-                  <VerifiedIcon /> {t("ProfilePage.Identity3")}
-                </Typography>
-              ) : (
-                <Typography
-                  sx={{
-                    fontSize: "14px",
-                    display: "flex",
-                    alignItems: "center",
-
-                    color: "#fff",
-                    gap: "5px",
-                  }}
-                >
-                  <WarningIcon /> {t("ProfilePage.Identity4")}
-                </Typography>
-              )}
-            </Box>
-            {/* <Box sx={{ display: "grid", alignItems: "center" }}>
-              <Typography sx={{ color: "gray", fontSize: "13px" }}>
-                {t("ProfilePage.country")}
-              </Typography>
-              <Typography sx={{ color: "#fff" }}>{user?.addr} </Typography>
-            </Box> */}
-            <Box
-              sx={{
-                display: {
-                  xs: "none",
-                  sm: "grid",
-                },
-                alignItems: "center",
-              }}
-            >
-              <Typography sx={{ color: "gray", fontSize: "13px" }}>
-                {t("ProfilePage.Trading")}
-              </Typography>
-              <Typography sx={{ color: "#fff" }}>
-                {t("ProfilePage.Regular")}
-              </Typography>
-            </Box>
-          </Box>
+      <Box
+        sx={{
+          background: "#3b4338",
+          width: "95%",
+          margin: "auto",
+          borderRadius: "20px",
+          p: 2,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          justifyItems: "center",
+        }}
+      >
+        <Typography
+          sx={{ color: "#34d399", textAlign: "center", fontSize: "14px" }}
+        >
+          {t("ProfilePage.Invi")}
+        </Typography>
+        <Typography
+          sx={{
+            color: "white",
+            textAlign: "center",
+            fontSize: "16px",
+            fontWeight: 500,
+            p: 2,
+          }}
+        >
+          {referral?.invit}
+        </Typography>
+        <Box
+          sx={{
+            background: "white",
+            width: "70%",
+            p: 2,
+            margin: "auto",
+            display: "flex",
+            justifyContent: "center",
+            borderRadius: "10px",
+          }}
+        >
+          <Image
+            src={referral?.qrcode_url}
+            width={300}
+            height={300}
+            alt=""
+            style={{ objectFit: "contain", height: "200px" }}
+          />
         </Box>
-        <Grid container spacing={1}>
-          {/* Left Section */}
-          <Grid item xs={12} sm={12}>
-            <StyledPaper
-              sx={{
-                display: "grid",
-                gap: 2,
-                background: "#000",
-                border: "1px solid gray",
-              }}
-            >
-              <Typography
-                variant="h2"
-                sx={{ fontSize: "30px", fontWeight: "bold", color: "#fff" }}
-              >
-                {t("ProfilePage.Group")}
-              </Typography>
-              <Box
-                sx={{
-                  display: {
-                    xs: "grid",
-                    sm: "flex",
-                  },
-                  gridTemplateColumns: {
-                    xs: "1fr 1fr",
-                    sm: "",
-                  },
-                  gap: 4,
-                }}
-              >
-                <Box>
-                  <Typography
-                    sx={{ fontSize: "14px", fontWeight: "bold", color: "#fff" }}
-                  >
-                    {t("ProfilePage.Member")}:
-                  </Typography>
-                  <Typography sx={{ fontSize: "14px", color: "#fff" }}>
-                    {referral?.carr.allrz} {t("ProfilePage.Verified_pe")}
-                  </Typography>
-                  <Typography sx={{ fontSize: "14px", color: "#fff" }}>
-                    {referral?.carr.allnrz} {t("ProfilePage.Unverified_pe")}
-                  </Typography>
-                </Box>
-                <Box>
-                  <Typography
-                    sx={{ fontSize: "14px", fontWeight: "bold", color: "#fff" }}
-                  >
-                    {t("ProfilePage.generation1")}:
-                  </Typography>
-                  <Typography sx={{ fontSize: "14px", color: "#fff" }}>
-                    {referral?.carr.one} {t("ProfilePage.Verified_pe")}
-                  </Typography>
-                  <Typography sx={{ fontSize: "14px", color: "#fff" }}>
-                    {referral?.carr.onen} {t("ProfilePage.Unverified_pe")}
-                  </Typography>
-                </Box>
-                <Box>
-                  <Typography
-                    sx={{ fontSize: "14px", fontWeight: "bold", color: "#fff" }}
-                  >
-                    {t("ProfilePage.generation2")}:
-                  </Typography>
-                  <Typography sx={{ fontSize: "14px", color: "#fff" }}>
-                    {referral?.carr.two} {t("ProfilePage.Verified_pe")}
-                  </Typography>
-                  <Typography sx={{ fontSize: "14px", color: "#fff" }}>
-                    {referral?.carr.twon} {t("ProfilePage.Unverified_pe")}
-                  </Typography>
-                </Box>
-                <Box>
-                  <Typography
-                    sx={{ fontSize: "14px", fontWeight: "bold", color: "#fff" }}
-                  >
-                    {t("ProfilePage.generation3")}:
-                  </Typography>
-                  <Typography sx={{ fontSize: "14px", color: "#fff" }}>
-                    {referral?.carr.three} {t("ProfilePage.Verified_pe")}
-                  </Typography>
-                  <Typography sx={{ fontSize: "14px", color: "#fff" }}>
-                    {referral?.carr.threen} {t("ProfilePage.Unverified_pe")}
-                  </Typography>
-                </Box>
-              </Box>
-            </StyledPaper>
-            <StyledPaper
-              sx={{
-                display: "grid",
-                gap: 2,
-                background: "#000",
-                border: "1px solid gray",
-              }}
-            >
-              <Typography
-                variant="h4"
-                sx={{
-                  fontSize: "25px",
-                  fontWeight: "bold",
-                  mb: 3,
-                  color: "#fff",
-                }}
-              >
-                {t("ProfilePage.diary")}
-              </Typography>
-              <TableContainer component={Paper} sx={{ background: "#000" }}>
-                <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell sx={{ color: "#fff" }}>
-                        {t("ProfilePage.Login_type")}
-                      </TableCell>
-                      <TableCell sx={{ color: "#fff" }}>
-                        {t("ProfilePage.Login_IP")}
-                      </TableCell>
-                      <TableCell sx={{ color: "#fff" }}>
-                        {t("ProfilePage.Login_date")}
-                      </TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {referral?.loglist?.map((row: any) => (
-                      <TableRow
-                        key={row.name}
-                        sx={{
-                          "&:last-child td, &:last-child th": { border: 0 },
-                        }}
-                      >
-                        <TableCell
-                          component="th"
-                          scope="row"
-                          sx={{ color: "#fff" }}
-                        >
-                          {row.remark}
-                        </TableCell>
-                        <TableCell sx={{ color: "#fff" }}>
-                          {row.addip}
-                        </TableCell>
-                        <TableCell sx={{ color: "#fff" }}>
-                          {formatDateTime(row?.addtime)}
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </StyledPaper>
-          </Grid>
-          {/* Right Section */}
-        </Grid>
+        <Typography
+          sx={{
+            color: "white",
+            textAlign: "center",
+            fontSize: "12px",
+            fontWeight: 400,
+            p: 2,
+          }}
+        >
+          {referral?.qrcode_url}
+        </Typography>
+
+        <Button
+          onClick={copyAddress}
+          sx={{
+            width: "150px",
+            height: "40px",
+            background: "#7cf03a",
+            color: "black",
+            margin: "0 auto",
+            textTransform: "capitalize",
+            "&:hover": {
+              background: "#7cf03a",
+            },
+          }}
+        >
+          {t("Toast.copy")}
+        </Button>
       </Box>
     </Box>
   );

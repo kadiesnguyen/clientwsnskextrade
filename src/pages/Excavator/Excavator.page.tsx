@@ -23,6 +23,7 @@ import StakingPopup from "@/components/popup/StakingPopup";
 import { InternetIcon, UserIcon } from "@/shared/Svgs/Svg.component";
 import LanguageSwitcher from "@/components/Language/LanguageSwitcher";
 import { useRouter } from "next/navigation";
+import LoadingComponent from "@/components/Loading";
 
 export default function ExcavatorPage() {
   const [tab, setTab] = useState(0);
@@ -32,7 +33,7 @@ export default function ExcavatorPage() {
   const [miningData, setMiningData] = useState<IOrepool | null>(null);
   const [stakingData, setStakingData] = useState<IStaking[] | null>(null);
   const [staking, setStaking] = useState<IStaking | null>(null);
-
+  const [loading, setLoading] = useState(false);
   const [langAnchorEl, setLangAnchorEl] = useState<null | HTMLElement>(null);
   const isLangMenuOpen = Boolean(langAnchorEl);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -54,18 +55,26 @@ export default function ExcavatorPage() {
   }, []);
 
   const fetchData = async () => {
+    setLoading(true);
     const res: any = await getOrepool();
     if (res.status) setMiningData(res.data);
+    setLoading(false);
   };
 
   const fetchStakingData = async () => {
+    setLoading(true);
     const res: any = await getStaking();
     if (res.status) setStakingData(res.data);
+    setLoading(false);
   };
 
   const handleChange = (e: React.SyntheticEvent, newValue: number) => {
     setTab(newValue);
   };
+
+  if (loading) {
+    return <LoadingComponent />;
+  }
 
   const renderCard = (item: IOrepoolIterm) => {
     const percent = (item.sellnum / item.allnum) * 100;

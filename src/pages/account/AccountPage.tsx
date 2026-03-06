@@ -20,17 +20,23 @@ import SecurityOutlined from "@mui/icons-material/SecurityOutlined";
 import LogoutOutlined from "@mui/icons-material/LogoutOutlined";
 import { useRouter } from "next/navigation";
 import { useUserStore } from "@/stores/useUserStore";
+import Skeleton from "@mui/material/Skeleton";
 import { useEffect, useState } from "react";
 import { VisibilityOffOutlined } from "@mui/icons-material";
+import LoadingComponent from "@/components/Loading";
 
 export default function AccountPage() {
   const [hideBalance, setHideBalance] = useState(false);
   const router = useRouter();
-  const { user, fetchUser } = useUserStore();
+  const { user, fetchUser, loading } = useUserStore();
 
   useEffect(() => {
     fetchUser();
   }, [fetchUser]);
+
+  if (loading) {
+    return <LoadingComponent />;
+  }
   return (
     <Box
       sx={{
@@ -60,6 +66,31 @@ export default function AccountPage() {
         >
           Go to login
         </Button>
+      ) : loading ? (
+        <Box
+          sx={{ display: "flex", flexDirection: "column", gap: "5px", p: 2 }}
+        >
+          <Skeleton
+            variant="text"
+            width={120}
+            height={24}
+            sx={{ bgcolor: "#374151" }}
+          />
+          <Box sx={{ display: "flex", gap: "10px" }}>
+            <Skeleton
+              variant="text"
+              width={80}
+              height={20}
+              sx={{ bgcolor: "#374151" }}
+            />
+            <Skeleton
+              variant="text"
+              width={80}
+              height={20}
+              sx={{ bgcolor: "#374151" }}
+            />
+          </Box>
+        </Box>
       ) : (
         <Box
           sx={{ display: "flex", flexDirection: "column", gap: "5px", p: 2 }}
@@ -113,13 +144,29 @@ export default function AccountPage() {
             </IconButton>
           </Box>
 
-          <Typography fontSize={32} fontWeight="bold" textAlign="center" mt={2}>
-            {hideBalance
-              ? "***"
-              : user
-                ? Number(user?.balance.usdt).toLocaleString()
-                : "0.00"}
-          </Typography>
+          {loading ? (
+            <Typography
+              fontSize={32}
+              fontWeight="bold"
+              textAlign="center"
+              mt={2}
+            >
+              ***
+            </Typography>
+          ) : (
+            <Typography
+              fontSize={32}
+              fontWeight="bold"
+              textAlign="center"
+              mt={2}
+            >
+              {hideBalance
+                ? "***"
+                : user
+                  ? Number(user?.balance.usdt).toLocaleString()
+                  : "0.00"}
+            </Typography>
+          )}
 
           <Box
             display="flex"
@@ -148,7 +195,7 @@ export default function AccountPage() {
           {
             label: "Recharge",
             icon: <RefreshOutlined sx={{ color: "white" }} />,
-            link: "#",
+            link: "/recharge",
           },
           {
             label: "Withdraw",
@@ -183,6 +230,9 @@ export default function AccountPage() {
                 width: 50,
                 height: 50,
                 color: "#fff",
+                "&:hover": {
+                  background: "#263244",
+                },
               }}
             >
               {item.icon}
@@ -211,12 +261,12 @@ export default function AccountPage() {
           {
             icon: <LinkIcon sx={{ color: "white" }} />,
             label: "Referral link",
-            link: "#",
+            link: "/referral",
           },
           {
             icon: <SecurityOutlined sx={{ color: "white" }} />,
             label: "Security center",
-            link: "#",
+            link: "/security",
           },
           {
             icon: <LogoutOutlined sx={{ color: "white" }} />,

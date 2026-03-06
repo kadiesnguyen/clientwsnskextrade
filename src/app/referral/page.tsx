@@ -1,6 +1,6 @@
-import ProfilePage from "@/pages/Profile/Profile";
+import InvitationPage from "@/pages/Profile/Invitation";
 import React from "react";
 
 export default function page() {
-  return <ProfilePage value={3} tab={0} subTab={0} />;
+  return <InvitationPage />;
 }

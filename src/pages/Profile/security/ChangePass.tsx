@@ -1,16 +1,21 @@
+"use client";
 import { updatePassword } from "@/services/User.service";
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Box, Button, IconButton, TextField, Typography } from "@mui/material";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 
 export default function ChangePass() {
   const { t } = useTranslation();
   const [currentPassword, setCurrentPassword] = useState<string | null>(null);
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
   const handleSubmit = async (e: any) => {
+    setLoading(true);
     e.preventDefault();
     if (newPassword !== confirmPassword) {
       alert("New passwords do not match!");
@@ -27,79 +32,70 @@ export default function ChangePass() {
         })
         .catch((error) => {
           toast.error(error.message);
+        })
+        .finally(() => {
+          setLoading(false);
         });
     }
   };
   return (
     <Box
       sx={{
-        width: {
-          xs: "100%",
-          sm: "80%",
-        },
-        margin: "auto",
-        textAlign: {
-          xs: "Center",
-          sm: "left",
-        },
-        mt: 3,
+        background: "#0b1727",
+        minHeight: "100vh",
+        color: "white",
       }}
     >
-      <Typography
-        variant="h4"
-        gutterBottom
-        sx={{ fontWeight: "bold", color: "#fff", fontSize: "20px" }}
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent={"space-between"}
+        p={2}
       >
-        {t("ProfilePage.title_change")}
-      </Typography>
-      <Typography
-        variant="caption"
-        color="textSecondary"
-        gutterBottom
-        sx={{ color: "#fff" }}
-      >
-        * {t("ProfilePage.change_note")}
-      </Typography>
-      <form onSubmit={handleSubmit}>
+        <IconButton
+          onClick={() => router.back()}
+          sx={{ background: "#232932" }}
+        >
+          <ArrowBackIosNewIcon
+            sx={{ cursor: "pointer", color: "white", fontSize: "14px" }}
+          />
+        </IconButton>
+
+        <Typography fontSize={20} fontWeight={600} textAlign={"center"}>
+          {t("DepositWithdrawPage.LoginPassword")}
+        </Typography>
+        <IconButton></IconButton>
+      </Box>
+      <form onSubmit={handleSubmit} style={{ padding: "15px" }}>
         <TextField
           fullWidth
-          label={t("ProfilePage.change_label1")}
+          placeholder={t("ProfilePage.change_label1")}
           type="password"
           value={currentPassword}
           onChange={(e) => setCurrentPassword(e.target.value)}
-          margin="normal"
           required
-          helperText={t("ProfilePage.helper_text1")}
-          InputLabelProps={{
-            sx: {
-              color: "#fff",
-              "&.Mui-focused": {
-                color: "#fff", // giữ màu trắng khi label floating
-              },
-            }, // Label màu trắng
-          }}
           InputProps={{
             sx: {
-              color: "#fff", // Chữ nhập vào màu trắng
+              color: "#ffffffe6",
+              background: "#3b4338",
+              borderRadius: "20px",
               "& .MuiInputBase-input::placeholder": {
-                color: "#fff", // Placeholder màu trắng
+                color: "#ffffffe6", // Placeholder màu trắng
                 opacity: 1,
               },
             },
           }}
-          FormHelperTextProps={{
-            sx: { color: "#fff" }, // HelperText màu trắng
-          }}
           sx={{
             "& .MuiOutlinedInput-root": {
+              fontSize: "12px",
               "& fieldset": {
-                borderColor: "#fff",
+                border: "none",
               },
               "&:hover fieldset": {
-                borderColor: "#fff",
+                border: "none",
               },
               "&.Mui-focused fieldset": {
-                borderColor: "#fff",
+                border: "none",
               },
             },
           }}
@@ -107,100 +103,86 @@ export default function ChangePass() {
 
         <TextField
           fullWidth
-          label={t("ProfilePage.change_label2")}
+          placeholder={t("ProfilePage.change_label2")}
           type="password"
           value={newPassword}
           onChange={(e) => setNewPassword(e.target.value)}
-          margin="normal"
           required
-          helperText={t("ProfilePage.helper_text2")}
-          InputLabelProps={{
-            sx: {
-              color: "#fff",
-              "&.Mui-focused": {
-                color: "#fff", // giữ màu trắng khi label floating
-              },
-            }, // Label màu trắng
-          }}
           InputProps={{
             sx: {
-              color: "#fff", // Chữ nhập vào màu trắng
+              color: "#ffffffe6",
+              background: "#3b4338",
+              borderRadius: "20px",
               "& .MuiInputBase-input::placeholder": {
-                color: "#fff", // Placeholder màu trắng
+                color: "#ffffffe6", // Placeholder màu trắng
                 opacity: 1,
               },
             },
           }}
-          FormHelperTextProps={{
-            sx: { color: "#fff" }, // HelperText màu trắng
-          }}
           sx={{
+            mt: "10px",
             "& .MuiOutlinedInput-root": {
+              fontSize: "12px",
               "& fieldset": {
-                borderColor: "#fff",
+                border: "none",
               },
               "&:hover fieldset": {
-                borderColor: "#fff",
+                border: "none",
               },
               "&.Mui-focused fieldset": {
-                borderColor: "#fff",
+                border: "none",
               },
             },
           }}
         />
         <TextField
           fullWidth
-          label={t("ProfilePage.change_label3")}
+          placeholder={t("ProfilePage.change_label3")}
           type="password"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
-          margin="normal"
           required
-          helperText={t("ProfilePage.helper_text3")}
-          InputLabelProps={{
-            sx: {
-              color: "#fff",
-              "&.Mui-focused": {
-                color: "#fff", // giữ màu trắng khi label floating
-              },
-            }, // Label màu trắng
-          }}
           InputProps={{
             sx: {
-              color: "#fff", // Chữ nhập vào màu trắng
+              color: "#ffffffe6",
+              background: "#3b4338",
+              borderRadius: "20px",
               "& .MuiInputBase-input::placeholder": {
-                color: "#fff", // Placeholder màu trắng
+                color: "#ffffffe6", // Placeholder màu trắng
                 opacity: 1,
               },
             },
           }}
-          FormHelperTextProps={{
-            sx: { color: "#fff" }, // HelperText màu trắng
-          }}
           sx={{
+            mt: "10px",
             "& .MuiOutlinedInput-root": {
+              fontSize: "12px",
               "& fieldset": {
-                borderColor: "#fff",
+                border: "none",
               },
               "&:hover fieldset": {
-                borderColor: "#fff",
+                border: "none",
               },
               "&.Mui-focused fieldset": {
-                borderColor: "#fff",
+                border: "none",
               },
             },
           }}
         />
         <Button
           type="submit"
+          disabled={loading}
           sx={{
-            mt: 2,
-            backgroundColor: "#fff",
+            mt: 3,
+            backgroundColor: "#34d399",
             color: "black",
-            width: "250px",
+            width: "100%",
             height: "50px",
             borderRadius: "15px",
             textTransform: "capitalize",
+            ":hover": {
+              backgroundColor: "#34d399",
+            },
           }}
         >
           {t("ProfilePage.button_change")}

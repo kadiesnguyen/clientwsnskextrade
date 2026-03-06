@@ -9,6 +9,7 @@ import {
   List,
   ListItemButton,
   Pagination,
+  IconButton,
 } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import React, { useEffect, useState } from "react";
@@ -24,6 +25,7 @@ import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 import { IHistoryExchange } from "@/shared/interfaces";
 import { formatDateTime } from "@/utils/formatDateTime";
+import LoadingComponent from "@/components/Loading";
 
 const coinList = [
   "BTC",
@@ -118,6 +120,9 @@ export default function ExchangePage() {
       });
   };
 
+  if (!user) {
+    return <LoadingComponent />;
+  }
   return (
     <Box
       sx={{
@@ -137,10 +142,14 @@ export default function ExchangePage() {
           mb: 3,
         }}
       >
-        <ArrowBackIosNewIcon
-          sx={{ cursor: "pointer" }}
+        <IconButton
           onClick={() => router.back()}
-        />
+          sx={{ background: "#232932" }}
+        >
+          <ArrowBackIosNewIcon
+            sx={{ cursor: "pointer", color: "white", fontSize: "14px" }}
+          />
+        </IconButton>
 
         <Typography
           sx={{

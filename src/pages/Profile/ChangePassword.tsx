@@ -1,5 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import {
   Box,
   TextField,
@@ -8,6 +10,7 @@ import {
   Tabs,
   Tab,
   Autocomplete,
+  IconButton,
 } from "@mui/material";
 import {
   updateBank,
@@ -17,9 +20,8 @@ import {
 import { toast } from "react-toastify";
 import useAuth from "@/hook/useAuth";
 import { useTranslation } from "react-i18next";
-import ChangePass from "./security/ChangePass";
-import ChangePassWithdraw from "./security/ChangePassWithdraw";
-import ChangeBank from "./security/ChangeBank";
+import { useRouter } from "next/navigation";
+import { NextIcon } from "@/shared/Svgs/Svg.component";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -27,98 +29,88 @@ interface TabPanelProps {
   value: number;
 }
 
-function CustomTabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
-    </div>
-  );
-}
-
-function a11yProps(index: number) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-}
-
-interface Tab {
-  tab: number | null;
-  subTab: number | null;
-}
-
-export default function ChangePassword(props: Tab) {
+export default function ChangePassword() {
   const { t } = useTranslation();
   const { user, refetchUser } = useAuth();
-
-  const [value, setValue] = useState(props.tab || 0);
-
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
-  };
+  const router = useRouter();
 
   return (
-    <Box>
+    <Box
+      sx={{
+        background: "#0b1727",
+        minHeight: "100vh",
+        color: "white",
+      }}
+    >
       <Box
+        display="flex"
+        alignItems="center"
+        justifyContent={"space-between"}
+        p={2}
+      >
+        <IconButton
+          onClick={() => router.back()}
+          sx={{ background: "#232932" }}
+        >
+          <ArrowBackIosNewIcon
+            sx={{ cursor: "pointer", color: "white", fontSize: "14px" }}
+          />
+        </IconButton>
+
+        <Typography fontSize={20} fontWeight={600} textAlign={"center"}>
+          {t("ProfilePage.menu2")}
+        </Typography>
+        <IconButton></IconButton>
+      </Box>
+      <Box
+        onClick={() => router.push("/change-login-pass")}
         sx={{
-          borderBottom: 1,
-          width: {
-            xs: "100%",
-            sm: "80%",
-          },
-          margin: "auto",
+          display: "flex",
+          borderTop: "1px solid #1f2937",
+          borderBottom: "1px solid #1f2937",
+          height: "50px",
+          alignItems: "center",
+          cursor: "pointer",
+          justifyContent: "space-between",
+          p: "0px 10px",
         }}
       >
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          aria-label="basic tabs example"
-          variant="scrollable"
-          scrollButtons="auto"
-          sx={{
-            width: {
-              xs: "100%",
-              sm: "80%",
-            },
-            padding: "0px 10px",
-            "& .MuiTab-root": {
-              color: "#909090",
-              fontSize: "11px",
-              fontWeight: 500,
-              whiteSpace: "nowrap",
-              "&:hover": { color: "#fff" },
-              "&.Mui-selected": {
-                color: "#fff",
-                fontWeight: 700,
-                borderBottom: "2px solid #fff",
-              },
-            },
-            "& .MuiTabs-indicator": {
-              backgroundColor: "#000",
-            },
-          }}
-        >
-          <Tab label={t("ProfilePage.tab_pass3")} {...a11yProps(0)} />
-          <Tab label={t("ProfilePage.tab_pass2")} {...a11yProps(1)} />
-          <Tab label={t("ProfilePage.tab_pass1")} {...a11yProps(2)} />
-        </Tabs>
-        <CustomTabPanel value={value} index={0}>
-          <ChangeBank subTabs={props.subTab} />
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={1}>
-          <ChangePassWithdraw user={user} />
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={2}>
-          <ChangePass />
-        </CustomTabPanel>
+        <Typography sx={{ color: "white", fontSize: "12px" }}>
+          {t("DepositWithdrawPage.LoginPassword")}
+        </Typography>
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Typography sx={{ color: "#9ca3af", fontSize: "12px" }}>
+            {t("DepositWithdrawPage.Revise")}
+          </Typography>
+          <IconButton sx={{ background: "none" }}>
+            <NextIcon width="14px" height="14px" fill="#9ca3af" />
+          </IconButton>
+        </Box>
+      </Box>
+      <Box
+        onClick={() => router.push("/change-tran-pass")}
+        sx={{
+          display: "flex",
+          borderTop: "1px solid #1f2937",
+          borderBottom: "1px solid #1f2937",
+          height: "50px",
+          alignItems: "center",
+          cursor: "pointer",
+          justifyContent: "space-between",
+          p: "0px 10px",
+        }}
+      >
+        <Typography sx={{ color: "white", fontSize: "12px" }}>
+          {t("DepositWithdrawPage.Password")}
+        </Typography>
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Typography sx={{ color: "#9ca3af", fontSize: "12px" }}>
+            {t("DepositWithdrawPage.Revise")}
+          </Typography>
+          <IconButton sx={{ background: "none" }}>
+            <NextIcon width="14px" height="14px" fill="#9ca3af" />
+          </IconButton>
+        </Box>
       </Box>
     </Box>
   );
