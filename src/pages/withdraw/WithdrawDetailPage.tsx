@@ -191,14 +191,16 @@ export default function WithdrawDetailPage() {
 
             {/* Withdrawal address */}
             <Box sx={{ mb: 2 }}>
-              <Typography fontSize={15}>Withdrawal address</Typography>
+              <Typography fontSize={15}>
+                {t("AssetPage.Withdrawal_add")}
+              </Typography>
 
               <TextField
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
                 fullWidth
                 variant="standard"
-                placeholder={" Please set your withdrawal address first"}
+                placeholder={t("AssetPage.input_1")}
                 InputProps={{
                   disableUnderline: true,
                   endAdornment: (
@@ -209,7 +211,7 @@ export default function WithdrawDetailPage() {
                           cursor: "pointer",
                         }}
                       >
-                        Set up
+                        {t("AssetPage.Set")}
                       </Typography>
                     </InputAdornment>
                   ),
@@ -229,16 +231,14 @@ export default function WithdrawDetailPage() {
 
             {/* Quantity */}
             <Box sx={{ mb: 2 }}>
-              <Typography fontSize={15}>Quantity</Typography>
+              <Typography fontSize={15}>{t("AssetPage.quantity")}</Typography>
 
               <TextField
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 fullWidth
                 variant="standard"
-                placeholder={
-                  "Minimum withdrawal amount " + method?.withdraw_min
-                }
+                placeholder={t("AssetPage.input_2") + method?.withdraw_min}
                 InputProps={{
                   disableUnderline: true,
                   endAdornment: (
@@ -280,7 +280,9 @@ export default function WithdrawDetailPage() {
 
             {/* Transaction password */}
             <Box>
-              <Typography fontSize={15}>Transaction password</Typography>
+              <Typography fontSize={15}>
+                {t("AssetPage.Transaction")}
+              </Typography>
 
               <TextField
                 type="password"
@@ -288,7 +290,7 @@ export default function WithdrawDetailPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 variant="standard"
-                placeholder="Please enter transaction password"
+                placeholder={t("AssetPage.input_3")}
                 InputProps={{
                   disableUnderline: true,
                 }}

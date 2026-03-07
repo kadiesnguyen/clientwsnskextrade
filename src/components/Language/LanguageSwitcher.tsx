@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { useTranslation } from "react-i18next";
 interface LanguageSwitcherProps {
   onLanguageChange?: (lang: string) => void;
@@ -18,24 +19,66 @@ const LanguageSwitcher = ({ onLanguageChange }: LanguageSwitcherProps) => {
   return (
     <ul style={{ padding: "10px" }}>
       <li
-        style={{ width: "100px", cursor: "pointer", padding: "5px 0" }}
+        style={{
+          width: "160px",
+          cursor: "pointer",
+          padding: "5px 0",
+          display: "flex",
+          gap: "5px",
+          alignItems: "center",
+        }}
         onClick={() => changeLanguage("en")}
         value="en"
       >
+        <Image
+          src={"https://flagcdn.com/us.svg"}
+          width={30}
+          height={30}
+          style={{ height: "20px", objectFit: "contain" }}
+          alt="us"
+        />
         English
       </li>
       <li
-        style={{ width: "100px", cursor: "pointer", padding: "5px 0" }}
+        style={{
+          width: "160px",
+          cursor: "pointer",
+          padding: "5px 0",
+          display: "flex",
+          gap: "5px",
+          alignItems: "center",
+        }}
         onClick={() => changeLanguage("vi")}
       >
+        <Image
+          src={"https://flagcdn.com/vn.svg"}
+          width={30}
+          height={30}
+          style={{ height: "20px", objectFit: "contain" }}
+          alt="vn"
+        />
         Việt Nam
       </li>
-      {/* <li
-        style={{ width: "100px", cursor: "pointer", padding: "5px 0" }}
-        onClick={() => changeLanguage("zh")}
+      <li
+        style={{
+          width: "160px",
+          cursor: "pointer",
+          padding: "5px 0",
+          display: "flex",
+          gap: "5px",
+          alignItems: "center",
+        }}
+        onClick={() => changeLanguage("ja")}
       >
-        简体中文
-      </li> */}
+        <Image
+          src={"https://flagcdn.com/jp.svg"}
+          width={30}
+          height={30}
+          style={{ height: "20px", objectFit: "contain" }}
+          alt="japan"
+        />
+        日本語
+      </li>
     </ul>
   );
 };

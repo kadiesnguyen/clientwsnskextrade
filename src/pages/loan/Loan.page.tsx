@@ -163,7 +163,7 @@ export default function LoanPage() {
           </Typography>
 
           <TextField
-            placeholder="Please enter last name"
+            placeholder={t("AssetPage.input_4")}
             fullWidth
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
@@ -217,7 +217,7 @@ export default function LoanPage() {
           </Typography>
 
           <TextField
-            placeholder="Please enter the country"
+            placeholder={t("AssetPage.input_5")}
             fullWidth
             value={country}
             onChange={(e) => setCountry(e.target.value)}
@@ -234,7 +234,7 @@ export default function LoanPage() {
           </Typography>
 
           <TextField
-            placeholder="Please enter your phone number"
+            placeholder={t("AssetPage.input_6")}
             fullWidth
             value={phone}
             onChange={(e) => setPhone(e.target.value)}

@@ -24,6 +24,7 @@ import { InternetIcon, UserIcon } from "@/shared/Svgs/Svg.component";
 import LanguageSwitcher from "@/components/Language/LanguageSwitcher";
 import { useRouter } from "next/navigation";
 import LoadingComponent from "@/components/Loading";
+import { useTranslation } from "react-i18next";
 
 export default function ExcavatorPage() {
   const [tab, setTab] = useState(0);
@@ -35,7 +36,7 @@ export default function ExcavatorPage() {
   const [staking, setStaking] = useState<IStaking | null>(null);
   const [loading, setLoading] = useState(false);
   const [langAnchorEl, setLangAnchorEl] = useState<null | HTMLElement>(null);
-  const isLangMenuOpen = Boolean(langAnchorEl);
+  const { t } = useTranslation();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const openA = Boolean(anchorEl);
   const handleClickLang = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -100,7 +101,7 @@ export default function ExcavatorPage() {
 
           <Stack direction="row" spacing={0.5}>
             <Chip
-              label="In progress"
+              label={t("ProfilePage.progress")}
               size="small"
               sx={{
                 background: "#1ED760",
@@ -125,7 +126,7 @@ export default function ExcavatorPage() {
                 setOpen(true);
               }}
             >
-              Participate in activities
+              {t("MiningPage.btn")}
             </Button>
           </Stack>
         </Stack>
@@ -204,7 +205,7 @@ export default function ExcavatorPage() {
           open={openA}
           onClose={handleClose}
           sx={{
-            width: "120px",
+            width: "160px",
           }}
         >
           <LanguageSwitcher onLanguageChange={handleClose} />
@@ -233,17 +234,16 @@ export default function ExcavatorPage() {
           },
         }}
       >
-        <Tab label="AI & Mining" />
-        <Tab label="IEO Launchpad" />
+        <Tab label={t("MiningPage.title1")} />
+        <Tab label={t("MiningPage.title2")} />
       </Tabs>
 
       <Typography fontSize={13} color="#9aa4b2" mb={2} p={2}>
-        Our advanced AI supercomputing investment products can help you achieve
-        stable profits in the market
+        {t("MiningPage.note")}
       </Typography>
 
       <Typography fontSize={16} color="white" mb={2} p={2}>
-        Featured Products
+        {t("MiningPage.Featured")}
       </Typography>
 
       <Stack spacing={2} pb={20} p={2}>
@@ -293,11 +293,11 @@ export default function ExcavatorPage() {
                       </Typography>
 
                       <Typography fontSize="14px">
-                        Average Daily Return: {item.percent} %
+                        {t("MiningPage.Average")}: {item.percent} %
                       </Typography>
 
                       <Typography fontSize="14px">
-                        Minimum Purchase Amount{" "}
+                        {t("MiningPage.Minimum")}
                         {Number(item.min).toLocaleString()}
                       </Typography>
                     </Box>
@@ -322,7 +322,7 @@ export default function ExcavatorPage() {
                       setOpenST(true);
                     }}
                   >
-                    Purchase
+                    {t("HistoryPage.Purchase")}
                   </Button>
                 </CardContent>
               </Card>

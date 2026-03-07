@@ -60,11 +60,11 @@ export default function StakingPopup({ data, onClose, open, onSubmit }: progs) {
       <DialogContent>
         <Box display="flex" flexDirection="column" gap={2}>
           <Typography fontWeight="bold" fontSize="18px">
-            Purchase {data?.open} day
+            {t("HistoryPage.Purchase")} {data?.open} {t("MiningPage.date")}
           </Typography>
 
           <Typography fontSize="13px" color="#94a3b8">
-            Amount (USDT)
+            {t("StakingPage.amount")} (USDT)
           </Typography>
 
           <TextField
@@ -82,7 +82,7 @@ export default function StakingPopup({ data, onClose, open, onSubmit }: progs) {
           />
 
           <Typography fontSize="12px" color="#94a3b8">
-            Daily return: {data?.percent}%
+            {t("MiningPage.Average")}: {data?.percent}%
           </Typography>
 
           <Box display="flex" gap={2}>
@@ -99,7 +99,7 @@ export default function StakingPopup({ data, onClose, open, onSubmit }: progs) {
                 },
               }}
             >
-              Cancel
+              {t("MiningPage.Cancel")}
             </Button>
 
             <Button
@@ -115,7 +115,7 @@ export default function StakingPopup({ data, onClose, open, onSubmit }: progs) {
                 },
               }}
             >
-              Purchase
+              {t("HistoryPage.Purchase")}
             </Button>
           </Box>
         </Box>

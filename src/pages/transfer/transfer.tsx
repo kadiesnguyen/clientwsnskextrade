@@ -285,6 +285,7 @@ export default function TransferPage() {
                   borderRadius: "12px",
                   p: 2,
                   border: "1px solid #ffffff1a",
+                  mt: "10px",
                 }}
               >
                 <Box display="flex" justifyContent="space-between">

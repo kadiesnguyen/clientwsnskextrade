@@ -287,7 +287,9 @@ export default function TradePage() {
           >
             <ErrorOutline sx={{ fontSize: "16px", color: "white" }} />
             <Typography fontSize={13} color="white">
-              {orderType === "market" ? "Market price" : "Limit price"}{" "}
+              {orderType === "market"
+                ? t("StakingPage.Market")
+                : t("StakingPage.Limit")}{" "}
             </Typography>
             <DownIcon width="20px" height="20px" fill="white" />
           </Box>
@@ -336,7 +338,7 @@ export default function TradePage() {
               {t("AssetPage.quantity")}
             </Typography>
             <Typography fontSize={12} color="#ef4444" mt={2}>
-              Handling fee: 0.001%
+              {t("StakingPage.Handling")}: 0.001%
             </Typography>
           </Box>
 
@@ -345,7 +347,7 @@ export default function TradePage() {
             variant="standard"
             value={quantity}
             onChange={(e) => setQuantity(e.target.value)}
-            placeholder="Please enter quantity"
+            placeholder={t("StakingPage.input_quantity")}
             type="number"
             InputProps={{
               disableUnderline: true,
@@ -487,7 +489,7 @@ export default function TradePage() {
               }}
               onClick={() => router.push("/login")}
             >
-              Go to login
+              {t("Toast.btn_login")}
             </Button>
           </Box>
         )}

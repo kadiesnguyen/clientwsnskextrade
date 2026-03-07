@@ -187,7 +187,7 @@ export default function TradePopup({
               "&:hover": { background: tab === "BUY" ? "#22c55e" : "#111827" },
             }}
           >
-            BUY
+            {t("BuySellPage.buy")}
           </Button>
           <Button
             fullWidth
@@ -198,7 +198,7 @@ export default function TradePopup({
               "&:hover": { background: tab === "SELL" ? "#ef4444" : "#111827" },
             }}
           >
-            SELL
+            {t("BuySellPage.sell")}
           </Button>
         </Stack>
 
@@ -208,7 +208,7 @@ export default function TradePopup({
           mb={1}
           sx={{ color: "#9ca3af", fontWeight: 400, fontSize: "13px" }}
         >
-          Purchase price
+          {t("BuySellPage.Purchase")}
         </Typography>
 
         <Grid container spacing={1}>
@@ -253,7 +253,7 @@ export default function TradePopup({
           mb={1}
           sx={{ color: "#9ca3af", fontWeight: 400, fontSize: "13px" }}
         >
-          Trading model
+          {t("BuySellPage.Trading")}
         </Typography>
 
         <Stack direction="row" spacing={1}>
@@ -289,12 +289,12 @@ export default function TradePopup({
           mb={1}
           sx={{ color: "#9ca3af", fontWeight: 400, fontSize: "13px" }}
         >
-          Open position quantity
+          {t("BuySellPage.Open")}
         </Typography>
 
         <TextField
           fullWidth
-          placeholder="Please enter the opening quantity"
+          placeholder={t("BuySellPage.input_n")}
           type="number"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
@@ -309,7 +309,7 @@ export default function TradePopup({
           <Typography
             sx={{ color: "#9ca3af", fontWeight: 400, fontSize: "13px" }}
           >
-            Micro account funds
+            {t("BuySellPage.h2")}
           </Typography>
           <Typography
             sx={{ color: "#9ca3af", fontWeight: 400, fontSize: "13px" }}
@@ -328,17 +328,26 @@ export default function TradePopup({
           }}
         >
           <Stack direction="row" justifyContent="space-between">
-            <Typography sx={{ color: "#9ca3af" }}>Profitability</Typography>
+            <Typography sx={{ color: "#9ca3af" }}>
+              {" "}
+              {t("BuySellPage.Profitability")}
+            </Typography>
             <Typography color="#22c55e">{hyykbl}%</Typography>
           </Stack>
 
           <Stack direction="row" justifyContent="space-between" mt={1}>
-            <Typography sx={{ color: "#9ca3af" }}>Expected profit</Typography>
+            <Typography sx={{ color: "#9ca3af" }}>
+              {" "}
+              {t("BuySellPage.Expected")}
+            </Typography>
             <Typography>{Number(hyykbl)?.toFixed(2)}</Typography>
           </Stack>
 
           <Stack direction="row" justifyContent="space-between" mt={1}>
-            <Typography sx={{ color: "#9ca3af" }}>Expected payout</Typography>
+            <Typography sx={{ color: "#9ca3af" }}>
+              {" "}
+              {t("BuySellPage.payout")}
+            </Typography>
             <Typography>
               {(Number(amount) + Number(hyykbl) || 0).toFixed(2)}
             </Typography>

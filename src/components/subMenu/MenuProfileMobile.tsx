@@ -733,7 +733,7 @@ export default function MenuProfileMobile(data: userProps) {
               open={open}
               onClose={handleClose}
               sx={{
-                width: "120px",
+                width: "160px",
               }}
             >
               <LanguageSwitcher onLanguageChange={handleClose} />

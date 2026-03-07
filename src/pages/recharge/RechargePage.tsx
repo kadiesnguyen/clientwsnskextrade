@@ -9,6 +9,7 @@ import { getDepositMethod } from "@/services/User.service";
 import { useEffect, useState } from "react";
 import { IDepositMethod } from "@/shared/interfaces";
 import LoadingComponent from "@/components/Loading";
+import { useTranslation } from "react-i18next";
 const networks = [
   {
     name: "USDC-ERC20",
@@ -36,6 +37,7 @@ const networks = [
 ];
 
 export default function RechargePage() {
+  const { t, i18n } = useTranslation();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [listMethod, setListMethod] = useState<IDepositMethod[]>([]);
@@ -81,7 +83,7 @@ export default function RechargePage() {
             </IconButton>
 
             <Typography fontSize={20} fontWeight={600}>
-              Deposit
+              {t("AssetPage.menu2")}
             </Typography>
             <IconButton></IconButton>
           </Box>
@@ -94,7 +96,7 @@ export default function RechargePage() {
             }}
           >
             <Typography fontSize={14} mb={2}>
-              Choose Network
+              {t("AssetPage.Network")}
             </Typography>
 
             {listMethod.map((item, index) => (
@@ -147,7 +149,7 @@ export default function RechargePage() {
             ))}
           </Box>
 
-          <Box
+          {/* <Box
             sx={{
               background: "#1f2a3a",
               borderRadius: "16px",
@@ -160,7 +162,7 @@ export default function RechargePage() {
           >
             <Typography>Bank Card Recharge</Typography>
             <NextIcon width="12px" height="12px" fill="#9ca3af" />
-          </Box>
+          </Box> */}
         </Box>
       )}
     </>

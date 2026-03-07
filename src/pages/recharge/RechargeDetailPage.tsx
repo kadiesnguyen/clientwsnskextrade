@@ -94,14 +94,19 @@ export default function DepositPage() {
           }}
         >
           {/* Header */}
-          <Box display="flex" alignItems="center" mb={3}>
+          <Box
+            display="flex"
+            alignItems="center"
+            mb={3}
+            justifyContent={"space-between"}
+          >
             <IconButton onClick={() => router.back()}>
               <ArrowBackIcon sx={{ color: "white" }} />
             </IconButton>
-
             <Typography fontSize={20} fontWeight={600}>
-              Deposit coins
+              {t("AssetPage.menu2")}
             </Typography>
+            <IconButton></IconButton>
           </Box>
 
           {/* QR Box */}
@@ -127,7 +132,7 @@ export default function DepositPage() {
             />
 
             <Typography mt={2} color="#94a3b8">
-              Currency address
+              {t("AssetPage.Currency")}
             </Typography>
 
             <Typography fontSize={13} mt={1}>
@@ -153,10 +158,10 @@ export default function DepositPage() {
 
           {/* Deposit amount */}
           <Box mt={3}>
-            <Typography mb={1}>Deposit amount</Typography>
+            <Typography mb={1}>{t("AssetPage.Deposit_a")}</Typography>
 
             <TextField
-              placeholder="Deposit amount"
+              placeholder={t("AssetPage.Deposit_a")}
               fullWidth
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
@@ -172,7 +177,7 @@ export default function DepositPage() {
 
           {/* Upload */}
           <Box mt={3} sx={{ textAlign: "center" }}>
-            <Typography mb={1}>Upload certificate</Typography>
+            <Typography mb={1}>{t("AssetPage.Upload")}</Typography>
             <input
               type="file"
               accept="image/*"
@@ -231,13 +236,14 @@ export default function DepositPage() {
               borderRadius: "30px",
               py: 1.5,
               fontWeight: 600,
+              textTransform: "capitalize",
               "&:hover": {
                 background: "#10b981",
               },
             }}
             onClick={submit}
           >
-            Submit transaction screenshot
+            {t("AssetPage.Submit_transaction")}
           </Button>
         </Box>
       )}

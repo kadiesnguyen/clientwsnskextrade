@@ -24,8 +24,10 @@ import Skeleton from "@mui/material/Skeleton";
 import { useEffect, useState } from "react";
 import { VisibilityOffOutlined } from "@mui/icons-material";
 import LoadingComponent from "@/components/Loading";
+import { useTranslation } from "react-i18next";
 
 export default function AccountPage() {
+  const { t, i18n } = useTranslation();
   const [hideBalance, setHideBalance] = useState(false);
   const router = useRouter();
   const { user, fetchUser, loading } = useUserStore();
@@ -64,7 +66,7 @@ export default function AccountPage() {
           }}
           onClick={() => router.push("/login")}
         >
-          Go to login
+          {t("Toast.btn_login")}
         </Button>
       ) : loading ? (
         <Box
@@ -129,7 +131,9 @@ export default function AccountPage() {
             justifyContent="space-between"
             alignItems="center"
           >
-            <Typography fontSize={14}>My assets(USDT)</Typography>
+            <Typography fontSize={14}>
+              {t("ProfilePage.Wallet")}(USDT)
+            </Typography>
 
             <IconButton
               size="small"
@@ -174,7 +178,7 @@ export default function AccountPage() {
             mt={2}
             fontSize={12}
           >
-            <Typography>Available:</Typography>
+            <Typography>{t("DepositWithdrawPage.message")}:</Typography>
 
             <Typography
               display="flex"
@@ -193,22 +197,22 @@ export default function AccountPage() {
       <Stack direction="row" justifyContent="space-between" mb={3}>
         {[
           {
-            label: "Recharge",
+            label: t("HomePage.recharge"),
             icon: <RefreshOutlined sx={{ color: "white" }} />,
             link: "/recharge",
           },
           {
-            label: "Withdraw",
+            label: t("StakingPage.tab3"),
             icon: <AccountBalanceWalletOutlined sx={{ color: "white" }} />,
             link: "/withdraw",
           },
           {
-            label: "Transfer",
+            label: t("BuySellPage.trade"),
             icon: <SyncAlt sx={{ color: "white" }} />,
             link: "/transfer",
           },
           {
-            label: "Exchange",
+            label: t("DepositWithdrawPage.exchange"),
             icon: <SwapHorizOutlined sx={{ color: "white" }} />,
             link: "/exchange",
           },
@@ -247,7 +251,7 @@ export default function AccountPage() {
 
       {/* account center */}
       <Typography color="#fff" mb={1}>
-        Account center
+        {t("ProfilePage.center")}
       </Typography>
 
       <Card
@@ -260,17 +264,17 @@ export default function AccountPage() {
         {[
           {
             icon: <LinkIcon sx={{ color: "white" }} />,
-            label: "Referral link",
+            label: t("ProfilePage.ReferralLink"),
             link: "/referral",
           },
           {
             icon: <SecurityOutlined sx={{ color: "white" }} />,
-            label: "Security center",
+            label: t("ProfilePage.Security_center"),
             link: "/security",
           },
           {
             icon: <LogoutOutlined sx={{ color: "white" }} />,
-            label: "Logout",
+            label: t("ProfilePage.Logout"),
             link: null,
           },
         ].map((item, i) => (

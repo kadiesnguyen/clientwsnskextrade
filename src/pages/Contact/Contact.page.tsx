@@ -196,7 +196,7 @@ export default function ContactPage() {
             <Typography
               sx={{ color: "#9ca3af", fontWeight: 400, fontSize: "13px" }}
             >
-              Micro account funds
+              {t("BuySellPage.h2")}
             </Typography>
             <Typography
               sx={{ color: "#9ca3af", fontWeight: 400, fontSize: "13px" }}
@@ -219,7 +219,7 @@ export default function ContactPage() {
                 setTab("BUY");
               }}
             >
-              Buy up
+              {t("BuySellPage.buy")}
             </Button>
             <Button
               sx={{
@@ -235,7 +235,7 @@ export default function ContactPage() {
                 setTab("SELL");
               }}
             >
-              Buy down
+              {t("BuySellPage.sell")}
             </Button>
           </Box>
           <Tabs
@@ -258,8 +258,8 @@ export default function ContactPage() {
               },
             }}
           >
-            <Tab value="one" label="In transaction" wrapped />
-            <Tab value="two" label="Position closed" />
+            <Tab value="one" label={t("BuySellPage.transaction")} wrapped />
+            <Tab value="two" label={t("BuySellPage.Position")} />
           </Tabs>
           {value == "one" && <CommandOpen user={user} history={history} />}
           {value == "two" && <CommandClose user={user} />}
@@ -279,7 +279,7 @@ export default function ContactPage() {
             }}
             onClick={() => router.push("/login")}
           >
-            Go to login
+            {t("Toast.btn_login")}
           </Button>
         </Box>
       )}

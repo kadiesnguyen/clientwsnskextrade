@@ -34,7 +34,6 @@ export default function VerifiedPage() {
   const frontFileInput = useRef<HTMLInputElement>(null);
   const [backImage, setBackImage] = useState<File>();
   const backFileInput = useRef<HTMLInputElement>(null);
-
   const { t } = useTranslation();
   const router = useRouter();
   const { user, fetchUser } = useUserStore();

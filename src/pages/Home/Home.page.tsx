@@ -107,7 +107,7 @@ export default function HomePage() {
               open={open}
               onClose={handleClose}
               sx={{
-                width: "120px",
+                width: "160px",
               }}
             >
               <LanguageSwitcher onLanguageChange={handleClose} />
@@ -224,14 +224,10 @@ export default function HomePage() {
                 color: "white",
               }}
             >
-              About Us
+              {t(`HomePage.h4`)}
             </Typography>
             <Typography variant="body1" sx={{ color: "white", mt: "15px" }}>
-              We are a leading trading platform dedicated to providing safe,
-              efficient and reliable digital asset trading services. Our mission
-              is to provide advanced cryptocurrency trading experiences to
-              global users and promote the development and innovation of the
-              digital asset market.
+              {t(`HomePage.p_1`)}
             </Typography>
             <Image
               src={"./images/about-us.jpg"}
@@ -250,12 +246,7 @@ export default function HomePage() {
               variant="body1"
               sx={{ color: "white", mt: "15px", pb: "100px" }}
             >
-              In the field of digital currency, we are committed to becoming a
-              leading innovator and industry benchmark. Our vision is to build a
-              world-leading digital asset trading platform through technological
-              innovation and service excellence, providing users with the best
-              trading experience and the most comprehensive selection of digital
-              assets.
+              {t(`HomePage.p_2`)}
             </Typography>
           </Box>
         </Box>
@@ -292,7 +283,7 @@ export default function HomePage() {
               }}
             >
               <Typography sx={{ fontSize: "20px", fontWeight: "bold" }}>
-                Select language
+                {t(`HomePage.button`)}
               </Typography>
             </Box>
           </Box>
