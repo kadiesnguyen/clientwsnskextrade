@@ -92,26 +92,10 @@ export default function HomePage() {
               <UserIcon width="20px" height="20px" />
             </IconButton>
             <Tooltip title="Language">
-              <IconButton
-                aria-controls={open ? "basic-menu" : undefined}
-                aria-haspopup="true"
-                aria-expanded={open ? "true" : undefined}
-                onClick={handleClickLang}
-              >
+              <IconButton onClick={() => route.push("/language")}>
                 <InternetIcon width="20px" height="20px" />
               </IconButton>
             </Tooltip>
-            <Menu
-              id="basic-menu"
-              anchorEl={anchorEl}
-              open={open}
-              onClose={handleClose}
-              sx={{
-                width: "160px",
-              }}
-            >
-              <LanguageSwitcher onLanguageChange={handleClose} />
-            </Menu>
           </Box>
           <Box
             sx={{

@@ -190,26 +190,10 @@ export default function ExcavatorPage() {
           <UserIcon width="20px" height="20px" />
         </IconButton>
         <Tooltip title="Language">
-          <IconButton
-            aria-controls={openA ? "basic-menu" : undefined}
-            aria-haspopup="true"
-            aria-expanded={openA ? "true" : undefined}
-            onClick={handleClickLang}
-          >
+          <IconButton onClick={() => route.push("/language")}>
             <InternetIcon width="20px" height="20px" />
           </IconButton>
         </Tooltip>
-        <Menu
-          id="basic-menu"
-          anchorEl={anchorEl}
-          open={openA}
-          onClose={handleClose}
-          sx={{
-            width: "160px",
-          }}
-        >
-          <LanguageSwitcher onLanguageChange={handleClose} />
-        </Menu>
       </Box>
       {/* Tabs */}
       <Tabs

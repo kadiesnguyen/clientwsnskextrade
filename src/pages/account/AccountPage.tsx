@@ -88,26 +88,10 @@ export default function AccountPage() {
             {t("Toast.btn_login")}
           </Button>
           <Tooltip title="Language">
-            <IconButton
-              aria-controls={open ? "basic-menu" : undefined}
-              aria-haspopup="true"
-              aria-expanded={open ? "true" : undefined}
-              onClick={handleClickLang}
-            >
+            <IconButton onClick={() => router.push("/language")}>
               <InternetIcon width="20px" height="20px" />
             </IconButton>
           </Tooltip>
-          <Menu
-            id="basic-menu"
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            sx={{
-              width: "160px",
-            }}
-          >
-            <LanguageSwitcher onLanguageChange={handleClose} />
-          </Menu>
         </Box>
       ) : loading ? (
         <Box
@@ -163,26 +147,10 @@ export default function AccountPage() {
             </Box>
           </Box>
           <Tooltip title="Language">
-            <IconButton
-              aria-controls={open ? "basic-menu" : undefined}
-              aria-haspopup="true"
-              aria-expanded={open ? "true" : undefined}
-              onClick={handleClickLang}
-            >
+            <IconButton onClick={() => router.push("/language")}>
               <InternetIcon width="20px" height="20px" />
             </IconButton>
           </Tooltip>
-          <Menu
-            id="basic-menu"
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            sx={{
-              width: "160px",
-            }}
-          >
-            <LanguageSwitcher onLanguageChange={handleClose} />
-          </Menu>
         </Box>
       )}
 

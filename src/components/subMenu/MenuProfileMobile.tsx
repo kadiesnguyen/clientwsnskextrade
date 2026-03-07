@@ -718,26 +718,10 @@ export default function MenuProfileMobile(data: userProps) {
               <img src="/images/live-chat.png" width="24px" height="24px" />
             </Tooltip>
             <Tooltip title="Language">
-              <IconButton
-                aria-controls={open ? "basic-menu" : undefined}
-                aria-haspopup="true"
-                aria-expanded={open ? "true" : undefined}
-                onClick={handleClickLang}
-              >
-                <InternetIcon width="24px" height="24px" />
+              <IconButton onClick={() => router.push("/language")}>
+                <InternetIcon width="20px" height="20px" />
               </IconButton>
             </Tooltip>
-            <Menu
-              id="basic-menu"
-              anchorEl={anchorEl}
-              open={open}
-              onClose={handleClose}
-              sx={{
-                width: "160px",
-              }}
-            >
-              <LanguageSwitcher onLanguageChange={handleClose} />
-            </Menu>
           </Box>
         </Box>
         <Drawer

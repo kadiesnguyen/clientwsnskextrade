@@ -112,7 +112,7 @@ export default function HeaderPage(props: propUser) {
   const [popupOpen, setPopupOpen] = React.useState<null | HTMLElement>(null);
   const router = useRouter();
   const [langAnchorEl, setLangAnchorEl] = React.useState<null | HTMLElement>(
-    null
+    null,
   );
   const isLangMenuOpen = Boolean(langAnchorEl);
   const isNotiOpen = Boolean(popupOpen);
@@ -148,7 +148,7 @@ export default function HeaderPage(props: propUser) {
   };
   const handleMouseEnter = (
     event: React.MouseEvent<HTMLElement>,
-    id: string
+    id: string,
   ) => {
     // Hủy timeout đóng menu nếu có
     if (timeoutRef.current) {
@@ -458,7 +458,7 @@ export default function HeaderPage(props: propUser) {
                               </Typography>
                             </Box>
                           </Box>
-                        )
+                        ),
                       )
                     ) : (
                       <Box sx={{ width: "100%" }}>
@@ -531,6 +531,8 @@ export default function HeaderPage(props: propUser) {
                       display: "flex",
                       flexDirection: "column",
                       alignItems: "center",
+                      background: "#111827",
+                      boxShadow: "0px -2px 5px rgba(37, 37, 37, 0.1)",
                     }}
                   >
                     <LanguageSwitcher onLanguageChange={handleLangMenuClose} />

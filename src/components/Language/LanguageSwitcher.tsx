@@ -17,7 +17,11 @@ const LanguageSwitcher = ({ onLanguageChange }: LanguageSwitcherProps) => {
   };
 
   return (
-    <ul style={{ padding: "10px" }}>
+    <ul
+      style={{
+        padding: "10px",
+      }}
+    >
       <li
         style={{
           width: "160px",
@@ -26,6 +30,7 @@ const LanguageSwitcher = ({ onLanguageChange }: LanguageSwitcherProps) => {
           display: "flex",
           gap: "5px",
           alignItems: "center",
+          color: "white",
         }}
         onClick={() => changeLanguage("en")}
         value="en"
@@ -47,6 +52,7 @@ const LanguageSwitcher = ({ onLanguageChange }: LanguageSwitcherProps) => {
           display: "flex",
           gap: "5px",
           alignItems: "center",
+          color: "white",
         }}
         onClick={() => changeLanguage("vi")}
       >
@@ -67,6 +73,7 @@ const LanguageSwitcher = ({ onLanguageChange }: LanguageSwitcherProps) => {
           display: "flex",
           gap: "5px",
           alignItems: "center",
+          color: "white",
         }}
         onClick={() => changeLanguage("ja")}
       >
