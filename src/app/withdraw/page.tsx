@@ -1,6 +1,6 @@
-import DepositWithdrawPage from "@/pages/DepositWithdraw/DepositWithdraw.page";
+import WithdrawPage from "@/pages/withdraw/WithdrawPage";
 import React from "react";
 
 export default function page() {
-  return <DepositWithdrawPage value={2} />;
+  return <WithdrawPage />;
 }

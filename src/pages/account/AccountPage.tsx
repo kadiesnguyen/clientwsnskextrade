@@ -200,7 +200,7 @@ export default function AccountPage() {
           {
             label: "Withdraw",
             icon: <AccountBalanceWalletOutlined sx={{ color: "white" }} />,
-            link: "#",
+            link: "/withdraw",
           },
           {
             label: "Transfer",

@@ -6,26 +6,16 @@ import { Box, TablePagination, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-export default function CommandOpen({ user }: { user: IUser }) {
+export default function CommandOpen({
+  user,
+  history,
+}: {
+  user: IUser;
+  history: any;
+}) {
   const { t } = useTranslation();
-
-  const [history, setHisstory] = useState<any>(null);
-
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  useEffect(() => {
-    const referral = async () => {
-      try {
-        const his: any = await getContractjc();
-        if (his.status === true) {
-          setHisstory(his.data);
-        }
-      } catch (errors: any) {
-        console.log(errors?.message);
-      }
-    };
-    referral();
-  }, []);
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
   };

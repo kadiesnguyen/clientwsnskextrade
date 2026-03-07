@@ -19,7 +19,11 @@ import {
 } from "@/shared/Svgs/Svg.component";
 import CoinMenuMobile from "@/components/coins/CoinMenuMobile";
 import { useTranslation } from "react-i18next";
-import { getListCoin, getWebsiteConfig } from "@/services/User.service";
+import {
+  getContractjc,
+  getListCoin,
+  getWebsiteConfig,
+} from "@/services/User.service";
 import { useUserStore } from "@/stores/useUserStore";
 import TradePopup from "@/components/popup/TradePopup";
 import CommandClose from "./CommandClose";
@@ -40,6 +44,7 @@ export default function ContactPage() {
   const [interval, setInterval] = useState("1m");
   const [listCoin, setListCoin] = useState<Icoin[]>([]);
   const router = useRouter();
+  const [history, setHisstory] = useState<any>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setDrawerOpen(true);
@@ -57,19 +62,32 @@ export default function ContactPage() {
   }, [fetchUser]);
 
   useEffect(() => {
-    const referral = async () => {
-      try {
-        const listCoin: any = await getListCoin();
-
-        if (listCoin.status === true) {
-          setListCoin(listCoin.data);
-        }
-      } catch (errors: any) {
-        console.log(errors?.message);
-      }
-    };
     referral();
+    historyOpen();
   }, []);
+
+  const historyOpen = async () => {
+    try {
+      const his: any = await getContractjc();
+      if (his.status === true) {
+        setHisstory(his.data);
+      }
+    } catch (errors: any) {
+      console.log(errors?.message);
+    }
+  };
+
+  const referral = async () => {
+    try {
+      const listCoin: any = await getListCoin();
+
+      if (listCoin.status === true) {
+        setListCoin(listCoin.data);
+      }
+    } catch (errors: any) {
+      console.log(errors?.message);
+    }
+  };
 
   return (
     <Box
@@ -243,7 +261,7 @@ export default function ContactPage() {
             <Tab value="one" label="In transaction" wrapped />
             <Tab value="two" label="Position closed" />
           </Tabs>
-          {value == "one" && <CommandOpen user={user} />}
+          {value == "one" && <CommandOpen user={user} history={history} />}
           {value == "two" && <CommandClose user={user} />}
         </Box>
       ) : (
@@ -273,6 +291,7 @@ export default function ContactPage() {
           onClose={() => {
             setOpenTrade(false);
             fetchUser();
+            historyOpen();
           }}
           symbol={menu}
           price={price ?? 0}

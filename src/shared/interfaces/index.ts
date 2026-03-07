@@ -189,3 +189,41 @@ export interface IDepositMethod {
   coin: string;
   status: number;
 }
+
+export interface IFinaceBalace {
+  id: number;
+  name: string;
+  title: string;
+  balance: {
+    available: string;
+    freeze: string;
+    total: string;
+  };
+  deposit_network: string;
+  addresss: string;
+  deposit_status: number;
+  deposit_min: number;
+  withdraw_status: number;
+  withdraw_min: number;
+  withdraw_max: number;
+  bank: number;
+}
+
+export interface IWithdrawHistory {
+  id: number;
+  userid: number;
+  username: string;
+  wallet: string;
+  coinname: string;
+  txid: string;
+  num: string;
+  fee: string;
+  mum: string;
+  address: string;
+  sort: number;
+  addtime: Date;
+  endtime: Date;
+  status: number;
+  to_user: number;
+  admin_view: number;
+}

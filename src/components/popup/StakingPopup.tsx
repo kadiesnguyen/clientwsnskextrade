@@ -26,7 +26,7 @@ export default function StakingPopup({ data, onClose, open, onSubmit }: progs) {
   const handleInvest = async () => {
     if (amount && data) {
       const formData = new FormData();
-      formData.append("id", String(data.id));
+      formData.append("pid", String(data.id));
       formData.append("amount", amount);
       await buySubscribe(formData)
         .then((res) => {

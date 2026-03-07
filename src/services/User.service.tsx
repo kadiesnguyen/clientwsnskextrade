@@ -244,6 +244,10 @@ const getDepositMethod = () => {
   return contentInstance.get(`/api/finance/deposit/methods`);
 };
 
+const getFinaceBalance = () => {
+  return contentInstance.get(`/api/finance/balance`);
+};
+
 export {
   loginUser,
   signupUser,
@@ -292,4 +296,5 @@ export {
   apiExchange,
   getHistoryExchange,
   getDepositMethod,
+  getFinaceBalance,
 };
