@@ -24,6 +24,7 @@ import CoinMenuMobile from "@/components/coins/CoinMenuMobile";
 import { useTranslation } from "react-i18next";
 import {
   getContractjc,
+  getFinaceCoin,
   getListCoin,
   getWebsiteConfig,
 } from "@/services/User.service";
@@ -31,7 +32,7 @@ import { useUserStore } from "@/stores/useUserStore";
 import TradePopup from "@/components/popup/TradePopup";
 import CommandClose from "./CommandClose";
 import CommandOpen from "./CommandOpen";
-import { Icoin } from "@/interface/user.interface";
+import { Icoin, IcoinFinace } from "@/interface/user.interface";
 import { useRouter } from "next/navigation";
 import LanguageSwitcher from "@/components/Language/LanguageSwitcher";
 
@@ -46,7 +47,7 @@ export default function ContactPage() {
   const [price, setPrice] = useState<number>();
   const { user, fetchUser } = useUserStore();
   const [interval, setInterval] = useState("1m");
-  const [listCoin, setListCoin] = useState<Icoin[]>([]);
+  const [listCoin, setListCoin] = useState<IcoinFinace[]>([]);
   const router = useRouter();
   const [history, setHisstory] = useState<any>(null);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -90,7 +91,7 @@ export default function ContactPage() {
 
   const referral = async () => {
     try {
-      const listCoin: any = await getListCoin();
+      const listCoin: any = await getFinaceCoin();
 
       if (listCoin.status === true) {
         setListCoin(listCoin.data);

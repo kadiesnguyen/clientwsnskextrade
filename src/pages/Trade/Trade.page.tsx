@@ -1,6 +1,8 @@
 "use client";
 
 import MenuCoin from "@/components/subMenu/MenuCoin";
+import { IcoinFinace } from "@/interface/user.interface";
+import { postTradeMarket } from "@/services/User.service";
 import { DownIcon } from "@/shared/Svgs/Svg.component";
 import { useUserStore } from "@/stores/useUserStore";
 import { ErrorOutline } from "@mui/icons-material";
@@ -17,6 +19,7 @@ import {
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 
 type Order = {
   price: number;
@@ -29,12 +32,14 @@ export default function TradePage() {
   const [percent, setPercent] = useState(0);
   const [bids, setBids] = useState<Order[]>([]);
   const [asks, setAsks] = useState<Order[]>([]);
-  const [side, setSide] = useState("buy");
+  const [side, setSide] = useState<"buy" | "sell">("buy");
   const [quantity, setQuantity] = useState("0.00");
   const [sliderValue, setSliderValue] = useState(0);
+  const [coin, setCoin] = useState<IcoinFinace>();
   const { user, fetchUser } = useUserStore();
   const [orderType, setOrderType] = useState<"market" | "limit">("market");
   const [limitPrice, setLimitPrice] = useState("");
+  const [inputSource, setInputSource] = useState<"slider" | "input">("slider");
   const router = useRouter();
   const { t, i18n } = useTranslation();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -62,6 +67,42 @@ export default function TradePage() {
     return () => ws.close();
   }, [symbol]);
 
+  useEffect(() => {
+    if (!user || !price) return;
+    if (inputSource !== "slider") return;
+
+    const balance = Number(user.balance.usdt_total || 0);
+
+    const usdtAmount = (balance * sliderValue) / 100;
+    const coinAmount = usdtAmount / price;
+
+    setQuantity(coinAmount.toFixed(6));
+  }, [sliderValue, user, price, inputSource]);
+
+  const handleQuantityChange = (value: string) => {
+    setInputSource("input");
+    setQuantity(value);
+
+    if (!user || !price) return;
+
+    const balance = Number(user.balance.usdt_total || 0);
+    const qty = Number(value);
+
+    if (!qty) {
+      setSliderValue(0);
+      return;
+    }
+
+    const usdtUsed = qty * price;
+    const percent = (usdtUsed / balance) * 100;
+
+    setSliderValue(Math.min(100, Math.max(0, Number(percent.toFixed(2)))));
+  };
+
+  const handleSliderChange = (value: number) => {
+    setInputSource("slider");
+    setSliderValue(value);
+  };
   // ===== BINANCE ORDER BOOK WS =====
   useEffect(() => {
     const ws = new WebSocket(
@@ -101,6 +142,43 @@ export default function TradePage() {
   const formatPrice = (p: number) => p.toLocaleString();
   const formatQty = (q: number) => q.toFixed(5);
 
+  const onSubmit = async () => {
+    console.log("coin", coin);
+
+    try {
+      if (coin) {
+        if (orderType == "market") {
+          const res = await postTradeMarket(
+            coin.id,
+            side,
+            "market",
+            null,
+            quantity,
+          );
+          if (res.status) {
+            toast.success(t("Toast.buysell3"));
+            setQuantity("");
+            setLimitPrice("");
+          }
+        } else {
+          const res = await postTradeMarket(
+            coin.id,
+            side,
+            "limit",
+            limitPrice,
+            quantity,
+          );
+          if (res.status) {
+            toast.success(t("Toast.buysell3"));
+            setQuantity("");
+            setLimitPrice("");
+          }
+        }
+      }
+    } catch (error: any) {
+      toast.error(error.message);
+    }
+  };
   return (
     <Box
       sx={{
@@ -113,6 +191,7 @@ export default function TradePage() {
       }}
     >
       <MenuCoin
+        changeCoin={(v) => setCoin(v)}
         data={(v) => {
           setSymbol(v);
         }}
@@ -348,7 +427,7 @@ export default function TradePage() {
             fullWidth
             variant="standard"
             value={quantity}
-            onChange={(e) => setQuantity(e.target.value)}
+            onChange={(e) => handleQuantityChange(e.target.value)}
             placeholder={t("StakingPage.input_quantity")}
             type="number"
             InputProps={{
@@ -376,7 +455,7 @@ export default function TradePage() {
             </Typography>
             <Slider
               value={sliderValue}
-              // onChange={(e, v) => setSliderValue(v as number)}
+              // onChange={(e, v) => handleSliderChange(v as number)}
               sx={{
                 mt: 2,
                 color: sliderValue ? "#34d399" : "rgb(55 65 81)",
@@ -415,7 +494,7 @@ export default function TradePage() {
               <Button
                 key={v}
                 size="small"
-                onClick={() => setSliderValue(v)}
+                onClick={() => handleSliderChange(v)}
                 sx={{
                   fontSize: 11,
                   color: "white",
@@ -454,12 +533,19 @@ export default function TradePage() {
                 {t("DepositWithdrawPage.transa_v")}
               </Typography>
               <Typography sx={{ color: "white", fontSize: "12px" }}>
-                {Number(user?.balance.usdt).toLocaleString()} USDT
+                {orderType == "market"
+                  ? (Number(price) * Number(quantity)).toLocaleString()
+                  : (
+                      Number(limitPrice) * Number(quantity)
+                    ).toLocaleString()}{" "}
+                USDT
               </Typography>
             </Stack>
 
             <Button
               fullWidth
+              disabled={quantity.length == 0}
+              onClick={onSubmit}
               sx={{
                 mt: 3,
                 background: "#34d399",

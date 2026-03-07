@@ -38,3 +38,26 @@ export interface Icoin {
   symbol: string;
   title: string;
 }
+
+export interface IcoinFinace {
+  id: number;
+  name: string;
+  czline: string;
+  type: number;
+  title: string;
+  sort: number;
+  addtime: string;
+  status: number;
+  czstatus: number;
+  czaddress: string;
+  czminnum: number;
+  txstatus: number;
+  sxftype: number;
+  txsxf: number;
+  txsxf_n: number;
+  txminnum: number;
+  txmaxnum: number;
+  bbsxf: number;
+  hysxf: number;
+  bank: number;
+}

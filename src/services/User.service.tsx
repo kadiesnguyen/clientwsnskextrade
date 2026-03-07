@@ -280,6 +280,27 @@ const postUpdateUser = (formData: FormData) => {
     },
   });
 };
+const postTradeMarket = (
+  coin: number,
+  side: "buy" | "sell",
+  order_type: "market" | "limit",
+  price: string | null | undefined,
+  amount: string,
+) => {
+  const payload: any = {
+    coin,
+    side,
+    order_type,
+    amount,
+    ...(price ? { price } : {}),
+  };
+
+  return contentInstance.post(`/api/trade/order`, payload, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+};
 
 export {
   loginUser,
@@ -334,4 +355,5 @@ export {
   getTranferHistory,
   postTranfer,
   postUpdateUser,
+  postTradeMarket,
 };

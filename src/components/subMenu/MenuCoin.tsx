@@ -24,7 +24,7 @@ import PaymentsOutlinedIcon from "@mui/icons-material/PaymentsOutlined";
 import Logout from "@mui/icons-material/Logout";
 import FolderIcon from "@mui/icons-material/Folder";
 import CloseIcon from "@mui/icons-material/Close";
-import { Icoin, userResponse } from "@/interface/user.interface";
+import { Icoin, IcoinFinace, userResponse } from "@/interface/user.interface";
 import { Badge, Button, Dialog } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { formatCurrency } from "@/utils/formatMoney";
@@ -64,17 +64,22 @@ import { useTranslation } from "react-i18next";
 import AddToHomeScreenButton from "../Button/AddToHomeScreenButton";
 import { Visibility } from "@mui/icons-material";
 import { formatDateTime } from "@/utils/formatDateTime";
-import { getListCoin, getWebsiteConfig } from "@/services/User.service";
+import {
+  getFinaceCoin,
+  getListCoin,
+  getWebsiteConfig,
+} from "@/services/User.service";
 import CoinMenuMobile from "../coins/CoinMenuMobile";
 interface props {
   data: (string: string) => void;
+  changeCoin: (v: IcoinFinace) => void;
 }
 
-export default function MenuCoin({ data }: props) {
+export default function MenuCoin({ data, changeCoin }: props) {
   const [drawerOpen, setDrawerOpen] = React.useState(false);
   const { t, i18n } = useTranslation();
   const [configs, setConfigs] = React.useState<any>();
-  const [listCoin, setListCoin] = React.useState<Icoin[]>([]);
+  const [listCoin, setListCoin] = React.useState<IcoinFinace[]>([]);
   const [percent, setPercent] = React.useState<string>();
   const [interval, setInterval] = React.useState("1m");
   const [menu, setMenu] = React.useState("btcusdt");
@@ -93,6 +98,12 @@ export default function MenuCoin({ data }: props) {
     data(menu);
   }, []);
 
+  React.useEffect(() => {
+    const data = listCoin.find((e) => e.name == menu.replace("usdt", ""));
+    if (data) {
+      changeCoin(data);
+    }
+  }, [menu]);
   const handleDrawerClose = () => {
     setDrawerOpen(false);
   };
@@ -102,13 +113,19 @@ export default function MenuCoin({ data }: props) {
       try {
         const config: any = await getWebsiteConfig();
 
-        const listCoin: any = await getListCoin();
+        const listCoin: any = await getFinaceCoin();
 
         if (config.status === true) {
           setConfigs(config.data);
         }
         if (listCoin.status === true) {
           setListCoin(listCoin.data);
+          const data = listCoin.data.find(
+            (e: any) => e.name == menu.replace("usdt", ""),
+          );
+          if (data) {
+            changeCoin(data);
+          }
         }
       } catch (errors: any) {
         console.log(errors?.message);
