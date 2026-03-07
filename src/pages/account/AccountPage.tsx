@@ -357,7 +357,9 @@ export default function AccountPage() {
             borderBottom={i !== 2 ? "1px solid rgba(255,255,255,0.1)" : "none"}
             sx={{ cursor: "pointer" }}
             onClick={() => {
-              if (item.link) {
+              if (!user) {
+                router.push("/login");
+              } else if (item.link) {
                 router.push(item.link);
               } else {
                 window.localStorage.removeItem("token");

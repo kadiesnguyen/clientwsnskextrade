@@ -176,7 +176,9 @@ export default function HomePage() {
                   gap: 1,
                 }}
                 onClick={() => {
-                  if (item.link === "#") {
+                  if (!user && item.key !== "service") {
+                    route.push("/login");
+                  } else if (item.link === "#") {
                     swal("Notice", "This feature is coming soon!", "info");
                   } else {
                     route.push(item.link);
