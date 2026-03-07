@@ -78,6 +78,14 @@ export default function MenuCoin({ data }: props) {
   const [percent, setPercent] = React.useState<string>();
   const [interval, setInterval] = React.useState("1m");
   const [menu, setMenu] = React.useState("btcusdt");
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClickLang = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setDrawerOpen(true);
   };
@@ -159,9 +167,27 @@ export default function MenuCoin({ data }: props) {
               )}
             </Typography>
           </Box>
-          <IconButton size="small" aria-haspopup="true">
-            <DashboardIcon fill="#fff" width="20px" height="20px" />
-          </IconButton>
+          <Tooltip title="Language">
+            <IconButton
+              aria-controls={open ? "basic-menu" : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? "true" : undefined}
+              onClick={handleClickLang}
+            >
+              <InternetIcon width="20px" height="20px" />
+            </IconButton>
+          </Tooltip>
+          <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            sx={{
+              width: "160px",
+            }}
+          >
+            <LanguageSwitcher onLanguageChange={handleClose} />
+          </Menu>
         </Box>
         <Drawer
           anchor="left"

@@ -4,8 +4,10 @@ import {
   Button,
   Drawer,
   IconButton,
+  Menu,
   Tab,
   Tabs,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
@@ -14,6 +16,7 @@ import ChartViewCustom from "@/components/ChartView/ChartViewCustom";
 import {
   DashboardIcon,
   DownIcon,
+  InternetIcon,
   MenuIcon,
   UpIcon,
 } from "@/shared/Svgs/Svg.component";
@@ -30,6 +33,7 @@ import CommandClose from "./CommandClose";
 import CommandOpen from "./CommandOpen";
 import { Icoin } from "@/interface/user.interface";
 import { useRouter } from "next/navigation";
+import LanguageSwitcher from "@/components/Language/LanguageSwitcher";
 
 export default function ContactPage() {
   const [openTrade, setOpenTrade] = useState(false);
@@ -45,7 +49,14 @@ export default function ContactPage() {
   const [listCoin, setListCoin] = useState<Icoin[]>([]);
   const router = useRouter();
   const [history, setHisstory] = useState<any>(null);
-
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClickLang = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setDrawerOpen(true);
   };
@@ -142,9 +153,27 @@ export default function ContactPage() {
                 )}
               </Typography>
             </Box>
-            <IconButton size="small" aria-haspopup="true">
-              <DashboardIcon fill="#fff" width="20px" height="20px" />
-            </IconButton>
+            <Tooltip title="Language">
+              <IconButton
+                aria-controls={open ? "basic-menu" : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? "true" : undefined}
+                onClick={handleClickLang}
+              >
+                <InternetIcon width="20px" height="20px" />
+              </IconButton>
+            </Tooltip>
+            <Menu
+              id="basic-menu"
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              sx={{
+                width: "160px",
+              }}
+            >
+              <LanguageSwitcher onLanguageChange={handleClose} />
+            </Menu>
           </Box>
           <Drawer
             anchor="left"

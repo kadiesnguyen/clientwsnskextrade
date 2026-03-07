@@ -37,6 +37,8 @@ export default function TradePage() {
   const [limitPrice, setLimitPrice] = useState("");
   const router = useRouter();
   const { t, i18n } = useTranslation();
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
 
   useEffect(() => {
     fetchUser();

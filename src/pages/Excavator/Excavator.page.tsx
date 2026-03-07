@@ -196,7 +196,7 @@ export default function ExcavatorPage() {
             aria-expanded={openA ? "true" : undefined}
             onClick={handleClickLang}
           >
-            <InternetIcon width="30px" height="30px" />
+            <InternetIcon width="20px" height="20px" />
           </IconButton>
         </Tooltip>
         <Menu

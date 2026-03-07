@@ -8,6 +8,8 @@ import {
   CardContent,
   IconButton,
   Stack,
+  Tooltip,
+  Menu,
 } from "@mui/material";
 import VisibilityOutlined from "@mui/icons-material/VisibilityOutlined";
 import SyncAlt from "@mui/icons-material/SyncAlt";
@@ -25,13 +27,22 @@ import { useEffect, useState } from "react";
 import { VisibilityOffOutlined } from "@mui/icons-material";
 import LoadingComponent from "@/components/Loading";
 import { useTranslation } from "react-i18next";
+import { InternetIcon } from "@/shared/Svgs/Svg.component";
+import LanguageSwitcher from "@/components/Language/LanguageSwitcher";
 
 export default function AccountPage() {
   const { t, i18n } = useTranslation();
   const [hideBalance, setHideBalance] = useState(false);
   const router = useRouter();
   const { user, fetchUser, loading } = useUserStore();
-
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClickLang = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   useEffect(() => {
     fetchUser();
   }, [fetchUser]);
@@ -53,21 +64,51 @@ export default function AccountPage() {
     >
       {/* login button */}
       {!user ? (
-        <Button
-          variant="contained"
+        <Box
           sx={{
-            background: "#22c55e",
-            borderRadius: "8px",
-            textTransform: "none",
-            mb: 2,
-            "&:hover": {
-              background: "#1da850ff",
-            },
+            display: "flex",
+            p: 2,
+            justifyContent: "space-between",
+            alignItems: "center",
           }}
-          onClick={() => router.push("/login")}
         >
-          {t("Toast.btn_login")}
-        </Button>
+          <Button
+            variant="contained"
+            sx={{
+              background: "#22c55e",
+              borderRadius: "8px",
+              textTransform: "none",
+              mb: 2,
+              "&:hover": {
+                background: "#1da850ff",
+              },
+            }}
+            onClick={() => router.push("/login")}
+          >
+            {t("Toast.btn_login")}
+          </Button>
+          <Tooltip title="Language">
+            <IconButton
+              aria-controls={open ? "basic-menu" : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? "true" : undefined}
+              onClick={handleClickLang}
+            >
+              <InternetIcon width="20px" height="20px" />
+            </IconButton>
+          </Tooltip>
+          <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            sx={{
+              width: "160px",
+            }}
+          >
+            <LanguageSwitcher onLanguageChange={handleClose} />
+          </Menu>
+        </Box>
       ) : loading ? (
         <Box
           sx={{ display: "flex", flexDirection: "column", gap: "5px", p: 2 }}
@@ -95,25 +136,53 @@ export default function AccountPage() {
         </Box>
       ) : (
         <Box
-          sx={{ display: "flex", flexDirection: "column", gap: "5px", p: 2 }}
+          sx={{
+            display: "flex",
+            p: 2,
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
         >
-          <Typography
-            sx={{ color: "white", fontSize: "16px", fontWeight: 550 }}
-          >
-            {user.username}
-          </Typography>
-          <Box sx={{ display: "flex", gap: "10px" }}>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: "5px" }}>
             <Typography
-              sx={{ color: "#9ca3af", fontSize: "15px", fontWeight: 300 }}
+              sx={{ color: "white", fontSize: "16px", fontWeight: 550 }}
             >
-              ID: {user.id},
-            </Typography>{" "}
-            <Typography
-              sx={{ color: "#9ca3af", fontSize: "15px", fontWeight: 300 }}
-            >
-              VIP Level: {user.level}
+              {user.username}
             </Typography>
+            <Box sx={{ display: "flex", gap: "10px" }}>
+              <Typography
+                sx={{ color: "#9ca3af", fontSize: "15px", fontWeight: 300 }}
+              >
+                ID: {user.id},
+              </Typography>{" "}
+              <Typography
+                sx={{ color: "#9ca3af", fontSize: "15px", fontWeight: 300 }}
+              >
+                VIP Level: {user.level}
+              </Typography>
+            </Box>
           </Box>
+          <Tooltip title="Language">
+            <IconButton
+              aria-controls={open ? "basic-menu" : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? "true" : undefined}
+              onClick={handleClickLang}
+            >
+              <InternetIcon width="20px" height="20px" />
+            </IconButton>
+          </Tooltip>
+          <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            sx={{
+              width: "160px",
+            }}
+          >
+            <LanguageSwitcher onLanguageChange={handleClose} />
+          </Menu>
         </Box>
       )}
 
