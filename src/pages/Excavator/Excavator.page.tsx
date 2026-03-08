@@ -25,6 +25,7 @@ import LanguageSwitcher from "@/components/Language/LanguageSwitcher";
 import { useRouter } from "next/navigation";
 import LoadingComponent from "@/components/Loading";
 import { useTranslation } from "react-i18next";
+import { useUserStore } from "@/stores/useUserStore";
 
 export default function ExcavatorPage() {
   const [tab, setTab] = useState(0);
@@ -35,25 +36,18 @@ export default function ExcavatorPage() {
   const [stakingData, setStakingData] = useState<IStaking[] | null>(null);
   const [staking, setStaking] = useState<IStaking | null>(null);
   const [loading, setLoading] = useState(false);
-  const [langAnchorEl, setLangAnchorEl] = useState<null | HTMLElement>(null);
   const { t } = useTranslation();
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const openA = Boolean(anchorEl);
-  const handleClickLang = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const { user, fetchUser } = useUserStore();
   const route = useRouter();
-  const handleLangMenuClose = () => {
-    setLangAnchorEl(null);
-  };
 
   useEffect(() => {
     fetchData();
     fetchStakingData();
   }, []);
+
+  useEffect(() => {
+    fetchUser();
+  }, [fetchUser]);
 
   const fetchData = async () => {
     const res: any = await getOrepool();
@@ -233,9 +227,12 @@ export default function ExcavatorPage() {
         </Typography>
         <IconButton
           sx={{ background: "none" }}
-          onClick={() => route.push("/excavator/my-excavator")}
+          onClick={() => {
+            if (user) {
+              route.push("/excavator/my-excavator");
+            }
+          }}
         >
-          {" "}
           <FileIcon width="30px" height="30px" fill="white" />
         </IconButton>
       </Box>

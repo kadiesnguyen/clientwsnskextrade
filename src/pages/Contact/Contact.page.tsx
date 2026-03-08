@@ -156,7 +156,13 @@ export default function ContactPage() {
               </Typography>
             </Box>
 
-            <IconButton onClick={() => router.push("/contact/history")}>
+            <IconButton
+              onClick={() => {
+                if (user) {
+                  router.push("/contact/history");
+                }
+              }}
+            >
               <FileIcon width="30px" height="30px" fill="white" />
             </IconButton>
           </Box>
