@@ -23,6 +23,7 @@ import {
 } from "@mui/icons-material";
 import { useTranslation } from "react-i18next";
 import CoinDetailPopup from "@/components/popup/CoinDetailPopup";
+import { useRouter } from "next/navigation";
 
 export default function AssetPage() {
   const { t, i18n } = useTranslation();
@@ -39,6 +40,7 @@ export default function AssetPage() {
   const [wallet, setWallet] = useState<IFinaceBalace[]>([]);
   const [coin, setCoin] = useState<IFinaceBalace>();
   const { user, fetchUser } = useUserStore();
+  const router = useRouter();
 
   useEffect(() => {
     fetchData();
@@ -68,7 +70,7 @@ export default function AssetPage() {
     >
       {/* Header */}
       <Stack direction="row" alignItems="center" mb={3}>
-        <IconButton>
+        <IconButton onClick={() => router.back()}>
           <ArrowBackIosNewIcon sx={{ color: "white", fontSize: 14 }} />
         </IconButton>
 
