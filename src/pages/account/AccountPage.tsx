@@ -204,7 +204,7 @@ export default function AccountPage() {
               {hideBalance
                 ? "***"
                 : user
-                  ? Number(user?.balance.usdt).toLocaleString()
+                  ? Number(user?.balance.usdt_total).toLocaleString()
                   : "0.00"}
             </Typography>
           )}
@@ -221,9 +221,17 @@ export default function AccountPage() {
               display="flex"
               alignItems="center"
               sx={{ cursor: "pointer" }}
-              onClick={() => setHideBalance((prev) => !prev)}
+              onClick={() => {
+                if (user) {
+                  router.push("/assets");
+                }
+              }}
             >
-              {hideBalance ? "***" : user ? user?.money : "0.00"}
+              {hideBalance
+                ? "***"
+                : user
+                  ? Number(user?.balance.usdt).toLocaleString()
+                  : "0.00"}
               <ChevronRight sx={{ fontSize: 16, ml: 0.5 }} />
             </Typography>
           </Box>
