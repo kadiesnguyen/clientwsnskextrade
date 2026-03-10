@@ -13,10 +13,15 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useEffect, useState } from "react";
-import { IUser } from "@/shared/interfaces";
-import { createOrder, getBuySellConfig } from "@/services/User.service";
+import { IHistoryOpen, IUser } from "@/shared/interfaces";
+import {
+  createOrder,
+  getBuySellConfig,
+  getContractjc,
+} from "@/services/User.service";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
+import OrderConfirmModal from "./OrderConfirmModal";
 
 interface Props {
   open: boolean;
@@ -25,6 +30,8 @@ interface Props {
   symbol: string;
   tab: string;
   price: number;
+  history: IHistoryOpen[];
+  onLoadHitory: () => void;
 }
 
 export default function TradePopup({
@@ -34,6 +41,8 @@ export default function TradePopup({
   price,
   tab,
   user,
+  history,
+  onLoadHitory,
 }: Props) {
   const { t } = useTranslation();
   const [amount, setAmount] = useState<any>(null);
@@ -42,6 +51,9 @@ export default function TradePopup({
   const [hytime, setHytime] = useState<any>(null);
   const [buySellConfig, setBuySellConfig] = useState<any>(null);
   const [hyykbl, setHyykbl] = useState<any>(null);
+  const [openConfirm, setOpenConfirm] = useState(false);
+  const [orderData, setOrderData] = useState<any>(null);
+
   useEffect(() => {
     const referral = async () => {
       try {
@@ -76,20 +88,15 @@ export default function TradePopup({
       toast.error(t("Toast.buysell5"));
       return;
     }
+
     if (!hytime || !amount) {
       toast.error(t("Toast.buysell1"));
       return;
     }
-    // if (Number(priceConfig) < Number(amount)) {
-    //   toast.error(t("Toast.buysell2"));
-    //   return;
-    // }
-    // if (parseFloat(amount) > parseFloat(user?.balance.usdt || "0")) {
-    //   router.push("/asset");
-    //   return;
-    // }
+
     try {
       const method = tab == "BUY" ? "1" : "2";
+
       const formData = new FormData();
       formData.append("ctime", hytime);
       formData.append("amount", priceConfig);
@@ -97,11 +104,17 @@ export default function TradePopup({
       formData.append("method", method);
       formData.append("uprate", hyykbl);
 
-      await createOrder(formData).then((res) => {
-        onClose();
-      });
-      toast.success(t("Toast.buysell3"));
-    } catch (error: any) {
+      const res = await createOrder(formData);
+
+      if (res?.data) {
+        setOrderData(res.data);
+        setOpenConfirm(true);
+        onLoadHitory();
+      }
+
+      // onClose();
+      // toast.success(t("Toast.buysell3"));
+    } catch (error) {
       toast.error(t("Toast.buysell4"));
     }
   };
@@ -358,6 +371,7 @@ export default function TradePopup({
         <Button
           fullWidth
           variant="contained"
+          disabled={history.length > 0}
           sx={{
             mt: 3,
             background: tab === "BUY" ? "#22c55e" : "#ef4444",
@@ -369,6 +383,21 @@ export default function TradePopup({
         >
           {tab}
         </Button>
+        {history.length > 0 && (
+          <Typography sx={{ p: "8px", fontSize: "12px", color: "orange" }}>
+            {t("BuySellPage.note1")}
+          </Typography>
+        )}
+        <OrderConfirmModal
+          open={openConfirm}
+          onClose={() => {
+            setOpenConfirm(false);
+            setOrderData(null);
+          }}
+          data={orderData}
+          type={tab}
+          profitability={Number(hyykbl)}
+        />
       </Box>
     </Drawer>
   );

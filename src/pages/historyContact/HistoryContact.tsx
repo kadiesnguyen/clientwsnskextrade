@@ -1,13 +1,14 @@
 "use client";
-import { Box, IconButton, Tab, Tabs, Typography } from "@mui/material";
+import { Box, Button, IconButton, Tab, Tabs, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import { getContractjc } from "@/services/User.service";
+import { getContractjc, getContractpc } from "@/services/User.service";
 import CommandOpen from "../Contact/CommandOpen";
 import CommandClose from "../Contact/CommandClose";
 import { useUserStore } from "@/stores/useUserStore";
+import { IHistoryClose, IHistoryOpen } from "@/shared/interfaces";
 
 export default function HistoryContact() {
   const { t, i18n } = useTranslation();
@@ -16,6 +17,7 @@ export default function HistoryContact() {
   const [history, setHisstory] = useState<any>(null);
   const [tab, setTab] = useState("BUY");
   const [value, setValue] = useState("one");
+  const [bill, setBill] = useState<IHistoryClose[]>([]);
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
@@ -25,6 +27,7 @@ export default function HistoryContact() {
   }, [fetchUser]);
   useEffect(() => {
     historyOpen();
+    referral();
   }, []);
 
   const historyOpen = async () => {
@@ -32,6 +35,19 @@ export default function HistoryContact() {
       const his: any = await getContractjc();
       if (his.status === true) {
         setHisstory(his.data);
+      }
+    } catch (errors: any) {
+      console.log(errors?.message);
+    }
+  };
+
+  const referral = async () => {
+    try {
+      const res: any = await getContractpc();
+      console.log(res);
+
+      if (res.status === true) {
+        setBill(res.data);
       }
     } catch (errors: any) {
       console.log(errors?.message);
@@ -90,10 +106,292 @@ export default function HistoryContact() {
             <Tab value="one" label={t("BuySellPage.transaction")} wrapped />
             <Tab value="two" label={t("BuySellPage.Position")} />
           </Tabs>
-          {value == "one" && <CommandOpen user={user} history={history} />}
-          {value == "two" && <CommandClose user={user} />}
+          {value == "one" && (
+            <Box sx={{ width: "95%", margin: "auto", paddingTop: "20px" }}>
+              {history && history.length > 0 ? (
+                history.map((item: IHistoryOpen, index: number) => (
+                  <Box
+                    key={index}
+                    sx={{
+                      background: "#1c2735",
+                      borderRadius: "14px",
+                      padding: "16px 18px",
+                      marginBottom: "12px",
+                      border: "1px solid rgba(255,255,255,0.08)",
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "flex-start",
+                      }}
+                    >
+                      {/* LEFT */}
+                      <Box>
+                        <Box sx={{ display: "flex", gap: "10px" }}>
+                          <Typography
+                            sx={{
+                              color: "#fff",
+                              fontSize: "14px",
+                              fontWeight: 500,
+                              marginBottom: "6px",
+                            }}
+                          >
+                            {item.coinname?.replace("-", "/")}
+                          </Typography>
+                          <Button
+                            sx={{
+                              color: "#d1d5db",
+                              background: "#374151",
+                              fontWeight: 400,
+                              height: "25px",
+                              fontSize: "10px",
+                              textTransform: "capitalize",
+                            }}
+                          >
+                            {t("AssetPage.label")}
+                          </Button>
+                        </Box>
+                        <Typography
+                          sx={{ color: "#9aa4b2", fontSize: 13, mt: "5px" }}
+                        >
+                          {t("StakingPage.amount")}
+                        </Typography>
+
+                        <Typography
+                          sx={{ color: "#9aa4b2", fontSize: 13, mt: "5px" }}
+                        >
+                          {t("BuySellPage.price_buy")}
+                        </Typography>
+
+                        <Typography
+                          sx={{ color: "#9aa4b2", fontSize: 13, mt: "5px" }}
+                        >
+                          {t("MiningPage.time")}
+                        </Typography>
+                      </Box>
+
+                      {/* RIGHT */}
+                      <Box sx={{ textAlign: "right" }}>
+                        <Typography
+                          sx={{
+                            color: item.hyzd === 1 ? "#4ade80" : "#ef4444",
+                            fontWeight: 500,
+                            fontSize: 15,
+                            marginBottom: "6px",
+                          }}
+                        >
+                          {item.hyzd === 1
+                            ? t("BuySellPage.BUY")
+                            : t("BuySellPage.SELL")}
+                        </Typography>
+                        <Typography
+                          sx={{ color: "#9aa4b2", fontSize: 13, mt: "5px" }}
+                        >
+                          {Number(item.num).toLocaleString()} USDT
+                        </Typography>
+
+                        <Typography
+                          sx={{ color: "#9aa4b2", fontSize: 13, mt: "5px" }}
+                        >
+                          {Number(item.buyprice).toLocaleString()}
+                        </Typography>
+
+                        <Typography
+                          sx={{ color: "#9aa4b2", fontSize: 13, mt: "5px" }}
+                        >
+                          {timeAgo(item.buytime)}
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </Box>
+                ))
+              ) : (
+                <Typography
+                  sx={{
+                    color: "#9ca3af",
+                    fontSize: "12px",
+                    fontWeight: 600,
+                    textAlign: "center",
+                  }}
+                >
+                  {t("AssetPage.no_tran")}
+                </Typography>
+              )}
+            </Box>
+          )}
+          {value == "two" && (
+            <Box sx={{ width: "95%", margin: "auto", paddingTop: "20px" }}>
+              {bill && bill.length > 0 ? (
+                bill.map((item: IHistoryClose, index: number) => (
+                  <Box
+                    key={index}
+                    sx={{
+                      background: "#1c2735",
+                      borderRadius: "14px",
+                      padding: "16px 18px",
+                      marginBottom: "12px",
+                      border: "1px solid rgba(255,255,255,0.08)",
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "flex-start",
+                      }}
+                    >
+                      {/* LEFT */}
+                      <Box>
+                        <Box sx={{ display: "flex", gap: "10px" }}>
+                          <Typography
+                            sx={{
+                              color: "#fff",
+                              fontSize: "14px",
+                              fontWeight: 500,
+                              marginBottom: "6px",
+                            }}
+                          >
+                            {item.coinname?.replace("-", "/")}
+                          </Typography>
+                          <Button
+                            sx={{
+                              color: "#d1d5db",
+                              background: "#374151",
+                              fontWeight: 400,
+                              height: "25px",
+                              fontSize: "10px",
+                              textTransform: "capitalize",
+                            }}
+                          >
+                            {t("AssetPage.label")}
+                          </Button>
+                        </Box>
+                        <Typography
+                          sx={{ color: "#9aa4b2", fontSize: 13, mt: "5px" }}
+                        >
+                          {t("StakingPage.amount")}
+                        </Typography>
+
+                        <Typography
+                          sx={{ color: "#9aa4b2", fontSize: 13, mt: "5px" }}
+                        >
+                          {t("BuySellPage.price_buy")}
+                        </Typography>
+
+                        <Typography
+                          sx={{ color: "#9aa4b2", fontSize: 13, mt: "5px" }}
+                        >
+                          {t("BuySellPage.price_sell")}
+                        </Typography>
+
+                        <Typography
+                          sx={{ color: "#9aa4b2", fontSize: 13, mt: "5px" }}
+                        >
+                          {t("MiningPage.time")}
+                        </Typography>
+                      </Box>
+
+                      {/* RIGHT */}
+                      <Box sx={{ textAlign: "right" }}>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            gap: "10px",
+                            alignItems: "center",
+                          }}
+                        >
+                          <Typography
+                            sx={{
+                              color: item.is_win === 1 ? "#4ade80" : "#ef4444",
+                              background:
+                                item.is_win === 1 ? "#10b98133" : "#ef444433",
+                              fontWeight: 400,
+                              p: "5px 15px",
+                              borderRadius: "10px",
+                              fontSize: "12px",
+                              textTransform: "capitalize",
+                            }}
+                          >
+                            {item.is_win === 1
+                              ? t("BuySellPage.WIN")
+                              : t("BuySellPage.LOSS")}
+                          </Typography>
+                          <Typography
+                            sx={{
+                              color: item.hyzd === 1 ? "#4ade80" : "#ef4444",
+                              fontWeight: 500,
+                              fontSize: "16px",
+                              marginBottom: "6px",
+                              pt: "10px",
+                            }}
+                          >
+                            {item.hyzd === 1
+                              ? t("BuySellPage.BUY")
+                              : t("BuySellPage.SELL")}
+                          </Typography>
+                        </Box>
+                        <Typography
+                          sx={{ color: "#9aa4b2", fontSize: 13, mt: "5px" }}
+                        >
+                          {Number(item.num).toLocaleString()} USDT
+                        </Typography>
+
+                        <Typography
+                          sx={{ color: "#9aa4b2", fontSize: 13, mt: "5px" }}
+                        >
+                          {Number(item.buyprice).toLocaleString()}
+                        </Typography>
+
+                        <Typography
+                          sx={{ color: "#9aa4b2", fontSize: 13, mt: "5px" }}
+                        >
+                          {Number(item.sellprice).toLocaleString()}
+                        </Typography>
+
+                        <Typography
+                          sx={{ color: "#9aa4b2", fontSize: 13, mt: "5px" }}
+                        >
+                          {timeAgo(item.buytime)}
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </Box>
+                ))
+              ) : (
+                <Typography
+                  sx={{
+                    color: "#9ca3af",
+                    fontSize: "12px",
+                    fontWeight: 600,
+                    textAlign: "center",
+                  }}
+                >
+                  {t("AssetPage.no_tran")}
+                </Typography>
+              )}
+            </Box>
+          )}
         </>
       )}
     </Box>
   );
+}
+export function timeAgo(date: string | Date) {
+  const now = new Date().getTime();
+  const past = new Date(date).getTime();
+
+  const diff = Math.floor((now - past) / 1000); // seconds
+
+  if (diff < 60) return `${diff}s ago`;
+
+  const minutes = Math.floor(diff / 60);
+  if (minutes < 60) return `${minutes}m ago`;
+
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours}h ago`;
+
+  const days = Math.floor(hours / 24);
+  return `${days}d ago`;
 }

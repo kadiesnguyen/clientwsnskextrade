@@ -36,6 +36,7 @@ import CommandClose from "./CommandClose";
 import CommandOpen from "./CommandOpen";
 import { Icoin, IcoinFinace } from "@/interface/user.interface";
 import { useRouter } from "next/navigation";
+import { IHistoryOpen } from "@/shared/interfaces";
 
 export default function ContactPage() {
   const [openTrade, setOpenTrade] = useState(false);
@@ -50,8 +51,10 @@ export default function ContactPage() {
   const [interval, setInterval] = useState("1m");
   const [listCoin, setListCoin] = useState<IcoinFinace[]>([]);
   const router = useRouter();
-  const [history, setHisstory] = useState<any>(null);
+  const [history, setHisstory] = useState<IHistoryOpen[]>([]);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [openConfirm, setOpenConfirm] = useState(false);
+  const [orderData, setOrderData] = useState<any>(null);
   const open = Boolean(anchorEl);
   const handleClickLang = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -281,7 +284,15 @@ export default function ContactPage() {
             <Tab value="one" label={t("BuySellPage.transaction")} wrapped />
             <Tab value="two" label={t("BuySellPage.Position")} />
           </Tabs>
-          {value == "one" && <CommandOpen user={user} history={history} />}
+          {value == "one" && (
+            <CommandOpen
+              user={user}
+              history={history}
+              onCLose={() => {
+                historyOpen();
+              }}
+            />
+          )}
           {value == "two" && <CommandClose user={user} />}
         </Box>
       ) : (
@@ -308,6 +319,10 @@ export default function ContactPage() {
           open={openTrade}
           user={user}
           tab={tab}
+          history={history}
+          onLoadHitory={() => {
+            historyOpen();
+          }}
           onClose={() => {
             setOpenTrade(false);
             fetchUser();

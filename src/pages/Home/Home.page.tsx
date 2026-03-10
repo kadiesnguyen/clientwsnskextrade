@@ -134,7 +134,7 @@ export default function HomePage() {
               {
                 key: "service",
                 icon: "/images/icon-service.png",
-                link: setting ? setting.telegram : "#",
+                link: "#",
               },
               {
                 key: "verified",
@@ -166,7 +166,7 @@ export default function HomePage() {
                   if (!user && item.key !== "service") {
                     route.push("/login");
                   } else if (item.link === "#") {
-                    swal("Notice", "This feature is coming soon!", "info");
+                    window.open(setting?.telegram, "_blank");
                   } else {
                     route.push(item.link);
                   }

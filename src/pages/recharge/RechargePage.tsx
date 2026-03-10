@@ -5,7 +5,7 @@ import { Box, Typography, Avatar, Divider, IconButton } from "@mui/material";
 import { useRouter } from "next/navigation";
 
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import { getDepositMethod } from "@/services/User.service";
+import { getDepositMethod, getWebsiteConfig } from "@/services/User.service";
 import { useEffect, useState } from "react";
 import { IDepositMethod } from "@/shared/interfaces";
 import LoadingComponent from "@/components/Loading";
@@ -41,12 +41,18 @@ export default function RechargePage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [listMethod, setListMethod] = useState<IDepositMethod[]>([]);
+  const [configs, setConfigs] = useState<any>();
   useEffect(() => {
     fetchData();
   }, []);
   const fetchData = async () => {
     setLoading(true);
     const data = await getDepositMethod();
+    const config: any = await getWebsiteConfig();
+
+    if (config.status === true) {
+      setConfigs(config.data);
+    }
     if (data.status) {
       setListMethod(data.data);
     }
@@ -158,6 +164,11 @@ export default function RechargePage() {
               display: "flex",
               justifyContent: "space-between",
               cursor: "pointer",
+            }}
+            onClick={() => {
+              if (configs?.telegram) {
+                window.open(configs.telegram, "_blank");
+              }
             }}
           >
             <Typography>Bank Card Recharge</Typography>

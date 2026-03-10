@@ -1,5 +1,5 @@
 import { getContractjc, getContractpc } from "@/services/User.service";
-import { IUser } from "@/shared/interfaces";
+import { IHistoryOpen, IUser } from "@/shared/interfaces";
 import { formatDateTime } from "@/utils/formatDateTime";
 import { formatCurrency } from "@/utils/formatMoney";
 import { Box, TablePagination, Typography } from "@mui/material";
@@ -9,13 +9,16 @@ import { useTranslation } from "react-i18next";
 export default function CommandOpen({
   user,
   history,
+  onCLose,
 }: {
   user: IUser;
-  history: any;
+  history: IHistoryOpen[];
+  onCLose: () => void;
 }) {
   const { t } = useTranslation();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [timeLeft, setTimeLeft] = useState<{ [key: number]: number }>({});
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
   };
@@ -26,99 +29,120 @@ export default function CommandOpen({
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+  useEffect(() => {
+    if (!history) return;
 
+    const initial: any = {};
+
+    history.forEach((item) => {
+      initial[item.id] = getTimeLeft(item.selltime);
+    });
+
+    setTimeLeft(initial);
+  }, [history]);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => {
+        const updated: any = {};
+
+        Object.keys(prev).forEach((id) => {
+          const numId = Number(id);
+          const newTime = prev[numId] > 0 ? prev[numId] - 1 : 0;
+          updated[numId] = newTime;
+
+          if (newTime === 0) {
+            onCLose();
+          }
+        });
+
+        return updated;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  const getTimeLeft = (selltime: Date) => {
+    const end = new Date(selltime).getTime();
+    const now = Date.now();
+    return Math.max(Math.floor((end - now) / 1000), 0);
+  };
   return (
     <Box sx={{ width: "95%", margin: "auto", paddingTop: "20px" }}>
-      {history && history?.length > 0 ? (
-        <Box>
-          {history.map((item: any, index: number) => (
-            <Box key={index} sx={{ padding: "10px 0" }}>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <Box>
-                  <Typography
-                    sx={{
-                      color: "white",
-                      fontSize: "14px",
-                      fontWeight: 600,
-                    }}
-                  >
-                    {item.hyzd === 1
-                      ? t("BuySellPage.buy")
-                      : t("BuySellPage.sell")}{" "}
-                    {item.coinname}
-                  </Typography>
-                  <Typography
-                    sx={{
-                      color: "#909090",
-                      fontSize: "12px",
-                      fontWeight: 600,
-                    }}
-                  >
-                    {t("HistoryPage.status")}: {t("BuySellPage.result")}
-                  </Typography>
-                  <Typography
-                    sx={{
-                      color: "#909090",
-                      fontSize: "12px",
-                      fontWeight: 600,
-                    }}
-                  >
-                    {formatDateTime(item.buytime)}
-                  </Typography>
-                  <Typography
-                    sx={{
-                      color: "#909090",
-                      fontSize: "12px",
-                      fontWeight: 600,
-                    }}
-                  >
-                    {formatDateTime(item.selltime)}
-                  </Typography>
-                </Box>
-                <Box>
-                  {item.hyzd === 1 ? (
-                    <Typography
-                      sx={{
-                        textAlign: "left",
-                        color: "green",
-                        fontSize: "14px",
-                        fontWeight: 600,
-                      }}
-                    >
-                      {t("BuySellPage.buy")}{" "}
-                      {formatCurrency(item.num, "en", "USD")}
-                    </Typography>
-                  ) : (
-                    <Typography
-                      sx={{
-                        textAlign: "left",
-                        color: "green",
-                        fontSize: "14px",
-                        fontWeight: 600,
-                      }}
-                    >
-                      {t("BuySellPage.sell")}{" "}
-                      {formatCurrency(item.num, "en", "USD")}
-                    </Typography>
-                  )}
-                </Box>
+      {history && history.length > 0 ? (
+        history.map((item: IHistoryOpen, index: number) => (
+          <Box
+            key={index}
+            sx={{
+              background: "#1c2735",
+              borderRadius: "14px",
+              padding: "16px 18px",
+              marginBottom: "12px",
+              border: "1px solid rgba(255,255,255,0.08)",
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "flex-start",
+              }}
+            >
+              {/* LEFT */}
+              <Box>
+                <Typography
+                  sx={{
+                    color: "#fff",
+                    fontSize: "14px",
+                    fontWeight: 500,
+                    marginBottom: "6px",
+                  }}
+                >
+                  {item.coinname?.replace("-", "/")}
+                </Typography>
+
+                <Typography sx={{ color: "#9aa4b2", fontSize: 13 }}>
+                  {t("StakingPage.amount")}: {Number(item.num).toLocaleString()}
+                </Typography>
+
+                <Typography sx={{ color: "#9aa4b2", fontSize: 13 }}>
+                  {t("BuySellPage.price_buy")}:{" "}
+                  {Number(item.buyprice).toLocaleString()}
+                </Typography>
+              </Box>
+
+              {/* RIGHT */}
+              <Box sx={{ textAlign: "right" }}>
+                <Typography
+                  sx={{
+                    color: item.hyzd === 1 ? "#4ade80" : "#ef4444",
+                    fontWeight: 600,
+                    fontSize: 15,
+                    marginBottom: "6px",
+                  }}
+                >
+                  {item.hyzd === 1 ? "BUY" : "SELL"}
+                </Typography>
+
+                <Typography sx={{ color: "#9aa4b2", fontSize: 13 }}>
+                  {t("BuySellPage.profit")}: {item.hybl}%
+                </Typography>
+
+                <Typography sx={{ color: "#9aa4b2", fontSize: 13 }}>
+                  {t("BuySellPage.time")}: {timeLeft[item.id] || 0}s
+                </Typography>
               </Box>
             </Box>
-          ))}
-        </Box>
+          </Box>
+        ))
       ) : (
         <Typography
           sx={{
             color: "#9ca3af",
             fontSize: "12px",
             fontWeight: 600,
-            textAlign: "Center",
+            textAlign: "center",
           }}
         >
           {t("AssetPage.no_tran")}

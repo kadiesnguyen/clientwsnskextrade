@@ -10,12 +10,6 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
-import VisibilityOutlined from "@mui/icons-material/VisibilityOutlined";
-import SyncAlt from "@mui/icons-material/SyncAlt";
-import AccountBalanceWalletOutlined from "@mui/icons-material/AccountBalanceWalletOutlined";
-import SwapHorizOutlined from "@mui/icons-material/SwapHorizOutlined";
-import RefreshOutlined from "@mui/icons-material/RefreshOutlined";
-import ChevronRight from "@mui/icons-material/ChevronRight";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { useRouter } from "next/navigation";
 import { useUserStore } from "@/stores/useUserStore";

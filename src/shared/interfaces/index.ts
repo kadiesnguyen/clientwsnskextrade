@@ -264,6 +264,49 @@ export interface ITranferHistory {
   status: number;
 }
 
+export interface IHistoryOpen {
+  id: number;
+  uid: number;
+  username: string;
+  num: number;
+  hybl: number;
+  hyzd: number;
+  coinname: string;
+  status: number;
+  is_win: number;
+  buytime: Date;
+  selltime: Date;
+  intselltime: number;
+  buyprice: string;
+  sellprice: string;
+  ploss: string;
+  time: number;
+  kongyk: number;
+  invit: string;
+  tznum: number;
+}
+export interface IHistoryClose {
+  id: number;
+  uid: number;
+  username: string;
+  num: number;
+  hybl: number;
+  hyzd: number;
+  coinname: string;
+  status: number;
+  is_win: number;
+  buytime: Date;
+  selltime: Date;
+  intselltime: number;
+  buyprice: string;
+  sellprice: string;
+  ploss: string;
+  time: number;
+  kongyk: number;
+  invit: string;
+  tznum: number;
+}
+
 export interface IMyOrepool {
   id: number;
   kid: number;
