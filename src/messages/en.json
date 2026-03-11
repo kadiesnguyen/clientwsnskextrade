@@ -74,7 +74,7 @@
     "title3": "Manage assset",
     "title4": "Welcome to DOIUSDT",
     "title5": "Experience lightning-fast trading and low fees",
-    "title6": " About DOIUSDT",
+    "title6": " Chat",
     "title7": "Log out",
     "Shortcuts": {
       "menu0": "Overview",
@@ -150,6 +150,7 @@
     "price": "Final price",
     "Opening": "Opening time",
     "Close": "Close time",
+    "Second": "Second",
     "Profit_loss": "Profit and loss",
     "Transaction_time": "Transaction time/second",
     "duration": "Duration",

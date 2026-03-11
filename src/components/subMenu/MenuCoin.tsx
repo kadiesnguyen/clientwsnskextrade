@@ -131,98 +131,102 @@ export default function MenuCoin({ data, changeCoin }: props) {
 
   return (
     <>
-      <React.Fragment>
-        <Box
-          sx={{
-            maxWidth: "448px",
-            width: "100%",
-            margin: "auto",
-            left: 0,
-            right: 0,
-            position: "fixed",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            top: 0,
-            textAlign: "center",
-            padding: "0px 20px",
-            background: "#111827",
-            boxShadow: "0px -2px 5px rgba(37, 37, 37, 0.1)",
-            p: 2,
-          }}
+      <Box
+        sx={{
+          maxWidth: "448px",
+          width: "100%",
+          margin: "auto",
+          left: 0,
+          right: 0,
+          position: "fixed",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          top: 0,
+          textAlign: "center",
+          padding: "0px 20px",
+          background: "#111827",
+          boxShadow: "0px -2px 5px rgba(37, 37, 37, 0.1)",
+          p: 2,
+        }}
+      >
+        <IconButton
+          onClick={handleClick}
+          size="small"
+          aria-controls={drawerOpen ? "account-menu" : undefined}
+          aria-haspopup="true"
+          aria-expanded={drawerOpen ? "true" : undefined}
         >
-          <IconButton
-            onClick={handleClick}
-            size="small"
-            aria-controls={drawerOpen ? "account-menu" : undefined}
-            aria-haspopup="true"
-            aria-expanded={drawerOpen ? "true" : undefined}
+          <MenuIcon fill="#fff" width="20px" height="20px" />
+        </IconButton>
+        <Box sx={{ display: "flex", gap: "10px" }}>
+          <Typography fontWeight="500" fontSize={18} color="#fff">
+            {menu.toUpperCase().replace("USDT", "/USDT")}
+          </Typography>
+          <Typography
+            fontWeight="500"
+            fontSize={18}
+            sx={{
+              color: Number(percent) >= 0 ? "#00C853" : "#FF3D00",
+            }}
           >
-            <MenuIcon fill="#fff" width="20px" height="20px" />
-          </IconButton>
-          <Box sx={{ display: "flex", gap: "10px" }}>
-            <Typography fontWeight="500" fontSize={18} color="#fff">
-              {menu.toUpperCase().replace("USDT", "/USDT")}
-            </Typography>
-            <Typography
-              fontWeight="500"
-              fontSize={18}
-              sx={{
-                color: Number(percent) >= 0 ? "#00C853" : "#FF3D00",
-              }}
-            >
-              {Number(percent).toFixed(2)}
-              {Number(percent) < 0 ? (
-                <DownIcon width="16px" height="16px" fill="#ef4444" />
-              ) : (
-                <UpIcon width="16px" height="16px" fill="#22c55e" />
-              )}
-            </Typography>
-          </Box>
-          <Tooltip title="Language">
-            <IconButton onClick={() => router.push("/language")}>
-              <InternetIcon width="20px" height="20px" />
-            </IconButton>
-          </Tooltip>
+            {Number(percent).toFixed(2)}
+            {Number(percent) < 0 ? (
+              <DownIcon width="16px" height="16px" fill="#ef4444" />
+            ) : (
+              <UpIcon width="16px" height="16px" fill="#22c55e" />
+            )}
+          </Typography>
         </Box>
-        <Drawer
-          anchor="left"
-          open={drawerOpen}
-          onClose={handleDrawerClose}
-          sx={{
-            zIndex: 9,
-            padding: 0,
-            "& .MuiDrawer-paper": {
-              width: "60%",
-              background: "#111827",
-              border: "none",
-              borderRadius: 0,
-              p: 0,
-              pb: "200px",
-              overflowY: "auto",
-              "&::-webkit-scrollbar": {
-                display: "none",
-              },
-              scrollbarWidth: "none",
-              msOverflowStyle: "none",
+        <Tooltip title="Language">
+          <IconButton onClick={() => router.push("/language")}>
+            <InternetIcon width="20px" height="20px" />
+          </IconButton>
+        </Tooltip>
+      </Box>
+      <Drawer
+        anchor="left"
+        open={drawerOpen}
+        onClose={handleDrawerClose}
+        sx={{
+          "& .MuiDrawer-paper": {
+            width: "320px",
+            background: "#111827",
+            border: "none",
+
+            position: "fixed",
+
+            left: {
+              xs: 0,
+              sm: "calc(50% - 224px)",
             },
-          }}
-        >
-          {CoinMenuMobile({
-            menu: menu,
-            listCoin,
-            interval,
-            changePercent: (v) => {
-              setPercent(v);
+
+            height: "100%",
+            maxWidth: "448px",
+            overflowY: "auto",
+
+            "&::-webkit-scrollbar": {
+              display: "none",
             },
-            setMenu: (v) => {
-              setMenu(v);
-              data(v);
-              handleDrawerClose();
-            },
-          })}
-        </Drawer>
-      </React.Fragment>
+            scrollbarWidth: "none",
+            msOverflowStyle: "none",
+          },
+        }}
+      >
+        {CoinMenuMobile({
+          menu: menu,
+          listCoin,
+          interval,
+          changePercent: (v) => {
+            setPercent(v);
+          },
+          setMenu: (v) => {
+            setMenu(v);
+            data(v);
+            handleDrawerClose();
+          },
+        })}
+      </Drawer>
     </>
   );
 }

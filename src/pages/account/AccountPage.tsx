@@ -122,27 +122,32 @@ export default function AccountPage() {
         <Box
           sx={{
             display: "flex",
-            p: 2,
+
             justifyContent: "space-between",
             alignItems: "center",
           }}
         >
-          <Box sx={{ display: "flex", flexDirection: "column", gap: "5px" }}>
-            <Typography
-              sx={{ color: "white", fontSize: "16px", fontWeight: 550 }}
-            >
-              {user.username}
-            </Typography>
+          <Box sx={{ display: "flex", flexDirection: "column", pb: "10px" }}>
+            <Box sx={{ display: "flex", gap: "10px", alignItems: "center" }}>
+              <Typography
+                sx={{ color: "white", fontSize: "16px", fontWeight: 550 }}
+              >
+                {user.username}{" "}
+              </Typography>
+              <Box
+                style={{
+                  background: "#a3e635",
+                  width: "8px",
+                  height: "8px",
+                  borderRadius: "100%",
+                }}
+              ></Box>
+            </Box>
             <Box sx={{ display: "flex", gap: "10px" }}>
               <Typography
                 sx={{ color: "#9ca3af", fontSize: "15px", fontWeight: 300 }}
               >
-                ID: {user.id},
-              </Typography>{" "}
-              <Typography
-                sx={{ color: "#9ca3af", fontSize: "15px", fontWeight: 300 }}
-              >
-                VIP Level: {user.level}
+                UID: {user.invit}
               </Typography>
             </Box>
           </Box>

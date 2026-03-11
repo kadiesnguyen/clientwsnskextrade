@@ -22,6 +22,7 @@ import {
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import OrderConfirmModal from "./OrderConfirmModal";
+import { CheckIcon } from "@/shared/Svgs/Svg.component";
 
 interface Props {
   open: boolean;
@@ -126,6 +127,8 @@ export default function TradePopup({
       onClose={onClose}
       PaperProps={{
         sx: {
+          width: "448px",
+          margin: "auto",
           height: "85vh",
           maxHeight: "90vh",
           borderTopLeftRadius: 20,
@@ -239,22 +242,30 @@ export default function TradePopup({
                     );
                   }}
                   sx={{
+                    height: "83px",
                     border: "1px solid",
                     borderColor: type === index ? "#22c55e" : "#334155",
                     borderRadius: 2,
-                    p: 1,
+                    display: "flex",
+                    flexDirection: "column",
+
+                    justifyContent: "center",
+                    alignItems: "center",
+
                     textAlign: "center",
                     cursor: "pointer",
                     background: type === index ? "#064e3b" : "#111827",
+                    position: "relative",
                   }}
                 >
                   <Typography fontSize={12}>
-                    {" "}
-                    {item} {t("BuySellPage.minute")}
+                    {Number(item) * 60} {t("BuySellPage.Second")}
                   </Typography>
                   <Typography fontSize={11} color="#94a3b8">
-                    {t("BuySellPage.profit")} {buySellConfig.hy_ykbl?.[index]}%
+                    {t("BuySellPage.Profitability")}{" "}
+                    {buySellConfig.hy_ykbl?.[index]}%
                   </Typography>
+                  {type === index && <CheckIcon width="14px" height="14px" />}
                 </Box>
               </Grid>
             ))}

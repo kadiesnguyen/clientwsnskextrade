@@ -146,10 +146,7 @@ export default function MyExcavatorPage() {
               <Box
                 key={index}
                 sx={{
-                  width: {
-                    xs: "100%",
-                    sm: "calc(45% - 20px)",
-                  },
+                  width: "100%",
                   background: "#1f2937",
                   boxShadow: "0 4px 20px rgba(0,0,0,0.4)",
                   padding: "10px",
@@ -267,10 +264,7 @@ export default function MyExcavatorPage() {
               <Box
                 key={index}
                 sx={{
-                  width: {
-                    xs: "100%",
-                    sm: "calc(50% - 20px)",
-                  },
+                  width: "100%",
                   background: "#1f2937",
                   boxShadow: "0 4px 20px rgba(0,0,0,0.4)",
                   padding: "10px",

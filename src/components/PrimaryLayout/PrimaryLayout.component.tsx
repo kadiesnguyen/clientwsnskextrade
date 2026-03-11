@@ -39,6 +39,7 @@ import LiveChatWidget from "../LIveChat/LiveChat";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import { useUserStore } from "@/stores/useUserStore";
+import LiveChatPage from "../LIveChat/LiveChat";
 const FooterPage = dynamic(() => import("@/pages/Footer/Footer.page"), {
   ssr: false,
 });
@@ -89,7 +90,7 @@ export default function PrimaryLayoutComponent({
     <>
       <div className="container">
         <main>{children}</main>
-        {path !== "/login/" && path !== "/signup/" && (
+        {path !== "/login/" && path !== "/signup/" && path !== "/chat/" && (
           <nav className="menu-mobile">
             <ul>
               <li>
@@ -231,7 +232,6 @@ export default function PrimaryLayoutComponent({
             onClose={handleClose}
             title="Category"
           /> */}
-
         <SupportPopupComponent
           open={openSupport}
           onClose={() => setOpenSupport(false)}

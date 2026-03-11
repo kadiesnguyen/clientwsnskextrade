@@ -7,6 +7,7 @@ import { IcoinFinace } from "@/interface/user.interface";
 
 type Coin = {
   symbol: string;
+  name: string;
   price: number;
   changePercent: number;
   history: number[];
@@ -39,9 +40,11 @@ export default function CoinMenuMobile({
 
     listCoin.forEach((s) => {
       const symbol = (s.name + "usdt").toLowerCase();
+      const name = s.title + "/USDT";
 
       initial[symbol] = {
         symbol: symbol.toUpperCase(),
+        name: name,
         price: 0,
         changePercent: 0,
         history: [],
@@ -184,7 +187,7 @@ function CoinCard({
       onClick={() => setMenu(coin.symbol.toLowerCase())}
     >
       <Typography fontWeight="bold" sx={{ fontSize: 12, color: "white" }}>
-        {coin.symbol.replace("USDT", "/USDT")}
+        {coin.name}
       </Typography>
 
       <Box textAlign="right">

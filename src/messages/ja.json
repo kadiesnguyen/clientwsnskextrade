@@ -74,7 +74,7 @@
         "title3": "資産管理",
         "title4": "DOIUSDTへようこそ",
         "title5": "高速取引と低手数料を体験",
-        "title6": "DOIUSDTについて",
+        "title6": "メッセージを送る",
         "title7": "ログアウト",
         "Shortcuts": {
             "menu0": "概要",
@@ -151,6 +151,7 @@
         "title1": "カウントダウンが0になるとコマンドが送信されます",
         "amount": "金額",
         "duration": "期間",
+        "Second": "秒",
         "price": "最終価格",
         "Transaction_time": "取引時間／秒",
         "Profit_loss": "損益",

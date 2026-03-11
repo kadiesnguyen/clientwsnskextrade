@@ -108,7 +108,7 @@ export default function ContactPage() {
   return (
     <Box
       sx={{
-        maxWidth: "448px",
+        maxWidth: "768px",
         margin: "auto",
         minHeight: "100vh",
         background: "#111827",
@@ -174,16 +174,22 @@ export default function ContactPage() {
             open={drawerOpen}
             onClose={handleDrawerClose}
             sx={{
-              zIndex: 9,
-              padding: 0,
               "& .MuiDrawer-paper": {
-                width: "60%",
+                width: "320px",
                 background: "#111827",
                 border: "none",
-                borderRadius: 0,
-                p: 0,
-                pb: "200px",
+
+                position: "fixed",
+
+                left: {
+                  xs: 0,
+                  sm: "calc(50% - 224px)",
+                },
+
+                height: "100%",
+                maxWidth: "448px",
                 overflowY: "auto",
+
                 "&::-webkit-scrollbar": {
                   display: "none",
                 },

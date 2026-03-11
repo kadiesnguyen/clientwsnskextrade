@@ -120,7 +120,7 @@ export default function ChartViewCustom({
       try {
         setLoading(true);
         const res = await fetch(
-          `https://api.binance.com/api/v3/klines?symbol=${symbol.toUpperCase()}&interval=${interval}&limit=20`,
+          `https://api.binance.com/api/v3/klines?symbol=${symbol.toUpperCase()}&interval=${interval}&limit=25`,
         );
 
         const data = await res.json();

@@ -74,7 +74,7 @@
     "title3": "Quản lý tài sản",
     "title4": "Chào mừng đến với DOIUSDT",
     "title5": "Trải nghiệm giao dịch siêu nhanh và phí thấp",
-    "title6": "Giới thiệu về DOIUSDT",
+    "title6": "Nhắn tin",
     "title7": "Đăng xuất",
     "Shortcuts": {
       "menu0": "Tổng quan",
@@ -148,6 +148,7 @@
     "Close": "Thời gian đóng",
     "price_buy": "Giá mua",
     "price_sell": "Giá bán",
+    "Second": "Giây",
     "Closed": "Đóng",
     "duration": "Thời lượng",
     "Profit_loss": "Lợi nhuận và thua lỗ",

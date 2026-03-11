@@ -142,7 +142,7 @@ export default function HomePage() {
             {
               key: "service",
               icon: "/images/icon-service.png",
-              link: "#",
+              link: "/chat",
             },
             {
               key: "verified",

@@ -166,9 +166,10 @@ export default function RechargePage() {
               cursor: "pointer",
             }}
             onClick={() => {
-              if (configs?.telegram) {
-                window.open(configs.telegram, "_blank");
-              }
+              // if (configs?.telegram) {
+              //   window.open(configs.telegram, "_blank");
+              // }
+              router.push("/chat");
             }}
           >
             <Typography>Bank Card Recharge</Typography>
