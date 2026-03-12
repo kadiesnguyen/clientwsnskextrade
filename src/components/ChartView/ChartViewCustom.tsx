@@ -65,8 +65,12 @@ export default function ChartViewCustom({
         textColor: "#A0AEC0",
       },
       grid: {
-        vertLines: { color: "#1e2a3a" },
-        horzLines: { color: "#1e2a3a" },
+        vertLines: {
+          visible: false,
+        },
+        horzLines: {
+          visible: false,
+        },
       },
       rightPriceScale: {
         borderColor: "#1e2a3a",
