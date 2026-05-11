@@ -1,585 +1,321 @@
 "use client";
-
-import MenuCoin from "@/components/subMenu/MenuCoin";
-import { IcoinFinace } from "@/interface/user.interface";
-import { postTradeMarket } from "@/services/User.service";
-import { DownIcon } from "@/shared/Svgs/Svg.component";
-import { useUserStore } from "@/stores/useUserStore";
-import { ErrorOutline } from "@mui/icons-material";
 import {
   Box,
-  Typography,
-  Stack,
   Button,
-  ToggleButton,
-  ToggleButtonGroup,
+  Divider,
+  FormControl,
+  InputLabel,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  MenuItem,
+  Select,
+  Tab,
+  Tabs,
   TextField,
-  Slider,
+  Typography,
 } from "@mui/material";
-import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
+import React, { useEffect, useRef, useState } from "react";
+import TradeChart from "@/components/ChartView/TradeChart";
+import {
+  getBuySellConfig,
+  getListCoin,
+  getOrderResult,
+  getProgressContract,
+} from "@/services/User.service";
 import { toast } from "react-toastify";
+import useAuth from "@/hook/useAuth";
+import BuyComponent from "@/components/Trade/BuyComponent";
+import SellComponent from "@/components/Trade/SellComponent";
+import {
+  ArrowDropDownCircleOutlined,
+  CloseOutlined,
+} from "@mui/icons-material";
+import TradingViewSymbolInfo from "@/components/ChartView/SymbolDetail";
+import { formatCurrency } from "@/utils/formatMoney";
+import {
+  ArrowTrendDownIcon,
+  ArrowTrendUpIcon,
+  HistoryIcon,
+} from "@/shared/Svgs/Svg.component";
+import { useTranslation } from "react-i18next";
+import CoinSidebar from "@/components/coins/CoinSidebar";
+import CoinHeader from "@/components/coins/CoinHeader";
+import TradingChart from "@/components/coins/TradingChart";
 
-type Order = {
-  price: number;
-  qty: number;
-};
+interface TabPanelProps {
+  children?: React.ReactNode;
+  index: number;
+  value: number;
+}
+
+function CustomTabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && <Box sx={{ p: 1 }}>{children}</Box>}
+    </div>
+  );
+}
+
+function a11yProps(index: number) {
+  return {
+    id: `simple-tab-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
+  };
+}
+
+export interface Icoin {
+  coinname: string;
+  id: number;
+  name: string;
+  sort: number;
+  status: number;
+  symbol: string;
+  title: string;
+}
 
 export default function TradePage() {
-  const [symbol, setSymbol] = useState("btcusdt");
-  const [price, setPrice] = useState(0);
-  const [percent, setPercent] = useState(0);
-  const [bids, setBids] = useState<Order[]>([]);
-  const [asks, setAsks] = useState<Order[]>([]);
-  const [side, setSide] = useState<"buy" | "sell">("buy");
-  const [quantity, setQuantity] = useState("0.00");
-  const [sliderValue, setSliderValue] = useState(0);
-  const [coin, setCoin] = useState<IcoinFinace>();
-  const { user, fetchUser } = useUserStore();
-  const [orderType, setOrderType] = useState<"market" | "limit">("market");
-  const [limitPrice, setLimitPrice] = useState("");
-  const [inputSource, setInputSource] = useState<"slider" | "input">("slider");
-  const router = useRouter();
-  const { t, i18n } = useTranslation();
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
+  const { t } = useTranslation();
+  const { user } = useAuth();
+  const [selectedCoin, setSelectedCoin] = useState<Icoin>({
+    coinname: "btc",
+    id: 1,
+    name: "btcusdt",
+    sort: 1,
+    status: 1,
+    symbol: "btc-usdt",
+    title: "BTC/USDT",
+  });
 
-  useEffect(() => {
-    fetchUser();
-  }, [fetchUser]);
+  const [listCoin, setListCoin] = useState<Icoin[] | null>(null);
+  const [coin, setCoin] = useState<any>("BTCUSDT");
+  const [symbol, setSymbol] = useState<any>("btc-usdt");
+  const [coinTitle, setCoinTitle] = useState<any>("BTC/USDT");
+  const [value, setValue] = useState(0);
+  const [result, setResult] = useState<any>(null);
+  const [progressContract, setProgressContract] = useState<any>(null);
+  const [trade, setTrade] = useState<any>(null);
+  const [countdown, setCountdown] = useState<number | null>(null);
+  const [showPopup, setShowPopup] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  // ===== REALTIME PRICE =====
-  useEffect(() => {
-    const ws = new WebSocket(
-      `wss://stream.binance.com:9443/ws/${symbol}@ticker`,
-    );
-
-    ws.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      const last = parseFloat(data.c);
-      const open = parseFloat(data.o);
-
-      setPrice(last);
-      setPercent(((last - open) / open) * 100);
-    };
-
-    return () => ws.close();
-  }, [symbol]);
-
-  useEffect(() => {
-    if (!user || !price) return;
-    if (inputSource !== "slider") return;
-
-    const balance = Number(user.balance.usdt_total || 0);
-
-    const usdtAmount = (balance * sliderValue) / 100;
-    const coinAmount = usdtAmount / price;
-
-    setQuantity(coinAmount.toFixed(6));
-  }, [sliderValue, user, price, inputSource]);
-
-  const handleQuantityChange = (value: string) => {
-    setInputSource("input");
-    setQuantity(value);
-
-    if (!user || !price) return;
-
-    const balance = Number(user.balance.usdt_total || 0);
-    const qty = Number(value);
-
-    if (!qty) {
-      setSliderValue(0);
-      return;
-    }
-
-    const usdtUsed = qty * price;
-    const percent = (usdtUsed / balance) * 100;
-
-    setSliderValue(Math.min(100, Math.max(0, Number(percent.toFixed(2)))));
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue);
   };
-
-  const handleSliderChange = (value: number) => {
-    setInputSource("slider");
-    setSliderValue(value);
-  };
-  // ===== BINANCE ORDER BOOK WS =====
   useEffect(() => {
-    const ws = new WebSocket(
-      `wss://stream.binance.com:9443/ws/${symbol}@depth20@100ms`,
-    );
+    const fetchData = async () => {
+      const resCoin: any = await getListCoin();
 
-    ws.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-
-      const bidsData = data.bids || data.b || [];
-      const asksData = data.asks || data.a || [];
-
-      setBids(
-        bidsData.slice(0, 8).map((b: any) => ({
-          price: parseFloat(b[0]),
-          qty: parseFloat(b[1]),
-        })),
-      );
-
-      setAsks(
-        asksData.slice(0, 8).map((a: any) => ({
-          price: parseFloat(a[0]),
-          qty: parseFloat(a[1]),
-        })),
-      );
+      // Xử lý danh sách coin
+      if (resCoin.data) {
+        setListCoin(resCoin.data);
+        setSelectedCoin(resCoin.data[0]);
+      }
     };
+    fetchData();
+  }, []);
+  console.log("list", listCoin);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Gọi API lấy danh sách coin và cấu hình mua bán
+        const [buySellConfig, result] = await Promise.all([
+          getBuySellConfig(),
+          getProgressContract(),
+        ]);
 
-    return () => ws.close();
-  }, [symbol]);
-
-  // ===== MAX VOLUME FOR DEPTH BAR =====
-  const maxQty = useMemo(() => {
-    const all = [...bids.map((b) => b.qty), ...asks.map((a) => a.qty)];
-    return Math.max(...all, 1);
-  }, [bids, asks]);
-
-  const formatPrice = (p: number) => p.toLocaleString();
-  const formatQty = (q: number) => q.toFixed(5);
-
-  const onSubmit = async () => {
-    console.log("coin", coin);
-
-    try {
-      if (coin) {
-        if (orderType == "market") {
-          const res = await postTradeMarket(
-            coin.id,
-            side,
-            "market",
-            null,
-            quantity,
+        // Xử lý progress contract
+        if (result && result.data) {
+          const fixedSellTimeStr = result.data.selltime.replace(
+            /\.\d{6}Z$/,
+            "Z",
           );
-          if (res.status) {
-            toast.success(t("Toast.buysell3"));
-            setQuantity("");
-            setLimitPrice("");
+          const sellTime = new Date(fixedSellTimeStr).getTime();
+          const now = Date.now();
+          const remainingSeconds = Math.floor((sellTime - now) / 1000);
+
+          if (remainingSeconds > 0) {
+            setProgressContract(result.data);
+            setCountdown(remainingSeconds);
+          } else {
+            setProgressContract(null);
+            setCountdown(null);
           }
         } else {
-          const res = await postTradeMarket(
-            coin.id,
-            side,
-            "limit",
-            limitPrice,
-            quantity,
-          );
-          if (res.status) {
-            toast.success(t("Toast.buysell3"));
-            setQuantity("");
-            setLimitPrice("");
-          }
+          setProgressContract(null);
+          setCountdown(null);
         }
+      } catch (error: any) {
+        // console.error("Error fetching data:", error);
+        // toast.error(error?.message || "Failed to fetch data");
       }
+    };
+
+    fetchData();
+  }, []);
+  const handleClick = (coin: any) => {
+    if (coin) {
+      setCoinTitle(coin);
+      const [base, quote] = coin.split("/");
+      setCoin(base + quote);
+    }
+  };
+  useEffect(() => {
+    if (countdown === null || countdown <= 0) return;
+
+    const interval = setInterval(() => {
+      setCountdown((prev) => {
+        if (prev && prev <= 1) {
+          clearInterval(interval);
+          setProgressContract(null);
+
+          setTimeout(() => {
+            fetchResult();
+          }, 4000);
+
+          return 0;
+        }
+        return (prev ?? 0) - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [countdown]);
+
+  const preloadImage = (src: string): Promise<void> => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.src = src;
+      img.onload = () => resolve();
+      img.onerror = () => {
+        resolve(); // Tiếp tục thực thi thay vì reject
+      };
+    });
+  };
+
+  const fetchResult = async () => {
+    try {
+      const tradeId = window.localStorage.getItem("tradeId");
+
+      if (!tradeId || !progressContract?.id) {
+        throw new Error("Missing trade ID or progress contract ID");
+      }
+
+      const res = await getOrderResult(progressContract.id);
+
+      setResult(res.data);
+      setCountdown(null);
+      setTrade(null);
+      await preloadImage("/images/thongbao.png");
+      setShowPopup(true);
     } catch (error: any) {
-      toast.error(error.message);
+      toast.error(t("Toast.buysell"));
+    }
+  };
+  useEffect(() => {
+    if (showPopup) {
+      const timeout = setTimeout(() => {
+        setShowPopup(false); // Ẩn popup sau 5 giây
+        setResult(null); // Reset kết quả nếu cần
+      }, 5000);
+
+      return () => clearTimeout(timeout); // Clear khi component unmount hoặc showPopup thay đổi
+    }
+  }, [showPopup]);
+
+  const fetchProgressContract = async () => {
+    try {
+      const res: any = await getProgressContract();
+      if (res.data) {
+        const fixedSellTimeStr = res.data.selltime.replace(/\.\d{6}Z$/, "Z");
+        const sellTime = new Date(fixedSellTimeStr).getTime();
+        const now = Date.now();
+        const remainingSeconds = Math.floor((sellTime - now) / 1000);
+
+        if (remainingSeconds > 0) {
+          setProgressContract(res.data);
+          setCountdown(remainingSeconds);
+        } else {
+          setProgressContract(null);
+          setCountdown(null);
+        }
+      } else {
+        setProgressContract(null);
+        setCountdown(null);
+      }
+    } catch (error) {
+      console.error("Error fetching progress contract:", error);
+      setProgressContract(null);
     }
   };
   return (
-    <Box
-      sx={{
-        maxWidth: "448px",
-        margin: "auto",
-        minHeight: "100vh",
-        background: "#111827",
-        p: 2,
-        pb: "130px",
-      }}
-    >
-      <MenuCoin
-        changeCoin={(v) => setCoin(v)}
-        data={(v) => {
-          setSymbol(v);
+    <Box sx={{ background: "#000", paddingTop: { xs: "0px", sm: "70px" } }}>
+      <Box
+        sx={{
+          height: "900px",
+          pt: 1,
         }}
-      />
-      <Box mt={2}>
-        <Typography
-          fontSize={25}
-          fontWeight="bold"
-          color={percent >= 0 ? "#00C853" : "#FF3D00"}
-          sx={{ borderBottom: "1px solid rgb(55 65 81)" }}
+      >
+        <CoinHeader coin={selectedCoin} />
+        <Box
+          sx={{
+            display: {
+              xs: "block",
+              sm: "flex",
+            },
+            gap: "10px",
+          }}
         >
-          {price.toLocaleString()}
-        </Typography>
-
-        {/* ORDER BOOK */}
-        <Box mt={3}>
-          {/* HEADER */}
-          <Stack direction="row" justifyContent="space-between" mb={1}>
-            <Typography fontSize={12} color="#9ca3af" width="25%">
-              {t("Toast.price")}
-            </Typography>
-
-            <Typography fontSize={12} color="#9ca3af" textAlign="center">
-              {t("AssetPage.quantity")}
-            </Typography>
-
-            <Typography
-              fontSize={12}
-              color="#9ca3af"
-              width="25%"
-              textAlign="right"
-            >
-              {t("Toast.price")}
-            </Typography>
-          </Stack>
-
-          {Array.from({ length: 5 }).map((_, i) => {
-            const ask = asks[4 - i];
-            const bid = bids[i];
-
-            const askDepth = ask ? (ask.qty / maxQty) * 100 : 0;
-            const bidDepth = bid ? (bid.qty / maxQty) * 100 : 0;
-
-            return (
-              <Box
-                key={i}
-                sx={{
-                  position: "relative",
-                  height: 24,
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
-                {/* RED DEPTH */}
-                {ask && (
-                  <Box
-                    sx={{
-                      position: "absolute",
-                      left: 0,
-                      height: "100%",
-                      width: `${askDepth * 0.375}%`,
-                      background: "rgba(239,68,68,0.25)",
-                      pointerEvents: "none",
-                      transition: "width 0.2s ease",
-                    }}
-                  />
-                )}
-
-                {/* GREEN DEPTH */}
-                {bid && (
-                  <Box
-                    sx={{
-                      position: "absolute",
-                      right: 0,
-                      height: "100%",
-                      width: `${bidDepth * 0.375}%`,
-                      background: "rgba(34,197,94,0.25)",
-                      pointerEvents: "none",
-                      transition: "width 0.2s ease",
-                    }}
-                  />
-                )}
-
-                <Box
-                  width="100%"
-                  fontSize={13}
-                  sx={{
-                    zIndex: 2,
-                    display: "flex",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  {/* ASK PRICE */}
-                  <Box width="25%" color="#ef4444">
-                    {ask ? formatPrice(ask.price) : "-"}
-                  </Box>
-
-                  <Box sx={{ display: "flex", gap: "20px" }}>
-                    {/* ASK QTY */}
-                    <Box width="25%" textAlign="right" color="white">
-                      {ask ? formatQty(ask.qty) : "-"}
-                    </Box>
-
-                    {/* BID QTY */}
-                    <Box width="25%" textAlign="left" color="white" ml={"10px"}>
-                      {bid ? formatQty(bid.qty) : "-"}
-                    </Box>
-                  </Box>
-
-                  {/* BID PRICE */}
-                  <Box width="25%" textAlign="right" color="#22c55e">
-                    {bid ? formatPrice(bid.price) : "-"}
-                  </Box>
-                </Box>
-              </Box>
-            );
-          })}
-        </Box>
-        <Stack direction="row" spacing={1} mt={3} alignItems="center">
-          {/* BUY */}
-          <Button
-            onClick={() => setSide("buy")}
-            sx={{
-              px: 1,
-              borderRadius: 999,
-              textTransform: "none",
-              fontWeight: 600,
-              background: side === "buy" ? "#34d399" : "#1e293b",
-              color: side === "buy" ? "#0f172a" : "white",
-              "&:hover": {
-                background: side === "buy" ? "#34d399" : "#273549",
-              },
-            }}
-          >
-            {t("HistoryPage.Purchase")}
-          </Button>
-
-          {/* SELL */}
-          <Button
-            onClick={() => setSide("sell")}
-            sx={{
-              px: 1,
-              borderRadius: 999,
-              textTransform: "none",
-              fontWeight: 600,
-              background: side === "sell" ? "#ef4444" : "#1e293b",
-              color: "white",
-              "&:hover": {
-                background: side === "sell" ? "#ef4444" : "#273549",
-              },
-            }}
-          >
-            {t("BuySellPage.sell1")}
-          </Button>
-
-          <Box
-            onClick={() =>
-              setOrderType((prev) => (prev === "market" ? "limit" : "market"))
-            }
-            sx={{
-              flex: 1,
-              background: "#1e293b",
-              borderRadius: 999,
-              px: 2,
-              py: 1,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              cursor: "pointer",
-              userSelect: "none",
-              gap: "3px",
-            }}
-          >
-            <ErrorOutline sx={{ fontSize: "16px", color: "white" }} />
-            <Typography fontSize={13} color="white">
-              {orderType === "market"
-                ? t("StakingPage.Market")
-                : t("StakingPage.Limit")}{" "}
-            </Typography>
-            <DownIcon width="20px" height="20px" fill="white" />
-          </Box>
-        </Stack>
-
-        {/* FORM */}
-        <Box mt={3} p={2} bgcolor="#1e293b" borderRadius={3}>
-          <Typography fontSize={12} color="#9ca3af">
-            {t("Toast.price")}
-          </Typography>
-
-          {orderType === "market" ? (
-            <Typography
-              fontSize={14}
-              color="#9ca3af"
-              sx={{ mt: 1, borderBottom: "1px solid rgb(55 65 81)", p: "5px" }}
-            >
-              {t("Toast.Coin_title")}
-            </Typography>
-          ) : (
-            <TextField
-              fullWidth
-              variant="standard"
-              value={limitPrice}
-              onChange={(e) => setLimitPrice(e.target.value)}
-              placeholder={Number(price).toLocaleString()}
-              type="number"
-              InputProps={{
-                disableUnderline: true,
-                style: { color: "white" },
-              }}
-              sx={{
-                mt: 1,
-                background: "#1e293b",
-                borderBottom: "1px solid rgb(55 65 81)",
-                px: 1,
-                py: 0.5,
-              }}
-            />
-          )}
-
-          <Box
-            sx={{ display: "flex", justifyContent: "space-between", pb: "5px" }}
-          >
-            <Typography fontSize={12} color="#9ca3af" mt={2}>
-              {t("AssetPage.quantity")}
-            </Typography>
-            <Typography fontSize={12} color="#ef4444" mt={2}>
-              {t("StakingPage.Handling")}: 0.001%
-            </Typography>
-          </Box>
-
-          <TextField
-            fullWidth
-            variant="standard"
-            value={quantity}
-            onChange={(e) => handleQuantityChange(e.target.value)}
-            placeholder={t("StakingPage.input_quantity")}
-            type="number"
-            InputProps={{
-              disableUnderline: true,
-              style: { color: "white", background: "#1e293b" },
-            }}
-            sx={{
-              "& .MuiInput-input": {
-                background: "#1e293b",
-                borderBottom: "1px solid rgb(55 65 81)",
-              },
-            }}
-          />
-
-          <Box sx={{ display: "flex", gap: "5px", alignItems: "center" }}>
-            <Typography
-              sx={{
-                width: "50px",
-                color: "#9ca3af",
-                fontSize: "12px",
-                pt: "10px",
-              }}
-            >
-              {sliderValue}%
-            </Typography>
-            <Slider
-              value={sliderValue}
-              // onChange={(e, v) => handleSliderChange(v as number)}
-              sx={{
-                mt: 2,
-                color: sliderValue ? "#34d399" : "rgb(55 65 81)",
-
-                // Ẩn nút tròn
-                "& .MuiSlider-thumb": {
-                  display: "none",
-                },
-
-                // Giữ chiều cao đẹp hơn
-                "& .MuiSlider-track": {
-                  height: 6,
-                },
-                "& .MuiSlider-rail": {
-                  height: 6,
-                  opacity: 0.3,
-                },
-              }}
-            />
-          </Box>
-
           <Box
             sx={{
-              display: "flex",
-              justifyContent: "space-around",
-              overflowY: "auto",
-              scrollbarWidth: "none",
-              msOverflowStyle: "none",
-              gap: "5px",
-              "&::-webkit-scrollbar": {
-                display: "none",
+              display: {
+                xs: "none",
+                sm: "block",
               },
+              width: "100%",
             }}
           >
-            {[0, 25, 50, 75, 100].map((v) => (
-              <Button
-                key={v}
-                size="small"
-                onClick={() => handleSliderChange(v)}
-                sx={{
-                  fontSize: 11,
-                  color: "white",
-                  background: "#334155",
-                  borderRadius: "20px",
-                  "&:hover": {
-                    background: "#3f4957ff",
-                  },
-                }}
-              >
-                {v}%
-              </Button>
-            ))}
-          </Box>
-        </Box>
-
-        {/* FOOTER */}
-        {user ? (
-          <Box mt={3}>
-            <Stack direction="row" justifyContent="space-between" fontSize={12}>
-              <Typography sx={{ color: "#9ca3af", fontSize: "12px" }}>
-                {t("DepositWithdrawPage.message")}
-              </Typography>
-              <Typography sx={{ color: "white", fontSize: "12px" }}>
-                {Number(user?.balance.usdt_total).toLocaleString()} USDT
-              </Typography>
-            </Stack>
-
-            <Stack
-              direction="row"
-              justifyContent="space-between"
-              fontSize={12}
-              mt={1}
-            >
-              <Typography sx={{ color: "#9ca3af", fontSize: "12px" }}>
-                {t("DepositWithdrawPage.transa_v")}
-              </Typography>
-              <Typography sx={{ color: "white", fontSize: "12px" }}>
-                {orderType == "market"
-                  ? (Number(price) * Number(quantity)).toLocaleString()
-                  : (
-                      Number(limitPrice) * Number(quantity)
-                    ).toLocaleString()}{" "}
-                USDT
-              </Typography>
-            </Stack>
-
-            <Button
-              fullWidth
-              disabled={quantity.length == 0}
-              onClick={onSubmit}
-              sx={{
-                mt: 3,
-                background: "#34d399",
-                color: "black",
-                fontWeight: "bold",
-                borderRadius: 3,
-                p: 1.5,
-                textTransform: "capitalize",
-                "&:hover": {
-                  background: "#2cad7eff",
-                },
-              }}
-            >
-              {t("DepositWithdrawPage.tab4")}
-            </Button>
-          </Box>
-        ) : (
-          <Box sx={{ width: "100%", mt: 3, mb: 3 }}>
-            <Button
+            <Box
               sx={{
                 width: "100%",
-                background: "#2eb862ff",
-                color: "white",
-                height: "50px",
-                textTransform: "none",
-                "&:hover": {
-                  background: "#1d974cff",
-                },
+                height: "100vh",
+                display: "grid",
+                gridTemplateColumns: "280px 1fr",
+                background: "#000",
               }}
-              onClick={() => router.push("/login")}
             >
-              {t("Toast.btn_login")}
-            </Button>
+              {/* LEFT */}
+              <CoinSidebar
+                coins={listCoin}
+                selectedCoin={selectedCoin}
+                onSelect={setSelectedCoin}
+              />
+
+              {/* RIGHT */}
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  borderLeft: "1px solid #111",
+                }}
+              >
+                <Box sx={{ flex: 1 }}>
+                  <TradingChart symbol={selectedCoin?.name} />
+                </Box>
+              </Box>
+            </Box>
           </Box>
-        )}
+        </Box>
       </Box>
     </Box>
   );

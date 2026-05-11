@@ -242,7 +242,7 @@ export default function HomeDesktop({
               backgroundImage:
                 "linear-gradient(90deg, rgb(0, 188, 255) 0%, rgb(0, 171, 255) 6.66%, rgb(112, 77, 255) 21.88%, rgb(156, 51, 255) 50.9%, rgb(40, 79, 255) 78.01%, rgb(3, 143, 251) 93.23%)",
               borderRadius: "40px",
-              padding: "2px 5px",
+              padding: "2px 2px",
               margin: "auto",
               mt: 3,
             }}
