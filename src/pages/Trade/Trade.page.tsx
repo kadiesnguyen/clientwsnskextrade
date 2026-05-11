@@ -1,23 +1,6 @@
 "use client";
-import {
-  Box,
-  Button,
-  Divider,
-  FormControl,
-  InputLabel,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
-  MenuItem,
-  Select,
-  Tab,
-  Tabs,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
-import TradeChart from "@/components/ChartView/TradeChart";
 import {
   getBuySellConfig,
   getListCoin,
@@ -26,19 +9,6 @@ import {
 } from "@/services/User.service";
 import { toast } from "react-toastify";
 import useAuth from "@/hook/useAuth";
-import BuyComponent from "@/components/Trade/BuyComponent";
-import SellComponent from "@/components/Trade/SellComponent";
-import {
-  ArrowDropDownCircleOutlined,
-  CloseOutlined,
-} from "@mui/icons-material";
-import TradingViewSymbolInfo from "@/components/ChartView/SymbolDetail";
-import { formatCurrency } from "@/utils/formatMoney";
-import {
-  ArrowTrendDownIcon,
-  ArrowTrendUpIcon,
-  HistoryIcon,
-} from "@/shared/Svgs/Svg.component";
 import { useTranslation } from "react-i18next";
 import CoinSidebar from "@/components/coins/CoinSidebar";
 import CoinHeader from "@/components/coins/CoinHeader";

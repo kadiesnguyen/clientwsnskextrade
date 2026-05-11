@@ -27,9 +27,14 @@ export default function TradingChart({ symbol }: { symbol: string }) {
       theme: "dark",
       style: "1",
       locale: "en",
+
       hide_top_toolbar: true,
+      hide_legend: true,
+      hide_side_toolbar: true,
+
       allow_symbol_change: false,
       save_image: false,
+
       support_host: "https://www.tradingview.com",
     });
 
