@@ -1,25 +1,40 @@
 import { useEffect, useState } from "react";
 
-export function useTicker(symbol: string) {
-  const [ticker, setTicker] = useState<any>(null);
+interface TickerData {
+  open: number;
+  close: number;
+  high: number;
+  low: number;
+  volume: number;
+  change: number;
+}
 
+export function useTicker(symbol: string, interval: string) {
+  const [ticker, setTicker] = useState<TickerData | null>(null);
   useEffect(() => {
     if (!symbol) return;
+    const pair = symbol.replace("-", "").replace("/", "").toLowerCase();
 
-    const pair = symbol.replace("-", "").toLowerCase();
-
-    const ws = new WebSocket(`wss://stream.binance.com:9443/ws/${pair}@ticker`);
+    const ws = new WebSocket(
+      `wss://stream.binance.com:9443/ws/${pair}@kline_${interval}`,
+    );
 
     ws.onmessage = (event) => {
-      const data = JSON.parse(event.data);
+      const message = JSON.parse(event.data);
+
+      const kline = message.k;
+
+      const open = Number(kline.o);
+      const close = Number(kline.c);
 
       setTicker({
-        open: Number(data.o),
-        price: Number(data.c),
-        change: Number(data.P),
-        high: Number(data.h),
-        low: Number(data.l),
-        volume: Number(data.v),
+        open,
+        close,
+        high: Number(kline.h),
+        low: Number(kline.l),
+        volume: Number(kline.v),
+
+        change: ((close - open) / open) * 100,
       });
     };
 
@@ -30,7 +45,7 @@ export function useTicker(symbol: string) {
     return () => {
       ws.close();
     };
-  }, [symbol]);
+  }, [symbol, interval]);
 
   return ticker;
 }

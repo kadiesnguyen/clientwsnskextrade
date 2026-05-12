@@ -39,7 +39,7 @@ const symbols = [
   "bnbusdt",
   "usdcusdt",
 ];
-const iconMap: Record<string, string> = {
+export const iconMap: Record<string, string> = {
   BTC: "https://cdn.jsdelivr.net/gh/simplr-sh/coin-logos/images/bitcoin/small.png",
   ETH: "https://cdn.jsdelivr.net/gh/simplr-sh/coin-logos/images/ethereum/small.png",
   BCH: "https://cdn.jsdelivr.net/gh/simplr-sh/coin-logos/images/bitcoin-cash/small.png",

@@ -7,16 +7,36 @@ import {
   Avatar,
   Box,
   Divider,
+  Drawer,
   IconButton,
   Stack,
   Typography,
 } from "@mui/material";
+import { useEffect, useState } from "react";
+import CoinMenuMobile from "./CoinMenuMobile";
+import { IcoinFinace } from "@/interface/user.interface";
+import { getFinaceCoin } from "@/services/User.service";
+import { iconMap } from "./CoinPage";
+import { getTickerBySymbol } from "@/services/binance";
 
-export default function CoinHeader({ coin, onOpenMenu }: any) {
-  const ticker = useTicker(coin?.symbol);
+export default function CoinHeader({ coin, time, setMenuCoin }: any) {
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [percent, setPercent] = useState("");
+  const [listCoin, setListCoin] = useState<IcoinFinace[]>([]);
+  const [menu, setMenu] = useState("btcusdt");
+  const [ticker, setTicker] = useState<any>(null);
+  useEffect(() => {
+    const fetchTicker = async () => {
+      const data = await getTickerBySymbol(menu, time);
 
+      if (data) {
+        setTicker(data);
+      }
+    };
+
+    fetchTicker();
+  }, [menu, time]);
   const isUp = Number(ticker?.change || 0) >= 0;
-
   const formatNumber = (value: number) => {
     if (!value) return "--";
 
@@ -25,7 +45,30 @@ export default function CoinHeader({ coin, onOpenMenu }: any) {
       maximumFractionDigits: 4,
     });
   };
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setDrawerOpen(true);
+  };
 
+  const handleDrawerClose = () => {
+    setDrawerOpen(false);
+  };
+
+  const referral = async () => {
+    try {
+      const listCoin: any = await getFinaceCoin();
+
+      if (listCoin.status === true) {
+        setListCoin(listCoin.data);
+      }
+    } catch (errors: any) {
+      console.log(errors?.message);
+    }
+  };
+  useEffect(() => {
+    referral();
+  }, []);
+
+  const baseSymbol = coin.title.replace("/USDT", "");
   return (
     <Box
       sx={{
@@ -96,7 +139,7 @@ export default function CoinHeader({ coin, onOpenMenu }: any) {
               lineHeight: 1,
             }}
           >
-            {formatNumber(ticker?.price)}
+            {formatNumber(ticker?.close ?? 0)}
           </Typography>
 
           <Typography
@@ -106,7 +149,7 @@ export default function CoinHeader({ coin, onOpenMenu }: any) {
               mt: 0.3,
             }}
           >
-            {formatNumber(ticker?.price)}
+            {formatNumber(ticker?.close ?? 0)}
           </Typography>
         </Box>
 
@@ -120,14 +163,14 @@ export default function CoinHeader({ coin, onOpenMenu }: any) {
         {/* HIGH */}
         <InfoItem
           label="24H Giá cao nhất"
-          value={formatNumber(ticker?.high)}
+          value={formatNumber(ticker?.high ?? 0)}
           color="#00e676"
         />
 
         {/* LOW */}
         <InfoItem
           label="24H Giá thấp nhất"
-          value={formatNumber(ticker?.low)}
+          value={formatNumber(ticker?.low ?? 0)}
           color="#ff5252"
         />
 
@@ -156,8 +199,11 @@ export default function CoinHeader({ coin, onOpenMenu }: any) {
         >
           <Stack direction="row" alignItems="center" spacing={1}>
             <IconButton
-              onClick={onOpenMenu}
+              onClick={handleClick}
               size="small"
+              aria-controls={drawerOpen ? "account-menu" : undefined}
+              aria-haspopup="true"
+              aria-expanded={drawerOpen ? "true" : undefined}
               sx={{
                 color: "#fff",
                 p: 0.5,
@@ -167,12 +213,11 @@ export default function CoinHeader({ coin, onOpenMenu }: any) {
             </IconButton>
 
             <Avatar
-              src={`https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/128/color/${coin?.coinname?.toLowerCase()}.png`}
-              sx={{
-                width: 24,
-                height: 24,
-              }}
-            />
+              src={iconMap[baseSymbol] || ""}
+              sx={{ width: 28, height: 28 }}
+            >
+              {baseSymbol.charAt(0)}
+            </Avatar>
 
             <Typography
               sx={{
@@ -194,11 +239,11 @@ export default function CoinHeader({ coin, onOpenMenu }: any) {
             mt: 1,
           }}
         >
-          <MobileItem label="Open" value={formatNumber(ticker?.open)} />
+          <MobileItem label="Open" value={formatNumber(ticker?.open ?? 0)} />
 
-          <MobileItem label="Close" value={formatNumber(ticker?.price)} />
+          <MobileItem label="Close" value={formatNumber(ticker?.close ?? 0)} />
 
-          <MobileItem label="Low" value={formatNumber(ticker?.low)} />
+          <MobileItem label="Low" value={formatNumber(ticker?.low ?? 0)} />
 
           <MobileItem
             label="Volume"
@@ -222,7 +267,7 @@ export default function CoinHeader({ coin, onOpenMenu }: any) {
               fontSize: 30,
             }}
           >
-            ${formatNumber(ticker?.price)}
+            ${formatNumber(ticker?.close ?? 0)}
           </Typography>
           <Typography
             sx={{
@@ -238,6 +283,49 @@ export default function CoinHeader({ coin, onOpenMenu }: any) {
           </Typography>
         </Stack>
       </Box>
+      <Drawer
+        anchor="left"
+        open={drawerOpen}
+        onClose={handleDrawerClose}
+        sx={{
+          "& .MuiDrawer-paper": {
+            width: "70%",
+            background: "#111827",
+            border: "none",
+
+            position: "fixed",
+
+            left: {
+              xs: 0,
+              sm: "calc(50% - 224px)",
+            },
+
+            height: "100%",
+            maxWidth: "448px",
+            overflowY: "auto",
+
+            "&::-webkit-scrollbar": {
+              display: "none",
+            },
+            scrollbarWidth: "none",
+            msOverflowStyle: "none",
+          },
+        }}
+      >
+        {CoinMenuMobile({
+          menu: menu,
+          listCoin,
+          interval: time,
+          changePercent: (v) => {
+            setPercent(v);
+          },
+          setMenu: (v) => {
+            setMenu(v);
+            setMenuCoin(v);
+            handleDrawerClose();
+          },
+        })}
+      </Drawer>
     </Box>
   );
 }

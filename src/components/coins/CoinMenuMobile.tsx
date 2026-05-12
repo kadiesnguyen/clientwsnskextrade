@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Box, Typography, Divider } from "@mui/material";
+import { Box, Typography, Divider, Avatar } from "@mui/material";
 import { DownIcon, UpIcon } from "@/shared/Svgs/Svg.component";
 import { IcoinFinace } from "@/interface/user.interface";
+import { iconMap } from "./CoinPage";
 
 type Coin = {
   symbol: string;
@@ -61,7 +62,7 @@ export default function CoinMenuMobile({
     if (!listCoin.length) return;
 
     const streams = listCoin
-      .map((s) => `${(s.name + "usdt").toLowerCase()}@ticker`)
+      .map((s) => `${(s.name + "usdt").toLowerCase()}@kline_${interval}`)
       .join("/");
 
     const ws = new WebSocket(
@@ -70,22 +71,29 @@ export default function CoinMenuMobile({
 
     ws.onmessage = (event) => {
       const msg = JSON.parse(event.data);
-      const data = msg?.data;
 
-      if (!data?.s) return;
+      const k = msg?.data?.k;
 
-      const symbol = data.s.toLowerCase();
-      const price = Number(data.c);
-      const percent = Number(data.P);
+      if (!k?.s) return;
+
+      const symbol = k.s.toLowerCase();
+
+      const open = Number(k.o);
+      const close = Number(k.c);
+
+      const percent = ((close - open) / open) * 100;
 
       setCoins((prev) => {
         if (!prev[symbol]) return prev;
 
         return {
           ...prev,
+
           [symbol]: {
             ...prev[symbol],
-            price,
+
+            price: close,
+
             changePercent: percent,
           },
         };
@@ -97,49 +105,7 @@ export default function CoinMenuMobile({
     };
 
     return () => ws.close();
-  }, [listCoin, menu]);
-
-  /**
-   * KLINE WEBSOCKET (history chart)
-   */
-  useEffect(() => {
-    if (!listCoin.length) return;
-
-    const streams = listCoin
-      .map((s) => `${(s.name + "usdt").toLowerCase()}@kline_${interval}`)
-      .join("/");
-
-    const ws = new WebSocket(
-      `wss://stream.binance.com:9443/stream?streams=${streams}`,
-    );
-
-    ws.onmessage = (event) => {
-      const msg = JSON.parse(event.data);
-      const k = msg?.data?.k;
-
-      if (!k?.s || !k?.c) return;
-
-      const symbol = k.s.toLowerCase();
-      const close = Number(k.c);
-
-      setCoins((prev) => {
-        if (!prev[symbol]) return prev;
-
-        const updatedHistory = [...prev[symbol].history.slice(-19), close];
-
-        return {
-          ...prev,
-          [symbol]: {
-            ...prev[symbol],
-            price: close,
-            history: updatedHistory,
-          },
-        };
-      });
-    };
-
-    return () => ws.close();
-  }, [interval, listCoin]);
+  }, [listCoin, menu, interval]);
 
   return (
     <Box
@@ -185,6 +151,7 @@ function CoinCard({
   menu: string;
   setMenu: (v: string) => void;
 }) {
+  const baseSymbol = coin.symbol.replace("USDT", "");
   return (
     <Box
       sx={{
@@ -198,9 +165,14 @@ function CoinCard({
       }}
       onClick={() => setMenu(coin.symbol.toLowerCase())}
     >
-      <Typography fontWeight="bold" sx={{ fontSize: 12, color: "white" }}>
-        {coin.name}
-      </Typography>
+      <Box sx={{ display: "flex", gap: "5px" }}>
+        <Avatar src={iconMap[baseSymbol] || ""} sx={{ width: 30, height: 30 }}>
+          {baseSymbol.charAt(0)}
+        </Avatar>
+        <Typography fontWeight="bold" sx={{ fontSize: 12, color: "white" }}>
+          {coin.name}
+        </Typography>
+      </Box>
 
       <Box textAlign="right">
         <Typography fontWeight="bold" sx={{ fontSize: 12, color: "white" }}>

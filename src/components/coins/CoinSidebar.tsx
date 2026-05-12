@@ -2,48 +2,58 @@
 
 import { Avatar, Box, Stack, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
+import { iconMap } from "./CoinPage";
 
-const iconMap: any = {
-  btc: "/icons/btc.png",
-  eth: "/icons/eth.png",
-  ltc: "/icons/ltc.png",
-  bch: "/icons/bch.png",
-  xau: "/icons/gold.png",
-};
-
-export default function CoinSidebar({ coins, selectedCoin, onSelect }: any) {
+export default function CoinSidebar({
+  coins,
+  selectedCoin,
+  onSelect,
+  time,
+}: any) {
   const [marketData, setMarketData] = useState<any>({});
-
-  useEffect(() => {
-    fetchTicker();
-    const interval = setInterval(fetchTicker, 3000);
-
-    return () => clearInterval(interval);
-  }, [coins]);
 
   const fetchTicker = async () => {
     try {
-      const symbols = coins.map((c: any) =>
-        c.symbol.replace("-", "").toUpperCase(),
-      );
-
       const responses = await Promise.all(
-        symbols.map(async (symbol: string) => {
+        coins.map(async (coin: any) => {
+          const symbol = coin.symbol.replace("-", "").toUpperCase();
+
           const res = await fetch(
-            `https://api.binance.com/api/v3/ticker/24hr?symbol=${symbol}`,
+            `https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=${time}&limit=1`,
           );
 
-          return res.json();
+          const data = await res.json();
+
+          const candle = data?.[0];
+
+          if (!candle) return null;
+
+          const open = Number(candle[1]);
+          const high = Number(candle[2]);
+          const low = Number(candle[3]);
+          const close = Number(candle[4]);
+          const volume = Number(candle[5]);
+
+          const change = ((close - open) / open) * 100;
+
+          return {
+            symbol,
+            open,
+            high,
+            low,
+            close,
+            volume,
+            change,
+          };
         }),
       );
 
       const formatted: any = {};
 
       responses.forEach((item: any) => {
-        formatted[item.symbol] = {
-          price: Number(item.lastPrice),
-          change: Number(item.priceChangePercent),
-        };
+        if (!item) return;
+
+        formatted[item.symbol] = item;
       });
 
       setMarketData(formatted);
@@ -51,7 +61,13 @@ export default function CoinSidebar({ coins, selectedCoin, onSelect }: any) {
       console.log(error);
     }
   };
+  useEffect(() => {
+    fetchTicker();
 
+    const intervalId = setInterval(fetchTicker, 3000);
+
+    return () => clearInterval(intervalId);
+  }, [coins, time]);
   return (
     <Box
       sx={{
@@ -67,6 +83,7 @@ export default function CoinSidebar({ coins, selectedCoin, onSelect }: any) {
 
         const active = selectedCoin?.symbol === coin.symbol;
 
+        const baseSymbol = coin.title.replace("/USDT", "");
         return (
           <Box
             key={coin.id}
@@ -92,12 +109,11 @@ export default function CoinSidebar({ coins, selectedCoin, onSelect }: any) {
               {/* LEFT */}
               <Stack direction="row" spacing={1.5} alignItems="center">
                 <Avatar
-                  src={`https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/128/color/${coin.coinname}.png`}
-                  sx={{
-                    width: 28,
-                    height: 28,
-                  }}
-                />
+                  src={iconMap[baseSymbol] || ""}
+                  sx={{ width: 28, height: 28 }}
+                >
+                  {baseSymbol.charAt(0)}
+                </Avatar>
 
                 <Typography
                   sx={{
@@ -119,7 +135,7 @@ export default function CoinSidebar({ coins, selectedCoin, onSelect }: any) {
                     fontSize: 12,
                   }}
                 >
-                  {data?.price ? data.price.toLocaleString() : "--"}
+                  {data?.close ? data.close.toLocaleString() : "--"}
                 </Typography>
 
                 <Typography

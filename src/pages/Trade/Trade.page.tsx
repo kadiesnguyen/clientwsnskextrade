@@ -1,6 +1,6 @@
 "use client";
-import { Box, Button, IconButton, Typography } from "@mui/material";
-import React, { useEffect, useRef, useState } from "react";
+import { Box, Button, IconButton, Stack, Typography } from "@mui/material";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   createOrder,
   getBuySellConfig,
@@ -31,6 +31,57 @@ export interface Icoin {
   symbol: string;
   title: string;
 }
+const TIMEFRAMES = [
+  {
+    label: "1m",
+    value: "1",
+    min: 10,
+    max: 100,
+    percent: 5,
+  },
+  {
+    label: "5m",
+    value: "5",
+    min: 30,
+    max: 300,
+    percent: 8,
+  },
+  {
+    label: "15m",
+    value: "15",
+    min: 50,
+    max: 500,
+    percent: 12,
+  },
+  {
+    label: "1h",
+    value: "60",
+    min: 100,
+    max: 1000,
+    percent: 18,
+  },
+  {
+    label: "4h",
+    value: "240",
+    min: 200,
+    max: 2000,
+    percent: 25,
+  },
+  {
+    label: "1d",
+    value: "D",
+    min: 500,
+    max: 5000,
+    percent: 40,
+  },
+  {
+    label: "1w",
+    value: "W",
+    min: 1000,
+    max: 10000,
+    percent: 60,
+  },
+];
 
 export default function TradePage() {
   const { t } = useTranslation();
@@ -55,8 +106,8 @@ export default function TradePage() {
   const [trade, setTrade] = useState<any>(null);
   const [countdown, setCountdown] = useState<number | null>(null);
   const [showPopup, setShowPopup] = useState(false);
-  const [imageLoaded, setImageLoaded] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [time, setTime] = useState("1");
+  const [timeValue, setTimeValue] = useState("1m");
 
   useEffect(() => {
     fetchUser();
@@ -220,31 +271,6 @@ export default function TradePage() {
     }
   }, [showPopup]);
 
-  const fetchProgressContract = async () => {
-    try {
-      const res: any = await getProgressContract();
-      if (res.data) {
-        const fixedSellTimeStr = res.data.selltime.replace(/\.\d{6}Z$/, "Z");
-        const sellTime = new Date(fixedSellTimeStr).getTime();
-        const now = Date.now();
-        const remainingSeconds = Math.floor((sellTime - now) / 1000);
-
-        if (remainingSeconds > 0) {
-          setProgressContract(res.data);
-          setCountdown(remainingSeconds);
-        } else {
-          setProgressContract(null);
-          setCountdown(null);
-        }
-      } else {
-        setProgressContract(null);
-        setCountdown(null);
-      }
-    } catch (error) {
-      console.error("Error fetching progress contract:", error);
-      setProgressContract(null);
-    }
-  };
   return (
     <Box sx={{ background: "#000", paddingTop: { xs: "0px", sm: "70px" } }}>
       <Box
@@ -264,7 +290,14 @@ export default function TradePage() {
             <PreviousIcon width="20px" height="20px" />
           </IconButton>
         </Box>
-        <CoinHeader coin={selectedCoin} />
+        <CoinHeader
+          coin={selectedCoin}
+          time={timeValue}
+          setMenuCoin={(e: any) => {
+            const data = listCoin?.find((i) => i.name == e);
+            if (data) setSelectedCoin(data);
+          }}
+        />
         <Box
           sx={{
             display: {
@@ -293,6 +326,7 @@ export default function TradePage() {
             >
               <Box sx={{ display: { xs: "none", sm: "block" } }}>
                 <CoinSidebar
+                  time={timeValue}
                   coins={listCoin}
                   selectedCoin={selectedCoin}
                   onSelect={setSelectedCoin}
@@ -310,7 +344,82 @@ export default function TradePage() {
                 }}
               >
                 <Box sx={{ minHeight: { sm: "550px", xs: "400px" } }}>
-                  <TradingChart symbol={selectedCoin?.name} />
+                  <Box
+                    sx={{
+                      px: 2,
+                      height: 42,
+                      display: "flex",
+                      alignItems: "center",
+
+                      borderTop: "1px solid rgba(255,255,255,0.08)",
+                      borderBottom: "1px solid rgba(255,255,255,0.08)",
+
+                      background: "#111",
+
+                      overflowX: "auto",
+
+                      "&::-webkit-scrollbar": {
+                        display: "none",
+                      },
+                    }}
+                  >
+                    <Stack
+                      direction="row"
+                      spacing={3}
+                      sx={{
+                        minWidth: "max-content",
+                      }}
+                    >
+                      {TIMEFRAMES.map((item) => {
+                        const active = time === item.value;
+
+                        return (
+                          <Box
+                            key={item.value}
+                            onClick={() => {
+                              setTime(item.value);
+                              setTimeValue(item.label);
+                            }}
+                            sx={{
+                              position: "relative",
+
+                              cursor: "pointer",
+
+                              fontSize: 13,
+                              fontWeight: active ? 700 : 500,
+
+                              color: active ? "#fff" : "rgba(255,255,255,0.55)",
+
+                              transition: "0.2s",
+
+                              userSelect: "none",
+
+                              "&:hover": {
+                                color: "#fff",
+                              },
+
+                              "&::after": active
+                                ? {
+                                    content: '""',
+                                    position: "absolute",
+                                    left: 0,
+                                    bottom: -10,
+                                    width: "100%",
+                                    height: "2px",
+                                    background: "#1976d2",
+                                    borderRadius: 999,
+                                  }
+                                : {},
+                            }}
+                          >
+                            {item.label}
+                          </Box>
+                        );
+                      })}
+                    </Stack>
+                  </Box>
+
+                  <TradingChart symbol={selectedCoin?.name} interval={time} />
                 </Box>
                 <Box
                   sx={{
