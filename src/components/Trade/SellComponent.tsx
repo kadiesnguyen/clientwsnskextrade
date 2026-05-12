@@ -1,10 +1,3 @@
-import useAuth from "@/hook/useAuth";
-import {
-  createOrder,
-  getBuySellConfig,
-  getOrderResult,
-  getProgressContract,
-} from "@/services/User.service";
 import { IUser } from "@/shared/interfaces";
 import { formatCurrency } from "@/utils/formatMoney";
 import { CloseOutlined } from "@mui/icons-material";

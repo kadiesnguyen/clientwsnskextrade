@@ -30,7 +30,6 @@ interface Props {
   onClose: () => void;
   symbol: string;
   tab: string;
-  price: number;
   history: IHistoryOpen[];
   onLoadHitory: () => void;
 }
@@ -39,7 +38,6 @@ export default function TradePopup({
   open,
   onClose,
   symbol,
-  price,
   tab,
   user,
   history,
@@ -185,9 +183,6 @@ export default function TradePopup({
               color={tab === "BUY" ? "#22c55e" : "#ef4444"}
             >
               {tab === "BUY" ? t("BuySellPage.BUY") : t("BuySellPage.SELL")}
-            </Typography>
-            <Typography fontWeight="bold" color={"white"}>
-              {price.toLocaleString()}
             </Typography>
           </Box>
         </Stack>

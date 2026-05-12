@@ -17,11 +17,6 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import { useEffect, useState } from "react";
 import { IFinaceBalace, IUser } from "@/shared/interfaces";
-import {
-  createOrder,
-  getBuySellConfig,
-  getListCoin,
-} from "@/services/User.service";
 import { useTranslation } from "react-i18next";
 
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
@@ -35,8 +30,6 @@ interface Props {
 
 export default function CoinDetailPopup({ open, onClose, coin, title }: Props) {
   const { t, i18n } = useTranslation();
-  console.log("coin", coin);
-
   return (
     <Drawer
       anchor="right"

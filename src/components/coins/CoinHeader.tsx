@@ -2,9 +2,17 @@
 
 import { useTicker } from "@/hook/useTicker";
 import StarIcon from "@mui/icons-material/Star";
-import { Avatar, Box, Divider, Stack, Typography } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import {
+  Avatar,
+  Box,
+  Divider,
+  IconButton,
+  Stack,
+  Typography,
+} from "@mui/material";
 
-export default function CoinHeader({ coin }: any) {
+export default function CoinHeader({ coin, onOpenMenu }: any) {
   const ticker = useTicker(coin?.symbol);
 
   const isUp = Number(ticker?.change || 0) >= 0;
@@ -21,21 +29,25 @@ export default function CoinHeader({ coin }: any) {
   return (
     <Box
       sx={{
-        height: 52,
-        px: 2,
         background: "#0b1020",
         borderBottom: "1px solid #161b26",
-        display: "flex",
-        alignItems: "center",
-        overflow: "hidden",
+        px: 1.5,
+        py: 1,
       }}
     >
+      {/* ================= DESKTOP ================= */}
       <Stack
         direction="row"
         alignItems="center"
         spacing={4}
         sx={{
           width: "100%",
+          display: {
+            xs: "none",
+            md: "flex",
+          },
+          overflow: "hidden",
+          height: 52,
         }}
       >
         {/* SYMBOL */}
@@ -99,93 +111,192 @@ export default function CoinHeader({ coin }: any) {
         </Box>
 
         {/* CHANGE */}
-        <Box>
+        <InfoItem
+          label="24H Biến đổi"
+          value={ticker?.change ? `${ticker.change.toFixed(2)}%` : "--"}
+          color={isUp ? "#00e676" : "#ff5252"}
+        />
+
+        {/* HIGH */}
+        <InfoItem
+          label="24H Giá cao nhất"
+          value={formatNumber(ticker?.high)}
+          color="#00e676"
+        />
+
+        {/* LOW */}
+        <InfoItem
+          label="24H Giá thấp nhất"
+          value={formatNumber(ticker?.low)}
+          color="#ff5252"
+        />
+
+        {/* VOLUME */}
+        <InfoItem
+          label="24H Khối lượng"
+          value={ticker?.volume ? Number(ticker.volume).toLocaleString() : "--"}
+          color="#fff"
+        />
+      </Stack>
+
+      {/* ================= MOBILE ================= */}
+      <Box
+        sx={{
+          display: {
+            xs: "block",
+            md: "none",
+          },
+        }}
+      >
+        {/* TOP ROW */}
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+        >
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <IconButton
+              onClick={onOpenMenu}
+              size="small"
+              sx={{
+                color: "#fff",
+                p: 0.5,
+              }}
+            >
+              <MenuIcon />
+            </IconButton>
+
+            <Avatar
+              src={`https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/128/color/${coin?.coinname?.toLowerCase()}.png`}
+              sx={{
+                width: 24,
+                height: 24,
+              }}
+            />
+
+            <Typography
+              sx={{
+                color: "#fff",
+                fontWeight: 700,
+                fontSize: 15,
+              }}
+            >
+              {coin?.title}
+            </Typography>
+          </Stack>
+        </Stack>
+
+        {/* BOTTOM ROW */}
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          sx={{
+            mt: 1,
+          }}
+        >
+          <MobileItem label="Open" value={formatNumber(ticker?.open)} />
+
+          <MobileItem label="Close" value={formatNumber(ticker?.price)} />
+
+          <MobileItem label="Low" value={formatNumber(ticker?.low)} />
+
+          <MobileItem
+            label="Volume"
+            value={
+              ticker?.volume ? Number(ticker.volume).toLocaleString() : "--"
+            }
+          />
+        </Stack>
+        <Stack
+          direction="row"
+          alignItems={"center"}
+          gap={"10px"}
+          sx={{
+            mt: 1,
+          }}
+        >
           <Typography
             sx={{
-              color: "#7d8592",
-              fontSize: 12,
+              color: "white",
+              fontWeight: 700,
+              fontSize: 30,
             }}
           >
-            24H Biến đổi
+            ${formatNumber(ticker?.price)}
           </Typography>
-
           <Typography
             sx={{
               color: isUp ? "#00e676" : "#ff5252",
-              fontSize: 16,
-              fontWeight: 600,
+              fontWeight: 500,
+              fontSize: 14,
+              background: isUp ? "#21965333" : "#21965333",
+              p: "5px 10px",
+              borderRadius: "8px",
             }}
           >
             {ticker?.change ? `${ticker.change.toFixed(2)}%` : "--"}
           </Typography>
-        </Box>
+        </Stack>
+      </Box>
+    </Box>
+  );
+}
 
-        {/* HIGH */}
-        <Box>
-          <Typography
-            sx={{
-              color: "#7d8592",
-              fontSize: 12,
-            }}
-          >
-            24H Giá cao nhất
-          </Typography>
+function InfoItem({
+  label,
+  value,
+  color,
+}: {
+  label: string;
+  value: any;
+  color: string;
+}) {
+  return (
+    <Box>
+      <Typography
+        sx={{
+          color: "#7d8592",
+          fontSize: 12,
+        }}
+      >
+        {label}
+      </Typography>
 
-          <Typography
-            sx={{
-              color: "#00e676",
-              fontSize: 16,
-              fontWeight: 600,
-            }}
-          >
-            {formatNumber(ticker?.high)}
-          </Typography>
-        </Box>
+      <Typography
+        sx={{
+          color,
+          fontSize: 16,
+          fontWeight: 600,
+        }}
+      >
+        {value}
+      </Typography>
+    </Box>
+  );
+}
 
-        {/* LOW */}
-        <Box>
-          <Typography
-            sx={{
-              color: "#7d8592",
-              fontSize: 12,
-            }}
-          >
-            24H Giá thấp nhất
-          </Typography>
+function MobileItem({ label, value }: { label: string; value: any }) {
+  return (
+    <Box>
+      <Typography
+        sx={{
+          color: "#7d8592",
+          fontSize: 11,
+        }}
+      >
+        {label}
+      </Typography>
 
-          <Typography
-            sx={{
-              color: "#ff5252",
-              fontSize: 16,
-              fontWeight: 600,
-            }}
-          >
-            {formatNumber(ticker?.low)}
-          </Typography>
-        </Box>
-
-        {/* VOLUME */}
-        <Box>
-          <Typography
-            sx={{
-              color: "#7d8592",
-              fontSize: 12,
-            }}
-          >
-            24H Khối lượng giao dịch
-          </Typography>
-
-          <Typography
-            sx={{
-              color: "#fff",
-              fontSize: 16,
-              fontWeight: 600,
-            }}
-          >
-            {ticker?.volume ? Number(ticker.volume).toLocaleString() : "--"}
-          </Typography>
-        </Box>
-      </Stack>
+      <Typography
+        sx={{
+          color: "#fff",
+          fontSize: 13,
+          fontWeight: 600,
+          mt: 0.3,
+        }}
+      >
+        {value}
+      </Typography>
     </Box>
   );
 }

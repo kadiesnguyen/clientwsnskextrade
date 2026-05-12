@@ -3,6 +3,7 @@ import { IHistoryOpen, IUser } from "@/shared/interfaces";
 import { formatDateTime } from "@/utils/formatDateTime";
 import { formatCurrency } from "@/utils/formatMoney";
 import { Box, TablePagination, Typography } from "@mui/material";
+import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -11,7 +12,7 @@ export default function CommandOpen({
   history,
   onCLose,
 }: {
-  user: IUser;
+  user: IUser | null;
   history: IHistoryOpen[];
   onCLose: () => void;
 }) {
@@ -69,7 +70,7 @@ export default function CommandOpen({
     return Math.max(Math.floor((end - now) / 1000), 0);
   };
   return (
-    <Box sx={{ width: "95%", margin: "auto", paddingTop: "20px" }}>
+    <Box sx={{ width: "95%", margin: "auto", paddingTop: "20px", pb: 5 }}>
       {history && history.length > 0 ? (
         history.map((item: IHistoryOpen, index: number) => (
           <Box
@@ -137,16 +138,26 @@ export default function CommandOpen({
           </Box>
         ))
       ) : (
-        <Typography
-          sx={{
-            color: "#9ca3af",
-            fontSize: "12px",
-            fontWeight: 600,
-            textAlign: "center",
-          }}
-        >
-          {t("AssetPage.no_tran")}
-        </Typography>
+        <Box sx={{ textAlign: "center" }}>
+          <Image
+            src={"/images/nothing.png"}
+            width={100}
+            height={100}
+            alt="nothing"
+            style={{ height: "80px", objectFit: "contain" }}
+          />
+          <Typography
+            sx={{
+              color: "#4d4d4d",
+              fontSize: "12px",
+              fontWeight: 600,
+              textAlign: "center",
+              mt: "-15px",
+            }}
+          >
+            {t("AssetPage.no_tran")}
+          </Typography>
+        </Box>
       )}
     </Box>
   );

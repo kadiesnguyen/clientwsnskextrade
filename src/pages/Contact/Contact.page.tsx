@@ -335,7 +335,6 @@ export default function ContactPage() {
             historyOpen();
           }}
           symbol={menu}
-          price={price ?? 0}
         />
       )}
     </Box>

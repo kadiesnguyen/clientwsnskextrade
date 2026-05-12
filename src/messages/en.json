@@ -227,7 +227,7 @@
     "Transaction": "Transaction password",
     "history": "Bill",
     "log_decription": "Please log in to deposit / withdraw coins.",
-    "no_tran": "No more."
+    "no_tran": "No data"
   },
   "SafeBox": {
     "tab1": "VND Safe",

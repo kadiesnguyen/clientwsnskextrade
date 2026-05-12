@@ -1,8 +1,10 @@
 "use client";
-import { Box } from "@mui/material";
+import { Box, Button, IconButton, Typography } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import {
+  createOrder,
   getBuySellConfig,
+  getContractjc,
   getListCoin,
   getOrderResult,
   getProgressContract,
@@ -13,35 +15,12 @@ import { useTranslation } from "react-i18next";
 import CoinSidebar from "@/components/coins/CoinSidebar";
 import CoinHeader from "@/components/coins/CoinHeader";
 import TradingChart from "@/components/coins/TradingChart";
-
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
-}
-
-function CustomTabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && <Box sx={{ p: 1 }}>{children}</Box>}
-    </div>
-  );
-}
-
-function a11yProps(index: number) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-}
+import TradeForm, { ITypeTrade } from "@/components/coins/TradeForm";
+import CommandOpen from "../Contact/CommandOpen";
+import { useUserStore } from "@/stores/useUserStore";
+import { IHistoryOpen } from "@/shared/interfaces";
+import TradePopup from "@/components/popup/TradePopup";
+import { NextIcon, PreviousIcon } from "@/shared/Svgs/Svg.component";
 
 export interface Icoin {
   coinname: string;
@@ -55,7 +34,7 @@ export interface Icoin {
 
 export default function TradePage() {
   const { t } = useTranslation();
-  const { user } = useAuth();
+  const { user, fetchUser } = useUserStore();
   const [selectedCoin, setSelectedCoin] = useState<Icoin>({
     coinname: "btc",
     id: 1,
@@ -66,11 +45,11 @@ export default function TradePage() {
     title: "BTC/USDT",
   });
 
+  const [tab, setTab] = useState("BUY");
+  const [openTrade, setOpenTrade] = useState(false);
   const [listCoin, setListCoin] = useState<Icoin[] | null>(null);
-  const [coin, setCoin] = useState<any>("BTCUSDT");
   const [symbol, setSymbol] = useState<any>("btc-usdt");
-  const [coinTitle, setCoinTitle] = useState<any>("BTC/USDT");
-  const [value, setValue] = useState(0);
+  const [history, setHisstory] = useState<IHistoryOpen[]>([]);
   const [result, setResult] = useState<any>(null);
   const [progressContract, setProgressContract] = useState<any>(null);
   const [trade, setTrade] = useState<any>(null);
@@ -79,9 +58,10 @@ export default function TradePage() {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
-  };
+  useEffect(() => {
+    fetchUser();
+  }, [fetchUser]);
+
   useEffect(() => {
     const fetchData = async () => {
       const resCoin: any = await getListCoin();
@@ -94,7 +74,7 @@ export default function TradePage() {
     };
     fetchData();
   }, []);
-  console.log("list", listCoin);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -133,13 +113,7 @@ export default function TradePage() {
 
     fetchData();
   }, []);
-  const handleClick = (coin: any) => {
-    if (coin) {
-      setCoinTitle(coin);
-      const [base, quote] = coin.split("/");
-      setCoin(base + quote);
-    }
-  };
+
   useEffect(() => {
     if (countdown === null || countdown <= 0) return;
 
@@ -162,6 +136,17 @@ export default function TradePage() {
     return () => clearInterval(interval);
   }, [countdown]);
 
+  const historyOpen = async () => {
+    try {
+      const his: any = await getContractjc();
+      if (his.status === true) {
+        setHisstory(his.data);
+      }
+    } catch (errors: any) {
+      console.log(errors?.message);
+    }
+  };
+
   const preloadImage = (src: string): Promise<void> => {
     return new Promise((resolve, reject) => {
       const img = new Image();
@@ -171,6 +156,38 @@ export default function TradePage() {
         resolve(); // Tiếp tục thực thi thay vì reject
       };
     });
+  };
+
+  const handleSubmit = async (data: ITypeTrade) => {
+    if (user?.rzstatus !== 2) {
+      toast.error(t("Toast.buysell5"));
+      return;
+    }
+
+    if (!data.hytime || !data.price) {
+      toast.error(t("Toast.buysell1"));
+      return;
+    }
+
+    try {
+      const formData = new FormData();
+      formData.append("ctime", data.hytime);
+      formData.append("amount", String(data.price));
+      formData.append("coinname", symbol.replace("usdt", "-usdt"));
+      formData.append("method", data.method);
+      formData.append("uprate", data.hyykbl);
+
+      const res = await createOrder(formData);
+
+      if (res?.data) {
+        fetchResult();
+      }
+
+      // onClose();
+      // toast.success(t("Toast.buysell3"));
+    } catch (error) {
+      toast.error(t("Toast.buysell4"));
+    }
   };
 
   const fetchResult = async () => {
@@ -232,10 +249,21 @@ export default function TradePage() {
     <Box sx={{ background: "#000", paddingTop: { xs: "0px", sm: "70px" } }}>
       <Box
         sx={{
-          height: "900px",
           pt: 1,
         }}
       >
+        <Box
+          sx={{
+            display: {
+              xs: "block",
+              sm: "none",
+            },
+          }}
+        >
+          <IconButton href="/">
+            <PreviousIcon width="20px" height="20px" />
+          </IconButton>
+        </Box>
         <CoinHeader coin={selectedCoin} />
         <Box
           sx={{
@@ -248,10 +276,6 @@ export default function TradePage() {
         >
           <Box
             sx={{
-              display: {
-                xs: "none",
-                sm: "block",
-              },
               width: "100%",
             }}
           >
@@ -260,16 +284,20 @@ export default function TradePage() {
                 width: "100%",
                 height: "100vh",
                 display: "grid",
-                gridTemplateColumns: "280px 1fr",
+                gridTemplateColumns: {
+                  xs: "1fr",
+                  sm: "280px 1fr",
+                },
                 background: "#000",
               }}
             >
-              {/* LEFT */}
-              <CoinSidebar
-                coins={listCoin}
-                selectedCoin={selectedCoin}
-                onSelect={setSelectedCoin}
-              />
+              <Box sx={{ display: { xs: "none", sm: "block" } }}>
+                <CoinSidebar
+                  coins={listCoin}
+                  selectedCoin={selectedCoin}
+                  onSelect={setSelectedCoin}
+                />
+              </Box>
 
               {/* RIGHT */}
               <Box
@@ -277,16 +305,151 @@ export default function TradePage() {
                   display: "flex",
                   flexDirection: "column",
                   borderLeft: "1px solid #111",
+                  overflowY: "auto",
+                  background: "#0E1316",
                 }}
               >
-                <Box sx={{ flex: 1 }}>
+                <Box sx={{ minHeight: { sm: "550px", xs: "400px" } }}>
                   <TradingChart symbol={selectedCoin?.name} />
+                </Box>
+                <Box
+                  sx={{
+                    display: {
+                      xs: "none",
+                      sm: "block",
+                    },
+                  }}
+                >
+                  <TradeForm onSubmit={handleSubmit} user={user} />
+                </Box>
+                <Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      p: {
+                        xs: "20px 10px",
+                        sm: "20px 40px",
+                      },
+                    }}
+                  >
+                    <Typography
+                      sx={{
+                        borderBottom: "2px solid white",
+                        color: "white",
+                        fontSize: "14px",
+                        fontWeight: 600,
+                        p: 1,
+                      }}
+                    >
+                      {t("HistoryPage.tab1")} (0)
+                    </Typography>
+                    <Button
+                      sx={{
+                        display: "flex",
+                        gap: "5px",
+                        background: "#ffffff0d",
+                        color: "white",
+                        borderRadius: "8px",
+                        padding: "8px 20px",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      <img
+                        src={"/images/history-icon.png"}
+                        width={20}
+                        height={20}
+                        alt=""
+                      />
+                      Lịch sử
+                    </Button>
+                  </Box>
+
+                  <CommandOpen
+                    user={user}
+                    history={history}
+                    onCLose={() => {
+                      historyOpen();
+                    }}
+                  />
+                </Box>
+                <Box
+                  sx={{
+                    width: "100%",
+                    position: "fixed",
+                    bottom: 0,
+                    left: 0,
+                    p: 2,
+                    display: {
+                      xs: "block",
+                      sm: "none",
+                    },
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-around",
+                      mt: 2,
+                    }}
+                  >
+                    <Button
+                      sx={{
+                        width: "48%",
+                        height: "40px",
+                        background: "#2dd4bf",
+                        textTransform: "none",
+                        color: "black",
+                        "&:hover": { background: "#2dd4bf" },
+                      }}
+                      onClick={() => {
+                        setOpenTrade(true);
+                        setTab("BUY");
+                      }}
+                    >
+                      {t("BuySellPage.buy")}
+                    </Button>
+                    <Button
+                      sx={{
+                        width: "48%",
+                        height: "40px",
+                        background: "#ef4444",
+                        textTransform: "none",
+                        color: "white",
+                        "&:hover": { background: "#ef4444" },
+                      }}
+                      onClick={() => {
+                        setOpenTrade(true);
+                        setTab("SELL");
+                      }}
+                    >
+                      {t("BuySellPage.sell")}
+                    </Button>
+                  </Box>
                 </Box>
               </Box>
             </Box>
           </Box>
         </Box>
       </Box>
+      {user && (
+        <TradePopup
+          open={openTrade}
+          user={user}
+          tab={tab}
+          history={history}
+          onLoadHitory={() => {
+            historyOpen();
+          }}
+          onClose={() => {
+            setOpenTrade(false);
+            fetchUser();
+            historyOpen();
+          }}
+          symbol={selectedCoin.name}
+        />
+      )}
     </Box>
   );
 }

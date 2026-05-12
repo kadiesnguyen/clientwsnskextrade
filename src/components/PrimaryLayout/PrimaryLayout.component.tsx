@@ -79,7 +79,7 @@ export default function PrimaryLayoutComponent({
         router.push("/trade");
         break;
       case 3:
-        router.push("/contact");
+        router.push("/trade");
         break;
       case 4:
         router.push("/excavator");
@@ -99,7 +99,8 @@ export default function PrimaryLayoutComponent({
           {isXS &&
             path !== "/login/" &&
             path !== "/signup/" &&
-            path !== "/chat/" && (
+            path !== "/chat/" &&
+            path !== "/trade/" && (
               <nav className="menu-mobile">
                 <ul>
                   <li>

@@ -17,13 +17,7 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import { useEffect, useState } from "react";
 import { IUser } from "@/shared/interfaces";
-import {
-  createOrder,
-  getBuySellConfig,
-  getListCoin,
-} from "@/services/User.service";
-import { useTranslation } from "react-i18next";
-import { toast } from "react-toastify";
+import { getListCoin } from "@/services/User.service";
 import { Icoin } from "@/interface/user.interface";
 
 interface Props {

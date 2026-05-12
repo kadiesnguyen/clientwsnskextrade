@@ -14,6 +14,7 @@ export function useTicker(symbol: string) {
       const data = JSON.parse(event.data);
 
       setTicker({
+        open: Number(data.o),
         price: Number(data.c),
         change: Number(data.P),
         high: Number(data.h),

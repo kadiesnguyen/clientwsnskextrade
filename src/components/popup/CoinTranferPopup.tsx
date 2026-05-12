@@ -14,14 +14,7 @@ import {
   List,
   ListItemButton,
 } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
-import { useEffect, useState } from "react";
-import { IFinaceBalace, IUser } from "@/shared/interfaces";
-import {
-  createOrder,
-  getBuySellConfig,
-  getListCoin,
-} from "@/services/User.service";
+import { IFinaceBalace } from "@/shared/interfaces";
 
 interface Props {
   data: IFinaceBalace[];
