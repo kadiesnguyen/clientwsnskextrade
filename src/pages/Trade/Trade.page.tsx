@@ -441,6 +441,10 @@ export default function TradePage() {
                         xs: "20px 10px",
                         sm: "20px 40px",
                       },
+                      mt: {
+                        xs: "40px",
+                        sm: 0,
+                      },
                     }}
                   >
                     <Typography
