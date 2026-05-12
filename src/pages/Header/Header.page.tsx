@@ -190,7 +190,7 @@ export default function HeaderPage() {
             />
             {language}
           </Button>
-          <IconButton href={user ? "/profile" : "/login"}>
+          <IconButton onClick={() => router.push(user ? "/account" : "/login")}>
             <Image
               src={"/images/avatar-icon.png"}
               width={30}
