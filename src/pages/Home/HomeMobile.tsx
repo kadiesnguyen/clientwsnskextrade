@@ -55,9 +55,7 @@ export default function HomeMobile({
               if (user) {
                 route.push("/account");
               } else {
-                {
-                  route.push("/login");
-                }
+                route.push("/login");
               }
             }}
           >
