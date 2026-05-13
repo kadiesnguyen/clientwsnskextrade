@@ -160,6 +160,7 @@ export default function DepositWithdrawPage() {
             {t("AssetPage.menu2")}
           </Typography>
           <Button
+            onClick={() => router.push("/deposit/history")}
             sx={{
               "&:hover": {
                 background: "#202630",

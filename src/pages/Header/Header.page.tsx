@@ -51,6 +51,7 @@ import { useTranslation } from "react-i18next";
 import { formatDateTime } from "@/utils/formatDateTime";
 import NavigationGame from "@/hook/NavigationGame";
 import { useUserStore } from "@/stores/useUserStore";
+import { toast } from "react-toastify";
 
 interface propUser {
   user: userResponse | null;
@@ -102,17 +103,32 @@ const StyledMenu = styled((props: MenuProps) => (
 export default function HeaderPage() {
   const { t } = useTranslation();
   const [language, setLanguage] = useState<string>("en");
-
-  useEffect(() => {
-    const storedLang = localStorage.getItem("lang") || "en";
-    setLanguage(storedLang);
-  }, []);
+  const [configs, setConfigs] = useState<any>();
   const router = useRouter();
   const { user, loading, fetchUser } = useUserStore();
   useEffect(() => {
     fetchUser();
   }, [fetchUser]);
 
+  useEffect(() => {
+    const referral = async () => {
+      try {
+        const config: any = await getWebsiteConfig();
+
+        if (config.status === true) {
+          setConfigs(config.data);
+        }
+      } catch (errors: any) {
+        console.log(errors?.message);
+      }
+    };
+    referral();
+  }, []);
+
+  useEffect(() => {
+    const storedLang = localStorage.getItem("lang") || "en";
+    setLanguage(storedLang);
+  }, [user]);
   return (
     <Box
       sx={{
@@ -200,7 +216,23 @@ export default function HeaderPage() {
               style={{ height: "30px", objectFit: "contain" }}
             />
           </IconButton>
-          <IconButton sx={{ width: 40, height: 40, background: "#202630" }}>
+          <IconButton
+            sx={{ width: 40, height: 40, background: "#202630" }}
+            onClick={() => {
+              if (user) {
+                const newWindow = window.open(
+                  configs.telegram,
+                  "_blank",
+                  "noopener,noreferrer",
+                );
+                if (newWindow) {
+                  newWindow.opener = null;
+                }
+              } else {
+                toast.error(t("BuySellPage.title"));
+              }
+            }}
+          >
             <Image
               src={"/images/live-chat.png"}
               width={25}

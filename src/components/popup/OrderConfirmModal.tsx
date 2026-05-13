@@ -27,12 +27,24 @@ export default function OrderConfirmModal({
   const [countdown, setCountdown] = useState<number | null>(null);
   const [dataOrder, setDataOrder] = useState<IHistoryClose | null>(null);
 
+  // useEffect(() => {
+  //   if (open && data?.time) {
+  //     setCountdown(data.time);
+  //     setDataOrder(null);
+  //   }
+  // }, [open, data]);
+
   useEffect(() => {
-    if (open && data?.time) {
-      setCountdown(data.time);
-      setDataOrder(null);
-    }
-  }, [open, data]);
+    if (!data) return;
+
+    setCountdown(getTimeLeft(data.selltime));
+  }, [data, open]);
+  const getTimeLeft = (selltime: Date) => {
+    const end = new Date(selltime).getTime();
+    const now = Date.now();
+    return Math.max(Math.floor((end - now) / 1000), 0);
+  };
+
   useEffect(() => {
     if (!open || countdown === null) return;
 
@@ -60,7 +72,7 @@ export default function OrderConfirmModal({
         setDataOrder(res.data);
       }
     } catch (err) {
-      console.log(err);
+      console.log("err 1", err);
     }
   };
   return (
@@ -135,7 +147,7 @@ export default function OrderConfirmModal({
             />
             <InfoRow
               label={t("AssetPage.quantity")}
-              value={Number(data?.timer_buynum).toLocaleString()}
+              value={Number(data?.num).toLocaleString()}
             />
             <InfoRow
               label={t("BuySellPage.Purchase")}
@@ -153,7 +165,7 @@ export default function OrderConfirmModal({
             <InfoRow
               label={t("BuySellPage.payout")}
               value={Number(
-                (data?.timer_buynum * (1 + profitability / 100)).toFixed(2),
+                (data?.num * (1 + profitability / 100)).toFixed(2),
               ).toLocaleString()}
             />
           </>

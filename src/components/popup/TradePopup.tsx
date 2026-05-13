@@ -52,6 +52,7 @@ export default function TradePopup({
   const [hyykbl, setHyykbl] = useState<any>(null);
   const [openConfirm, setOpenConfirm] = useState(false);
   const [orderData, setOrderData] = useState<any>(null);
+  const [orderOpen, setOderOpen] = useState<any>(null);
 
   useEffect(() => {
     const referral = async () => {
@@ -106,6 +107,10 @@ export default function TradePopup({
       const res = await createOrder(formData);
 
       if (res?.data) {
+        const his: any = await getContractjc();
+        if (his.data?.length > 0) {
+          setOderOpen(his.data[0]);
+        }
         setOrderData(res.data);
         setOpenConfirm(true);
         onLoadHitory();
@@ -399,8 +404,9 @@ export default function TradePopup({
           onClose={() => {
             setOpenConfirm(false);
             setOrderData(null);
+            onLoadHitory();
           }}
-          data={orderData}
+          data={orderOpen}
           type={tab}
           profitability={Number(hyykbl)}
         />

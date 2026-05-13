@@ -93,22 +93,22 @@ export const MenuWebsite = [
   },
   {
     id: "3",
-    link: "/excavator",
+    link: "/trade",
     title: "menu3",
     item: [],
   },
   {
     id: "4",
-    link: "/convert",
+    link: "/excavator",
     title: "menu4",
     item: [],
   },
-  {
-    id: "5",
-    link: "#",
-    title: "menu5",
-    item: [],
-  },
+  // {
+  //   id: "5",
+  //   link: "#",
+  //   title: "menu5",
+  //   item: [],
+  // },
 ];
 
 export const MenuMobile = [

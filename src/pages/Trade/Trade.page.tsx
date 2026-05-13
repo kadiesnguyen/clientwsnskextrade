@@ -106,12 +106,14 @@ export default function TradePage() {
   const [result, setResult] = useState<any>(null);
   const [progressContract, setProgressContract] = useState<any>(null);
   const [trade, setTrade] = useState<any>(null);
-  const [countdown, setCountdown] = useState<number | null>(null);
   const [showPopup, setShowPopup] = useState(false);
+  const [tradeYn, setTradeYn] = useState(false);
   const [time, setTime] = useState("1");
   const [timeValue, setTimeValue] = useState("1m");
   const router = useRouter();
   const [imageLoaded, setImageLoaded] = useState(false);
+  const tradeIdRef = useRef<number | null>(null);
+
   useEffect(() => {
     fetchUser();
   }, [fetchUser]);
@@ -120,7 +122,6 @@ export default function TradePage() {
     const fetchData = async () => {
       const resCoin: any = await getListCoin();
 
-      // Xử lý danh sách coin
       if (resCoin.data) {
         setListCoin(resCoin.data);
         setSelectedCoin(resCoin.data[0]);
@@ -128,69 +129,6 @@ export default function TradePage() {
     };
     fetchData();
   }, []);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Gọi API lấy danh sách coin và cấu hình mua bán
-        const [buySellConfig, result] = await Promise.all([
-          getBuySellConfig(),
-          getProgressContract(),
-        ]);
-
-        // Xử lý progress contract
-        if (result && result.data) {
-          const fixedSellTimeStr = result.data.selltime.replace(
-            /\.\d{6}Z$/,
-            "Z",
-          );
-          const sellTime = new Date(fixedSellTimeStr).getTime();
-          const now = Date.now();
-          const remainingSeconds = Math.floor((sellTime - now) / 1000);
-
-          if (remainingSeconds > 0) {
-            setProgressContract(result.data);
-            setCountdown(remainingSeconds);
-          } else {
-            setProgressContract(null);
-            setCountdown(null);
-          }
-        } else {
-          setProgressContract(null);
-          setCountdown(null);
-        }
-      } catch (error: any) {
-        // console.error("Error fetching data:", error);
-        // toast.error(error?.message || "Failed to fetch data");
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    if (countdown === null || countdown <= 0) return;
-
-    const interval = setInterval(() => {
-      setCountdown((prev) => {
-        if (prev && prev <= 1) {
-          clearInterval(interval);
-          setProgressContract(null);
-
-          setTimeout(async () => {
-            await fetchResult();
-            await historyOpen();
-            setProgressContract(null);
-          }, 4000);
-
-          return 0;
-        }
-        return (prev ?? 0) - 1;
-      });
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [countdown]);
 
   const historyOpen = async () => {
     // try {
@@ -244,13 +182,12 @@ export default function TradePage() {
 
       if (res.status) {
         try {
-          window.localStorage.setItem("tradeId", res.data?.id);
+          tradeIdRef.current = res.data?.id;
           setProgressContract(res.data);
 
           await fetchUser();
-
           historyOpen();
-
+          setTradeYn(true);
           toast.success(t("Toast.buysell3"));
         } catch (innerErr) {
           console.log("INNER ERROR:", innerErr);
@@ -265,17 +202,17 @@ export default function TradePage() {
   };
   const fetchResult = async () => {
     try {
-      const tradeId = window.localStorage.getItem("tradeId");
+      const tradeId = tradeIdRef.current;
+      console.log("tradeId", tradeId);
 
       if (!tradeId) {
-        throw new Error("Missing trade ID");
+        console.log("NO TRADE ID");
+        return;
       }
 
       const res = await getOrderResult(Number(tradeId));
 
       setResult(res.data);
-
-      setCountdown(null);
 
       setTrade(null);
 
@@ -283,36 +220,10 @@ export default function TradePage() {
 
       setShowPopup(true);
 
-      window.localStorage.removeItem("tradeId");
+      tradeIdRef.current = null;
     } catch (error) {
-      console.log(error);
+      console.log("FETCH RESULT ERROR:", error);
       toast.error(t("Toast.buysell"));
-    }
-  };
-
-  const fetchProgressContract = async () => {
-    try {
-      const res: any = await getProgressContract();
-      if (res.data) {
-        const fixedSellTimeStr = res.data.selltime.replace(/\.\d{6}Z$/, "Z");
-        const sellTime = new Date(fixedSellTimeStr).getTime();
-        const now = Date.now();
-        const remainingSeconds = Math.floor((sellTime - now) / 1000);
-
-        if (remainingSeconds > 0) {
-          setProgressContract(res.data);
-          setCountdown(remainingSeconds);
-        } else {
-          setProgressContract(null);
-          setCountdown(null);
-        }
-      } else {
-        setProgressContract(null);
-        setCountdown(null);
-      }
-    } catch (error) {
-      console.error("Error fetching progress contract:", error);
-      setProgressContract(null);
     }
   };
 
@@ -321,6 +232,8 @@ export default function TradePage() {
       const timeout = setTimeout(() => {
         setShowPopup(false); // Ẩn popup sau 5 giây
         setResult(null); // Reset kết quả nếu cần
+        historyOpen();
+        setTradeYn(false);
       }, 5000);
 
       return () => clearTimeout(timeout); // Clear khi component unmount hoặc showPopup thay đổi
@@ -485,7 +398,11 @@ export default function TradePage() {
                     },
                   }}
                 >
-                  <TradeForm onSubmit={handleSubmit} user={user} />
+                  <TradeForm
+                    onSubmit={handleSubmit}
+                    user={user}
+                    tradeYn={tradeYn}
+                  />
                 </Box>
                 <Box>
                   <Box
@@ -512,7 +429,7 @@ export default function TradePage() {
                         p: 1,
                       }}
                     >
-                      {t("HistoryPage.tab1")} (0)
+                      {t("HistoryPage.tab1")} ({history.length})
                     </Typography>
                     <Button
                       onClick={() => {
@@ -541,9 +458,8 @@ export default function TradePage() {
                   <CommandOpen
                     user={user}
                     history={history}
-                    onCLose={async () => {
-                      // await historyOpen();
-                      await fetchResult();
+                    onCLose={() => {
+                      fetchResult();
                     }}
                   />
                 </Box>
@@ -553,6 +469,7 @@ export default function TradePage() {
                     position: "fixed",
                     bottom: 0,
                     left: 0,
+                    background: "#0E1316",
                     p: 2,
                     display: {
                       xs: "block",

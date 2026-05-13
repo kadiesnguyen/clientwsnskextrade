@@ -57,7 +57,12 @@
     "change_pass7": "Failed to change password. Please try again.",
     "change_pass8": "Failed to update bank. Please try again.",
     "change_pass9": "Update bank changed successfully!.",
-    "exchange_toast": "Exchange successfully"
+    "exchange_toast": "Exchange successfully",
+    "widthraw_title1": "Please enter the withdrawal amount (USDT)",
+    "widthraw_title2": "Withdrawal fee",
+    "widthraw_title3": "Receive currency",
+    "widthraw_title4": "Bank card for withdrawal",
+    "widthraw_title5": "Please Choose Network"
   },
   "MenuWebsite": {
     "menu1": "Home",
@@ -192,7 +197,7 @@
     "time": "Time",
     "date": "day",
     "Featured": "Featured Products",
-    "Average": "Average Daily Return",
+    "Average": "Daily income",
     "Minimum": "Minimum Purchase Amount",
     "InvestIn": "Invest in",
     "Invest": "Invest",
@@ -212,6 +217,8 @@
     "menu4": "Transfer",
     "log_title": "You are not logged in",
     "recent": "Recent history",
+    "deposit_history": "Deposit history",
+    "Withdraw_history": "Withdraw history",
     "quantity": "Quantity",
     "name": "Name",
     "Phone": "Phone number",

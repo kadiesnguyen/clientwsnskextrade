@@ -1,338 +1,676 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import {
+  Avatar,
   Box,
-  Typography,
-  Tabs,
-  Tab,
-  Stack,
-  Chip,
   Button,
-  LinearProgress,
-  Card,
-  CardContent,
+  Chip,
+  CircularProgress,
   IconButton,
-  Tooltip,
-  Menu,
+  Stack,
+  Typography,
 } from "@mui/material";
-import { getOrepool, getStaking } from "@/services/User.service";
-import { IOrepool, IOrepoolIterm, IStaking } from "@/shared/interfaces";
-import InvestPopup from "@/components/popup/InvestPopup";
-import StakingPopup from "@/components/popup/StakingPopup";
-import { FileIcon, InternetIcon, UserIcon } from "@/shared/Svgs/Svg.component";
-import LanguageSwitcher from "@/components/Language/LanguageSwitcher";
+
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import LoadingComponent from "@/components/Loading";
-import { useTranslation } from "react-i18next";
+import { buyMining, getOrepool } from "@/services/User.service";
 import { useUserStore } from "@/stores/useUserStore";
+import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
+import { PreviousIcon } from "@/shared/Svgs/Svg.component";
+import Image from "next/image";
 
 export default function ExcavatorPage() {
-  const [tab, setTab] = useState(0);
-  const [open, setOpen] = useState<boolean>(false);
-  const [openSt, setOpenST] = useState<boolean>(false);
-  const [mining, setMining] = useState<IOrepoolIterm | null>(null);
-  const [miningData, setMiningData] = useState<IOrepool | null>(null);
-  const [stakingData, setStakingData] = useState<IStaking[] | null>(null);
-  const [staking, setStaking] = useState<IStaking | null>(null);
-  const [loading, setLoading] = useState(false);
   const { t } = useTranslation();
-  const { user, fetchUser } = useUserStore();
-  const route = useRouter();
 
-  useEffect(() => {
-    fetchData();
-    fetchStakingData();
-  }, []);
+  const [stakingData, setStakingData] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
+
+  const { user, fetchUser } = useUserStore();
+
+  const router = useRouter();
 
   useEffect(() => {
     fetchUser();
   }, [fetchUser]);
 
-  const fetchData = async () => {
-    const res: any = await getOrepool();
-    if (res.status) setMiningData(res.data);
-  };
+  useEffect(() => {
+    fetchStakingData();
+  }, []);
 
   const fetchStakingData = async () => {
-    setLoading(true);
-    const res: any = await getStaking();
-    if (res.status) setStakingData(res.data);
-    setLoading(false);
+    try {
+      setLoading(true);
+
+      const res: any = await getOrepool();
+
+      if (res) {
+        setStakingData({
+          overview: res.data.overview || [],
+          mylist: res.data.mylist || [],
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleChange = (e: React.SyntheticEvent, newValue: number) => {
-    setTab(newValue);
+  const handleSubmit = async (item: any) => {
+    if (!user) {
+      toast.error(t("Toast.mining1"));
+      return;
+    }
+
+    if (Number(user.balance.usdt) < Number(item.pricenum)) {
+      router.push("/asset");
+      return;
+    }
+
+    try {
+      const formData = new FormData();
+
+      formData.append("id", item.id);
+
+      await buyMining(formData);
+
+      toast.success(t("Toast.mining2"));
+
+      fetchStakingData();
+      fetchUser();
+    } catch (error) {
+      toast.error(t("Toast.mining3"));
+    }
   };
 
   if (loading) {
-    return <LoadingComponent />;
-  }
-
-  const renderCard = (item: IOrepoolIterm) => {
-    const percent = (item.sellnum / item.allnum) * 100;
-    const remaining = 100 - percent;
-
     return (
       <Box
-        key={item.id}
         sx={{
-          background: "#1f2937",
-          borderRadius: "14px",
-          p: 2,
-          boxShadow: "0 4px 20px rgba(0,0,0,0.4)",
+          minHeight: "100vh",
+          background:
+            "radial-gradient(circle at top, #07111a 0%, #061018 35%, #040b12 100%)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
-        <Stack
-          direction="row"
-          justifyContent="space-between"
-          alignItems="center"
-          mb={1}
-        >
-          <Typography color="white" fontWeight="bold" fontSize={"12px"}>
-            {item.title}
-          </Typography>
-
-          <Stack direction="row" spacing={0.5}>
-            <Chip
-              label={t("ProfilePage.progress")}
-              size="small"
-              sx={{
-                background: "#1ED760",
-                color: "#000",
-                fontWeight: 600,
-                fontSize: "11px",
-              }}
-            />
-
-            <Button
-              size="small"
-              sx={{
-                background: "#1ED760",
-                color: "#000",
-                fontSize: "11px",
-                textTransform: "none",
-                width: "135px",
-                "&:hover": { background: "#17c653" },
-              }}
-              onClick={() => {
-                setMining(item);
-                setOpen(true);
-              }}
-            >
-              {t("MiningPage.btn")}
-            </Button>
-          </Stack>
-        </Stack>
-
-        <Typography fontSize={13} color="#cbd5e1" mb={1}>
-          {item.sellnum.toLocaleString()} {item.pricecoin} /{" "}
-          {item.allnum.toLocaleString()} {item.pricecoin} Remaining:{" "}
-          {remaining.toFixed(2)}%
-        </Typography>
-
-        <LinearProgress
-          variant="determinate"
-          value={percent}
-          sx={{
-            height: 8,
-            borderRadius: 10,
-            background: "#2a3b52",
-            "& .MuiLinearProgress-bar": {
-              background: "#1ED760",
-            },
-          }}
-        />
-
-        <Typography fontSize={12} color="#9aa4b2" mt={0.5}>
-          {percent.toFixed(2)}%
-        </Typography>
+        <CircularProgress />
       </Box>
     );
-  };
+  }
 
-  const handleCLose = () => {
-    fetchData();
-  };
+  const myList = stakingData?.mylist || [];
+
+  const totalProfit = myList.reduce((sum: number, item: any) => {
+    return sum + Number(item.outusdt || 0);
+  }, 0);
+
+  const todayProfit = myList.reduce((sum: number, item: any) => {
+    return sum + Number(item.outnum || 0);
+  }, 0);
 
   return (
     <Box
       sx={{
-        maxWidth: "448px",
-        margin: "auto",
         minHeight: "100vh",
-        background: "#111827",
+        background:
+          "radial-gradient(circle at top, #07111a 0%, #061018 35%, #040b12 100%)",
 
-        pb: "130px",
+        pb: {
+          xs: "90px",
+          md: "120px",
+        },
       }}
     >
+      {/* CONTAINER */}
       <Box
         sx={{
-          width: "100%",
-          height: "60px",
-          display: "flex",
-          justifyContent: "space-between",
-          padding: "10px",
-          background: "#111827",
-        }}
-      >
-        <IconButton
-          onClick={() => {
-            route.push("/account");
-          }}
-        >
-          <UserIcon width="20px" height="20px" />
-        </IconButton>
-
-        <IconButton onClick={() => route.push("/language")}>
-          <InternetIcon width="20px" height="20px" />
-        </IconButton>
-      </Box>
-      {/* Tabs */}
-      <Tabs
-        value={tab}
-        onChange={handleChange}
-        centered
-        textColor="inherit"
-        TabIndicatorProps={{
-          style: { background: "#1ED760" },
-        }}
-        sx={{
-          mb: 2,
-          "& .MuiTab-root": {
-            color: "#9aa4b2",
-            fontWeight: 600,
-            width: "50%",
-            background: "#1f2937",
-            textTransform: "capitalize",
+          width: {
+            xs: "100%",
+            sm: "92%",
+            md: "85%",
+            lg: "80%",
           },
-          "& .Mui-selected": {
-            color: "#fff",
+
+          mx: "auto",
+
+          px: {
+            xs: 1.5,
+            sm: 2,
+            md: 3,
+          },
+
+          pt: {
+            xs: 2,
+            md: 5,
+          },
+          pb: {
+            xs: 5,
+            md: 0,
           },
         }}
       >
-        <Tab label={t("MiningPage.title1")} />
-        <Tab label={t("MiningPage.title2")} />
-      </Tabs>
-
-      <Typography fontSize={13} color="#9aa4b2" p={2}>
-        {t("MiningPage.note")}
-      </Typography>
-
-      <Box
-        sx={{ display: "flex", justifyContent: "space-between", p: "0 10px" }}
-      >
-        <Typography fontSize={16} color="white" p={2}>
-          {t("MiningPage.Featured")}
-        </Typography>
-        <IconButton
-          sx={{ background: "none" }}
-          onClick={() => {
-            if (user) {
-              route.push("/excavator/my-excavator");
-            }
+        <Box
+          sx={{
+            width: "100%",
+            display: {
+              xs: "flex",
+              sm: "none",
+            },
+            justifyContent: "space-between",
+            textAlign: "center",
+            borderBottom: "1px solid hsla(0,0%,100%,.050980392156862744)",
+            alignItems: "center",
+            height: "70px",
           }}
         >
-          <FileIcon width="30px" height="30px" fill="white" />
-        </IconButton>
-      </Box>
+          <IconButton onClick={() => router.back()}>
+            <PreviousIcon width="25px" height="20px" />
+          </IconButton>
+          <Typography variant="h5" color={"white"}>
+            {t("MiningPage.title1")}
+          </Typography>
+          <Button
+            // onClick={() => router.push("/deposit/history")}
+            sx={{
+              "&:hover": {
+                background: "#202630",
+              },
+            }}
+          >
+            <Image
+              src="/images/history-deposit.png"
+              width={50}
+              height={50}
+              alt=""
+              style={{ height: "50px", objectFit: "contain" }}
+            />
+          </Button>
+        </Box>
+        {/* PROFIT CARD */}
+        <Box
+          sx={{
+            borderRadius: {
+              xs: "18px",
+              md: "28px",
+            },
 
-      <Stack spacing={2} pb={20} p={2}>
-        {/* Tab 0 */}
-        {tab === 0 && miningData?.overview?.map((item) => renderCard(item))}
+            background: "linear-gradient(180deg,#121828 0%, #111827 100%)",
 
-        {/* Tab 1 */}
-        {tab === 1 && miningData?.exclusive?.map((item) => renderCard(item))}
+            border: "1px solid rgba(255,255,255,0.04)",
 
-        {tab === 0 && stakingData && (
-          <Box mt={3} display="flex" flexDirection="column" gap={2}>
-            {stakingData.map((item) => (
-              <Card
-                key={item.id}
+            py: {
+              xs: 2,
+              md: 4,
+            },
+
+            px: {
+              xs: 2,
+              md: 3,
+            },
+
+            mb: {
+              xs: 2,
+              md: 4,
+            },
+            mt: { xs: 0, sm: 7 },
+          }}
+        >
+          <Stack
+            direction="row"
+            alignItems="center"
+            justifyContent="space-between"
+          >
+            <Box>
+              <Typography
                 sx={{
-                  background: "#1f2937",
-                  borderRadius: "16px",
-                  color: "white",
-                  p: 2,
+                  color: "#9ca3af",
+
+                  fontSize: {
+                    xs: 13,
+                    md: 16,
+                  },
+
+                  fontWeight: 500,
                 }}
               >
-                <CardContent
+                {t("MiningPage.amount")} (USDT)
+              </Typography>
+
+              <Typography
+                sx={{
+                  color: "#fff",
+
+                  mt: 1,
+
+                  fontWeight: 700,
+
+                  fontSize: {
+                    xs: 28,
+                    md: 42,
+                  },
+                }}
+              >
+                {totalProfit.toLocaleString()}
+              </Typography>
+            </Box>
+
+            <Avatar
+              src="/images/usdt.png"
+              sx={{
+                width: {
+                  xs: 36,
+                  md: 50,
+                },
+
+                height: {
+                  xs: 36,
+                  md: 50,
+                },
+
+                background: "rgba(255,255,255,0.08)",
+              }}
+            >
+              uSDT
+            </Avatar>
+          </Stack>
+
+          <Stack direction="row" justifyContent="space-between" mt={2}>
+            <Typography
+              sx={{
+                color: "#9ca3af",
+
+                fontSize: {
+                  xs: 12,
+                  md: 15,
+                },
+              }}
+            >
+              {t("MiningPage.rateM")}: {todayProfit.toLocaleString()}%
+            </Typography>
+
+            <Typography
+              sx={{
+                color: "#d1d5db",
+
+                fontSize: {
+                  xs: 12,
+                  md: 15,
+                },
+              }}
+            >
+              {t("MiningPage.title1")}
+            </Typography>
+          </Stack>
+        </Box>
+
+        {/* GRID */}
+        <Box
+          sx={{
+            display: "grid",
+
+            gridTemplateColumns: {
+              xs: "1fr",
+              sm: "1fr 1fr",
+              lg: "1fr 1fr 1fr",
+            },
+
+            gap: {
+              xs: 1.5,
+              md: 3,
+            },
+          }}
+        >
+          {stakingData?.overview?.map((item: any) => (
+            <Box
+              key={item.id}
+              sx={{
+                borderRadius: {
+                  xs: "16px",
+                  md: "24px",
+                },
+
+                background: "linear-gradient(180deg,#161d2b 0%, #101522 100%)",
+
+                border: "1px solid rgba(255,255,255,0.05)",
+
+                p: {
+                  xs: 1.5,
+                  md: 2.5,
+                },
+
+                transition: "0.25s",
+
+                "&:hover": {
+                  md: {
+                    transform: "translateY(-4px)",
+                    boxShadow: "0 20px 50px rgba(0,0,0,0.45)",
+                  },
+                },
+              }}
+            >
+              {/* HEADER */}
+              <Stack
+                direction="row"
+                justifyContent="space-between"
+                alignItems="flex-start"
+              >
+                <Box
                   sx={{
                     display: "flex",
-                    flexDirection: "column",
-                    gap: "15px",
+                    alignItems: "center",
+                    gap: {
+                      xs: 1,
+                      md: 1.5,
+                    },
+
+                    minWidth: 0,
                   }}
                 >
-                  {/* Header */}
-                  <Box display="flex" gap={2} alignItems="center">
-                    <Box
-                      component="img"
-                      src={item.imgs}
-                      alt={item.name}
-                      sx={{
-                        width: 60,
-                        height: 60,
-                        borderRadius: "12px",
-                        background: "linear-gradient(135deg,#34d399,#3b82f6)",
-                        p: 1,
-                      }}
-                    />
-
-                    <Box>
-                      <Typography fontSize="20px" fontWeight="bold">
-                        USDT
-                      </Typography>
-
-                      <Typography fontSize="14px">
-                        {t("MiningPage.Average")}: {item.percent} %
-                      </Typography>
-
-                      <Typography fontSize="14px">
-                        {t("MiningPage.Minimum")}
-                        {Number(item.min).toLocaleString()}
-                      </Typography>
-                    </Box>
-                  </Box>
-
-                  {/* Purchase button */}
-                  <Button
-                    fullWidth
-                    variant="contained"
+                  {/* IMAGE DESKTOP */}
+                  <Box
+                    component="img"
+                    src={item.imgs}
+                    alt={item.title}
                     sx={{
-                      background: "#22c55e",
-                      borderRadius: "10px",
-                      height: "45px",
-                      fontWeight: "bold",
-                      textTransform: "capitalize",
-                      "&:hover": {
-                        background: "#16a34a",
+                      display: {
+                        xs: "none",
+                        md: "block",
                       },
+
+                      width: 54,
+                      height: 54,
+
+                      borderRadius: "14px",
+
+                      objectFit: "cover",
                     }}
-                    onClick={() => {
-                      setStaking(item);
-                      setOpenST(true);
+                  />
+
+                  <Typography
+                    sx={{
+                      color: "#fff",
+
+                      fontWeight: 700,
+
+                      fontSize: {
+                        xs: 15,
+                        md: 18,
+                      },
+
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
                     }}
                   >
-                    {t("HistoryPage.Purchase")}
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </Box>
-        )}
-      </Stack>
-      <InvestPopup
-        open={open}
-        onClose={() => setOpen(false)}
-        data={mining}
-        onSubmit={handleCLose}
-      />
-      <StakingPopup
-        open={openSt}
-        onClose={() => setOpenST(false)}
-        data={staking}
-        onSubmit={handleCLose}
-      />
+                    {item.title}
+                  </Typography>
+                </Box>
+
+                {/* RIGHT ICON */}
+                <Box
+                  sx={{
+                    width: {
+                      xs: 28,
+                      md: 36,
+                    },
+
+                    height: {
+                      xs: 28,
+                      md: 36,
+                    },
+
+                    borderRadius: "50%",
+
+                    background: "rgba(255,255,255,0.08)",
+
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+
+                    color: "#fff",
+
+                    fontSize: {
+                      xs: 16,
+                      md: 20,
+                    },
+                  }}
+                >
+                  ›
+                </Box>
+              </Stack>
+
+              {/* CHIP */}
+              <Stack direction="row" spacing={1} mt={1.5}>
+                <Chip
+                  label={`${item.dayoutnum}%`}
+                  size="small"
+                  sx={{
+                    background: "#243041",
+
+                    color: "#fff",
+
+                    fontWeight: 700,
+
+                    borderRadius: "6px",
+
+                    fontSize: 11,
+
+                    height: 24,
+                  }}
+                />
+
+                <Chip
+                  label={`${item.cycle} ${t("MiningPage.date")}`}
+                  size="small"
+                  sx={{
+                    background: "#243041",
+
+                    color: "#fff",
+
+                    fontWeight: 700,
+
+                    borderRadius: "6px",
+
+                    fontSize: 11,
+
+                    height: 24,
+                  }}
+                />
+              </Stack>
+
+              {/* CONTENT DESKTOP */}
+              <Typography
+                sx={{
+                  display: {
+                    xs: "none",
+                    md: "block",
+                  },
+
+                  color: "#cbd5e1",
+
+                  mt: 2,
+
+                  lineHeight: 1.6,
+
+                  fontSize: 14,
+                }}
+              >
+                {item.content}
+              </Typography>
+
+              {/* DAILY */}
+              <Typography
+                sx={{
+                  mt: {
+                    xs: 1.5,
+                    md: 2,
+                  },
+
+                  color: "#fff",
+
+                  fontSize: {
+                    xs: 13,
+                    md: 15,
+                  },
+
+                  fontWeight: 600,
+                }}
+              >
+                {t("MiningPage.Average")}:{" "}
+                <Box
+                  component="span"
+                  sx={{
+                    color: "#00d084",
+                    fontWeight: 700,
+                  }}
+                >
+                  {item.dayoutnum}%
+                </Box>
+              </Typography>
+
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: "10px",
+                  justifyContent: { xs: "space-between", sm: "flex-start" },
+                }}
+              >
+                {/* INVEST */}
+                <Typography
+                  sx={{
+                    mt: 1,
+
+                    color: "#9ca3af",
+
+                    fontSize: {
+                      xs: 12,
+                      md: 14,
+                    },
+                  }}
+                >
+                  {t("MiningPage.Invest")}:{" "}
+                </Typography>
+                <Typography
+                  sx={{
+                    mt: 1,
+
+                    color: "white",
+                    fontWeight: 700,
+
+                    fontSize: {
+                      xs: 12,
+                      md: 14,
+                    },
+                  }}
+                >
+                  {Number(item.pricenum).toLocaleString()}{" "}
+                  {item.pricecoin.toUpperCase()}
+                </Typography>
+              </Box>
+
+              {/* FOOTER DESKTOP */}
+              <Stack
+                direction="row"
+                justifyContent="space-between"
+                mt={2}
+                sx={{
+                  display: {
+                    xs: "none",
+                    md: "flex",
+                  },
+                }}
+              >
+                <Box>
+                  <Typography
+                    sx={{
+                      color: "#94a3b8",
+                      fontSize: 12,
+                    }}
+                  >
+                    {t("MiningPage.type4")}
+                  </Typography>
+
+                  <Typography
+                    sx={{
+                      color: "#fff",
+                      fontWeight: 700,
+                      mt: 0.5,
+                    }}
+                  >
+                    {item.cycle} {t("MiningPage.date")}
+                  </Typography>
+                </Box>
+
+                <Box textAlign="right">
+                  <Typography
+                    sx={{
+                      color: "#94a3b8",
+                      fontSize: 12,
+                    }}
+                  >
+                    {t("MiningPage.Minimum")}
+                  </Typography>
+
+                  <Typography
+                    sx={{
+                      color: "#00e676",
+                      fontWeight: 700,
+                      mt: 0.5,
+                    }}
+                  >
+                    {item.buymax}
+                  </Typography>
+                </Box>
+              </Stack>
+
+              {/* BUTTON */}
+              <Button
+                fullWidth
+                onClick={() => handleSubmit(item)}
+                sx={{
+                  mt: {
+                    xs: 2,
+                    md: 3,
+                  },
+
+                  height: {
+                    xs: 42,
+                    md: 54,
+                  },
+
+                  borderRadius: {
+                    xs: "12px",
+                    md: "16px",
+                  },
+
+                  background: "linear-gradient(90deg,#00d084 0%, #00b86b 100%)",
+
+                  color: "#fff",
+
+                  fontWeight: 700,
+
+                  fontSize: {
+                    xs: 14,
+                    md: 16,
+                  },
+
+                  textTransform: "none",
+
+                  "&:hover": {
+                    background:
+                      "linear-gradient(90deg,#00d084 0%, #00b86b 100%)",
+                  },
+                }}
+              >
+                {t("MiningPage.button")}
+              </Button>
+            </Box>
+          ))}
+        </Box>
+      </Box>
     </Box>
   );
 }

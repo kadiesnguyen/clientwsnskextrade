@@ -57,7 +57,12 @@
     "signup2": "Đăng ký thành công",
     "signup3": " Mã xác nhận đã được gửi tới email của bạn",
     "Coin_title": "Giao dịch với giá tốt nhất hiện tại",
-    "exchange_toast": "Chuyển đổi thành công"
+    "exchange_toast": "Chuyển đổi thành công",
+    "widthraw_title1": "Vui lòng nhập số tiền rút (USDT)",
+    "widthraw_title2": "Phí rút",
+    "widthraw_title3": "Loại tiền nhận",
+    "widthraw_title4": "Thẻ ngân hàng rút tiền",
+    "widthraw_title5": "Chọn ví rút tiền"
   },
   "MenuWebsite": {
     "menu1": "Trang chủ",
@@ -192,7 +197,7 @@
     "time": "Thời gian",
     "date": "ngày",
     "Featured": "Sản phẩm nổi bật",
-    "Average": "Lợi nhuận trung bình mỗi ngày",
+    "Average": "Thu nhập hàng ngày",
     "Minimum": "Số tiền mua tối thiểu",
     "InvestIn": "Đầu tư vào",
     "Invest": "Đầu tư",
@@ -211,6 +216,8 @@
     "menu3": "Rút tiền",
     "menu4": "Chuyển tiền",
     "log_title": "Bạn chưa đăng nhập",
+    "deposit_history": "Lịch sử nạp tiền",
+    "Withdraw_history": "Lịch sử rút tiền",
     "recent": "Lịch sử gần đây",
     "quantity": "Số lượng",
     "name": "Tên",
