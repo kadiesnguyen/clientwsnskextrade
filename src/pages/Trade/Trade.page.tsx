@@ -22,6 +22,7 @@ import { IHistoryOpen } from "@/shared/interfaces";
 import TradePopup from "@/components/popup/TradePopup";
 import { NextIcon, PreviousIcon } from "@/shared/Svgs/Svg.component";
 import { useRouter } from "next/navigation";
+import { formatCurrency } from "@/utils/formatMoney";
 
 export interface Icoin {
   coinname: string;
@@ -110,6 +111,7 @@ export default function TradePage() {
   const [time, setTime] = useState("1");
   const [timeValue, setTimeValue] = useState("1m");
   const router = useRouter();
+  const [imageLoaded, setImageLoaded] = useState(false);
   useEffect(() => {
     fetchUser();
   }, [fetchUser]);
@@ -175,8 +177,10 @@ export default function TradePage() {
           clearInterval(interval);
           setProgressContract(null);
 
-          setTimeout(() => {
-            fetchResult();
+          setTimeout(async () => {
+            await fetchResult();
+            await historyOpen();
+            setProgressContract(null);
           }, 4000);
 
           return 0;
@@ -189,14 +193,14 @@ export default function TradePage() {
   }, [countdown]);
 
   const historyOpen = async () => {
-    try {
-      const his: any = await getContractjc();
-      if (his.status === true) {
-        setHisstory(his.data);
-      }
-    } catch (errors: any) {
-      console.log(errors?.message);
+    // try {
+    const his: any = await getContractjc();
+    if (his.status === true) {
+      setHisstory(his.data);
     }
+    // } catch (errors: any) {
+    //   console.log(errors?.message);
+    // }
   };
 
   const preloadImage = (src: string): Promise<void> => {
@@ -213,6 +217,7 @@ export default function TradePage() {
   const handleSubmit = async (data: ITypeTrade) => {
     if (!user) {
       toast.error(t("BuySellPage.title"));
+      return;
     }
     if (user?.rzstatus !== 2) {
       toast.error(t("Toast.buysell5"));
@@ -226,6 +231,7 @@ export default function TradePage() {
 
     try {
       const formData = new FormData();
+
       formData.append("ctime", data.hytime);
       formData.append("amount", String(data.price));
       formData.append("coinname", selectedCoin.symbol);
@@ -233,40 +239,83 @@ export default function TradePage() {
       formData.append("uprate", data.hyykbl);
 
       const res = await createOrder(formData);
-      console.log("res", res);
+
+      console.log("CREATE ORDER:", res);
+
       if (res.status) {
-        setProgressContract(res.data);
-        await fetchResult();
-        fetchUser();
-        historyOpen();
-        toast.success(t("Toast.buysell3"));
+        try {
+          window.localStorage.setItem("tradeId", res.data?.id);
+          setProgressContract(res.data);
+
+          await fetchUser();
+
+          historyOpen();
+
+          toast.success(t("Toast.buysell3"));
+        } catch (innerErr) {
+          console.log("INNER ERROR:", innerErr);
+        }
+
         return;
       }
-
-      // onClose();
-      // toast.success(t("Toast.buysell3"));
     } catch (error) {
+      console.log("MAIN ERROR:", error);
       toast.error(t("Toast.buysell4"));
     }
   };
-
   const fetchResult = async () => {
     try {
-      if (!progressContract?.id) {
-        throw new Error("Missing trade ID or progress contract ID");
+      const tradeId = window.localStorage.getItem("tradeId");
+
+      if (!tradeId) {
+        throw new Error("Missing trade ID");
       }
 
-      const res = await getOrderResult(progressContract.id);
+      const res = await getOrderResult(Number(tradeId));
 
       setResult(res.data);
+
       setCountdown(null);
+
       setTrade(null);
+
       await preloadImage("/images/thongbao.png");
+
       setShowPopup(true);
-    } catch (error: any) {
+
+      window.localStorage.removeItem("tradeId");
+    } catch (error) {
+      console.log(error);
       toast.error(t("Toast.buysell"));
     }
   };
+
+  const fetchProgressContract = async () => {
+    try {
+      const res: any = await getProgressContract();
+      if (res.data) {
+        const fixedSellTimeStr = res.data.selltime.replace(/\.\d{6}Z$/, "Z");
+        const sellTime = new Date(fixedSellTimeStr).getTime();
+        const now = Date.now();
+        const remainingSeconds = Math.floor((sellTime - now) / 1000);
+
+        if (remainingSeconds > 0) {
+          setProgressContract(res.data);
+          setCountdown(remainingSeconds);
+        } else {
+          setProgressContract(null);
+          setCountdown(null);
+        }
+      } else {
+        setProgressContract(null);
+        setCountdown(null);
+      }
+    } catch (error) {
+      console.error("Error fetching progress contract:", error);
+      setProgressContract(null);
+    }
+  };
+
   useEffect(() => {
     if (showPopup) {
       const timeout = setTimeout(() => {
@@ -493,7 +542,8 @@ export default function TradePage() {
                     user={user}
                     history={history}
                     onCLose={async () => {
-                      await historyOpen();
+                      // await historyOpen();
+                      await fetchResult();
                     }}
                   />
                 </Box>
@@ -564,6 +614,73 @@ export default function TradePage() {
           </Box>
         </Box>
       </Box>
+      {showPopup && (
+        <Box
+          sx={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            background: "rgba(53, 53, 53, 0.5)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: 1000,
+          }}
+        >
+          <Box
+            sx={{
+              position: "relative",
+              width: "90%",
+              maxWidth: "300px",
+              borderRadius: "10px",
+              marginTop: "-20%",
+            }}
+          >
+            {/* Ảnh nền */}
+            <Box
+              component="img"
+              src="/images/thongbao.png"
+              alt="Thông báo"
+              onLoad={() => setImageLoaded(true)}
+              sx={{
+                width: "100%",
+                height: "auto",
+                display: "block",
+                borderRadius: "10px",
+              }}
+            />
+            {imageLoaded && (
+              <Box
+                sx={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                  textAlign: "center",
+                  width: "100%",
+                  px: 2,
+                }}
+              >
+                <Typography
+                  variant="h6"
+                  sx={{
+                    fontSize: "35px",
+                    fontWeight: "bold",
+                    color: result?.is_win === 1 ? "#00c853" : "red",
+                  }}
+                >
+                  {result?.is_win === 1 ? "+" : "-"}
+                  {result
+                    ? formatCurrency(Number(result?.ploss), "en", "USD")
+                    : 0}
+                </Typography>
+              </Box>
+            )}
+          </Box>
+        </Box>
+      )}
       {user && (
         <TradePopup
           open={openTrade}

@@ -49,10 +49,12 @@ export default function CommandOpen({
 
         Object.keys(prev).forEach((id) => {
           const numId = Number(id);
+
           const newTime = prev[numId] > 0 ? prev[numId] - 1 : 0;
+
           updated[numId] = newTime;
 
-          if (newTime === 0) {
+          if (prev[numId] === 1) {
             onCLose();
           }
         });
