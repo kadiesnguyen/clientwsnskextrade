@@ -433,7 +433,7 @@ export default function TradePage() {
                     </Typography>
                     <Button
                       onClick={() => {
-                        router.push("/contact/history");
+                        if (user) router.push("/contact/history");
                       }}
                       sx={{
                         display: "flex",
