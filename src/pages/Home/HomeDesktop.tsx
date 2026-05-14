@@ -49,13 +49,14 @@ export default function HomeDesktop({
           margin: "auto",
           display: "flex",
           alignItems: "center",
+          justifyContent: "space-between",
           gap: "10px",
           background: "#000",
           pt: "130px",
           pb: "30px",
         }}
       >
-        <Box sx={{}}>
+        <Box>
           <Box
             sx={{
               color: "transparent",
@@ -159,18 +160,16 @@ export default function HomeDesktop({
           </Box>
         </Box>
 
-        <Box>
-          <video
-            src={"/images/new_banner-bg4.mp4"}
-            width={500}
-            height={500}
-            autoPlay
-            loop
-            muted
-            playsInline
-            style={{ width: "450px", height: "350px" }}
-          />
-        </Box>
+        <video
+          src={"/images/new_banner-bg4.mp4"}
+          width={500}
+          height={500}
+          autoPlay
+          loop
+          muted
+          playsInline
+          style={{ width: "450px", height: "350px" }}
+        />
       </Box>
       <Box
         sx={{ width: "80%", background: "#000", margin: "auto", pb: "100px" }}
