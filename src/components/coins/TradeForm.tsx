@@ -151,7 +151,11 @@ export default function TradeForm({ onSubmit, user, tradeYn }: InputProps) {
   // COMPONENT FORM
   const renderTradeBox = (mode: "up" | "down", data: any) => {
     const isUp = mode === "up";
+    const minPrice = Number(data?.hy_min_per_frame || 0);
+    const maxPrice = Number(data?.hy_max_per_frame || 0);
 
+    const isMinError = Number(data.price) < minPrice;
+    const isMaxError = Number(data.price) > maxPrice;
     return (
       <Box
         sx={{
@@ -330,7 +334,7 @@ export default function TradeForm({ onSubmit, user, tradeYn }: InputProps) {
 
           <Button
             fullWidth
-            disabled={!user || tradeYn}
+            disabled={!user || tradeYn || isMinError || isMaxError}
             sx={{
               height: "46px",
               borderRadius: "999px",
@@ -350,6 +354,29 @@ export default function TradeForm({ onSubmit, user, tradeYn }: InputProps) {
           >
             {isUp ? "Mua tăng" : "Mua giảm"}
           </Button>
+          {isMinError && (
+            <Typography
+              sx={{
+                color: "#ef4444",
+                fontSize: "12px",
+                mt: "8px",
+              }}
+            >
+              Số tiền tối thiểu là {minPrice.toLocaleString()} USDT
+            </Typography>
+          )}
+
+          {isMaxError && (
+            <Typography
+              sx={{
+                color: "#ef4444",
+                fontSize: "12px",
+                mt: "8px",
+              }}
+            >
+              Số tiền tối đa là {maxPrice.toLocaleString()} USDT
+            </Typography>
+          )}
         </Box>
 
         {/* FOOTER */}

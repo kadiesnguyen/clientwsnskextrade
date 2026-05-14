@@ -68,6 +68,8 @@ export default function TradePopup({
             hy_ykbl: data.hy_ykbl?.split(",") || [],
             hy_tzed: data.hy_tzed?.split(",") || [],
             hy_min: data.hy_min?.split(",") || [],
+            hy_min_per_frame: data.hy_min_per_frame?.split(",") || [],
+            hy_max_per_frame: data.hy_max_per_frame?.split(",") || [],
           };
           setType(0);
           setHytime(processedData.hy_time?.[0] || "3");
@@ -122,6 +124,17 @@ export default function TradePopup({
       toast.error(t("Toast.buysell4"));
     }
   };
+  const minAmount = Number(buySellConfig?.hy_min_per_frame?.[type] || 0);
+
+  const maxAmount = Number(buySellConfig?.hy_max_per_frame?.[type] || 0);
+
+  const currentAmount = Number(amount || 0);
+
+  const isMinError = currentAmount < minAmount;
+
+  const isMaxError = currentAmount > maxAmount;
+
+  const isAmountError = isMinError || isMaxError;
 
   return (
     <Drawer
@@ -321,14 +334,45 @@ export default function TradePopup({
           placeholder={t("BuySellPage.input_n")}
           type="number"
           value={amount}
-          onChange={(e) => setAmount(e.target.value)}
+          onChange={(e) => {
+            const value = e.target.value;
+
+            setAmount(value);
+            setPriceConfig(Number(value));
+          }}
+          error={isAmountError}
+          helperText={
+            isMinError
+              ? `Tối thiểu ${minAmount.toLocaleString()} USDT`
+              : isMaxError
+                ? `Tối đa ${maxAmount.toLocaleString()} USDT`
+                : ""
+          }
+          FormHelperTextProps={{
+            sx: {
+              color: "#ef4444",
+              mx: 0,
+              mt: 1,
+            },
+          }}
           InputProps={{
             sx: {
               background: "#111827",
               color: "white",
+
+              "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+                {
+                  WebkitAppearance: "none",
+                  margin: 0,
+                },
+
+              "& input[type=number]": {
+                MozAppearance: "textfield",
+              },
             },
           }}
         />
+
         <Box sx={{ display: "flex", justifyContent: "space-between", mt: 3 }}>
           <Typography
             sx={{ color: "#9ca3af", fontWeight: 400, fontSize: "13px" }}
@@ -382,13 +426,21 @@ export default function TradePopup({
         <Button
           fullWidth
           variant="contained"
-          disabled={history.length > 0}
+          disabled={history.length > 0 || isAmountError}
           sx={{
             mt: 3,
             background: tab === "BUY" ? "#22c55e" : "#ef4444",
             py: 1.5,
             fontWeight: "bold",
-            "&:hover": { background: tab === "BUY" ? "#22c55e" : "#ef4444" },
+
+            "&.Mui-disabled": {
+              background: "#475569",
+              color: "#cbd5e1",
+            },
+
+            "&:hover": {
+              background: tab === "BUY" ? "#22c55e" : "#ef4444",
+            },
           }}
           onClick={handleSubmit}
         >
