@@ -388,7 +388,7 @@ export default function TradePage() {
                     </Stack>
                   </Box>
 
-                  <TradingChart symbol={selectedCoin?.name} interval={time} />
+                  <TradingChart symbol={selectedCoin?.symbol} interval={time} />
                 </Box>
                 <Box
                   sx={{

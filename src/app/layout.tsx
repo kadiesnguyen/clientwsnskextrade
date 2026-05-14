@@ -15,8 +15,8 @@ async function getSeo() {
 
   if (!res.ok) {
     return {
-      title: "Convert",
-      description: "Convert",
+      title: "KCEX",
+      description: "KCEX",
     };
   }
 
@@ -27,10 +27,10 @@ export async function generateMetadata(): Promise<Metadata> {
   const seo = await getSeo();
 
   return {
-    title: seo?.data?.webname || "Convert",
-    description: seo?.data?.webtitle || "Convert",
+    title: seo?.data?.webname || "KCEX",
+    description: seo?.data?.webtitle || "KCEX",
     icons: {
-      icon: seo?.data?.weblogo,
+      icon: "/images/logo.png",
     },
   };
 }
@@ -52,7 +52,7 @@ export default function RootLayout({
           rel="stylesheet"
           href="https://cdn.jsdelivr.net/gh/philfung/add-to-homescreen@3.2/dist/add-to-homescreen.min.css"
         />
-        <link rel="apple-touch-icon" sizes="180x180" href="/logo.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/images/logo.png" />
       </head>
 
       <body className={inter.className}>

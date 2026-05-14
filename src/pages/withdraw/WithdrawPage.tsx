@@ -256,14 +256,14 @@ export default function WithdrawPage() {
                 }}
               />
 
-              <Typography
+              {/* <Typography
                 sx={{
                   color: "#8e98a7",
                   fontSize: 14,
                 }}
               >
                 {t("Toast.widthraw_title2")} {selectedCoin?.bbsxf ?? 0}%
-              </Typography>
+              </Typography> */}
             </Box>
 
             <Typography

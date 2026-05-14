@@ -133,7 +133,7 @@ export default function HeaderPage() {
     <Box
       sx={{
         width: "100vw",
-        background: "#141A1F",
+        background: "#000",
         backdropFilter: "blur(10px)",
         position: "fixed",
         top: 0,
@@ -150,15 +150,33 @@ export default function HeaderPage() {
           alignItems: "center",
         }}
       >
-        <Box sx={{ display: "flex", gap: "10px", pl: "20px" }}>
-          <Image
-            src={"/images/logo.png"}
-            width={100}
-            height={100}
-            alt=""
-            style={{ height: "50px", objectFit: "contain", cursor: "pointer" }}
+        <Box sx={{ display: "flex", gap: "20px", pl: "20px" }}>
+          <Box
+            sx={{
+              display: "flex",
+              gap: "10px",
+              alignItems: "center",
+              pr: "20px",
+              cursor: "pointer",
+            }}
             onClick={() => router.push("/")}
-          />
+          >
+            <Image
+              src={"/images/logo.png"}
+              width={30}
+              height={30}
+              alt=""
+              style={{
+                height: "30px",
+                objectFit: "contain",
+              }}
+            />
+            <Typography
+              sx={{ fontSize: "20px", fontWeight: "bold", color: "white" }}
+            >
+              KCEX
+            </Typography>
+          </Box>
           <Box sx={{ display: "flex", gap: "30px", alignItems: "center" }}>
             {MenuWebsite.map((item) => (
               <Link

@@ -1,56 +1,145 @@
 "use client";
 
 import { Avatar, Box, Stack, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { iconMap } from "./CoinPage";
+import { getDataChart } from "@/services/User.service";
 
-export default function CoinSidebar({
-  coins,
-  selectedCoin,
-  onSelect,
-  time,
-}: any) {
+export default function CoinSidebar({ coins, selectedCoin, onSelect }: any) {
   const [marketData, setMarketData] = useState<any>({});
 
+  /**
+   * PREVENT DUPLICATE REQUEST
+   */
+  const fetchingRef = useRef(false);
+
+  /**
+   * SPECIAL SYMBOLS
+   * -> CALL getDataChart()
+   */
+  const SPECIAL_SYMBOLS: any = {
+    XAUUSDT: "XAUUSD",
+    XAGUSDT: "XAGUSD",
+    GBPUSDT: "GBPUSD",
+    USDJPY: "USDJPY",
+    EURUSDT: "EURUSD",
+    AAPL: "AAPL",
+  };
+
+  /**
+   * NORMALIZE SYMBOL
+   */
+  const normalizeSymbol = (coin: any) => {
+    return coin.name.replace("-", "").toUpperCase();
+  };
+
+  /**
+   * FETCH ALL MARKET
+   */
   const fetchTicker = async () => {
+    /**
+     * AVOID MULTIPLE CALL
+     */
+    if (fetchingRef.current) return;
+
+    fetchingRef.current = true;
+
     try {
-      const responses = await Promise.all(
-        coins.map(async (coin: any) => {
-          const symbol = coin.symbol.replace("-", "").toUpperCase();
+      /**
+       * BINANCE COINS
+       */
+      const cryptoCoins = coins.filter((coin: any) => {
+        const symbol = normalizeSymbol(coin);
 
-          const res = await fetch(
-            `https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=${time}&limit=1`,
-          );
+        return !SPECIAL_SYMBOLS[symbol];
+      });
 
-          const data = await res.json();
+      /**
+       * SPECIAL COINS
+       */
+      const specialCoins = coins.filter((coin: any) => {
+        const symbol = normalizeSymbol(coin);
 
-          const candle = data?.[0];
+        return !!SPECIAL_SYMBOLS[symbol];
+      });
 
-          if (!candle) return null;
+      /**
+       * =========================
+       * FETCH BINANCE
+       * =========================
+       */
+      const cryptoResponses = await Promise.all(
+        cryptoCoins.map(async (coin: any) => {
+          try {
+            const symbol = normalizeSymbol(coin);
 
-          const open = Number(candle[1]);
-          const high = Number(candle[2]);
-          const low = Number(candle[3]);
-          const close = Number(candle[4]);
-          const volume = Number(candle[5]);
+            const res = await fetch(
+              `https://api.binance.com/api/v3/ticker/24hr?symbol=${symbol}`,
+            );
 
-          const change = ((close - open) / open) * 100;
+            const data = await res.json();
 
-          return {
-            symbol,
-            open,
-            high,
-            low,
-            close,
-            volume,
-            change,
-          };
+            if (!data?.lastPrice) return null;
+
+            return {
+              symbol,
+              close: Number(data.lastPrice),
+              change: Number(data.priceChangePercent),
+            };
+          } catch (error) {
+            console.log("BINANCE ERROR:", error);
+
+            return null;
+          }
         }),
       );
 
+      /**
+       * =========================
+       * FETCH SPECIAL
+       * =========================
+       *
+       * FETCH SEQUENTIAL
+       * tránh spam API
+       */
+      const specialResponses: any[] = [];
+
+      for (const coin of specialCoins) {
+        try {
+          const symbol = normalizeSymbol(coin);
+
+          const apiSymbol = SPECIAL_SYMBOLS[symbol];
+
+          const res: any = await getDataChart(apiSymbol);
+
+          const result = res?.data;
+
+          if (!result) continue;
+
+          specialResponses.push({
+            symbol,
+            close: Number(result.close),
+            change: Number(result.change_percent),
+          });
+
+          /**
+           * DELAY 300ms
+           * tránh rate limit
+           */
+          await new Promise((resolve) => setTimeout(resolve, 300));
+        } catch (error) {
+          console.log("SPECIAL API ERROR:", error);
+        }
+      }
+
+      /**
+       * =========================
+       * MERGE
+       * =========================
+       */
       const formatted: any = {};
 
-      responses.forEach((item: any) => {
+      [...cryptoResponses, ...specialResponses].forEach((item: any) => {
         if (!item) return;
 
         formatted[item.symbol] = item;
@@ -58,16 +147,31 @@ export default function CoinSidebar({
 
       setMarketData(formatted);
     } catch (error) {
-      console.log(error);
+      console.log("FETCH TICKER ERROR:", error);
+    } finally {
+      fetchingRef.current = false;
     }
   };
+
+  /**
+   * INIT
+   */
   useEffect(() => {
+    if (!coins?.length) return;
+
     fetchTicker();
 
-    const intervalId = setInterval(fetchTicker, 3000);
+    /**
+     * SPECIAL API LIMIT LOW
+     * => 60s
+     */
+    const interval = setInterval(() => {
+      fetchTicker();
+    }, 5000);
 
-    return () => clearInterval(intervalId);
-  }, [coins, time]);
+    return () => clearInterval(interval);
+  }, [coins]);
+
   return (
     <Box
       sx={{
@@ -77,13 +181,12 @@ export default function CoinSidebar({
       }}
     >
       {coins?.map((coin: any) => {
-        const symbol = coin.symbol.replace("-", "").toUpperCase();
+        const symbol = normalizeSymbol(coin);
 
         const data = marketData[symbol];
 
         const active = selectedCoin?.symbol === coin.symbol;
 
-        const baseSymbol = coin.title.replace("/USDT", "");
         return (
           <Box
             key={coin.id}
@@ -109,10 +212,16 @@ export default function CoinSidebar({
               {/* LEFT */}
               <Stack direction="row" spacing={1.5} alignItems="center">
                 <Avatar
-                  src={iconMap[baseSymbol] || ""}
-                  sx={{ width: 28, height: 28 }}
+                  src={
+                    iconMap[coin.symbol] ||
+                    `https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/128/color/${coin?.coinname?.toLowerCase()}.png`
+                  }
+                  sx={{
+                    width: 28,
+                    height: 28,
+                  }}
                 >
-                  {baseSymbol.charAt(0)}
+                  {coin.symbol.charAt(0)}
                 </Avatar>
 
                 <Typography
@@ -135,17 +244,20 @@ export default function CoinSidebar({
                     fontSize: 12,
                   }}
                 >
-                  {data?.close ? data.close.toLocaleString() : "--"}
+                  {data?.close ? Number(data.close).toLocaleString() : "--"}
                 </Typography>
 
                 <Typography
                   sx={{
-                    color: data?.change > 0 ? "#00c853" : "#ff5252",
+                    color: Number(data?.change) >= 0 ? "#00c853" : "#ff5252",
+
                     fontSize: 13,
                     fontWeight: 600,
                   }}
                 >
-                  {data?.change ? `${data.change.toFixed(2)}%` : "--"}
+                  {data?.change !== undefined
+                    ? `${Number(data.change).toFixed(2)}%`
+                    : "--"}
                 </Typography>
               </Box>
             </Stack>

@@ -1,10 +1,24 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Box, Typography, Divider, Avatar } from "@mui/material";
+import { useEffect, useRef, useState } from "react";
+
+import {
+  Box,
+  Typography,
+  Divider,
+  Avatar,
+  Stack,
+  IconButton,
+} from "@mui/material";
+
 import { DownIcon, UpIcon } from "@/shared/Svgs/Svg.component";
+
 import { IcoinFinace } from "@/interface/user.interface";
+
 import { iconMap } from "./CoinPage";
+
+import { getDataChart } from "@/services/User.service";
+import { CloseOutlined } from "@mui/icons-material";
 
 type Coin = {
   symbol: string;
@@ -12,7 +26,6 @@ type Coin = {
   title: string;
   price: number;
   changePercent: number;
-  history: number[];
 };
 
 interface Props {
@@ -20,6 +33,7 @@ interface Props {
   listCoin: IcoinFinace[];
   setMenu: (v: string) => void;
   changePercent: (s: string) => void;
+  handleDrawerClose: () => void;
   interval: string;
 }
 
@@ -27,206 +41,306 @@ export default function CoinMenuMobile({
   menu,
   listCoin,
   setMenu,
-  interval,
-  changePercent,
+  handleDrawerClose,
 }: Props) {
-  const [coins, setCoins] = useState<Record<string, Coin>>({});
+  const [marketData, setMarketData] = useState<any>({});
+
+  const fetchingRef = useRef(false);
 
   /**
-   * INIT COINS
+   * SPECIAL SYMBOLS
+   */
+  const SPECIAL_SYMBOLS: any = {
+    XAUUSDT: "XAUUSD",
+    XAGUSDT: "XAGUSD",
+    GBPUSDT: "GBPUSD",
+    USDJPY: "USDJPY",
+    EURUSDT: "EURUSD",
+    AAPL: "AAPL",
+  };
+
+  /**
+   * NORMALIZE
+   */
+  const normalizeSymbol = (coin: any) => {
+    return coin.name.replace("-", "").toUpperCase();
+  };
+
+  /**
+   * FETCH ALL MARKET
+   */
+  const fetchTicker = async () => {
+    if (fetchingRef.current) return;
+
+    fetchingRef.current = true;
+
+    try {
+      /**
+       * NORMAL BINANCE
+       */
+      const cryptoCoins = listCoin.filter((coin: any) => {
+        const symbol = normalizeSymbol(coin);
+
+        return !SPECIAL_SYMBOLS[symbol];
+      });
+
+      /**
+       * SPECIAL API
+       */
+      const specialCoins = listCoin.filter((coin: any) => {
+        const symbol = normalizeSymbol(coin);
+
+        return !!SPECIAL_SYMBOLS[symbol];
+      });
+
+      /**
+       * =========================
+       * BINANCE FETCH
+       * =========================
+       */
+      const cryptoResponses = await Promise.all(
+        cryptoCoins.map(async (coin: any) => {
+          try {
+            const symbol = normalizeSymbol(coin);
+
+            const res = await fetch(
+              `https://api.binance.com/api/v3/ticker/24hr?symbol=${symbol}`,
+            );
+
+            const data = await res.json();
+
+            if (!data?.lastPrice) return null;
+
+            return {
+              symbol,
+
+              close: Number(data.lastPrice),
+
+              change: Number(data.priceChangePercent),
+            };
+          } catch (error) {
+            console.log("BINANCE ERROR:", error);
+
+            return null;
+          }
+        }),
+      );
+
+      /**
+       * =========================
+       * SPECIAL FETCH
+       * =========================
+       */
+      const specialResponses: any[] = [];
+
+      for (const coin of specialCoins) {
+        try {
+          const symbol = normalizeSymbol(coin);
+
+          const apiSymbol = SPECIAL_SYMBOLS[symbol];
+
+          const res: any = await getDataChart(apiSymbol);
+
+          const result = res?.data;
+
+          if (!result) continue;
+
+          specialResponses.push({
+            symbol,
+
+            close: Number(result.close),
+
+            change: Number(result.change_percent),
+          });
+
+          /**
+           * AVOID RATE LIMIT
+           */
+          await new Promise((resolve) => setTimeout(resolve, 300));
+        } catch (error) {
+          console.log("SPECIAL API ERROR:", error);
+        }
+      }
+
+      /**
+       * =========================
+       * MERGE
+       * =========================
+       */
+      const formatted: any = {};
+
+      [...cryptoResponses, ...specialResponses].forEach((item: any) => {
+        if (!item) return;
+
+        formatted[item.symbol] = item;
+      });
+
+      setMarketData(formatted);
+    } catch (error) {
+      console.log("FETCH ERROR:", error);
+    } finally {
+      fetchingRef.current = false;
+    }
+  };
+
+  /**
+   * INIT
    */
   useEffect(() => {
-    if (!listCoin.length) return;
+    if (!listCoin?.length) return;
 
-    const initial: Record<string, Coin> = {};
+    fetchTicker();
 
-    listCoin.forEach((s) => {
-      const symbol = s.name.toLowerCase();
-      const name = s.title;
+    /**
+     * UPDATE 60s
+     */
+    const interval = setInterval(() => {
+      fetchTicker();
+    }, 60000);
 
-      initial[symbol] = {
-        symbol: symbol.toUpperCase(),
-        name: name,
-        title: s.title,
-        price: 0,
-        changePercent: 0,
-        history: [],
-      };
-    });
-
-    setCoins(initial);
+    return () => clearInterval(interval);
   }, [listCoin]);
-  useEffect(() => {
-    console.log("CREATE WS");
-
-    const streams = listCoin
-      .map((s) => `${s.name.toLowerCase()}usdt@kline_${interval}`)
-      .join("/");
-
-    const ws = new WebSocket(
-      `wss://stream.binance.com:9443/stream?streams=${streams}`,
-    );
-
-    ws.onopen = () => {
-      console.log("WS Connected");
-    };
-
-    ws.onclose = (e) => {
-      console.log("WS Closed", e.code, e.reason);
-    };
-
-    return () => {
-      console.log("CLEANUP");
-      ws.close();
-    };
-  }, [interval]);
-  useEffect(() => {
-    if (!listCoin.length) return;
-
-    const streams = listCoin
-      .filter((s) => s.name !== "TRUMP")
-      .map((s) => `${s.name.toLowerCase()}@kline_${interval}`)
-      .join("/");
-
-    const ws = new WebSocket(
-      `wss://stream.binance.com:9443/stream?streams=${streams}`,
-    );
-
-    ws.onopen = () => {
-      console.log("WS Connected");
-    };
-
-    ws.onmessage = (event) => {
-      const msg = JSON.parse(event.data);
-
-      const k = msg?.data?.k;
-
-      if (!k?.s) return;
-
-      const symbol = k.s.toLowerCase();
-
-      const open = Number(k.o);
-      const close = Number(k.c);
-
-      const percent = ((close - open) / open) * 100;
-
-      setCoins((prev) => {
-        if (!prev[symbol]) return prev;
-
-        return {
-          ...prev,
-          [symbol]: {
-            ...prev[symbol],
-            price: close,
-            changePercent: percent,
-          },
-        };
-      });
-    };
-
-    ws.onerror = (err) => {
-      console.log("WS Error", err);
-    };
-
-    ws.onclose = () => {
-      console.log("WS Closed");
-    };
-
-    return () => {
-      ws.close();
-    };
-  }, [listCoin, interval]);
 
   return (
     <Box
       sx={{
         minHeight: "100vh",
+
         background: "#111827",
+
         pb: "100px",
+
         overflowY: "auto",
+
         scrollbarWidth: "none",
+
         msOverflowStyle: "none",
+
         "&::-webkit-scrollbar": {
           display: "none",
         },
       }}
     >
-      <Box sx={{ width: "80px", mb: "10px", p: 2 }}>
-        <Typography sx={{ color: "#22c55e", fontSize: "16px" }}>
-          USDT
-        </Typography>
+      {/* HEADER */}
+      <Box
+        sx={{
+          width: "80px",
 
-        <Divider
-          sx={{
-            width: 40,
-            height: "2px",
-            backgroundColor: "#22c55e",
-          }}
-        />
+          mb: "10px",
+
+          p: 2,
+        }}
+      >
+        <IconButton onClick={handleDrawerClose}>
+          <CloseOutlined
+            sx={{ color: "white", width: "20px", height: "20px" }}
+          />
+        </IconButton>
       </Box>
 
-      {Object.values(coins).map((coin) => (
-        <CoinCard key={coin.symbol} coin={coin} menu={menu} setMenu={setMenu} />
-      ))}
-    </Box>
-  );
-}
+      {/* LIST */}
+      {listCoin?.map((coin: any) => {
+        const symbol = normalizeSymbol(coin);
 
-function CoinCard({
-  coin,
-  setMenu,
-  menu,
-}: {
-  coin: Coin;
-  menu: string;
-  setMenu: (v: string) => void;
-}) {
-  const baseSymbol = coin.title.replace("/USDT", "");
+        const data = marketData[symbol];
 
-  return (
-    <Box
-      sx={{
-        width: "100%",
-        display: "flex",
-        justifyContent: "space-between",
-        background: menu === coin.symbol.toLowerCase() ? "#374151" : "#111827",
-        alignItems: "center",
-        cursor: "pointer",
-        p: 2,
-      }}
-      onClick={() => setMenu(coin.symbol.toLowerCase())}
-    >
-      <Box sx={{ display: "flex", gap: "5px" }}>
-        <Avatar src={iconMap[baseSymbol] || ""} sx={{ width: 30, height: 30 }}>
-          {baseSymbol.charAt(0)}
-        </Avatar>
-        <Typography fontWeight="bold" sx={{ fontSize: 12, color: "white" }}>
-          {coin.name}
-        </Typography>
-      </Box>
+        const active = menu?.toUpperCase() === symbol;
 
-      <Box textAlign="right">
-        <Typography fontWeight="bold" sx={{ fontSize: 12, color: "white" }}>
-          {coin.price ? coin.price.toLocaleString() : "-"}
-        </Typography>
+        return (
+          <Box
+            key={coin.id}
+            onClick={() => setMenu(symbol.toLowerCase())}
+            sx={{
+              width: "100%",
 
-        <Typography
-          sx={{
-            fontSize: 12,
-            display: "flex",
-            alignItems: "center",
-            gap: 0.5,
-            color: coin.changePercent < 0 ? "#ef4444" : "#22c55e",
-          }}
-        >
-          {coin.changePercent < 0 ? (
-            <DownIcon width="16px" height="16px" fill="#ef4444" />
-          ) : (
-            <UpIcon width="16px" height="16px" fill="#22c55e" />
-          )}
-          {coin.changePercent.toFixed(2)}%
-        </Typography>
-      </Box>
+              display: "flex",
+
+              justifyContent: "space-between",
+
+              alignItems: "center",
+
+              cursor: "pointer",
+
+              p: 2,
+
+              background: active ? "#374151" : "#111827",
+
+              transition: "0.2s",
+
+              "&:hover": {
+                background: "#1f2937",
+              },
+            }}
+          >
+            {/* LEFT */}
+            <Stack direction="row" spacing={1} alignItems="center">
+              <Avatar
+                src={
+                  iconMap[coin.symbol] ||
+                  `https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/128/color/${coin?.coinname?.toLowerCase()}.png`
+                }
+                sx={{
+                  width: 30,
+                  height: 30,
+                }}
+              >
+                {coin.symbol.charAt(0)}
+              </Avatar>
+
+              <Typography
+                fontWeight="bold"
+                sx={{
+                  fontSize: 12,
+
+                  color: "white",
+                }}
+              >
+                {coin.title}
+              </Typography>
+            </Stack>
+
+            {/* RIGHT */}
+            <Box textAlign="right">
+              <Typography
+                fontWeight="bold"
+                sx={{
+                  fontSize: 12,
+
+                  color: "white",
+                }}
+              >
+                {data?.close ? Number(data.close).toLocaleString() : "--"}
+              </Typography>
+
+              <Typography
+                sx={{
+                  fontSize: 12,
+
+                  display: "flex",
+
+                  alignItems: "center",
+
+                  justifyContent: "flex-end",
+
+                  gap: 0.5,
+
+                  color: Number(data?.change) < 0 ? "#ef4444" : "#22c55e",
+                }}
+              >
+                {Number(data?.change) < 0 ? (
+                  <DownIcon width="16px" height="16px" fill="#ef4444" />
+                ) : (
+                  <UpIcon width="16px" height="16px" fill="#22c55e" />
+                )}
+
+                {data?.change !== undefined
+                  ? `${Number(data.change).toFixed(2)}%`
+                  : "--"}
+              </Typography>
+            </Box>
+          </Box>
+        );
+      })}
     </Box>
   );
 }

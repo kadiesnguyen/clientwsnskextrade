@@ -156,7 +156,11 @@ export default function SignupPage() {
               width={100}
               height={100}
               alt=""
-              style={{ height: "100px", objectFit: "contain" }}
+              style={{
+                height: "100px",
+                objectFit: "contain",
+                borderRadius: "10px",
+              }}
             />
           </Box>
 
@@ -385,7 +389,13 @@ export default function SignupPage() {
                 {t("SignupPage.button2")}
               </Button>
 
-              <Box sx={{ display: "flex", justifyContent: "center" }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  width: "100%",
+                }}
+              >
                 <Typography
                   textAlign="center"
                   color="#9aa4b2"
@@ -404,7 +414,7 @@ export default function SignupPage() {
                     fontWeight: 600,
                     borderRadius: "14px",
                     height: 52,
-                    width: 50,
+                    width: 100,
                     textTransform: "none",
                   }}
                 >

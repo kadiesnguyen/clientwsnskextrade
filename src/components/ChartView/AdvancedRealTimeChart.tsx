@@ -3,11 +3,11 @@ import React, { useEffect, useRef, memo, useState } from "react";
 
 function AdvancedRealTimeChartWidget() {
   const container = useRef<HTMLDivElement>(null);
-  const [language, setLanguage] = useState<string>("en");
+  const [language, setLanguage] = useState<string>("vi");
 
   // Get language from localStorage on first mount
   useEffect(() => {
-    const storedLang = localStorage.getItem("language") || "en";
+    const storedLang = localStorage.getItem("language") || "vi";
     setLanguage(storedLang);
   }, []);
   useEffect(() => {

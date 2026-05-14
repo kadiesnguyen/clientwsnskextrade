@@ -204,21 +204,7 @@ export default function MenuCoin({ data, changeCoin }: props) {
             msOverflowStyle: "none",
           },
         }}
-      >
-        {CoinMenuMobile({
-          menu: menu,
-          listCoin,
-          interval,
-          changePercent: (v) => {
-            setPercent(v);
-          },
-          setMenu: (v) => {
-            setMenu(v);
-            data(v);
-            handleDrawerClose();
-          },
-        })}
-      </Drawer>
+      ></Drawer>
     </>
   );
 }

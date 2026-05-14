@@ -1,7 +1,7 @@
 "use client";
 
-import { Box, Button, Stack, Typography } from "@mui/material";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { Box } from "@mui/material";
+import { useEffect, useRef, useMemo } from "react";
 
 export default function TradingChart({
   symbol,
@@ -12,12 +12,43 @@ export default function TradingChart({
 }) {
   const container = useRef<HTMLDivElement>(null);
 
+  // MAP SYMBOL
+  const tvSymbol = useMemo(() => {
+    const s = symbol;
+
+    switch (s) {
+      // GOLD
+      case "XAUUSD":
+        return "OANDA:XAUUSD";
+
+      // SILVER
+      case "XAGUSD":
+        return "XAGUSD";
+
+      // FOREX
+      case "GBPUSD":
+        return "FX:GBPUSD";
+
+      case "USDJPY":
+        return "FX:USDJPY";
+
+      // STOCK
+      case "AAPL":
+        return "NASDAQ:AAPL";
+      // STOCK
+      case "EURUSD":
+        return "OANDA:EURUSD";
+      // DEFAULT CRYPTO
+      default:
+        return `OKX:${symbol}`;
+    }
+  }, [symbol]);
+
   useEffect(() => {
     if (!container.current) return;
 
     container.current.innerHTML = "";
 
-    // widget wrapper
     const widget = document.createElement("div");
 
     widget.className = "tradingview-widget-container__widget";
@@ -25,38 +56,47 @@ export default function TradingChart({
     widget.style.width = "100%";
     widget.style.height = "100%";
 
-    // script
     const script = document.createElement("script");
 
     script.src =
       "https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js";
 
     script.type = "text/javascript";
+
     script.async = true;
 
     script.innerHTML = JSON.stringify({
       autosize: true,
-      symbol: `OKX:${symbol}`,
+
+      symbol: tvSymbol,
+
       interval,
 
       timezone: "Etc/UTC",
+
       theme: "dark",
+
       style: "1",
-      locale: "Vi",
+
+      locale: "vi",
 
       hide_top_toolbar: true,
+
       hide_legend: true,
+
       hide_side_toolbar: true,
 
       allow_symbol_change: false,
+
       save_image: false,
 
       support_host: "https://www.tradingview.com",
     });
 
     container.current.appendChild(widget);
+
     container.current.appendChild(script);
-  }, [symbol, interval]);
+  }, [tvSymbol, interval]);
 
   return (
     <Box
@@ -69,7 +109,6 @@ export default function TradingChart({
         flexDirection: "column",
       }}
     >
-      {/* CHART */}
       <Box
         ref={container}
         className="tradingview-widget-container"

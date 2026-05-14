@@ -55,7 +55,7 @@ export default function LoginPage() {
         })
         .catch((err: any) => {
           const msg = err?.response?.data?.message || err.message;
-          setError(msg);
+          toast.error(msg);
         })
         .finally(() => {
           setLoadding(false);
@@ -112,7 +112,11 @@ export default function LoginPage() {
               width={100}
               height={100}
               alt=""
-              style={{ height: "100px", objectFit: "contain" }}
+              style={{
+                height: "100px",
+                objectFit: "contain",
+                borderRadius: "10px",
+              }}
             />
           </Box>
 
@@ -247,7 +251,7 @@ export default function LoginPage() {
               </IconButton>
             </Box>
 
-            <Box mt={3}>
+            <Box mt={3} width={"100%"}>
               {/* Login */}
               <Button
                 fullWidth
@@ -281,7 +285,6 @@ export default function LoginPage() {
                   fontSize: "12px",
                 }}
               >
-                {" "}
                 {t("LoginPage.button3")}{" "}
                 <NextIcon width="12px" height="12px" />{" "}
               </Link>

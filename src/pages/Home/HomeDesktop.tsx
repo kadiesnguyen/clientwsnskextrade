@@ -27,18 +27,13 @@ export default function HomeDesktop({
   setting: any;
 }) {
   const { t, i18n } = useTranslation();
-
-  const [langAnchorEl, setLangAnchorEl] = React.useState<null | HTMLElement>(
-    null,
-  );
-  const isLangMenuOpen = Boolean(langAnchorEl);
-
-  const route = useRouter();
-
-  const handleLangMenuClose = () => {
-    setLangAnchorEl(null);
-  };
-
+  const router = useRouter();
+  const bannerHome = [
+    { id: 1, img: "/images/home_banner_1.png" },
+    { id: 2, img: "/images/home_banner_2.png" },
+    { id: 3, img: "/images/home_banner_3.png" },
+    { id: 4, img: "/images/home_banner_4.png" },
+  ];
   return (
     <Box
       sx={{
@@ -50,42 +45,67 @@ export default function HomeDesktop({
     >
       <Box
         sx={{
-          width: "60%",
+          width: "80%",
           margin: "auto",
           display: "flex",
           alignItems: "center",
           gap: "10px",
           background: "#000",
-          mt: 5,
+          pt: "130px",
+          pb: "30px",
         }}
       >
-        <Box>
-          <Typography
-            variant="h3"
-            sx={{ fontSize: "40px", fontWeight: 700, color: "white" }}
+        <Box sx={{}}>
+          <Box
+            sx={{
+              color: "transparent",
+              fontSize: "48px",
+              fontWeight: "bold",
+              mb: "10px",
+              backgroundClip: "text",
+              display: "inline-block",
+              backgroundImage:
+                "linear-gradient(90deg,#d3af85 0%,#ffe0b2 20%,#d3af85 40%,#d3af85 100%)",
+              backgroundSize: "200% 100%",
+              animation: "color-wave 4s linear infinite",
+            }}
           >
             {t("HomePage.title1")}
+          </Box>
+          <Typography sx={{ fontSize: "36px", color: "white" }}>
+            {t("HomePage.title8")}
           </Typography>
-          <Box sx={{ display: "flex", gap: 1, mt: 3, mb: 3 }}>
+          <Typography sx={{ fontSize: "20px", color: "white" }}>
+            {t("HomePage.title9")}
+          </Typography>
+          <Box
+            sx={{
+              position: "relative",
+              width: "100%",
+              mt: "20px",
+            }}
+          >
             <TextField
               fullWidth
-              placeholder={t("SignupPage.value3")}
+              placeholder={t("SignupPage.value1")}
               sx={{
                 "& .MuiOutlinedInput-root": {
-                  borderRadius: "8px",
-                  backgroundColor: "#2B313B",
+                  position: "relative",
+
+                  borderRadius: "20px",
+                  backgroundColor: "#000",
                   color: "#fff",
 
                   "& fieldset": {
-                    borderColor: "none",
+                    borderColor: "#8c8c8c",
                   },
 
                   "&:hover fieldset": {
-                    borderColor: "none",
+                    borderColor: "#8c8c8c",
                   },
 
                   "&.Mui-focused fieldset": {
-                    borderColor: "#4ade80",
+                    borderColor: "#d3af85",
                     borderWidth: "1px",
                   },
                 },
@@ -99,7 +119,7 @@ export default function HomeDesktop({
                   },
 
                   "&:-webkit-autofill": {
-                    WebkitBoxShadow: "0 0 0 1000px #1e2a3a inset",
+                    WebkitBoxShadow: "0 0 0 1000px #000 inset",
                     WebkitTextFillColor: "#fff",
                   },
                 },
@@ -107,41 +127,120 @@ export default function HomeDesktop({
             />
 
             <Button
+              onClick={() => router.push("/signup")}
+              variant="contained"
               sx={{
-                minWidth: 80,
-                borderRadius: "14px",
-                background: "#3fd47c",
-                color: "#000",
-                fontWeight: 600,
+                position: "absolute",
+
+                right: 12,
+                bottom: 10,
+
+                minWidth: "110px",
+                height: "38px",
+
+                borderRadius: "12px",
+
+                background: "none",
+                color: "#fff",
+
+                fontWeight: 700,
                 textTransform: "none",
-                "&:disabled": {
-                  background: "#9aa4b2",
-                },
+
+                boxShadow: "none",
+
                 "&:hover": {
-                  background: "#4de000",
+                  background: "none",
+                  boxShadow: "none",
                 },
               }}
             >
-              {t("SignupPage.button3")}
+              Đăng ký {">"}
             </Button>
           </Box>
-          <Typography
-            variant="caption"
-            sx={{ color: "white", fontSize: "15px" }}
-          >
-            {t("HomePage.title2")}
-          </Typography>
         </Box>
 
         <Box>
-          <Image
-            src={"/images/banner-home.png"}
+          <video
+            src={"/images/new_banner-bg4.mp4"}
             width={500}
             height={500}
-            alt=""
-            style={{ height: "700px", objectFit: "contain" }}
+            autoPlay
+            loop
+            muted
+            playsInline
+            style={{ width: "450px", height: "350px" }}
           />
         </Box>
+      </Box>
+      <Box
+        sx={{ width: "80%", background: "#000", margin: "auto", pb: "100px" }}
+      >
+        <Carousel
+          additionalTransfrom={0}
+          autoPlaySpeed={3000}
+          centerMode={false}
+          className=""
+          containerClass="carousel-container"
+          draggable
+          focusOnSelect={false}
+          infinite
+          itemClass=""
+          keyBoardControl
+          minimumTouchDrag={80}
+          autoPlay
+          arrows={false}
+          pauseOnHover
+          renderArrowsWhenDisabled={false}
+          renderButtonGroupOutside={false}
+          renderDotsOutside={false}
+          responsive={{
+            desktop: {
+              breakpoint: {
+                max: 3000,
+                min: 1024,
+              },
+              items: 4,
+            },
+            tablet: {
+              breakpoint: {
+                max: 1024,
+                min: 464,
+              },
+              items: 2,
+            },
+            mobile: {
+              breakpoint: {
+                max: 464,
+                min: 0,
+              },
+              items: 1,
+            },
+          }}
+          rewind={false}
+          rewindWithAnimation={false}
+          rtl={false}
+          shouldResetAutoplay
+          sliderClass=""
+          slidesToSlide={1}
+          swipeable
+        >
+          {bannerHome.map((item) => (
+            <div key={item.id}>
+              <Image
+                src={item.img}
+                width={270}
+                height={120}
+                loading="lazy"
+                alt=""
+                style={{
+                  height: "120px",
+                  objectFit: "cover",
+                  borderRadius: "10px",
+                }}
+              />
+            </div>
+          ))}
+        </Carousel>
       </Box>
       <Box sx={{ width: "100%", background: "#141A1F" }}>
         <Box

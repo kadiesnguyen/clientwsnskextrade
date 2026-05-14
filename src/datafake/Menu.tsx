@@ -103,12 +103,12 @@ export const MenuWebsite = [
     title: "menu4",
     item: [],
   },
-  // {
-  //   id: "5",
-  //   link: "#",
-  //   title: "menu5",
-  //   item: [],
-  // },
+  {
+    id: "5",
+    link: "/news",
+    title: "menu5",
+    item: [],
+  },
 ];
 
 export const MenuMobile = [

@@ -9,13 +9,13 @@ import ja from "@/messages/ja.json";
 
 i18n.use(initReactI18next).init({
   resources: {
-    en: { translation: en },
     vi: { translation: vi },
+    en: { translation: en },
     // ja: { translation: ja },
     // zh: { translation: zh },
   },
-  lng: "en",
-  fallbackLng: "en",
+  lng: "vi",
+  fallbackLng: "vi",
   interpolation: {
     escapeValue: false,
   },

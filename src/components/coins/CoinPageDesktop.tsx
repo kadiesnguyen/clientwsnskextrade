@@ -352,7 +352,10 @@ function CoinTickerList({ coins }: { coins: Record<string, Coin> }) {
           >
             <Box sx={{ display: "flex", gap: "5px", alignItems: "center" }}>
               <Avatar
-                src={iconMap[baseSymbol] || ""}
+                src={
+                  iconMap[baseSymbol] ||
+                  `https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/128/color/${baseSymbol.toLowerCase()}.png`
+                }
                 sx={{ width: 24, height: 24 }}
               >
                 {baseSymbol.charAt(0)}

@@ -30,7 +30,12 @@ const sendCode = (formData: FormData) => {
 const getMe = () => {
   return contentInstance.get("/api/user/me");
 };
-
+const getListNew = () => {
+  return contentInstance.get("/api/news/list");
+};
+const getListNewDetail = (id: string) => {
+  return contentInstance.get("/api/news/" + id);
+};
 // Cập nhập mật khẩu tài khoản
 const updatePassword = (
   old_password: string,
@@ -301,8 +306,11 @@ const postTradeMarket = (
     },
   });
 };
-
+const getDataChart = (parms: string) => {
+  return contentInstance.get("/api/contract/price?symbol=" + parms);
+};
 export {
+  getDataChart,
   loginUser,
   signupUser,
   updatePassword,
@@ -356,4 +364,6 @@ export {
   postTranfer,
   postUpdateUser,
   postTradeMarket,
+  getListNew,
+  getListNewDetail,
 };

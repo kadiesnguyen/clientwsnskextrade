@@ -12,49 +12,109 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import CoinMenuMobile from "./CoinMenuMobile";
 import { IcoinFinace } from "@/interface/user.interface";
-import { getFinaceCoin, getListCoin } from "@/services/User.service";
+import {
+  getDataChart,
+  getFinaceCoin,
+  getListCoin,
+} from "@/services/User.service";
 import { iconMap } from "./CoinPage";
 import { getTickerBySymbol } from "@/services/binance";
+import { t } from "i18next";
 
 export default function CoinHeader({ coin, time, setMenuCoin }: any) {
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [percent, setPercent] = useState("");
-  const [listCoin, setListCoin] = useState<IcoinFinace[]>([]);
-  const [menu, setMenu] = useState("btcusdt");
+
+  const [listCoin, setListCoin] = useState<any[]>([]);
+
+  const [menu, setMenu] = useState("XAUUSD");
+
   const [ticker, setTicker] = useState<any>(null);
-  useEffect(() => {
-    console.log("menu", menu);
 
-    const fetchTicker = async () => {
-      const data = await getTickerBySymbol(menu, time);
+  const fetchingRef = useRef(false);
+  const SPECIAL_SYMBOLS: any = {
+    XAUUSDT: "XAUUSD",
+    XAGUSDT: "XAGUSD",
+    GBPUSDT: "GBPUSD",
+    USDJPY: "USDJPY",
+    EURUSDT: "EURUSD",
+    AAPL: "AAPL",
+  };
 
-      if (data) {
-        setTicker(data);
+  /**
+   * NORMALIZE
+   */
+  const normalizeSymbol = (value: string) => {
+    return value.replace("-", "").replace("/", "").toUpperCase();
+  };
+
+  /**
+   * FETCH TICKER
+   */
+  const fetchTicker = async () => {
+    if (fetchingRef.current) return;
+
+    fetchingRef.current = true;
+
+    try {
+      const symbol = normalizeSymbol(menu);
+
+      /**
+       * SPECIAL MARKET
+       */
+      if (SPECIAL_SYMBOLS[symbol]) {
+        const apiSymbol = SPECIAL_SYMBOLS[symbol];
+
+        const res: any = await getDataChart(apiSymbol);
+
+        const result = res?.data;
+        console.log("result", result);
+
+        if (result) {
+          setTicker({
+            close: Number(result.close),
+            open: Number(result.open),
+            high: Number(result.high),
+            low: Number(result.low),
+            volume: Number(result.volume || 0),
+            change: Number(result.change_percent),
+          });
+        }
+
+        return;
       }
-    };
 
-    fetchTicker();
-  }, [menu, time]);
-  const isUp = Number(ticker?.change || 0) >= 0;
-  const formatNumber = (value: number) => {
-    if (!value) return "--";
+      /**
+       * BINANCE MARKET
+       */
+      const res = await fetch(
+        `https://api.binance.com/api/v3/ticker/24hr?symbol=${symbol}`,
+      );
 
-    return value.toLocaleString(undefined, {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 4,
-    });
+      const data = await res.json();
+
+      if (!data?.lastPrice) return;
+
+      setTicker({
+        close: Number(data.lastPrice),
+        open: Number(data.openPrice),
+        high: Number(data.highPrice),
+        low: Number(data.lowPrice),
+        volume: Number(data.volume),
+        change: Number(data.priceChangePercent),
+      });
+    } catch (error) {
+      console.log("FETCH TICKER ERROR:", error);
+    } finally {
+      fetchingRef.current = false;
+    }
   };
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setDrawerOpen(true);
-  };
 
-  const handleDrawerClose = () => {
-    setDrawerOpen(false);
-  };
-
+  /**
+   * LOAD COIN LIST
+   */
   const referral = async () => {
     try {
       const listCoin: any = await getListCoin();
@@ -66,11 +126,62 @@ export default function CoinHeader({ coin, time, setMenuCoin }: any) {
       console.log(errors?.message);
     }
   };
+
+  /**
+   * FIRST LOAD
+   */
   useEffect(() => {
     referral();
   }, []);
 
-  const baseSymbol = coin.title.replace("/USDT", "");
+  /**
+   * UPDATE MENU FROM COIN
+   */
+  useEffect(() => {
+    if (!coin?.name) return;
+
+    setMenu(coin.name.toUpperCase());
+  }, [coin]);
+
+  /**
+   * FETCH MARKET
+   */
+  useEffect(() => {
+    if (!menu) return;
+
+    fetchTicker();
+
+    /**
+     * SPECIAL API LIMIT
+     */
+    const interval = setInterval(() => {
+      fetchTicker();
+    }, 60000);
+
+    return () => clearInterval(interval);
+  }, [menu, time]);
+
+  const isUp = Number(ticker?.change || 0) >= 0;
+
+  const formatNumber = (value: number) => {
+    if (!value) return "--";
+
+    return value.toLocaleString(undefined, {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 4,
+    });
+  };
+
+  const handleClick = () => {
+    setDrawerOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setDrawerOpen(false);
+  };
+
+  console.log("ticker", ticker);
+
   return (
     <Box
       sx={{
@@ -98,7 +209,10 @@ export default function CoinHeader({ coin, time, setMenuCoin }: any) {
         {/* SYMBOL */}
         <Stack direction="row" alignItems="center" spacing={1}>
           <Avatar
-            src={`https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/128/color/${coin?.coinname?.toLowerCase()}.png`}
+            src={
+              iconMap[coin.symbol] ||
+              `https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/128/color/${coin?.coinname?.toLowerCase()}.png`
+            }
             sx={{
               width: 26,
               height: 26,
@@ -157,31 +271,31 @@ export default function CoinHeader({ coin, time, setMenuCoin }: any) {
 
         {/* CHANGE */}
         <InfoItem
-          label="24H Biến đổi"
+          label={t("HomePage.trade6")}
           value={ticker?.change ? `${ticker.change.toFixed(2)}%` : "--"}
           color={isUp ? "#00e676" : "#ff5252"}
         />
 
         {/* HIGH */}
         <InfoItem
-          label="24H Giá cao nhất"
+          label={t("HomePage.trade7")}
           value={formatNumber(ticker?.high ?? 0)}
           color="#00e676"
         />
 
         {/* LOW */}
         <InfoItem
-          label="24H Giá thấp nhất"
+          label={t("HomePage.trade8")}
           value={formatNumber(ticker?.low ?? 0)}
           color="#ff5252"
         />
 
         {/* VOLUME */}
-        <InfoItem
+        {/* <InfoItem
           label="24H Khối lượng"
           value={ticker?.volume ? Number(ticker.volume).toLocaleString() : "--"}
           color="#fff"
-        />
+        /> */}
       </Stack>
 
       {/* ================= MOBILE ================= */}
@@ -203,9 +317,6 @@ export default function CoinHeader({ coin, time, setMenuCoin }: any) {
             <IconButton
               onClick={handleClick}
               size="small"
-              aria-controls={drawerOpen ? "account-menu" : undefined}
-              aria-haspopup="true"
-              aria-expanded={drawerOpen ? "true" : undefined}
               sx={{
                 color: "#fff",
                 p: 0.5,
@@ -215,10 +326,13 @@ export default function CoinHeader({ coin, time, setMenuCoin }: any) {
             </IconButton>
 
             <Avatar
-              src={iconMap[baseSymbol] || ""}
+              src={
+                iconMap[coin.symbol] ||
+                `https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/128/color/${coin?.coinname?.toLowerCase()}.png`
+              }
               sx={{ width: 28, height: 28 }}
             >
-              {baseSymbol.charAt(0)}
+              {coin.symbol.charAt(0)}
             </Avatar>
 
             <Typography
@@ -241,19 +355,29 @@ export default function CoinHeader({ coin, time, setMenuCoin }: any) {
             mt: 1,
           }}
         >
-          <MobileItem label="Open" value={formatNumber(ticker?.open ?? 0)} />
-
-          <MobileItem label="Close" value={formatNumber(ticker?.close ?? 0)} />
-
-          <MobileItem label="Low" value={formatNumber(ticker?.low ?? 0)} />
+          <MobileItem
+            label={t("HomePage.trade1")}
+            value={formatNumber(ticker?.close ?? 0)}
+          />
 
           <MobileItem
-            label="Volume"
+            label={t("HomePage.trade2")}
+            value={formatNumber(ticker?.high ?? 0)}
+          />
+
+          <MobileItem
+            label={t("HomePage.trade3")}
+            value={formatNumber(ticker?.low ?? 0)}
+          />
+
+          <MobileItem
+            label={t("HomePage.trade4")}
             value={
-              ticker?.volume ? Number(ticker.volume).toLocaleString() : "--"
+              ticker?.change ? Number(ticker.change).toFixed(2) + "%" : "--"
             }
           />
         </Stack>
+
         <Stack
           direction="row"
           alignItems={"center"}
@@ -271,12 +395,13 @@ export default function CoinHeader({ coin, time, setMenuCoin }: any) {
           >
             ${formatNumber(ticker?.close ?? 0)}
           </Typography>
+
           <Typography
             sx={{
               color: isUp ? "#00e676" : "#ff5252",
               fontWeight: 500,
               fontSize: 14,
-              background: isUp ? "#21965333" : "#21965333",
+              background: isUp ? "#21965333" : "#ff525233",
               p: "5px 10px",
               borderRadius: "8px",
             }}
@@ -285,6 +410,8 @@ export default function CoinHeader({ coin, time, setMenuCoin }: any) {
           </Typography>
         </Stack>
       </Box>
+
+      {/* DRAWER */}
       <Drawer
         anchor="left"
         open={drawerOpen}
@@ -315,15 +442,17 @@ export default function CoinHeader({ coin, time, setMenuCoin }: any) {
         }}
       >
         {CoinMenuMobile({
-          menu: menu,
+          menu,
           listCoin,
           interval: time,
-          changePercent: (v) => {
-            setPercent(v);
-          },
-          setMenu: (v) => {
-            setMenu(v);
+
+          changePercent: () => {},
+          handleDrawerClose: () => handleDrawerClose(),
+          setMenu: (v: string) => {
+            setMenu(v.toUpperCase());
+
             setMenuCoin(v);
+
             handleDrawerClose();
           },
         })}

@@ -18,7 +18,7 @@ authInstance.interceptors.request.use(
   },
   (error) => {
     return Promise.reject(error);
-  }
+  },
 );
 
 authInstance.interceptors.response.use(
@@ -30,7 +30,7 @@ authInstance.interceptors.response.use(
       return Promise.reject(error.response.data);
     }
     return Promise.reject(error.message);
-  }
+  },
 );
 
 // API instance for content
@@ -49,7 +49,7 @@ contentInstance.interceptors.request.use(
   },
   (error) => {
     return Promise.reject(error);
-  }
+  },
 );
 
 contentInstance.interceptors.response.use(
@@ -67,7 +67,7 @@ contentInstance.interceptors.response.use(
       return Promise.reject(error.response.data);
     }
     return Promise.reject(error.message);
-  }
+  },
 );
 
 export { authInstance, contentInstance };
