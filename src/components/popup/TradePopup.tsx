@@ -245,8 +245,7 @@ export default function TradePopup({
                   onClick={() => {
                     setType(index);
                     setHytime(item);
-                    setHyykbl(buySellConfig.hy_ykbl?.[index] || "0");
-                    setAmount(buySellConfig.hy_min_per_frame?.[index] || "200");
+                    setHyykbl(0);
                     setPriceConfig(
                       Number(buySellConfig.hy_tzed?.[index]) || 100,
                     );
