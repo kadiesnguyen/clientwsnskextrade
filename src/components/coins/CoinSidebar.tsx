@@ -139,7 +139,7 @@ export default function CoinSidebar({ coins, selectedCoin, onSelect }: any) {
     fetchTicker();
     const interval = setInterval(() => {
       fetchTicker();
-    }, 5000);
+    }, 8000);
 
     return () => clearInterval(interval);
   }, [coins]);

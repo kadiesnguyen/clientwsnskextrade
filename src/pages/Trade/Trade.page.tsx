@@ -154,7 +154,6 @@ export default function TradePage() {
       };
     });
   };
-  console.log("selectedCoin", selectedCoin);
 
   const handleSubmit = async (data: ITypeTrade) => {
     if (!user) {
