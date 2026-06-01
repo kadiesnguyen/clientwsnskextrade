@@ -179,8 +179,8 @@ export default function OrderConfirmModal({
               mb={2}
             >
               {dataOrder.is_win === 1
-                ? `+ ${Number(dataOrder?.ploss).toLocaleString()}`
-                : `- ${Number(dataOrder?.ploss).toLocaleString()}`}
+                ? `+ ${Number(dataOrder?.ploss + dataOrder?.num).toLocaleString()}`
+                : `- ${Number(dataOrder?.num + dataOrder?.ploss).toLocaleString()}`}
             </Typography>
 
             <InfoRow
@@ -210,8 +210,8 @@ export default function OrderConfirmModal({
               label={t("BuySellPage.Profit_loss")}
               value={
                 dataOrder.is_win === 1
-                  ? `+ ${Number(dataOrder?.ploss).toLocaleString()}`
-                  : `- ${Number(dataOrder?.ploss).toLocaleString()}`
+                  ? `+ ${Number(dataOrder?.ploss + dataOrder?.num).toLocaleString()}`
+                  : `- ${Number(dataOrder?.ploss + dataOrder?.num).toLocaleString()}`
               }
               color={dataOrder.is_win === 1 ? "green" : "red"}
             />
