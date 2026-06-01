@@ -247,10 +247,9 @@ export default function TradeForm({ onSubmit, user, tradeYn }: InputProps) {
             </Typography>
 
             <InputBase
-              value={data.hy_min_per_frame}
+              value={mode === "up" ? tradeUp.price : tradeDown.price}
               onChange={(e: any) => {
                 const value = e.target.value.replace(/\D/g, "");
-
                 handlePrice(mode, Number(value));
               }}
               sx={{
