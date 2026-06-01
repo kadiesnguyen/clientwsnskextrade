@@ -356,27 +356,6 @@ export default function TradeForm({ onSubmit, user, tradeYn }: InputProps) {
             </Typography>
           )}
         </Box>
-
-        {/* FOOTER */}
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            mt: "12px",
-          }}
-        >
-          <Typography
-            sx={{
-              color: "#fff",
-              fontSize: "12px",
-            }}
-          >
-            Cao nhất{" "}
-            <span style={{ fontWeight: 700 }}>
-              {Number(data?.hy_max_per_frame).toLocaleString()}USDT
-            </span>
-          </Typography>
-        </Box>
       </Box>
     );
   };

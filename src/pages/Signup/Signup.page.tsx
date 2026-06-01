@@ -91,8 +91,8 @@ export default function SignupPage() {
       const formData = new FormData();
       formData.append("email", email);
       formData.append("password", password);
+      formData.append("verification_code", inviteCode);
       formData.append("paypassword", paypassword);
-      formData.append("invit", inviteCode);
 
       const res: any = await signupUser(formData);
 
@@ -106,7 +106,7 @@ export default function SignupPage() {
     } catch (err: any) {
       const msg = err?.response?.data?.message || "Lỗi đăng ký";
       setErrorMsg(msg);
-      toast.error(err.message);
+      toast.error(msg);
     } finally {
       setLoadding(false);
     }
@@ -116,7 +116,7 @@ export default function SignupPage() {
       sx={{
         backgroundColor: "#141A1F",
         paddingTop: { xs: 0, sm: "50px" },
-        height: { xs: "100vh", sm: "auto" },
+        height: { xs: "100vh", sm: "100%" },
       }}
     >
       <Box
@@ -168,9 +168,15 @@ export default function SignupPage() {
             />
           </Box>
 
+          {errorMsg && (
+            <Typography color="error" fontSize={13} mt={1}>
+              {errorMsg}
+            </Typography>
+          )}
+
           <form>
-            <InputLabel sx={{ color: "white", mt: "10px", mb: 1 }}>
-              Email or phone
+            <InputLabel sx={{ color: "white", mt: "10px" }}>
+              {t("SignupPage.title1")}{" "}
             </InputLabel>
             <TextField
               fullWidth
@@ -292,7 +298,9 @@ export default function SignupPage() {
               </IconButton>
             </Box>
 
-            <InputLabel sx={{ color: "white" }}>Mật khẩu rút tiền</InputLabel>
+            <InputLabel sx={{ color: "white" }}>
+              {t("SignupPage.title2")} rút tiền
+            </InputLabel>
             <Box
               sx={{
                 mb: 2,
@@ -348,7 +356,7 @@ export default function SignupPage() {
               />
 
               <IconButton
-                onClick={toggleShowPassword}
+                onClick={toggleShowPayPassword}
                 style={{
                   position: "absolute",
                   right: "4px",
@@ -358,7 +366,7 @@ export default function SignupPage() {
                   color: "white",
                 }}
               >
-                {showPassword ? (
+                {showPayPassword ? (
                   <Visibility fontSize="small" />
                 ) : (
                   <VisibilityOff fontSize="small" />
@@ -412,8 +420,33 @@ export default function SignupPage() {
                   },
                 }}
               />
-            </Box>
 
+              <Button
+                onClick={handleSendInvite}
+                disabled={email.length === 0 || sending || countdown > 0}
+                sx={{
+                  minWidth: 80,
+                  borderRadius: "14px",
+                  background: "#5BFF00",
+                  color: "#000",
+                  fontWeight: 600,
+                  textTransform: "none",
+                  "&:disabled": {
+                    background: "#9aa4b2",
+                  },
+                  "&:hover": {
+                    background: "#4de000",
+                  },
+                }}
+              >
+                {countdown > 0 ? `${countdown}s` : t("SignupPage.button3")}
+              </Button>
+            </Box>
+            {mailSent && (
+              <Typography color="#4ade80" fontSize={13} mt={1}>
+                {t("Toast.signup3")}
+              </Typography>
+            )}
             <Box mt={3}>
               {/* Login */}
               <Button
