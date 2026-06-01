@@ -121,11 +121,6 @@ export default function WithdrawHistory() {
                     >
                       {t("DepositWithdrawPage.amount_name")}
                     </Typography>
-                    <Typography
-                      sx={{ color: "#9aa4b2", fontSize: 13, mt: "5px" }}
-                    >
-                      {t("Toast.widthraw_title2")}
-                    </Typography>
                   </Box>
 
                   {/* RIGHT */}
@@ -151,11 +146,6 @@ export default function WithdrawHistory() {
                     >
                       {Number(item.num).toLocaleString()}{" "}
                       {item.coinname.toUpperCase()}
-                    </Typography>
-                    <Typography
-                      sx={{ color: "#9aa4b2", fontSize: 13, mt: "5px" }}
-                    >
-                      {Number(item.fee).toFixed(2)} %
                     </Typography>
                   </Box>
                 </Box>

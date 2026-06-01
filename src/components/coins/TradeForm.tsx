@@ -314,19 +314,6 @@ export default function TradeForm({ onSubmit, user, tradeYn }: InputProps) {
 
           <Typography
             sx={{
-              color: "#aaa",
-              mb: "8px",
-              fontSize: "12px",
-            }}
-          >
-            Số tiền đầu tư{" "}
-            <b style={{ color: "#fff" }}>
-              {Number(data.price).toLocaleString()} USDT
-            </b>
-          </Typography>
-
-          <Typography
-            sx={{
               color: "#fff",
               textAlign: "right",
               mb: "16px",
@@ -339,7 +326,7 @@ export default function TradeForm({ onSubmit, user, tradeYn }: InputProps) {
 
           <Button
             fullWidth
-            disabled={!user || tradeYn || isMinError || isMaxError}
+            disabled={!user || tradeYn || isMaxError}
             sx={{
               height: "46px",
               borderRadius: "999px",
@@ -359,17 +346,6 @@ export default function TradeForm({ onSubmit, user, tradeYn }: InputProps) {
           >
             {isUp ? "Mua" : "Bán"}
           </Button>
-          {isMinError && (
-            <Typography
-              sx={{
-                color: "#ef4444",
-                fontSize: "12px",
-                mt: "8px",
-              }}
-            >
-              Số tiền tối thiểu là {minPrice.toLocaleString()} USDT
-            </Typography>
-          )}
 
           {isMaxError && (
             <Typography

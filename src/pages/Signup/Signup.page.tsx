@@ -24,6 +24,7 @@ export default function SignupPage() {
   const { t } = useTranslation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [paypassword, setPayPassword] = useState("");
   const [inviteCode, setInviteCode] = useState("");
   const [sending, setSending] = useState(false);
   const [countdown, setCountdown] = useState(0);
@@ -31,9 +32,11 @@ export default function SignupPage() {
   const [loadding, setLoadding] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [showPayPassword, setShowPayPassword] = useState<boolean>(false);
   const handlePassword = (e: any) => setPassword(e.target.value);
   const handleUsername = (e: any) => setEmail(e.target.value);
   const toggleShowPassword = () => setShowPassword(!showPassword);
+  const toggleShowPayPassword = () => setShowPayPassword(!showPayPassword);
   const router = useRouter();
   useEffect(() => {
     if (countdown <= 0) return;
@@ -88,7 +91,8 @@ export default function SignupPage() {
       const formData = new FormData();
       formData.append("email", email);
       formData.append("password", password);
-      formData.append("verification_code", inviteCode);
+      formData.append("paypassword", paypassword);
+      formData.append("invit", inviteCode);
 
       const res: any = await signupUser(formData);
 
@@ -102,7 +106,7 @@ export default function SignupPage() {
     } catch (err: any) {
       const msg = err?.response?.data?.message || "Lỗi đăng ký";
       setErrorMsg(msg);
-      toast.error(msg);
+      toast.error(err.message);
     } finally {
       setLoadding(false);
     }
@@ -112,7 +116,7 @@ export default function SignupPage() {
       sx={{
         backgroundColor: "#141A1F",
         paddingTop: { xs: 0, sm: "50px" },
-        height: "100vh",
+        height: { xs: "100vh", sm: "auto" },
       }}
     >
       <Box
@@ -164,15 +168,9 @@ export default function SignupPage() {
             />
           </Box>
 
-          {errorMsg && (
-            <Typography color="error" fontSize={13} mt={1}>
-              {errorMsg}
-            </Typography>
-          )}
-
           <form>
-            <InputLabel sx={{ color: "white", mt: "10px" }}>
-              {t("SignupPage.title1")}{" "}
+            <InputLabel sx={{ color: "white", mt: "10px", mb: 1 }}>
+              Email or phone
             </InputLabel>
             <TextField
               fullWidth
@@ -293,6 +291,80 @@ export default function SignupPage() {
                 )}
               </IconButton>
             </Box>
+
+            <InputLabel sx={{ color: "white" }}>Mật khẩu rút tiền</InputLabel>
+            <Box
+              sx={{
+                mb: 2,
+                borderRadius: "15px",
+                mt: 1,
+                width: "100%",
+                height: "56px",
+                position: "relative",
+              }}
+            >
+              <TextField
+                fullWidth
+                placeholder={t("LoginPage.value2")}
+                variant="outlined"
+                type={showPayPassword ? "text" : "password"}
+                value={paypassword}
+                onChange={(e) => setPayPassword(e.target.value)}
+                sx={{
+                  mb: 3,
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "8px",
+                    backgroundColor: "#2B313B",
+                    color: "#fff",
+
+                    "& fieldset": {
+                      borderColor: "none",
+                    },
+
+                    "&:hover fieldset": {
+                      borderColor: "none",
+                    },
+
+                    "&.Mui-focused fieldset": {
+                      border: "none",
+                      borderWidth: "1px",
+                    },
+                  },
+
+                  "& .MuiInputBase-input": {
+                    color: "#fff",
+
+                    "&::placeholder": {
+                      color: "#7c8aa0",
+                      opacity: 1,
+                    },
+
+                    "&:-webkit-autofill": {
+                      WebkitBoxShadow: "0 0 0 1000px #1e2a3a inset",
+                      WebkitTextFillColor: "#fff",
+                    },
+                  },
+                }}
+              />
+
+              <IconButton
+                onClick={toggleShowPassword}
+                style={{
+                  position: "absolute",
+                  right: "4px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  padding: 4,
+                  color: "white",
+                }}
+              >
+                {showPassword ? (
+                  <Visibility fontSize="small" />
+                ) : (
+                  <VisibilityOff fontSize="small" />
+                )}
+              </IconButton>
+            </Box>
             {/* Invite code */}
             <InputLabel sx={{ color: "white", mt: 2 }}>
               {" "}
@@ -340,33 +412,8 @@ export default function SignupPage() {
                   },
                 }}
               />
-
-              <Button
-                onClick={handleSendInvite}
-                disabled={email.length === 0 || sending || countdown > 0}
-                sx={{
-                  minWidth: 80,
-                  borderRadius: "14px",
-                  background: "#5BFF00",
-                  color: "#000",
-                  fontWeight: 600,
-                  textTransform: "none",
-                  "&:disabled": {
-                    background: "#9aa4b2",
-                  },
-                  "&:hover": {
-                    background: "#4de000",
-                  },
-                }}
-              >
-                {countdown > 0 ? `${countdown}s` : t("SignupPage.button3")}
-              </Button>
             </Box>
-            {mailSent && (
-              <Typography color="#4ade80" fontSize={13} mt={1}>
-                {t("Toast.signup3")}
-              </Typography>
-            )}
+
             <Box mt={3}>
               {/* Login */}
               <Button

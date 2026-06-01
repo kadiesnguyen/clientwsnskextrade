@@ -446,7 +446,7 @@ export default function VerifiedPage() {
                         borderRadius: "8px",
                       }}
                     >
-                      {user.fullname}
+                      {user.cccd}
                     </Typography>
                   </Box>
 
@@ -463,7 +463,7 @@ export default function VerifiedPage() {
                         borderRadius: "8px",
                       }}
                     >
-                      {user.cccd}
+                      {user.fullname}
                     </Typography>
                   </Box>
                 </Box>

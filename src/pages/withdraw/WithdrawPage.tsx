@@ -24,6 +24,8 @@ import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 import { useRouter } from "next/navigation";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import useWithdrawTimeCheck from "@/hook/useWithdrawTimeCheck";
+import WithdrawTimeDialog from "@/components/popup/WithdrawTimeDialog";
 
 interface IListcoin {
   id: number;
@@ -58,6 +60,7 @@ export default function WithdrawPage() {
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword(!showPassword);
   const router = useRouter();
+  const { open, setOpen } = useWithdrawTimeCheck();
   useEffect(() => {
     fetchUser();
   }, [fetchUser]);
@@ -519,6 +522,7 @@ export default function WithdrawPage() {
           </Button>
         </Box>
       </Box>
+      <WithdrawTimeDialog open={open} onClose={() => setOpen(false)} />
     </Box>
   );
 }

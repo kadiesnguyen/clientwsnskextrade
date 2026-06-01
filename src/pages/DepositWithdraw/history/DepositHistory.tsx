@@ -133,7 +133,7 @@ export default function DepositHistory() {
                         marginBottom: "6px",
                       }}
                     >
-                      {item.coinname.toUpperCase()}- {item.wallet}
+                      {item.coinname.toUpperCase()}
                     </Typography>
                     <Typography
                       sx={{ color: "#9aa4b2", fontSize: 13, mt: "5px" }}
@@ -145,7 +145,6 @@ export default function DepositHistory() {
                       sx={{ color: "#9aa4b2", fontSize: 13, mt: "5px" }}
                     >
                       {Number(item.num).toLocaleString()}{" "}
-                      {item.coinname.toUpperCase()}
                     </Typography>
                   </Box>
                 </Box>

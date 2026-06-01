@@ -291,18 +291,19 @@ export default function HistoryContact() {
                           >
                             {t("StakingPage.amount")}
                           </Typography>
-
-                          <Typography
-                            sx={{ color: "#9aa4b2", fontSize: 13, mt: "5px" }}
-                          >
-                            {t("BuySellPage.price_buy")}
-                          </Typography>
-
-                          <Typography
-                            sx={{ color: "#9aa4b2", fontSize: 13, mt: "5px" }}
-                          >
-                            {t("BuySellPage.price_sell")}
-                          </Typography>
+                          {item.hyzd === 1 ? (
+                            <Typography
+                              sx={{ color: "#9aa4b2", fontSize: 13, mt: "5px" }}
+                            >
+                              {t("BuySellPage.price_buy")}
+                            </Typography>
+                          ) : (
+                            <Typography
+                              sx={{ color: "#9aa4b2", fontSize: 13, mt: "5px" }}
+                            >
+                              {t("BuySellPage.price_sell")}
+                            </Typography>
+                          )}
 
                           <Typography
                             sx={{ color: "#9aa4b2", fontSize: 13, mt: "5px" }}
@@ -366,12 +367,6 @@ export default function HistoryContact() {
                           <Typography
                             sx={{ color: "#9aa4b2", fontSize: 13, mt: "5px" }}
                           >
-                            {Number(item.sellprice).toLocaleString()}
-                          </Typography>
-
-                          <Typography
-                            sx={{ color: "#9aa4b2", fontSize: 13, mt: "5px" }}
-                          >
                             {timeAgo(item.buytime)}
                           </Typography>
                         </Box>
@@ -407,11 +402,11 @@ export function timeAgo(date: string | Date) {
   if (diff < 60) return `${diff}s ago`;
 
   const minutes = Math.floor(diff / 60);
-  if (minutes < 60) return `${minutes}m ago`;
+  if (minutes < 60) return `${minutes} phút trước`;
 
   const hours = Math.floor(minutes / 60);
-  if (hours < 24) return `${hours}h ago`;
+  if (hours < 24) return `${hours} giờ trước`;
 
   const days = Math.floor(hours / 24);
-  return `${days}d ago`;
+  return `${days} ngày trước`;
 }

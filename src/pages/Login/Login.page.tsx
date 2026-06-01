@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Box,
   Typography,
@@ -13,7 +13,7 @@ import {
   IconButton,
   Link,
 } from "@mui/material";
-import { loginUser } from "@/services/User.service";
+import { getWebsiteConfig, loginUser } from "@/services/User.service";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
@@ -31,7 +31,23 @@ export default function LoginPage() {
   const handlePassword = (e: any) => setPassword(e.target.value);
   const handleUsername = (e: any) => setEmail(e.target.value);
   const toggleShowPassword = () => setShowPassword(!showPassword);
+  const [configs, setConfigs] = useState<any>();
   const router = useRouter();
+
+  useEffect(() => {
+    const referral = async () => {
+      try {
+        const config: any = await getWebsiteConfig();
+
+        if (config.status === true) {
+          setConfigs(config.data);
+        }
+      } catch (errors: any) {
+        console.log(errors?.message);
+      }
+    };
+    referral();
+  }, []);
   // Login handler
   const login = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -253,6 +269,60 @@ export default function LoginPage() {
 
             <Box mt={3} width={"100%"}>
               {/* Login */}
+              <Box
+                sx={{
+                  mb: 3,
+                  display: "flex",
+                  width: "100%",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <Button
+                  fullWidth
+                  onClick={() => {
+                    const newWindow = window.open(
+                      configs.telegram,
+                      "_blank",
+                      "noopener,noreferrer",
+                    );
+                    if (newWindow) {
+                      newWindow.opener = null;
+                    }
+                  }}
+                  sx={{
+                    width: "120px",
+                    background: "none",
+                    color: "white",
+                    borderRadius: "14px",
+                    height: 20,
+                    textTransform: "none",
+                    textAlign: "right",
+                    "&:hover": {
+                      background: "none",
+                    },
+                  }}
+                >
+                  Quên mật khẩu?
+                </Button>
+
+                <Link
+                  href="/signup"
+                  sx={{
+                    // width: "130px",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "6px",
+                    textDecoration: "none",
+                    color: "white",
+                    fontSize: "12px",
+                  }}
+                >
+                  {t("LoginPage.button3")}{" "}
+                  <NextIcon width="12px" height="12px" />{" "}
+                </Link>
+              </Box>
+
               <Button
                 fullWidth
                 onClick={login}
@@ -272,22 +342,6 @@ export default function LoginPage() {
               >
                 {t("LoginPage.button1")}
               </Button>
-              <Link
-                href="/signup"
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "6px",
-                  justifyContent: "center",
-                  mt: "40px",
-                  textDecoration: "none",
-                  color: "white",
-                  fontSize: "12px",
-                }}
-              >
-                {t("LoginPage.button3")}{" "}
-                <NextIcon width="12px" height="12px" />{" "}
-              </Link>
             </Box>
           </form>
         </Box>
