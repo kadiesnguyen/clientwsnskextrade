@@ -27,43 +27,21 @@ export default function OrderConfirmModal({
   const [countdown, setCountdown] = useState<number | null>(null);
   const [dataOrder, setDataOrder] = useState<IHistoryClose | null>(null);
 
-  // useEffect(() => {
-  //   if (open && data?.time) {
-  //     setCountdown(data.time);
-  //     setDataOrder(null);
-  //   }
-  // }, [open, data]);
-
   useEffect(() => {
-    if (!data) return;
+    if (!open || !data) return;
 
-    setCountdown(getTimeLeft(data.selltime));
-  }, [data, open]);
+    setCountdown(data.time);
+    setDataOrder(null);
+  }, [open, data]);
+
   const getTimeLeft = (selltime: Date) => {
     const end = new Date(selltime).getTime();
     const now = Date.now();
     return Math.max(Math.floor((end - now) / 1000), 0);
   };
 
-  useEffect(() => {
-    if (!open || countdown === null) return;
-
-    if (countdown === 0) {
-      if (!dataOrder) {
-        checkOrder();
-      }
-      return;
-    }
-
-    const timer = setTimeout(() => {
-      setCountdown((prev) => (prev !== null ? prev - 1 : prev));
-    }, 1000);
-
-    return () => clearTimeout(timer);
-  }, [countdown, open]);
-
   const percent =
-    countdown !== null ? (countdown / (data?.time || 1)) * 100 : 100;
+    countdown !== null ? (countdown / (data.time * 60)) * 100 : 100;
 
   const checkOrder = async () => {
     try {
@@ -75,6 +53,26 @@ export default function OrderConfirmModal({
       console.log("err 1", err);
     }
   };
+  useEffect(() => {
+    if (!open || !data?.selltime) return;
+
+    const update = () => {
+      const left = getTimeLeft(data.selltime);
+
+      setCountdown(left);
+
+      if (left === 0 && !dataOrder) {
+        checkOrder();
+      }
+    };
+
+    update();
+
+    const interval = setInterval(update, 1000);
+
+    return () => clearInterval(interval);
+  }, [open, data?.selltime]);
+
   return (
     <Modal open={open} onClose={onClose}>
       <Box
@@ -100,7 +98,7 @@ export default function OrderConfirmModal({
         </IconButton>
 
         <Typography fontWeight={600} fontSize={"13px"} mb={3}>
-          {data?.coinname} ({data?.time}s)
+          {data?.coinname}
         </Typography>
 
         {!dataOrder ? (
