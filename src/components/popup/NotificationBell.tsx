@@ -283,8 +283,8 @@ export default function NotificationBell({
                 sm: notifications.length > 0 ? 300 : 100,
               },
 
-              bgcolor: "#161d2bff",
-              color: "#fff",
+              bgcolor: "#fff",
+              color: "#000",
               borderRadius: 2,
               zIndex: 999999,
 
