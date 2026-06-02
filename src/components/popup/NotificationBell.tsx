@@ -404,7 +404,7 @@ export default function NotificationBell({
                 fontSize: 12,
               }}
             >
-              Thời gian rút tiền 12h00 - 00h00
+              Thông báo các lệnh rút tiền bị hủy
             </Box>
           </Paper>
         </>

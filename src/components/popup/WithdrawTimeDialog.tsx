@@ -66,7 +66,6 @@ export default function WithdrawTimeDialog({ open, onClose }: Props) {
           <br />
           Thời gian hỗ trợ rút tiền từ
           <Typography
-            component="span"
             sx={{
               color: "#60a5fa",
               fontWeight: 700,

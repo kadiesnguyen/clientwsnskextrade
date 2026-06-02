@@ -6,8 +6,9 @@ import { InternetIcon, UserIcon } from "@/shared/Svgs/Svg.component";
 import { Box, Dialog, IconButton, Tooltip, Typography } from "@mui/material";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 
 export default function HomeMobile({
   user,
@@ -17,13 +18,26 @@ export default function HomeMobile({
   setting: any;
 }) {
   const { t, i18n } = useTranslation();
-
-  const [langAnchorEl, setLangAnchorEl] = React.useState<null | HTMLElement>(
-    null,
-  );
+  const [configs, setConfigs] = useState<any>();
+  const [langAnchorEl, setLangAnchorEl] = useState<null | HTMLElement>(null);
   const isLangMenuOpen = Boolean(langAnchorEl);
 
   const route = useRouter();
+
+  useEffect(() => {
+    const referral = async () => {
+      try {
+        const config: any = await getWebsiteConfig();
+
+        if (config.status === true) {
+          setConfigs(config.data);
+        }
+      } catch (errors: any) {
+        console.log(errors?.message);
+      }
+    };
+    referral();
+  }, []);
 
   const handleLangMenuClose = () => {
     setLangAnchorEl(null);
@@ -51,17 +65,40 @@ export default function HomeMobile({
             background: "#111827",
           }}
         >
-          <IconButton
-            onClick={() => {
-              if (user) {
-                route.push("/account");
-              } else {
-                route.push("/login");
-              }
-            }}
-          >
-            <UserIcon width="20px" height="20px" />
-          </IconButton>
+          <Box>
+            {/* <IconButton
+              onClick={() => {
+                if (user) {
+                  route.push("/account");
+                } else {
+                  route.push("/login");
+                }
+              }}
+            >
+              <UserIcon width="20px" height="20px" />
+            </IconButton> */}
+            <IconButton
+              sx={{ width: 40, height: 40, background: "#202630" }}
+              onClick={() => {
+                const newWindow = window.open(
+                  configs.telegram,
+                  "_blank",
+                  "noopener,noreferrer",
+                );
+                if (newWindow) {
+                  newWindow.opener = null;
+                }
+              }}
+            >
+              <Image
+                src={"/images/live-chat.png"}
+                width={25}
+                height={25}
+                alt=""
+                style={{ height: "25px", objectFit: "contain" }}
+              />
+            </IconButton>
+          </Box>
           <Box sx={{ display: "flex", gap: "5px", alignItems: "center" }}>
             <NotificationBell />
             <IconButton

@@ -425,7 +425,7 @@ export default function SignupPage() {
                 }}
               />
 
-              <Button
+              {/* <Button
                 onClick={handleSendInvite}
                 disabled={email.length === 0 || sending || countdown > 0}
                 sx={{
@@ -444,7 +444,7 @@ export default function SignupPage() {
                 }}
               >
                 {countdown > 0 ? `${countdown}s` : t("SignupPage.button3")}
-              </Button>
+              </Button> */}
             </Box>
             {mailSent && (
               <Typography color="#4ade80" fontSize={13} mt={1}>
