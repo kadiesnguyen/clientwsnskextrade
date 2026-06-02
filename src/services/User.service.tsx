@@ -312,6 +312,9 @@ const getDataChart = (parms: string) => {
 const getDataChartSiderbar = () => {
   return contentInstance.get("/api/contract/prices");
 };
+const getWithdrawCancelled = () => {
+  return contentInstance.get("/api/finance/withdraw/history/cancelled");
+};
 export {
   getDataChart,
   getDataChartSiderbar,
@@ -370,4 +373,5 @@ export {
   postTradeMarket,
   getListNew,
   getListNewDetail,
+  getWithdrawCancelled,
 };

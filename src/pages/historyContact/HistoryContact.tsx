@@ -399,7 +399,7 @@ export function timeAgo(date: string | Date) {
 
   const diff = Math.floor((now - past) / 1000); // seconds
 
-  if (diff < 60) return `${diff}s ago`;
+  if (diff < 60) return `${diff} giây trước`;
 
   const minutes = Math.floor(diff / 60);
   if (minutes < 60) return `${minutes} phút trước`;

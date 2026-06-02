@@ -52,6 +52,7 @@ import { formatDateTime } from "@/utils/formatDateTime";
 import NavigationGame from "@/hook/NavigationGame";
 import { useUserStore } from "@/stores/useUserStore";
 import { toast } from "react-toastify";
+import NotificationBell from "@/components/popup/NotificationBell";
 
 interface propUser {
   user: userResponse | null;
@@ -203,6 +204,7 @@ export default function HeaderPage() {
           >
             {t("AssetPage.menu2")}
           </Button>
+          <NotificationBell />
           <Button
             onClick={() => router.push("/language")}
             sx={{

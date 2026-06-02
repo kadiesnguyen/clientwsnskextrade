@@ -1,4 +1,5 @@
 import CoinPage from "@/components/coins/CoinPage";
+import NotificationBell from "@/components/popup/NotificationBell";
 import { getWebsiteConfig } from "@/services/User.service";
 import { IUser } from "@/shared/interfaces";
 import { InternetIcon, UserIcon } from "@/shared/Svgs/Svg.component";
@@ -61,7 +62,8 @@ export default function HomeMobile({
           >
             <UserIcon width="20px" height="20px" />
           </IconButton>
-          <Box>
+          <Box sx={{ display: "flex", gap: "5px", alignItems: "center" }}>
+            <NotificationBell />
             <IconButton
               sx={{ height: "20px" }}
               onClick={() => route.push("/news")}
