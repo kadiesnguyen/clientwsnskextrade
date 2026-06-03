@@ -307,7 +307,7 @@ export default function TradeForm({ onSubmit, user, tradeYn }: InputProps) {
             }}
           >
             Hướng đầu tư{" "}
-            <b style={{ color: "#fff" }}>{isUp ? "Mua lên" : "Bán xuống"}</b>
+            <b style={{ color: "#fff" }}>{isUp ? "Mua lên" : "Mua xuống"}</b>
           </Typography>
 
           <Typography
@@ -342,7 +342,7 @@ export default function TradeForm({ onSubmit, user, tradeYn }: InputProps) {
               hanldSubmit(isUp);
             }}
           >
-            {isUp ? "Mua lên" : "Bán xuống"}
+            {isUp ? "Mua lên" : "Mua xuống"}
           </Button>
 
           {isMaxError && (

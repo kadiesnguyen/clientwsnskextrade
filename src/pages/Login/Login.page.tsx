@@ -301,6 +301,7 @@ export default function LoginPage() {
                     height: 20,
                     textTransform: "none",
                     textAlign: "right",
+                    fontSize: "13px",
                     "&:hover": {
                       background: "none",
                     },
@@ -318,7 +319,7 @@ export default function LoginPage() {
                     gap: "6px",
                     textDecoration: "none",
                     color: "white",
-                    fontSize: "12px",
+                    fontSize: "13px",
                   }}
                 >
                   {t("LoginPage.button3")}{" "}

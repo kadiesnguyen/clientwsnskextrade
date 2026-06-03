@@ -196,11 +196,11 @@ export default function HistoryContact() {
                             sx={{
                               color: item.hyzd === 1 ? "#4ade80" : "#ef4444",
                               fontWeight: 500,
-                              fontSize: 15,
+                              fontSize: 13,
                               marginBottom: "6px",
                             }}
                           >
-                            {item.hyzd === 1 ? "Mua" : "Bán"}
+                            {item.hyzd === 1 ? "Mua lên" : "Mua xuống"}
                           </Typography>
                           <Typography
                             sx={{ color: "#9aa4b2", fontSize: 13, mt: "5px" }}
@@ -345,7 +345,7 @@ export default function HistoryContact() {
                                 pt: "10px",
                               }}
                             >
-                              {item.hyzd === 1 ? "Mua" : "Bán"}
+                              {item.hyzd === 1 ? "Mua lên" : "Mua xuống"}
                             </Typography>
                           </Box>
                           <Typography
