@@ -211,7 +211,7 @@ function CoinCard({ coin }: { coin: Coin }) {
               {coin.symbol.replace("USDT", "")}
             </Typography>
             <Typography fontSize={13} color="gray">
-              {coin.symbol}
+              {coin.symbol.replace("USDT", "/USDT")}
             </Typography>
           </Box>
         </Stack>
