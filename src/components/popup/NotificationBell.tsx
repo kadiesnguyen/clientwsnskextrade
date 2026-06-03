@@ -404,7 +404,7 @@ export default function NotificationBell({
                 fontSize: 12,
               }}
             >
-              Thông báo các lệnh rút tiền bị hủy
+              Thông báo hệ thống
             </Box>
           </Paper>
         </>
