@@ -72,7 +72,7 @@ export default function WithdrawTimeDialog({ open, onClose }: Props) {
               ml: 0.5,
             }}
           >
-            12:00 - 00:00
+            12h00 đến 22h00 Việt Nam
           </Typography>
         </Typography>
 

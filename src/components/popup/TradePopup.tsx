@@ -267,9 +267,7 @@ export default function TradePopup({
                     position: "relative",
                   }}
                 >
-                  <Typography fontSize={12}>
-                    {Number(item) * 60} {t("BuySellPage.Second")}
-                  </Typography>
+                  <Typography fontSize={12}>{Number(item) * 60}s</Typography>
                   <Typography fontSize={11} color="#94a3b8">
                     {t("BuySellPage.Profitability")}{" "}
                     {buySellConfig.hy_ykbl?.[index]}%

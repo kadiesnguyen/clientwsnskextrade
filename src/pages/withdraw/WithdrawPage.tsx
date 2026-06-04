@@ -259,30 +259,39 @@ export default function WithdrawPage() {
                 }}
               />
 
-              {/* <Typography
+              <Typography
                 sx={{
                   color: "#8e98a7",
                   fontSize: 14,
                 }}
               >
-                {t("Toast.widthraw_title2")} {selectedCoin?.bbsxf ?? 0}%
-              </Typography> */}
+                {t("Toast.widthraw_title2")}{" "}
+                {Number((selectedCoin?.bbsxf ?? 0) * 100) ?? 0}%
+              </Typography>
             </Box>
 
-            <Typography
-              sx={{
-                textAlign: "right",
-                color: "#8e98a7",
-                fontSize: 14,
-                mt: 2,
-              }}
-            >
-              {t("ProfilePage.Available_balance")}:
-              <span style={{ color: "white", fontWeight: 600 }}>
-                {" "}
+            <Box sx={{ display: "flex", gap: "10px" }}>
+              <Typography
+                sx={{
+                  textAlign: "right",
+                  color: "#8e98a7",
+                  fontSize: 14,
+                  mt: 2,
+                }}
+              >
+                {t("ProfilePage.Available_balance")}:
+              </Typography>
+              <Typography
+                sx={{
+                  textAlign: "right",
+                  color: "#fff",
+                  fontSize: 14,
+                  mt: 2,
+                }}
+              >
                 {Number(user?.balance.usdt).toLocaleString()} (USDT)
-              </span>
-            </Typography>
+              </Typography>
+            </Box>
           </CardBox>
 
           <CardBox sx={{ mt: 2 }}>

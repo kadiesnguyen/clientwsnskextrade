@@ -119,6 +119,16 @@ export default function WithdrawHistory() {
                     <Typography
                       sx={{ color: "#9aa4b2", fontSize: 13, mt: "5px" }}
                     >
+                      {t("DepositWithdrawPage.amount_coin")}
+                    </Typography>
+                    <Typography
+                      sx={{ color: "#9aa4b2", fontSize: 13, mt: "5px" }}
+                    >
+                      {t("Toast.widthraw_title2")}
+                    </Typography>
+                    <Typography
+                      sx={{ color: "#9aa4b2", fontSize: 13, mt: "5px" }}
+                    >
                       {t("DepositWithdrawPage.amount_name")}
                     </Typography>
                   </Box>
@@ -146,6 +156,17 @@ export default function WithdrawHistory() {
                     >
                       {Number(item.num).toLocaleString()}{" "}
                       {item.coinname.toUpperCase()}
+                    </Typography>
+
+                    <Typography
+                      sx={{ color: "#9aa4b2", fontSize: 13, mt: "5px" }}
+                    >
+                      {Number(item.fee).toLocaleString()} USDT
+                    </Typography>
+                    <Typography
+                      sx={{ color: "#9aa4b2", fontSize: 13, mt: "5px" }}
+                    >
+                      {Number(item.mum).toLocaleString()} VND
                     </Typography>
                   </Box>
                 </Box>
