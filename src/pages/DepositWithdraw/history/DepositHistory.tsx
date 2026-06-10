@@ -119,7 +119,7 @@ export default function DepositHistory() {
                     <Typography
                       sx={{ color: "#9aa4b2", fontSize: 13, mt: "5px" }}
                     >
-                      {t("DepositWithdrawPage.amount_name")}
+                      Số tiền nạp
                     </Typography>
                   </Box>
 
