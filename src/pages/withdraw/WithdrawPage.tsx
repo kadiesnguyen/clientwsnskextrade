@@ -211,33 +211,15 @@ export default function WithdrawPage() {
             <RowItem
               left={t("AssetPage.Network")}
               right={
-                <Select
-                  value={selectedCoin?.name || ""}
-                  onChange={(e) => {
-                    const coin = listCoin?.find(
-                      (item) => item.name === e.target.value,
-                    );
-
-                    setSelectedCoin(coin || null);
-                  }}
-                  variant="standard"
-                  disableUnderline
-                  IconComponent={KeyboardArrowDownIcon}
+                <Typography
                   sx={{
                     color: "#fff",
-                    minWidth: 120,
-
-                    "& .MuiSelect-icon": {
-                      color: "#fff",
-                    },
+                    fontWeight: 700,
+                    fontSize: 14,
                   }}
                 >
-                  {listCoin?.map((coin) => (
-                    <MenuItem key={coin.id} value={coin.name}>
-                      {coin.title}
-                    </MenuItem>
-                  ))}
-                </Select>
+                  {selectedCoin?.title ?? "USDT"}
+                </Typography>
               }
             />
           </CardBox>
@@ -480,7 +462,7 @@ export default function WithdrawPage() {
                   letterSpacing: "1px",
                 }}
               >
-                ************{user?.bank_acc_no?.slice(-6) || "--"}
+                ************{user?.bank_acc_no?.slice(-6)}
               </Typography>
               {/* Account Name */}
               <Typography
