@@ -32,17 +32,16 @@ export default function CoinHeader({ coin, time, setMenuCoin }: any) {
   const [menu, setMenu] = useState("XAUUSD");
 
   const [ticker, setTicker] = useState<any>(null);
+  console.log("coin", coin);
 
   const fetchingRef = useRef(false);
-  const SPECIAL_SYMBOLS: any = {
-    XAUUSDT: "XAUUSD",
-    XAGUSDT: "XAGUSD",
-    GBPUSDT: "GBPUSD",
+  const SPECIAL_SYMBOLS: Record<string, string> = {
+    XAUUSD: "XAUUSD",
+    XAGUSD: "XAGUSD",
+    GBPUSD: "GBPUSD",
     USDJPY: "USDJPY",
-    EURUSDT: "EURUSD",
-    AAPL: "AAPL",
+    EURUSD: "EURUSD",
   };
-
   /**
    * NORMALIZE
    */
@@ -59,15 +58,13 @@ export default function CoinHeader({ coin, time, setMenuCoin }: any) {
     fetchingRef.current = true;
 
     try {
-      const symbol = normalizeSymbol(menu);
-
       console.log({
         menu,
-        normalized: symbol,
-        special: SPECIAL_SYMBOLS[symbol],
+        normalized: menu,
+        special: SPECIAL_SYMBOLS[menu],
       });
-      if (SPECIAL_SYMBOLS[symbol]) {
-        const apiSymbol = SPECIAL_SYMBOLS[symbol];
+      if (SPECIAL_SYMBOLS[menu]) {
+        const apiSymbol = SPECIAL_SYMBOLS[menu];
 
         const res: any = await getDataChart(apiSymbol);
 
@@ -90,7 +87,7 @@ export default function CoinHeader({ coin, time, setMenuCoin }: any) {
          * BINANCE MARKET
          */
         const res = await fetch(
-          `https://api.binance.com/api/v3/ticker/24hr?symbol=${symbol}`,
+          `https://api.binance.com/api/v3/ticker/24hr?symbol=${menu}`,
         );
 
         const data = await res.json();
@@ -141,7 +138,7 @@ export default function CoinHeader({ coin, time, setMenuCoin }: any) {
   useEffect(() => {
     if (!coin?.name) return;
 
-    setMenu(coin.name.toUpperCase());
+    setMenu(coin.symbol);
   }, [coin]);
 
   useEffect(() => {
