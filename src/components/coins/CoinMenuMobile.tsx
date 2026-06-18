@@ -19,7 +19,7 @@ import { iconMap } from "./CoinPage";
 
 import { getDataChartSiderbar } from "@/services/User.service";
 import { CloseOutlined } from "@mui/icons-material";
-import { isCryptoCoin } from "@/utils/specialCoins";
+import { isCryptoCoinSymbol } from "@/utils/specialCoins";
 
 type Coin = {
   symbol: string;
@@ -31,7 +31,7 @@ type Coin = {
 
 interface Props {
   menu: string;
-  listCoin: IcoinFinace[];
+  listCoin: Array<IcoinFinace & { symbol: string; coinname?: string }>;
   setMenu: (v: string) => void;
   changePercent: (s: string) => void;
   handleDrawerClose: () => void;
@@ -54,7 +54,9 @@ export default function CoinMenuMobile({
     fetchingRef.current = true;
 
     try {
-      const cryptoCoins = listCoin.filter(isCryptoCoin);
+      const cryptoCoins = listCoin.filter((coin) =>
+        isCryptoCoinSymbol(coin.symbol),
+      );
 
       const [cryptoResponses, specialRes] = await Promise.all([
         Promise.all(

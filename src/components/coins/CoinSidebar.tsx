@@ -4,7 +4,7 @@ import { Avatar, Box, Stack, Typography } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { iconMap } from "./CoinPage";
 import { getDataChartSiderbar } from "@/services/User.service";
-import { isCryptoCoin } from "@/utils/specialCoins";
+import { isCryptoCoinSymbol } from "@/utils/specialCoins";
 
 export default function CoinSidebar({ coins, selectedCoin, onSelect }: any) {
   const [marketData, setMarketData] = useState<any>({});
@@ -55,7 +55,9 @@ export default function CoinSidebar({ coins, selectedCoin, onSelect }: any) {
     fetchingRef.current = true;
 
     try {
-      const cryptoCoins = coins.filter(isCryptoCoin);
+      const cryptoCoins = coins.filter((coin: { symbol: string }) =>
+        isCryptoCoinSymbol(coin.symbol),
+      );
 
       const [cryptoResponses, specialResponses] = await Promise.all([
         fetchCryptoPrices(cryptoCoins),
