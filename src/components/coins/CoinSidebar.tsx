@@ -3,123 +3,69 @@
 import { Avatar, Box, Stack, Typography } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { iconMap } from "./CoinPage";
-import { getDataChart, getDataChartSiderbar } from "@/services/User.service";
+import { getDataChartSiderbar } from "@/services/User.service";
+import { isCryptoCoin } from "@/utils/specialCoins";
 
 export default function CoinSidebar({ coins, selectedCoin, onSelect }: any) {
   const [marketData, setMarketData] = useState<any>({});
-
-  /**
-   * PREVENT DUPLICATE REQUEST
-   */
   const fetchingRef = useRef(false);
 
-  /**
-   * SPECIAL SYMBOLS
-   * -> CALL getDataChart()
-   */
-  const SPECIAL_SYMBOLS: any = {
-    XAUUSDT: "XAUUSD",
-    XAGUSDT: "XAGUSD",
-    GBPUSDT: "GBPUSD",
-    USDJPY: "USDJPY",
-    EURUSDT: "EURUSD",
-    AAPL: "AAPL",
+  const fetchCryptoPrices = async (cryptoCoins: any[]) => {
+    const responses = await Promise.all(
+      cryptoCoins.map(async (coin: any) => {
+        try {
+          const symbol = coin.symbol;
+          const res = await fetch(
+            `https://api.binance.com/api/v3/ticker/24hr?symbol=${symbol}`,
+          );
+          const data = await res.json();
+
+          if (!data?.lastPrice) return null;
+
+          return {
+            symbol,
+            close: Number(data.lastPrice),
+            change: Number(data.priceChangePercent),
+          };
+        } catch {
+          return null;
+        }
+      }),
+    );
+
+    return responses.filter(Boolean);
   };
 
-  /**
-   * NORMALIZE SYMBOL
-   */
-  const normalizeSymbol = (coin: any) => {
-    return coin.symbol;
+  const fetchSpecialPrices = async () => {
+    const res: any = await getDataChartSiderbar();
+    const result: any[] = res?.data ?? [];
+
+    return result.map((item: any) => ({
+      symbol: item.symbol,
+      close: Number(item.data.close),
+      change: Number(item.data.change_percent),
+      high: Number(item.data.high),
+      low: Number(item.data.low),
+    }));
   };
 
-  const normalizeSymbolCheck = (coin: any) => {
-    return coin.name.replace("-", "").toUpperCase();
-  };
-
-  /**
-   * FETCH ALL MARKET
-   */
   const fetchTicker = async () => {
-    /**
-     * AVOID MULTIPLE CALL
-     */
-    if (fetchingRef.current) return;
+    if (fetchingRef.current || !coins?.length) return;
 
     fetchingRef.current = true;
 
     try {
-      /**
-       * BINANCE COINS
-       */
-      const cryptoCoins = coins.filter((coin: any) => {
-        const symbol = normalizeSymbolCheck(coin);
+      const cryptoCoins = coins.filter(isCryptoCoin);
 
-        return !SPECIAL_SYMBOLS[symbol];
-      });
+      const [cryptoResponses, specialResponses] = await Promise.all([
+        fetchCryptoPrices(cryptoCoins),
+        fetchSpecialPrices(),
+      ]);
 
-      /**
-       * =========================
-       * FETCH BINANCE
-       * =========================
-       */
-      const cryptoResponses = await Promise.all(
-        cryptoCoins.map(async (coin: any) => {
-          try {
-            const symbol = normalizeSymbol(coin);
-
-            const res = await fetch(
-              `https://api.binance.com/api/v3/ticker/24hr?symbol=${symbol}`,
-            );
-
-            const data = await res.json();
-
-            if (!data?.lastPrice) return null;
-
-            return {
-              symbol,
-              close: Number(data.lastPrice),
-              change: Number(data.priceChangePercent),
-            };
-          } catch (error) {
-            // console.log("BINANCE ERROR:", error);
-
-            return null;
-          }
-        }),
-      );
-
-      /**
-       * =========================
-       * FETCH SPECIAL
-       * =========================
-       *
-       * FETCH SEQUENTIAL
-       * tránh spam API
-       */
-      const specialResponses: any[] = [];
-
-      const res: any = await getDataChartSiderbar();
-      const result: any[] = res?.data;
-      result.map((result: any) => {
-        specialResponses.push({
-          symbol: result.symbol,
-          close: Number(result.data.close),
-          change: Number(result.data.change_percent),
-          high: Number(result.data.high),
-          low: Number(result.data.low),
-        });
-      });
-      /**
-       * =========================
-       * MERGE
-       * =========================
-       */
       const formatted: any = {};
 
       [...cryptoResponses, ...specialResponses].forEach((item: any) => {
         if (!item) return;
-
         formatted[item.symbol] = item;
       });
 
@@ -131,15 +77,11 @@ export default function CoinSidebar({ coins, selectedCoin, onSelect }: any) {
     }
   };
 
-  /**
-   * INIT
-   */
   useEffect(() => {
     if (!coins?.length) return;
+
     fetchTicker();
-    const interval = setInterval(() => {
-      fetchTicker();
-    }, 8000);
+    const interval = setInterval(fetchTicker, 8000);
 
     return () => clearInterval(interval);
   }, [coins]);
@@ -153,7 +95,7 @@ export default function CoinSidebar({ coins, selectedCoin, onSelect }: any) {
       }}
     >
       {coins?.map((coin: any) => {
-        const symbol = normalizeSymbol(coin);
+        const symbol = coin.symbol;
         const data = marketData[symbol];
         const active = selectedCoin?.symbol === coin.symbol;
 
@@ -179,7 +121,6 @@ export default function CoinSidebar({ coins, selectedCoin, onSelect }: any) {
               alignItems="center"
               justifyContent="space-between"
             >
-              {/* LEFT */}
               <Stack direction="row" spacing={1.5} alignItems="center">
                 <Avatar
                   src={
@@ -205,7 +146,6 @@ export default function CoinSidebar({ coins, selectedCoin, onSelect }: any) {
                 </Typography>
               </Stack>
 
-              {/* RIGHT */}
               <Box textAlign="right">
                 <Typography
                   sx={{
@@ -220,7 +160,6 @@ export default function CoinSidebar({ coins, selectedCoin, onSelect }: any) {
                 <Typography
                   sx={{
                     color: Number(data?.change) >= 0 ? "#00c853" : "#ff5252",
-
                     fontSize: 13,
                     fontWeight: 600,
                   }}

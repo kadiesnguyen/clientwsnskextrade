@@ -17,8 +17,9 @@ import { IcoinFinace } from "@/interface/user.interface";
 
 import { iconMap } from "./CoinPage";
 
-import { getDataChart } from "@/services/User.service";
+import { getDataChartSiderbar } from "@/services/User.service";
 import { CloseOutlined } from "@mui/icons-material";
+import { isCryptoCoin } from "@/utils/specialCoins";
 
 type Coin = {
   symbol: string;
@@ -47,131 +48,50 @@ export default function CoinMenuMobile({
 
   const fetchingRef = useRef(false);
 
-  /**
-   * SPECIAL SYMBOLS
-   */
-  const SPECIAL_SYMBOLS: any = {
-    XAUUSDT: "XAUUSD",
-    XAGUSDT: "XAGUSD",
-    GBPUSDT: "GBPUSD",
-    USDJPY: "USDJPY",
-    EURUSDT: "EURUSD",
-    AAPL: "AAPL",
-  };
-
-  /**
-   * NORMALIZE
-   */
-  const normalizeSymbol = (coin: any) => {
-    return coin.name.replace("-", "").toUpperCase();
-  };
-
-  /**
-   * FETCH ALL MARKET
-   */
   const fetchTicker = async () => {
-    if (fetchingRef.current) return;
+    if (fetchingRef.current || !listCoin?.length) return;
 
     fetchingRef.current = true;
 
     try {
-      /**
-       * NORMAL BINANCE
-       */
-      const cryptoCoins = listCoin.filter((coin: any) => {
-        const symbol = normalizeSymbol(coin);
+      const cryptoCoins = listCoin.filter(isCryptoCoin);
 
-        return !SPECIAL_SYMBOLS[symbol];
-      });
+      const [cryptoResponses, specialRes] = await Promise.all([
+        Promise.all(
+          cryptoCoins.map(async (coin: any) => {
+            try {
+              const symbol = coin.symbol;
+              const res = await fetch(
+                `https://api.binance.com/api/v3/ticker/24hr?symbol=${symbol}`,
+              );
+              const data = await res.json();
 
-      /**
-       * SPECIAL API
-       */
-      const specialCoins = listCoin.filter((coin: any) => {
-        const symbol = normalizeSymbol(coin);
+              if (!data?.lastPrice) return null;
 
-        return !!SPECIAL_SYMBOLS[symbol];
-      });
+              return {
+                symbol,
+                close: Number(data.lastPrice),
+                change: Number(data.priceChangePercent),
+              };
+            } catch (error) {
+              console.log("BINANCE ERROR:", error);
+              return null;
+            }
+          }),
+        ),
+        getDataChartSiderbar(),
+      ]);
 
-      /**
-       * =========================
-       * BINANCE FETCH
-       * =========================
-       */
-      const cryptoResponses = await Promise.all(
-        cryptoCoins.map(async (coin: any) => {
-          try {
-            const symbol = normalizeSymbol(coin);
+      const specialResponses = (specialRes?.data ?? []).map((item: any) => ({
+        symbol: item.symbol,
+        close: Number(item.data.close),
+        change: Number(item.data.change_percent),
+      }));
 
-            const res = await fetch(
-              `https://api.binance.com/api/v3/ticker/24hr?symbol=${symbol}`,
-            );
-
-            const data = await res.json();
-
-            if (!data?.lastPrice) return null;
-
-            return {
-              symbol,
-
-              close: Number(data.lastPrice),
-
-              change: Number(data.priceChangePercent),
-            };
-          } catch (error) {
-            console.log("BINANCE ERROR:", error);
-
-            return null;
-          }
-        }),
-      );
-
-      /**
-       * =========================
-       * SPECIAL FETCH
-       * =========================
-       */
-      const specialResponses: any[] = [];
-
-      for (const coin of specialCoins) {
-        try {
-          const symbol = normalizeSymbol(coin);
-
-          const apiSymbol = SPECIAL_SYMBOLS[symbol];
-
-          const res: any = await getDataChart(apiSymbol);
-
-          const result = res?.data;
-
-          if (!result) continue;
-
-          specialResponses.push({
-            symbol,
-
-            close: Number(result.close),
-
-            change: Number(result.change_percent),
-          });
-
-          /**
-           * AVOID RATE LIMIT
-           */
-          await new Promise((resolve) => setTimeout(resolve, 300));
-        } catch (error) {
-          console.log("SPECIAL API ERROR:", error);
-        }
-      }
-
-      /**
-       * =========================
-       * MERGE
-       * =========================
-       */
       const formatted: any = {};
 
       [...cryptoResponses, ...specialResponses].forEach((item: any) => {
         if (!item) return;
-
         formatted[item.symbol] = item;
       });
 
@@ -240,7 +160,7 @@ export default function CoinMenuMobile({
 
       {/* LIST */}
       {listCoin?.map((coin: any) => {
-        const symbol = normalizeSymbol(coin);
+        const symbol = coin.symbol;
 
         const data = marketData[symbol];
 
@@ -249,7 +169,7 @@ export default function CoinMenuMobile({
         return (
           <Box
             key={coin.id}
-            onClick={() => setMenu(symbol.toLowerCase())}
+            onClick={() => setMenu(symbol)}
             sx={{
               width: "100%",
 
