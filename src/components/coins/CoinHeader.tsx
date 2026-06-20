@@ -21,7 +21,7 @@ import {
   getListCoin,
 } from "@/services/User.service";
 import { iconMap } from "./CoinPage";
-import { getTickerBySymbol } from "@/services/binance";
+import { getTickerBySymbol, toBinanceSymbol } from "@/services/binance";
 import { t } from "i18next";
 
 export default function CoinHeader({ coin, time, setMenuCoin }: any) {
@@ -81,7 +81,7 @@ export default function CoinHeader({ coin, time, setMenuCoin }: any) {
          * BINANCE MARKET
          */
         const res = await fetch(
-          `https://api.binance.com/api/v3/ticker/24hr?symbol=${menu}`,
+          `https://api.binance.com/api/v3/ticker/24hr?symbol=${toBinanceSymbol(menu)}`,
         );
 
         const data = await res.json();

@@ -9,6 +9,11 @@
 # testing
 /coverage
 info.txt
+
+# SSH / server auth (local only — never commit)
+.ssh/
+*.pem
+server-auth.env
 # next.js
 /.next/
 /out/
@@ -18,7 +23,6 @@ info.txt
 
 # misc
 .DS_Store
-*.pem
 .cursor/
 
 # debug
@@ -35,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local config (không đẩy lên repo FE)
+/package.json
+
+# Backend (Laravel API + admin — local only, không đẩy lên repo FE)
+/Backend/

@@ -9,12 +9,17 @@ export interface BinanceTickerData {
   change: number;
 }
 
+/** btc-usdt / BTC/USDT → BTCUSDT for Binance public API */
+export function toBinanceSymbol(symbol: string): string {
+  return symbol.replace(/[-/]/g, "").toUpperCase();
+}
+
 export async function getTickerBySymbol(
   symbol: string,
   interval: string,
 ): Promise<BinanceTickerData | null> {
   try {
-    const pair = symbol.replace(/[-/]/g, "").toUpperCase();
+    const pair = toBinanceSymbol(symbol);
 
     const res = await fetch(
       `https://api.binance.com/api/v3/klines?symbol=${pair}&interval=${interval}&limit=1`,

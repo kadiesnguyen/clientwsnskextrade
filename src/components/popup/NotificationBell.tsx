@@ -14,19 +14,27 @@ import {
 import { keyframes } from "@mui/system";
 
 import { useUserStore } from "@/stores/useUserStore";
-import { getWithdrawCancelled } from "@/services/User.service";
+import {
+  getNotiDetail,
+  getNotification,
+  getWithdrawCancelled,
+} from "@/services/User.service";
 
 interface NotificationBellProps {
   notificationCount?: number;
 }
 
+type NotificationKind = "withdraw" | "notice";
+
 interface Notification {
   id: string;
+  kind: NotificationKind;
   title: string;
   time: string;
   content: string;
+  contentIsHtml: boolean;
   isRead: boolean;
-  rawData?: any;
+  rawData?: Record<string, unknown>;
 }
 
 const shake = keyframes`
@@ -54,6 +62,52 @@ const formatDate = (dateString: string): string => {
 const formatNotificationCount = (count: number): string =>
   count > 9 ? "9+" : count.toString();
 
+function parseTime(value: string): number {
+  const ts = Date.parse(value);
+  return Number.isNaN(ts) ? 0 : ts;
+}
+
+function mapWithdrawNotifications(list: any[]): Notification[] {
+  return list.map((item) => ({
+    id: `withdraw-${item.id}`,
+    kind: "withdraw" as const,
+    title: `Rút ${Number(item.mum).toLocaleString("vi-VN")} VNĐ bị hủy`,
+    time: item.endtime || item.addtime,
+    content: `
+      <div>
+        <div><strong>Số tiền:</strong> ${Number(item.mum).toLocaleString("vi-VN")} VNĐ</div>
+        <div><strong>Số coin:</strong> ${Number(item.num).toLocaleString()} USDT</div>
+        <div><strong>Ngân hàng:</strong> ${item.address}</div>
+      </div>
+    `,
+    contentIsHtml: true,
+    isRead: Number(item.admin_view) !== 1,
+    rawData: item,
+  }));
+}
+
+function mapAdminNotifications(list: any[]): Notification[] {
+  return list.map((item) => ({
+    id: `notice-${item.id}`,
+    kind: "notice" as const,
+    title: item.title,
+    time: item.addtime,
+    content: item.content,
+    contentIsHtml: false,
+    isRead: Number(item.user_view) !== 1,
+    rawData: item,
+  }));
+}
+
+function mergeNotifications(
+  withdrawItems: Notification[],
+  noticeItems: Notification[],
+): Notification[] {
+  return [...withdrawItems, ...noticeItems].sort(
+    (a, b) => parseTime(b.time) - parseTime(a.time),
+  );
+}
+
 export default function NotificationBell({
   notificationCount: initialCount = 0,
 }: NotificationBellProps) {
@@ -63,7 +117,6 @@ export default function NotificationBell({
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [isLoaded, setIsLoaded] = useState(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [unreadCount, setUnreadCount] = useState(initialCount);
@@ -83,54 +136,66 @@ export default function NotificationBell({
     setError(null);
 
     try {
-      const response = await getWithdrawCancelled();
+      const [withdrawResult, noticeResult] = await Promise.allSettled([
+        getWithdrawCancelled(),
+        getNotification(),
+      ]);
 
-      const list = response?.data || [];
+      let withdrawItems: Notification[] = [];
+      let noticeItems: Notification[] = [];
+      let withdrawUnread = 0;
+      let noticeUnread = 0;
+      const errors: string[] = [];
 
-      const mappedNotifications: Notification[] = list.map((item: any) => ({
-        id: item.id.toString(),
+      if (withdrawResult.status === "fulfilled") {
+        const response = withdrawResult.value as any;
+        const list = Array.isArray(response?.data) ? response.data : [];
+        withdrawItems = mapWithdrawNotifications(list);
+        withdrawUnread = list.filter(
+          (item: any) => Number(item.admin_view) === 1,
+        ).length;
+      } else {
+        errors.push("Không thể tải thông báo rút tiền bị hủy");
+      }
 
-        title: `Rút ${Number(item.mum).toLocaleString("vi-VN")} VNĐ bị hủy`,
+      if (noticeResult.status === "fulfilled") {
+        const response = noticeResult.value as any;
+        if (response?.status === true) {
+          const list = response?.data?.notices ?? [];
+          noticeItems = mapAdminNotifications(list);
+          noticeUnread = Number(response?.data?.unread_count ?? 0);
+        } else {
+          errors.push(response?.message || "Không thể tải thông báo hệ thống");
+        }
+      } else {
+        errors.push("Không thể tải thông báo hệ thống");
+      }
 
-        time: item.endtime || item.addtime,
+      const merged = mergeNotifications(withdrawItems, noticeItems);
+      setNotifications(merged);
+      setUnreadCount(withdrawUnread + noticeUnread);
 
-        content: `
-            <div>
-              <div><strong>Số tiền:</strong> ${Number(item.mum).toLocaleString(
-                "vi-VN",
-              )} VNĐ</div>
-               <div><strong>Số coin:</strong> ${Number(
-                 item.num,
-               ).toLocaleString()} USDT</div>
-              <div><strong>Ngân hàng:</strong> ${item.address}</div>
-           
-            </div>
-          `,
-
-        isRead: Number(item.admin_view) !== 1,
-        rawData: item,
-      }));
-
-      setNotifications(mappedNotifications);
-
-      const unread = list.filter(
-        (item: any) => Number(item.admin_view) === 1,
-      ).length;
-
-      setUnreadCount(unread);
+      if (merged.length === 0 && errors.length === 2) {
+        setError(errors[0]);
+      }
     } catch (err: any) {
       setError(err?.message || "Không thể tải thông báo");
     } finally {
       setIsLoading(false);
-      setIsLoaded(true);
     }
   }, [user]);
 
   useEffect(() => {
-    if (isModalOpen && !isLoaded && user) {
-      fetchNotifications();
+    if (user) {
+      void fetchNotifications();
     }
-  }, [isModalOpen, isLoaded, user, fetchNotifications]);
+  }, [user, fetchNotifications]);
+
+  useEffect(() => {
+    if (isModalOpen && user) {
+      void fetchNotifications();
+    }
+  }, [isModalOpen, user, fetchNotifications]);
 
   const handleMouseEnter = () => {
     if (hoverTimeoutRef.current) {
@@ -146,25 +211,41 @@ export default function NotificationBell({
     }, 300);
   };
 
-  const handleDetailClick = (id: string) => {
-    const notification = notifications.find((item) => item.id === id);
+  const handleDetailClick = async (notification: Notification) => {
+    if (notification.kind === "withdraw") {
+      localStorage.setItem(
+        "notificationDetail",
+        JSON.stringify(notification.rawData),
+      );
 
-    if (!notification) return;
+      if (!notification.isRead) {
+        setNotifications((prev) =>
+          prev.map((item) =>
+            item.id === notification.id ? { ...item, isRead: true } : item,
+          ),
+        );
+        setUnreadCount((prev) => Math.max(prev - 1, 0));
+      }
 
-    localStorage.setItem(
-      "notificationDetail",
-      JSON.stringify(notification.rawData),
-    );
+      setIsModalOpen(false);
+      const withdrawId = String(notification.rawData?.id ?? "");
+      router.push(`/notification?notificationID=${withdrawId}`);
+      return;
+    }
 
     if (!notification.isRead) {
+      const noticeId = String(notification.rawData?.id ?? "");
+      try {
+        if (noticeId) {
+          await getNotiDetail(noticeId);
+        }
+      } catch {
+        // Still update UI if mark-read fails silently
+      }
+
       setNotifications((prev) =>
         prev.map((item) =>
-          item.id === id
-            ? {
-                ...item,
-                isRead: true,
-              }
-            : item,
+          item.id === notification.id ? { ...item, isRead: true } : item,
         ),
       );
 
@@ -172,8 +253,7 @@ export default function NotificationBell({
     }
 
     setIsModalOpen(false);
-
-    router.push(`/notification?notificationID=${id}`);
+    router.push("/overview");
   };
 
   return (
@@ -183,9 +263,9 @@ export default function NotificationBell({
       onMouseLeave={!isMobile ? handleMouseLeave : undefined}
     >
       <Badge
-        // badgeContent={
-        //   unreadCount > 0 ? formatNotificationCount(unreadCount) : null
-        // }
+        badgeContent={
+          unreadCount > 0 ? formatNotificationCount(unreadCount) : null
+        }
         color="error"
       >
         <Box
@@ -324,6 +404,7 @@ export default function NotificationBell({
                 notifications.map((notification) => (
                   <Box
                     key={notification.id}
+                    onClick={() => handleDetailClick(notification)}
                     sx={{
                       display: "flex",
                       gap: 1.5,
@@ -381,27 +462,57 @@ export default function NotificationBell({
                         {formatDate(notification.time)}
                       </Typography>
 
-                      <Box
-                        dangerouslySetInnerHTML={{
-                          __html: notification.content,
-                        }}
-                        sx={{
-                          mt: 1,
-                          fontSize: "12px",
-                        }}
-                      />
+                      {notification.contentIsHtml ? (
+                        <Box
+                          dangerouslySetInnerHTML={{
+                            __html: notification.content,
+                          }}
+                          sx={{
+                            mt: 1,
+                            fontSize: "12px",
+                          }}
+                        />
+                      ) : (
+                        <Typography
+                          sx={{
+                            mt: 1,
+                            fontSize: "12px",
+                            color: "#444",
+                            display: "-webkit-box",
+                            WebkitLineClamp: 2,
+                            WebkitBoxOrient: "vertical",
+                            overflow: "hidden",
+                          }}
+                        >
+                          {notification.content}
+                        </Typography>
+                      )}
                     </Box>
                   </Box>
                 ))
               )}
             </Box>
             <Box
+              component="button"
+              type="button"
+              onClick={() => {
+                setIsModalOpen(false);
+                router.push("/overview");
+              }}
               sx={{
                 textAlign: "center",
                 pb: 2,
                 pt: 1,
                 borderTop: "1px solid #eee",
                 fontSize: 12,
+                background: "none",
+                border: "none",
+                borderTopWidth: 1,
+                borderTopStyle: "solid",
+                borderTopColor: "#eee",
+                cursor: "pointer",
+                width: "100%",
+                color: "inherit",
               }}
             >
               Thông báo hệ thống

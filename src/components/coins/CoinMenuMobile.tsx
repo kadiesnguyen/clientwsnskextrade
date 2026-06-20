@@ -19,6 +19,7 @@ import { iconMap } from "./CoinPage";
 
 import { getDataChartSiderbar } from "@/services/User.service";
 import { CloseOutlined } from "@mui/icons-material";
+import { toBinanceSymbol } from "@/services/binance";
 import { isCryptoCoinSymbol } from "@/utils/specialCoins";
 
 type Coin = {
@@ -63,8 +64,9 @@ export default function CoinMenuMobile({
           cryptoCoins.map(async (coin: any) => {
             try {
               const symbol = coin.symbol;
+              const binanceSymbol = toBinanceSymbol(symbol);
               const res = await fetch(
-                `https://api.binance.com/api/v3/ticker/24hr?symbol=${symbol}`,
+                `https://api.binance.com/api/v3/ticker/24hr?symbol=${binanceSymbol}`,
               );
               const data = await res.json();
 

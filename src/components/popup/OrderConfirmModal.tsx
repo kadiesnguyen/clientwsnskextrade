@@ -46,32 +46,45 @@ export default function OrderConfirmModal({
   const checkOrder = async () => {
     try {
       const res = await getOrderResult(data.id);
-      if (res.status) {
+      if (res.status && res.data) {
         setDataOrder(res.data);
+        if (Number(res.data.status) !== 1) {
+          setCountdown(0);
+        }
       }
-    } catch (err) {
-      // console.log("err 1", err);
+    } catch {
+      // retry on next tick
     }
   };
+
   useEffect(() => {
-    if (!open || !data?.selltime) return;
+    if (!open || !data) return;
 
-    const update = () => {
-      const left = getTimeLeft(data.selltime);
+    const resolveSecondsLeft = () => {
+      if (data.selltime) {
+        return getTimeLeft(data.selltime);
+      }
+      if (typeof data.time === "number") {
+        return data.time;
+      }
+      return 0;
+    };
 
+    const tick = () => {
+      const left = resolveSecondsLeft();
       setCountdown(left);
 
-      if (left === 0 && !dataOrder) {
-        checkOrder();
+      const settled = dataOrder && Number(dataOrder.status) !== 1;
+      if (left <= 0 && !settled) {
+        void checkOrder();
       }
     };
 
-    update();
-
-    const interval = setInterval(update, 1000);
+    tick();
+    const interval = setInterval(tick, 1000);
 
     return () => clearInterval(interval);
-  }, [open, data?.selltime]);
+  }, [open, data, dataOrder]);
 
   return (
     <Modal open={open} onClose={onClose}>
