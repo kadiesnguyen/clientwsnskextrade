@@ -44,8 +44,7 @@ export default function TradePopup({
   onLoadHitory,
 }: Props) {
   const { t } = useTranslation();
-  const [amount, setAmount] = useState<any>(null);
-  const [priceConfig, setPriceConfig] = useState<any>(null);
+  const [amount, setAmount] = useState("");
   const [type, setType] = useState<any>(null);
   const [hytime, setHytime] = useState<any>(null);
   const [buySellConfig, setBuySellConfig] = useState<any>(null);
@@ -76,8 +75,7 @@ export default function TradePopup({
           setType(0);
           setHytime(processedData.hy_time?.[0] || "3");
           setHyykbl(processedData.hy_ykbl?.[0] || "15");
-          setAmount(0);
-          setPriceConfig(Number(processedData.hy_tzed?.[0]) || 200);
+          setAmount("");
           setBuySellConfig(processedData);
         }
       } catch (errors: any) {
@@ -87,6 +85,12 @@ export default function TradePopup({
     referral();
   }, []);
 
+  useEffect(() => {
+    if (open) {
+      setAmount("");
+    }
+  }, [open]);
+
   const handleSubmit = async () => {
     if (submittingRef.current) return;
 
@@ -95,7 +99,7 @@ export default function TradePopup({
       return;
     }
 
-    if (!hytime || !amount) {
+    if (!hytime || amount === "" || Number(amount) <= 0) {
       toast.error(t("Toast.buysell1"));
       return;
     }
@@ -108,7 +112,7 @@ export default function TradePopup({
 
       const formData = new FormData();
       formData.append("ctime", hytime);
-      formData.append("amount", priceConfig);
+      formData.append("amount", String(Number(amount)));
       formData.append("coinname", symbol.toUpperCase());
       formData.append("method", method);
       formData.append("uprate", hyykbl);
@@ -256,9 +260,6 @@ export default function TradePopup({
                     setType(index);
                     setHytime(item);
                     setHyykbl(buySellConfig.hy_ykbl[index]);
-                    setPriceConfig(
-                      Number(buySellConfig.hy_tzed?.[index]) || 100,
-                    );
                   }}
                   sx={{
                     height: "83px",
@@ -342,7 +343,6 @@ export default function TradePopup({
             const value = e.target.value;
 
             setAmount(value);
-            setPriceConfig(Number(value));
           }}
           error={isAmountError}
           helperText={
@@ -410,7 +410,7 @@ export default function TradePopup({
               {t("BuySellPage.Expected")}
             </Typography>
             <Typography>
-              {Number(amount * (1 + hyykbl / 100) - amount)?.toLocaleString()}
+              {Number(currentAmount * (1 + hyykbl / 100) - currentAmount)?.toLocaleString()}
             </Typography>
           </Stack>
 
@@ -420,7 +420,7 @@ export default function TradePopup({
               {t("BuySellPage.payout")}
             </Typography>
             <Typography>
-              {Number(amount * (1 + hyykbl / 100)).toLocaleString()}
+              {Number(currentAmount * (1 + hyykbl / 100)).toLocaleString()}
             </Typography>
           </Stack>
         </Box>

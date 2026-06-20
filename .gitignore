@@ -48,3 +48,4 @@ next-env.d.ts
 
 # Server deploy configs (aaPanel/Apache/PM2 — chỉ dùng trên server, không đẩy repo FE)
 /deploy/
+DESIGN.md
