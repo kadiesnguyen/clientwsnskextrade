@@ -40,9 +40,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# local config (không đẩy lên repo FE)
-/package.json
-
 # Backend (Laravel API + admin — local only, không đẩy lên repo FE)
 /Backend/
 
