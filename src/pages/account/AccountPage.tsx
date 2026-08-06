@@ -309,8 +309,10 @@ export default function AccountPage() {
           </Box>
         </Box>
 
-        {/* Buttons */}
+        {/* Buttons — translate="no" tránh Google Translate cắt chữ (vd. mất "Nạp") */}
         <Box
+          className="notranslate"
+          translate="no"
           sx={{
             display: "flex",
             gap: 2,
@@ -328,9 +330,10 @@ export default function AccountPage() {
               color: "#fff",
               cursor: "pointer",
               fontWeight: 600,
+              whiteSpace: "nowrap",
             }}
           >
-            ↕ {t("AssetPage.menu3")}
+            ↑ {t("AssetPage.menu3", { defaultValue: "Rút tiền" })}
           </Box>
 
           <Box
@@ -344,14 +347,17 @@ export default function AccountPage() {
               color: "#fff",
               cursor: "pointer",
               fontWeight: 600,
+              whiteSpace: "nowrap",
             }}
           >
-            ↓ {t("AssetPage.menu2")}
+            ↓ {t("AssetPage.menu2", { defaultValue: "Nạp tiền" })}
           </Box>
         </Box>
 
         {/* Menu List */}
         <Box
+          className="notranslate"
+          translate="no"
           sx={{
             display: "flex",
             flexDirection: "column",

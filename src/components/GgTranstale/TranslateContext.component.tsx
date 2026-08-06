@@ -18,7 +18,9 @@ const TranslateGoogle: React.FC<TranslateGoogleProps> = ({
   const googleTranslateElementInit = () => {
     new window.google.translate.TranslateElement(
       {
-        pageLanguage: "en",
+        // Nội dung gốc là tiếng Việt (i18n default lng=vi).
+        // Nếu để "en", GT sẽ dịch lại chữ Việt như tiếng Anh → cắt/méo chữ (vd. mất "Nạp").
+        pageLanguage: "vi",
         includedLanguages: "en,vi,zh-CN",
         autoDisplay: false,
       },
@@ -59,11 +61,18 @@ const TranslateGoogle: React.FC<TranslateGoogleProps> = ({
           onLanguageChange?.(selectedLang);
         });
 
-        // Apply lại ngôn ngữ nếu đã lưu
+        // Apply lại ngôn ngữ nếu đã lưu (bỏ qua "vi" = ngôn ngữ gốc, tránh GT dịch lại)
         const savedLang = localStorage.getItem("language");
-        if (savedLang) {
+        if (savedLang && savedLang !== "vi") {
           select.value = savedLang;
           select.dispatchEvent(new Event("change"));
+        } else {
+          // Xóa cookie googtrans để hết bản dịch méo từ lần trước
+          document.cookie =
+            "googtrans=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;";
+          document.cookie =
+            "googtrans=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;domain=" +
+            window.location.hostname;
         }
       }
     }, 1000);
